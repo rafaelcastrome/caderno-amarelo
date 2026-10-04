@@ -1,0 +1,57 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Caveat;src:url(../.claude/skills/whiteboard-video/assets/Caveat-Bold.ttf)}
+body{margin:0;background:#333;display:flex;gap:20px;flex-wrap:wrap}
+svg{display:block}
+</style></head><body>
+<!-- Opção A: caderno amarelo com espiral -->
+<svg id="a" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <defs>
+    <pattern id="g" width="54" height="54" patternUnits="userSpaceOnUse"><path d="M54 0H0V54" fill="none" stroke="rgba(70,130,200,.22)" stroke-width="2"/></pattern>
+    <filter id="m"><feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="5" xChannelSelector="R" yChannelSelector="G"/></filter>
+    <filter id="sh"><feDropShadow dx="14" dy="18" stdDeviation="10" flood-opacity=".25"/></filter>
+  </defs>
+  <rect width="1080" height="1080" fill="#fbf5df"/><rect width="1080" height="1080" fill="url(#g)"/>
+  <g transform="rotate(-8 540 560)" filter="url(#sh)">
+    <g filter="url(#m)">
+      <rect x="290" y="200" width="520" height="680" rx="26" fill="#ffd23f" stroke="#1f1f24" stroke-width="16"/>
+      <rect x="290" y="200" width="70" height="680" rx="20" fill="#f2b705" stroke="#1f1f24" stroke-width="16"/>
+      <path d="M690 200 L690 330 L725 300 L760 330 L760 200" fill="#d62828" stroke="#1f1f24" stroke-width="12" stroke-linejoin="round"/>
+      <rect x="430" y="420" width="300" height="190" rx="18" fill="#fffaf0" stroke="#1f1f24" stroke-width="12"/>
+      <g fill="none" stroke="#1f1f24" stroke-width="12" stroke-linecap="round">
+        <path d="M268 270 q-40 0 -40 32 q0 32 92 32"/><path d="M268 400 q-40 0 -40 32 q0 32 92 32"/>
+        <path d="M268 530 q-40 0 -40 32 q0 32 92 32"/><path d="M268 660 q-40 0 -40 32 q0 32 92 32"/>
+        <path d="M268 790 q-40 0 -40 32 q0 32 92 32"/>
+      </g>
+    </g>
+    <text x="580" y="568" text-anchor="middle" font-family="Caveat" font-size="150" fill="#1f1f24">ca</text>
+  </g>
+</svg>
+<!-- Opção B: monograma "ca" em papel amarelo -->
+<svg id="b" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <defs>
+    <pattern id="g2" width="54" height="54" patternUnits="userSpaceOnUse"><path d="M54 0H0V54" fill="none" stroke="rgba(120,90,0,.18)" stroke-width="2"/></pattern>
+    <filter id="m2"><feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="2" seed="5"/><feDisplacementMap in="SourceGraphic" scale="6" xChannelSelector="R" yChannelSelector="G"/></filter>
+  </defs>
+  <rect width="1080" height="1080" fill="#ffd23f"/><rect width="1080" height="1080" fill="url(#g2)"/>
+  <rect x="150" width="6" height="1080" fill="rgba(214,40,40,.55)"/>
+  <text x="560" y="640" text-anchor="middle" font-family="Caveat" font-size="520" fill="#1f1f24">ca</text>
+  <path filter="url(#m2)" d="M300 735 Q 380 705 460 735 T 620 735 T 780 735" fill="none" stroke="#d62828" stroke-width="30" stroke-linecap="round"/>
+</svg>
+<!-- Opção C: caderno aberto com lápis escrevendo -->
+<svg id="c" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <defs>
+    <pattern id="g3" width="54" height="54" patternUnits="userSpaceOnUse"><path d="M54 0H0V54" fill="none" stroke="rgba(70,130,200,.25)" stroke-width="2"/></pattern>
+    <filter id="m3"><feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="2" seed="9"/><feDisplacementMap in="SourceGraphic" scale="5" xChannelSelector="R" yChannelSelector="G"/></filter>
+  </defs>
+  <rect width="1080" height="1080" fill="#ffd23f"/>
+  <g filter="url(#m3)">
+    <rect x="170" y="230" width="740" height="620" rx="30" fill="#fffaf0" stroke="#1f1f24" stroke-width="16"/>
+    <rect x="170" y="230" width="740" height="620" rx="30" fill="url(#g3)"/>
+    <line x1="540" y1="232" x2="540" y2="848" stroke="#1f1f24" stroke-width="10"/>
+    <path d="M230 470 L470 470 M230 560 L430 560" stroke="#1d4ed8" stroke-width="18" stroke-linecap="round"/>
+    <path d="M600 600 L680 680 L840 470" fill="none" stroke="#15803d" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M230 380 L360 380" stroke="#d62828" stroke-width="18" stroke-linecap="round"/>
+  </g>
+  <text x="300" y="365" font-family="Caveat" font-size="0">.</text>
+</svg>
+</body></html>

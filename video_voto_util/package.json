@@ -1,0 +1,16 @@
+{
+  "name": "video-voto-util",
+  "version": "1.0.0",
+  "description": "Vídeo whiteboard sobre voto útil no 1º turno",
+  "scripts": {
+    "audio": "python3 gerar_audio.py",
+    "render": "node render.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "opentype.js": "^1.3.4"
+  },
+  "private": true
+}

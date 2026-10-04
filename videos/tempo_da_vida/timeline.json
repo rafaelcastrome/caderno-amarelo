@@ -1,0 +1,42 @@
+{
+  "total": 58.331,
+  "motor_tts": "kokoro (pm_alex, pt-BR)",
+  "cenas": [
+    {
+      "cena": 1,
+      "start": 0.0,
+      "end": 7.043,
+      "fala": 6.504
+    },
+    {
+      "cena": 2,
+      "start": 7.043,
+      "end": 17.093,
+      "fala": 9.504
+    },
+    {
+      "cena": 3,
+      "start": 17.093,
+      "end": 27.016,
+      "fala": 9.384
+    },
+    {
+      "cena": 4,
+      "start": 27.016,
+      "end": 37.216,
+      "fala": 9.648
+    },
+    {
+      "cena": 5,
+      "start": 37.216,
+      "end": 46.053,
+      "fala": 7.704
+    },
+    {
+      "cena": 6,
+      "start": 46.053,
+      "end": 58.303,
+      "fala": 9.816
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "titulo": "Quanto tempo da sua vida vai embora?",
+  "marca": { "instagram": "caderno_amarelo", "tiktok": "caderno_amarelo" },
+  "marcaDagua": true,
+  "voz": { "edge": "pt-BR-AntonioNeural", "edgeRate": "+10%", "kokoro": "pm_alex", "kokoroSpeed": 1.1 },
+  "pausaPadrao": 0.6,
+  "cenas": [
+    { "fala": "Quanto tempo da sua vida você passa no banheiro, no trânsito e rolando o celular? Pega o caderno, que essa conta assusta." },
+    { "fala": "Começando pelo banheiro: uns vinte minutos por dia, entre o banho e aquela leitura sagrada no trono. Isso dá cinco dias por ano. Na vida toda, mais de um ano inteiro lá dentro!" },
+    { "fala": "No trânsito, uma hora por dia de trabalho, entre ida e volta. São dez dias por ano olhando pro carro da frente. Em quarenta anos de trabalho, mais um ano inteiro parado." },
+    { "fala": "E o celular? Estudos apontam que o brasileiro passa umas cinco horas por dia na tela. Isso dá setenta e seis dias por ano. Em cinquenta anos, mais de dez anos rolando a tela!" },
+    { "fala": "Somando tudo: mais de doze anos da sua vida. Dá pra fazer o ensino fundamental e o médio inteirinhos, e ainda sobra tempo pro recreio.", "pausa": 1.2 },
+    { "fala": "Mas calma: nem todo tempo no celular é perdido. Se é pra rolar a tela, que seja aprendendo alguma coisa. Me segue no Instagrã e no Tic Tóc: arroba caderno ânderláin amarelo.", "pausa": 2.5 }
+  ]
+}

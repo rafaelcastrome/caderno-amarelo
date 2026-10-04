@@ -1,0 +1,48 @@
+{
+  "total": 93.231,
+  "motor_tts": "edge-tts (pt-BR-AntonioNeural)",
+  "cenas": [
+    {
+      "cena": 1,
+      "start": 0.0,
+      "end": 12.12,
+      "fala": 11.52
+    },
+    {
+      "cena": 2,
+      "start": 12.12,
+      "end": 30.216,
+      "fala": 17.496
+    },
+    {
+      "cena": 3,
+      "start": 30.216,
+      "end": 44.712,
+      "fala": 13.296
+    },
+    {
+      "cena": 4,
+      "start": 44.712,
+      "end": 59.976,
+      "fala": 14.664
+    },
+    {
+      "cena": 5,
+      "start": 59.976,
+      "end": 69.312,
+      "fala": 8.136
+    },
+    {
+      "cena": 6,
+      "start": 69.312,
+      "end": 82.296,
+      "fala": 12.384
+    },
+    {
+      "cena": 7,
+      "start": 82.296,
+      "end": 93.196,
+      "fala": 8.4
+    }
+  ]
+}

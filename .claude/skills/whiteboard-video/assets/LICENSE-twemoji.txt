@@ -1,0 +1,5 @@
+A mão com lápis (✍🏻) usada em engine.js é baseada no Twemoji:
+Copyright 2019 Twitter, Inc and other contributors / jdecked
+Gráficos licenciados sob CC-BY 4.0: https://creativecommons.org/licenses/by/4.0/
+Fonte: https://github.com/jdecked/twemoji (assets/svg/270d-1f3fb.svg)
+Alterações: caneta recolorida como lápis amarelo, ponta de grafite com a cor da tinta e antebraço com manga acrescentados.

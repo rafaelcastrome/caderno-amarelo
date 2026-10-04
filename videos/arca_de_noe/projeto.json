@@ -1,0 +1,74 @@
+{
+  "titulo": "A Arca de Noé foi encontrada na Turquia?",
+  "marca": {
+    "handle": "caderno_amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": true,
+  "voz": {
+    "edge": "pt-BR-AntonioNeural",
+    "edgeRate": "+20%",
+    "kokoro": "pm_alex",
+    "kokoroSpeed": 1.1
+  },
+  "pausaPadrao": 0.6,
+  "fontes": [
+    {
+      "fato": "Formação Durupınar: ~164 m (538 pés), de limonita, a ~29 km ao sul do Monte Ararat; exposta em 1948 após chuvas e terremotos; identificada em foto aérea em out/1959 pelo capitão İlhan Durupınar; geólogos consideram natural",
+      "fonte": "Wikipedia, 'Durupınar site'",
+      "url": "https://en.wikipedia.org/wiki/Durup%C4%B1nar_site"
+    },
+    {
+      "fato": "Gênesis 6:15: a arca tinha 300 côvados de comprimento",
+      "fonte": "Bíblia, Gênesis 6:15",
+      "url": ""
+    },
+    {
+      "fato": "Côvado comum ≈ 44–45 cm; côvado real egípcio ≈ 52,3–52,4 cm (300 × 52,4 cm ≈ 157 m; 300 × 45 cm = 135 m)",
+      "fonte": "Wikipedia, 'Cubit'",
+      "url": "https://en.wikipedia.org/wiki/Cubit"
+    },
+    {
+      "fato": "Universidade Técnica de Istambul, Univ. Ağrı İbrahim Çeçen e Andrews University (EUA) coletaram ~30 amostras de solo/rocha com argila e material marinho datados de 3.500 a 5.000 anos",
+      "fonte": "Reportagens: The Brighter Side of News; Israel Hayom (12/03/2025); Fox News",
+      "url": "https://israelhayom.com/2025/03/12/new-evidence-sparks-debate-could-this-be-noahs-ark"
+    },
+    {
+      "fato": "Explicação geológica: rocha dura dobrada sobre camadas mais moles, esculpida pela erosão; testes não comprovaram madeira",
+      "fonte": "Collins & Fasold (1996); Wikipedia 'Durupınar site'; resumo de CNN Brasil/O Povo/Brasil Paralelo",
+      "url": "https://en.wikipedia.org/wiki/Durup%C4%B1nar_site"
+    },
+    {
+      "fato": "David Fasold promoveu o local como a arca no livro 'The Ark of Noah' (1988), mudou de ideia após visita em 1994 com o geólogo Ian Plimer e, em 1996, coassinou com Lorence Collins o artigo 'Bogus Noah's Ark from Turkey Exposed as a Common Geologic Structure' (Journal of Geoscience Education, v. 44, p. 439-444)",
+      "fonte": "Wikipedia, 'David Fasold'; Journal of Geoscience Education (1996)",
+      "url": "https://en.wikipedia.org/wiki/David_Fasold"
+    }
+  ],
+  "cenas": [
+    {
+      "fala": "No leste da Turquia, existe uma colina com formato de barco, a vinte e nove quilômetros do Monte Ararat, onde a Bíblia diz que a arca de Noé parou. Seria a arca? Fica até o final, que a reviravolta vem de quem você menos espera."
+    },
+    {
+      "fala": "Ela apareceu em mil novecentos e quarenta e oito, depois de chuvas e terremotos. Em cinquenta e nove, um capitão turco, Ilhan Durupinar, viu o formato numa foto aérea, e o lugar ganhou o nome dele.",
+      "pausa": 1.2
+    },
+    {
+      "fala": "A colina tem uns cento e sessenta metros. A Bíblia diz: trezentos côvados. Com o côvado egípcio, de cinquenta e dois centímetros, dá cento e cinquenta e sete metros! Mas com o côvado comum, só cento e trinta e cinco. Depende da régua."
+    },
+    {
+      "fala": "E tem mais: universidades da Turquia e dos Estados Unidos analisaram cerca de trinta amostras de solo, com argila e material marinho de três mil e quinhentos a cinco mil anos. Mas tem um detalhe.",
+      "pausa": 1.2
+    },
+    {
+      "fala": "Essa é a idade do solo, não de um barco. Para os geólogos, a colina é natural: rocha dura dobrada, esculpida pela erosão. E nunca se comprovou madeira.",
+      "pausa": 1.2
+    },
+    {
+      "fala": "A reviravolta: o americano David Fasold, um dos maiores defensores da arca ali, escavou o lugar, escreveu um livro, e mudou de ideia. Em mil novecentos e noventa e seis, assinou um artigo científico dizendo que aquilo era só uma estrutura geológica comum."
+    },
+    {
+      "fala": "E você, acha que é a arca? Comenta aí. E me segue: arroba caderno ânderláin amarelo.",
+      "pausa": 2.5
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "titulo": "Voto útil no 1º turno",
+  "marca": {
+    "instagram": "caderno_amarelo",
+    "tiktok": "caderno_amarelo"
+  },
+  "marcaDagua": true,
+  "voz": {
+    "edge": "pt-BR-AntonioNeural",
+    "edgeRate": "+10%",
+    "kokoro": "pm_alex",
+    "kokoroSpeed": 1.1
+  },
+  "pausaPadrao": 0.6,
+  "cenas": [
+    {
+      "fala": "Existe mesmo voto útil no primeiro turno? Vamos olhar para a matemática da urna no papel."
+    },
+    {
+      "fala": "Para vencer a eleição já no primeiro turno, qualquer candidato precisa atingir a linha mágica de cinquenta por cento mais um dos votos válidos."
+    },
+    {
+      "fala": "Imagine que o Candidato A está na frente com quarenta e três por cento. Logo atrás vem o Candidato B com vinte e oito por cento, e outros três nomes do mesmo campo político têm seis, cinco e quatro por cento."
+    },
+    {
+      "fala": "Muita gente diz: tire o voto dos candidatos menores e passe para o B para derrotar o A no primeiro turno. Mas veja o que acontece quando somamos tudo."
+    },
+    {
+      "fala": "O Candidato B chegou aos cinquenta por cento mais um para ganhar no primeiro turno? Não. E o Candidato A perdeu algum voto com essa troca? Zero. A barra dele continua intacta."
+    },
+    {
+      "fala": "Matematicamente, trocar votos dentro da oposição não tira um milímetro do líder no primeiro turno. Para reduzir a porcentagem dele, é preciso tirar votos diretamente dele ou trazer novos eleitores. No primeiro turno, essa disputa serve apenas para medir força política para o segundo turno.",
+      "pausa": 1.4
+    },
+    {
+      "fala": "Pense no João. Ele gostava do candidato C, mas trocou o voto pelo B achando que assim derrotaria o A já no primeiro turno. Na noite da apuração, o A continuava com os mesmos quarenta e três por cento, e a eleição foi para o segundo turno, exatamente como iria de qualquer jeito."
+    },
+    {
+      "fala": "Moral da história: no primeiro turno, cada eleitor pode votar em quem realmente o representa, porque o confronto direto acontece no segundo turno. Gostou da explicação? Me segue no Instagrã e no Tic Tóc: arroba caderno ânderláin amarelo.",
+      "pausa": 2.5
+    }
+  ]
+}

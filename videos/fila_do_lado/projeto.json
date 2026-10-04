@@ -1,0 +1,60 @@
+{
+  "titulo": "Por que a fila do lado anda mais rápido?",
+  "marca": {
+    "handle": "caderno_amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": true,
+  "voz": {
+    "edge": "pt-BR-AntonioNeural",
+    "edgeRate": "+10%",
+    "kokoro": "pm_alex",
+    "kokoroSpeed": 1.1
+  },
+  "pausaPadrao": 0.6,
+  "fontes": [
+    {
+      "fato": "Com 3 filas, a chance da sua ser a mais rápida é 1 em 3 (2 em 3 de outra ganhar)",
+      "fonte": "Probabilidade simples; explicação em Quartz ('Math explains why you never choose the fastest line') e Qminder",
+      "url": "https://qz.com/1452655/math-explains-why-you-never-choose-the-fastest-line"
+    },
+    {
+      "fato": "Estudo publicado na Nature em 1999 (Redelmeier, Univ. de Toronto, e Tibshirani, Stanford): 120 alunos de autoescola viram vídeo da faixa ao lado; 70% acharam que ela era mais rápida, embora fosse um pouco mais lenta",
+      "fonte": "Redelmeier & Tibshirani, 'Why cars in the next lane seem to go faster', Nature 401, 1999; ScienceDaily (30/08/1999); U of T Magazine",
+      "url": "https://www.sciencedaily.com/releases/1999/08/990830184718.htm"
+    },
+    {
+      "fato": "Explicação: passamos mais tempo sendo ultrapassados; quem passa à frente fica à vista por mais tempo, quem ficou para trás some; ser ultrapassado pesa mais",
+      "fonte": "Mesmo estudo (Nature, 1999), conforme ScienceDaily e Stanford Magazine ('A case of lane envy')",
+      "url": "https://stanfordmag.org/contents/a-case-of-lane-envy"
+    }
+  ],
+  "cenas": [
+    {
+      "fala": "Por que a fila do lado sempre anda mais rápido? Fica até o final, porque o motivo verdadeiro tá escrito nesse papelzinho. E não, não é azar."
+    },
+    {
+      "fala": "Primeiro, a matemática. Com três caixas, a chance da sua fila ser a mais rápida é de só uma em três. Em duas de cada três vezes, outra fila ganha da sua.",
+      "pausa": 1.2
+    },
+    {
+      "fala": "Mas a matemática não explica a sensação de que é sempre com você. Pra isso, em mil novecentos e noventa e nove, a revista Nature publicou um teste curioso."
+    },
+    {
+      "fala": "Pesquisadores mostraram um vídeo da faixa ao lado pra cento e vinte alunos de autoescola. A pergunta era simples: qual faixa anda mais rápido? Chuta aí: quantos erraram?",
+      "pausa": 1.0
+    },
+    {
+      "fala": "Antes da resposta, repara: quem te ultrapassa fica um tempão na sua frente. Já quem você ultrapassa some no retrovisor. Seu cérebro só guarda quem te passou.",
+      "pausa": 1.2
+    },
+    {
+      "fala": "E o resultado? Setenta por cento acharam que a faixa do lado era mais rápida. Só que ela era mais lenta!",
+      "pausa": 1.0
+    },
+    {
+      "fala": "Ou seja: a fila do lado não anda mais rápido. Ela só aparece mais. Me segue no Instagrã e no Tic Tóc: arroba caderno ânderláin amarelo.",
+      "pausa": 2.5
+    }
+  ]
+}

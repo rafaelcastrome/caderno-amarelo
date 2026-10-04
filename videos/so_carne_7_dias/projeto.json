@@ -1,0 +1,74 @@
+{
+  "titulo": "O que acontece se você comer só carne por 7 dias?",
+  "marca": {
+    "handle": "caderno_amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": true,
+  "voz": {
+    "edge": "pt-BR-AntonioNeural",
+    "edgeRate": "+10%",
+    "kokoro": "pm_alex",
+    "kokoroSpeed": 1.1
+  },
+  "pausaPadrao": 0.6,
+  "inspiracao": "Tema inspirado em vídeo de @drafernandaota (TikTok); roteiro e narração próprios, com fontes.",
+  "fontes": [
+    {
+      "fato": "'Gripe low carb': dor de cabeça, cansaço, enjoo; relatos de 300 pessoas (448 posts em fóruns); pico na 1ª semana, resolução em até ~4 semanas",
+      "fonte": "Bostock et al., 'Consumer Reports of Keto Flu Associated With the Ketogenic Diet', Frontiers in Nutrition, 2020",
+      "url": "https://www.frontiersin.org/articles/10.3389/fnut.2020.00020/full"
+    },
+    {
+      "fato": "Gás intestinal vem de ar engolido e de bactérias do intestino grosso quebrando carboidratos não digeridos",
+      "fonte": "NIDDK (National Institute of Diabetes and Digestive and Kidney Diseases, EUA), 'Gas in the Digestive Tract'",
+      "url": "https://www.niddk.nih.gov/health-information/digestive-diseases/gas-digestive-tract"
+    },
+    {
+      "fato": "Pesquisa com 2.029 adultos que seguiam dieta 'carnívora' há 6+ meses, recrutados por redes sociais, com respostas autodeclaradas; autores alertam que os resultados não podem ser generalizados",
+      "fonte": "Lennerz et al., 'Behavioral Characteristics and Self-Reported Health Status among 2029 Adults Consuming a Carnivore Diet', Current Developments in Nutrition, 2021",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9154285"
+    },
+    {
+      "fato": "Cada grama de glicogênio é armazenado no músculo com pelo menos 3 g de água",
+      "fonte": "Fernández-Elías et al., European Journal of Applied Physiology 115(9):1919-1926, 2015",
+      "url": "https://dx.doi.org/10.1007/s00421-015-3175-z"
+    },
+    {
+      "fato": "Boa parte do peso perdido nos primeiros dias com pouco carboidrato é água (consequência da queda do glicogênio)",
+      "fonte": "Derivado do item anterior; explicado em materiais de divulgação sobre dietas low carb",
+      "url": ""
+    },
+    {
+      "fato": "OMS recomenda pelo menos 400 g de frutas e verduras por dia (contexto; não citado na narração)",
+      "fonte": "OMS, Healthy diet fact sheet",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/healthy-diet"
+    }
+  ],
+  "cenas": [
+    {
+      "fala": "O que acontece se você comer só carne por sete dias? Sem fruta, sem arroz, sem feijão. Fica até o final, porque a balança do último dia tem uma pegadinha."
+    },
+    {
+      "fala": "Nos primeiros dias, muita gente sente dor de cabeça, cansaço e até enjoo. Tem até nome: gripe low carb. Um estudo analisou relatos de trezentas pessoas: os sintomas aparecem na primeira semana e somem em até um mês. Mas o corpo ainda vai te surpreender."
+    },
+    {
+      "fala": "Depois vem uma mudança que ninguém espera: menos gases. Faz sentido. Boa parte do gás nasce de bactérias fermentando carboidratos no intestino. Sem carboidrato, menos fermentação.",
+      "pausa": 1.2
+    },
+    {
+      "fala": "E aquela galera que jura que se sente ótima? Uma pesquisa publicada em dois mil e vinte e um ouviu duas mil pessoas pela internet, todas já seguiam a dieta havia meses, respondendo por conta própria. E os próprios autores pediram cautela."
+    },
+    {
+      "fala": "Agora, a balança. No fim da semana, o peso cai rápido, e a pessoa comemora. Mas espera aí.",
+      "pausa": 1.2
+    },
+    {
+      "fala": "O segredo é que boa parte do peso que sumiu era água! Cada grama de açúcar guardado no músculo segura pelo menos três gramas de água. Gordura mesmo? Quase nada, ainda."
+    },
+    {
+      "fala": "Vai testar? Fala com um médico antes. E me segue no Instagrã e no Tic Tóc: arroba caderno ânderláin amarelo.",
+      "pausa": 2.5
+    }
+  ]
+}

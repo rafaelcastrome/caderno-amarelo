@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Voto Útil no 1º Turno</title>
+<meta name="viewport" content="width=1080">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=block" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #222; }
+  #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #fbf5df; }
+  svg { position: absolute; left: 0; top: 0; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <svg id="svg" width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- textura do papel -->
+      <filter id="paperNoise" x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="n"/>
+        <feColorMatrix type="matrix" values="0 0 0 0 0.45  0 0 0 0 0.38  0 0 0 0 0.2  0 0 0 0.55 0"/>
+      </filter>
+      <radialGradient id="vignette" cx="50%" cy="50%" r="75%">
+        <stop offset="60%" stop-color="#7a5a20" stop-opacity="0"/>
+        <stop offset="100%" stop-color="#7a5a20" stop-opacity="0.22"/>
+      </radialGradient>
+      <!-- traço de marcador: bordas levemente irregulares -->
+      <filter id="marker" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="3" result="t"/>
+        <feDisplacementMap in="SourceGraphic" in2="t" scale="3.2" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <filter id="handShadow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="9"/>
+        <feOffset dx="18" dy="22" result="b"/>
+        <feComponentTransfer><feFuncA type="linear" slope="0.28"/></feComponentTransfer>
+        <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#f6d2b4"/>
+        <stop offset="1" stop-color="#e3a985"/>
+      </linearGradient>
+      <linearGradient id="markerBody" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#d9d9d9"/>
+        <stop offset="0.35" stop-color="#ffffff"/>
+        <stop offset="1" stop-color="#bdbdbd"/>
+      </linearGradient>
+      <linearGradient id="sleeve" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#25507d"/>
+        <stop offset="0.5" stop-color="#3567a0"/>
+        <stop offset="1" stop-color="#1f4369"/>
+      </linearGradient>
+      <!-- folha de caderno quadriculado -->
+      <pattern id="gridPat" x="30" y="30" width="216" height="216" patternUnits="userSpaceOnUse">
+        <g fill="rgba(70,130,200,0.16)">
+          <rect x="54" width="1" height="216"/><rect x="108" width="1" height="216"/><rect x="162" width="1" height="216"/>
+          <rect y="54" width="216" height="1"/><rect y="108" width="216" height="1"/><rect y="162" width="216" height="1"/>
+        </g>
+        <g fill="rgba(70,130,200,0.26)"><rect width="2" height="216"/><rect width="216" height="2"/></g>
+      </pattern>
+      <g id="paperBg">
+        <rect width="1080" height="1920" fill="#fbf5df"/>
+        <rect width="1080" height="1920" fill="url(#gridPat)"/>
+        <rect x="88" width="3" height="1920" fill="rgba(214,40,40,0.35)"/>
+      </g>
+      <linearGradient id="pageShadow" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#3c2a0a" stop-opacity="0.35"/>
+        <stop offset="1" stop-color="#3c2a0a" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="igGrad" x1="0" y1="1" x2="1" y2="0">
+        <stop offset="0" stop-color="#feda75"/>
+        <stop offset="0.3" stop-color="#fa7e1e"/>
+        <stop offset="0.6" stop-color="#d62976"/>
+        <stop offset="0.85" stop-color="#962fbf"/>
+        <stop offset="1" stop-color="#4f5bd5"/>
+      </linearGradient>
+    </defs>
+    <!-- folhas empilhadas: a de cima é "virada" (sobe) para revelar a próxima -->
+    <g id="page3"><use href="#paperBg"/><g id="ink3" filter="url(#marker)"></g></g>
+    <g id="page2"><use href="#paperBg"/><rect y="1920" width="1080" height="60" fill="url(#pageShadow)"/><g id="ink2" filter="url(#marker)"></g></g>
+    <g id="page1"><use href="#paperBg"/><rect y="1920" width="1080" height="60" fill="url(#pageShadow)"/><g id="ink" filter="url(#marker)"></g></g>
+    <rect width="1080" height="1920" filter="url(#paperNoise)" opacity="0.35" pointer-events="none"/>
+    <rect width="1080" height="1920" fill="url(#vignette)"/>
+    <!-- marca d'água com as redes sociais -->
+    <g id="watermark"></g>
+
+    <!-- mão segurando o marcador; a ponta do marcador fica na origem (0,0) -->
+    <g id="hand">
+      <g id="handRot" filter="url(#handShadow)">
+        <!-- antebraço e manga -->
+        <path d="M 70 300 C 60 520 70 800 80 1300 L 360 1300 C 350 820 330 520 270 330 Z"
+              fill="url(#skin)" stroke="#9b6142" stroke-width="3"/>
+        <path d="M 62 640 C 150 660 270 660 350 630 L 380 1300 L 50 1300 Z"
+              fill="url(#sleeve)" stroke="#173554" stroke-width="3"/>
+        <path d="M 62 640 C 150 660 270 660 350 630 L 352 690 C 270 720 150 720 60 700 Z"
+              fill="#2b5a8c" stroke="#173554" stroke-width="3"/>
+        <!-- palma (dorso da mão) -->
+        <path d="M 22 150 C 70 105 190 120 255 200 C 310 270 300 380 268 450 C 230 520 120 520 70 470 C 30 430 20 330 26 260 Z"
+              fill="url(#skin)" stroke="#9b6142" stroke-width="3"/>
+        <!-- dedos dobrados por baixo -->
+        <path d="M 30 205 C 70 185 120 192 132 222 C 140 248 108 262 70 258 C 45 256 30 240 30 205 Z"
+              fill="url(#skin)" stroke="#9b6142" stroke-width="3"/>
+        <path d="M 40 262 C 80 250 125 258 132 285 C 138 310 106 320 72 316 C 50 313 38 298 40 262 Z"
+              fill="url(#skin)" stroke="#9b6142" stroke-width="3"/>
+        <!-- marcador -->
+        <rect x="-25" y="60" width="50" height="380" rx="13" fill="url(#markerBody)" stroke="#2b2b2b" stroke-width="3"/>
+        <rect id="capEnd" x="-25" y="372" width="50" height="68" rx="12" fill="#1f1f24" stroke="#2b2b2b" stroke-width="3"/>
+        <rect id="band" x="-25" y="250" width="50" height="16" fill="#1f1f24"/>
+        <rect x="-19" y="34" width="38" height="30" rx="4" fill="#9aa0a6" stroke="#2b2b2b" stroke-width="3"/>
+        <path id="tip" d="M -7 1 Q 0 -3 7 1 L 16 36 L -16 36 Z" fill="#1f1f24" stroke="#2b2b2b" stroke-width="2"/>
+        <!-- dedo indicador sobre o marcador -->
+        <path d="M -30 118 C -34 92 -14 80 4 84 C 40 92 90 120 140 150 C 160 162 150 196 124 192 C 80 182 30 166 -12 158 C -26 154 -30 140 -30 118 Z"
+              fill="url(#skin)" stroke="#9b6142" stroke-width="3"/>
+        <path d="M -6 92 C 2 90 12 92 16 100" fill="none" stroke="#c98f6d" stroke-width="2.5"/>
+        <!-- polegar do outro lado -->
+        <path d="M -24 150 C -58 158 -64 196 -46 222 C -28 248 18 252 46 236 L 34 198 C 8 202 -12 186 -24 150 Z"
+              fill="url(#skin)" stroke="#9b6142" stroke-width="3"/>
+        <path d="M -44 170 C -50 180 -50 192 -44 200" fill="none" stroke="#fff3ea" stroke-width="5" stroke-linecap="round" opacity="0.6"/>
+      </g>
+    </g>
+  </svg>
+</div>
+
+<script src="node_modules/opentype.js/dist/opentype.min.js"></script>
+<script>
+(async function () {
+  const NS = 'http://www.w3.org/2000/svg';
+  const INK = { black: '#1f1f24', red: '#d62828', blue: '#1d4ed8', green: '#15803d', gray: '#8a8a8a' };
+  const REST = { x: 1000, y: 1912 };          // mão "estacionada" na borda inferior
+  const svgEl = document.getElementById('svg');
+  let inkLayer = document.getElementById('ink');   // folha onde os próximos traços entram
+  const hand = document.getElementById('hand');
+  const handRot = document.getElementById('handRot');
+  const tipEls = ['tip', 'capEnd', 'band'].map(id => document.getElementById(id));
+
+  const [timeline, fontBuf] = await Promise.all([
+    fetch('timeline.json').then(r => r.json()),
+    fetch('fonts/Caveat-Bold.ttf').then(r => r.arrayBuffer()),
+  ]);
+  const font = opentype.parse(fontBuf);
+  window.TIMELINE = timeline;
+
+  // ---------- utilidades ----------
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const ease = u => u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
+  const easeOut = u => 1 - Math.pow(1 - u, 3);
+  const lerp = (a, b, u) => a + (b - a) * u;
+  const lerpP = (p, q, u) => ({ x: lerp(p.x, q.x, u), y: lerp(p.y, q.y, u) });
+  function rng(seed) {   // mulberry32: aleatoriedade determinística
+    return function () {
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  const rand = rng(20261003);
+  const jit = (a) => (rand() - 0.5) * 2 * a;
+
+  function mk(tag, attrs, parent) {
+    const el = document.createElementNS(NS, tag);
+    for (const k in attrs) el.setAttribute(k, attrs[k]);
+    (parent || inkLayer).appendChild(el);
+    return el;
+  }
+  function group(parent) { return mk('g', {}, parent); }
+
+  // segmento "à mão": leve curvatura e imprecisão
+  function roughSeg(x1, y1, x2, y2, amp = 3) {
+    const mx = (x1 + x2) / 2 + jit(amp), my = (y1 + y2) / 2 + jit(amp);
+    return `Q ${mx.toFixed(1)} ${my.toFixed(1)} ${(x2 + jit(1)).toFixed(1)} ${(y2 + jit(1)).toFixed(1)}`;
+  }
+  function roughLine(x1, y1, x2, y2, amp) { return `M ${x1} ${y1} ` + roughSeg(x1, y1, x2, y2, amp); }
+  function roughRect(x0, y0, x1, y1) {
+    return `M ${x0} ${y1} ` + roughSeg(x0, y1, x0, y0) + ' ' + roughSeg(x0, y0, x1, y0) + ' ' +
+      roughSeg(x1, y0, x1, y1) + ' ' + roughSeg(x1, y1, x0 - 2, y1 + 1);
+  }
+  function zigzagHatch(x0, y0, x1, y1, sp = 15) {
+    const pts = [];
+    let y = y1 - 6, left = true;
+    while (y > y0 + 4) {
+      pts.push([left ? x0 + 6 : x1 - 6, y]);
+      y -= sp; left = !left;
+    }
+    pts.push([left ? x0 + 6 : x1 - 6, y0 + 6]);
+    return 'M ' + pts.map(p => `${(p[0] + jit(2)).toFixed(1)} ${(p[1] + jit(2)).toFixed(1)}`).join(' L ');
+  }
+  function dashedLine(x0, x1, y, on = 34, off = 20) {
+    let d = '';
+    for (let x = x0; x < x1; x += on + off) {
+      const xe = Math.min(x + on, x1);
+      d += `M ${x} ${(y + jit(1.5)).toFixed(1)} L ${xe} ${(y + jit(1.5)).toFixed(1)} `;
+    }
+    return d;
+  }
+  function wavyLine(x0, x1, y, amp = 7, wl = 70) {
+    let d = `M ${x0} ${y}`;
+    for (let x = x0; x < x1; x += wl / 2) {
+      const xe = Math.min(x + wl / 2, x1);
+      const dir = ((x - x0) / (wl / 2)) % 2 === 0 ? -1 : 1;
+      d += ` Q ${(x + xe) / 2} ${y + dir * amp} ${xe} ${y + jit(1)}`;
+    }
+    return d;
+  }
+  function loopEllipse(cx, cy, rx, ry, turns = 1.12, start = -1.9) {
+    const n = 120; let d = '';
+    for (let i = 0; i <= n; i++) {
+      const a = start + (i / n) * turns * Math.PI * 2;
+      const k = 1 + 0.03 * Math.sin(a * 3 + 1) + (i / n) * 0.03;
+      const x = cx + Math.cos(a) * rx * k, y = cy + Math.sin(a) * ry * k;
+      d += (i ? ' L ' : 'M ') + x.toFixed(1) + ' ' + y.toFixed(1);
+    }
+    return d;
+  }
+  function arrowHead(x, y, angle, size = 30) {
+    const a1 = angle + Math.PI * 0.82, a2 = angle - Math.PI * 0.82;
+    return `M ${(x + Math.cos(a1) * size).toFixed(1)} ${(y + Math.sin(a1) * size).toFixed(1)} L ${x} ${y} ` +
+      `L ${(x + Math.cos(a2) * size).toFixed(1)} ${(y + Math.sin(a2) * size).toFixed(1)}`;
+  }
+
+  // ---------- elementos desenháveis ----------
+  // Cada "stroke" é um <path> revelado via stroke-dasharray/dashoffset.
+  const subpaths = d => d.split(/(?=M)/).map(x => x.trim()).filter(Boolean);
+  function prepDash(p) {
+    const len = p.getTotalLength();
+    p.style.strokeDasharray = `${len + 2} ${len + 12}`;
+    p.style.strokeDashoffset = len + 6;
+    p.style.visibility = 'hidden';
+    return len;
+  }
+  // Retorna um traço por subcaminho (cada um é revelado em sequência pela mão).
+  function strokePath(d, color, width, parent, opts = {}) {
+    return subpaths(d).map(sd => {
+      const p = mk('path', {
+        d: sd, fill: 'none', stroke: color, 'stroke-width': width,
+        'stroke-linecap': 'round', 'stroke-linejoin': 'round',
+      }, parent);
+      if (opts.opacity) p.setAttribute('opacity', opts.opacity);
+      return { el: p, len: prepDash(p), color };
+    });
+  }
+  // Texto manuscrito: cada glifo vira um contorno SVG (Caveat) traçado e depois preenchido.
+  function textStrokes(str, x, y, size, color, parent, anchor = 'start') {
+    const w = font.getAdvanceWidth(str, size);
+    if (anchor === 'middle') x -= w / 2;
+    if (anchor === 'end') x -= w;
+    const strokes = [];
+    for (const gp of font.getPaths(str, x, y, size)) {
+      const d = gp.toPathData(2);
+      if (!d) continue;
+      const fillEl = mk('path', { d, fill: color, 'fill-opacity': 0, stroke: 'none' }, parent);
+      const contours = subpaths(d).map(cd => {
+        const p = mk('path', {
+          d: cd, fill: 'none', stroke: color, 'stroke-width': 2.4,
+          'stroke-linejoin': 'round', 'stroke-linecap': 'butt',
+        }, parent);
+        return { el: p, len: prepDash(p), color };
+      });
+      contours[contours.length - 1].fillEl = fillEl;   // preenche quando o último contorno termina
+      strokes.push(...contours);
+    }
+    return { strokes, width: w, x };
+  }
+
+  // ---------- agenda (tempo absoluto a partir das cenas) ----------
+  const scenes = timeline.cenas;
+  const at = (scene, f) => {
+    const s = scenes[scene - 1];
+    return s.start + f * (s.end - s.start);
+  };
+  const drawItems = [];   // {t0, t1, strokes, schedule}
+  const handSegs = [];    // {t0, t1, pos(t), drawing, color}
+  const effects = [];     // function(t)
+
+  function ptAt(s, l) {
+    if (!s.ctm) s.ctm = s.el.getCTM();
+    const p = s.el.getPointAtLength(l).matrixTransform(s.ctm);
+    return { x: p.x, y: p.y };
+  }
+
+  function draw(scene, f0, f1, strokes) {
+    strokes = strokes.flat(3);
+    const t0 = at(scene, f0), t1 = at(scene, f1);
+    // Distribui o tempo pelo comprimento de cada traço + deslocamento da caneta entre traços.
+    const items = [];
+    let prevEnd = null, total = 0;
+    for (const s of strokes) {
+      const start = ptAt(s, 0);
+      if (prevEnd) {
+        const dist = Math.hypot(start.x - prevEnd.x, start.y - prevEnd.y);
+        const w = dist * 0.3 + 4;
+        items.push({ type: 'travel', from: { x: prevEnd.x, y: prevEnd.y }, to: { x: start.x, y: start.y }, w });
+        total += w;
+      }
+      items.push({ type: 'stroke', s, w: s.len });
+      total += s.len;
+      prevEnd = ptAt(s, s.len);
+    }
+    let t = t0;
+    for (const it of items) {
+      const dt = (it.w / total) * (t1 - t0);
+      it.t0 = t; it.t1 = t + dt; t += dt;
+      if (it.type === 'stroke') {
+        it.s.t0 = it.t0; it.s.t1 = it.t1;
+        const s = it.s;
+        handSegs.push({
+          t0: it.t0, t1: it.t1, drawing: true, color: s.color,
+          pos: (tt) => {
+            const u = clamp((tt - s.t0) / (s.t1 - s.t0));
+            return ptAt(s, u * s.len);
+          },
+        });
+      } else {
+        const a = it.from, b = it.to, c0 = it.t0, c1 = it.t1;
+        handSegs.push({
+          t0: c0, t1: c1, drawing: false, color: strokes[0].color,
+          pos: (tt) => lerpP(a, b, ease(clamp((tt - c0) / Math.max(1e-6, c1 - c0)))),
+        });
+      }
+    }
+    drawItems.push({ t0, t1, strokes });
+    return strokes;
+  }
+
+  // ---------- CENA 1: título + urna ----------
+  const title = textStrokes('Voto Útil no 1º Turno?', 60, 205, 104, INK.black);
+  draw(1, 0.04, 0.47, title.strokes);
+  draw(1, 0.49, 0.58, [strokePath(wavyLine(56, 60 + title.width + 6, 238, 6, 64), INK.red, 9)]);
+
+  const urn = group();
+  const urnStrokes = [
+    strokePath(roughRect(330, 820, 750, 1180), INK.black, 8, urn),                         // frente
+    strokePath('M 330 820 ' + roughSeg(330, 820, 420, 735) + ' ' + roughSeg(420, 735, 840, 735) + ' ' +
+      roughSeg(840, 735, 750, 820), INK.black, 8, urn),                                      // tampa
+    strokePath('M 840 735 ' + roughSeg(840, 735, 840, 1095) + ' ' + roughSeg(840, 1095, 750, 1180), INK.black, 8, urn),
+    strokePath(roughRect(505, 765, 665, 790), INK.black, 6, urn),                           // fenda
+    strokePath('M 548 778 ' + roughSeg(548, 778, 560, 640) + ' ' + roughSeg(560, 640, 640, 648) + ' ' +
+      roughSeg(640, 648, 626, 778), INK.blue, 6, urn),                                       // cédula
+    strokePath(roughLine(572, 672, 620, 676, 1) + ' ' + roughLine(570, 700, 616, 703, 1), INK.blue, 4, urn),
+    strokePath(roughLine(380, 1130, 700, 1130, 2), INK.black, 4, urn, { opacity: 0.6 }),
+  ];
+  draw(1, 0.60, 0.85, urnStrokes);
+  const q = textStrokes('?', 540, 1105, 300, INK.red, urn, 'middle');
+  draw(1, 0.86, 0.98, q.strokes);
+
+  // A urna encolhe para virar um ícone ao lado do título no início da cena 2.
+  {
+    const s0 = at(2, 0), s1 = s0 + 0.8;
+    const sc = 0.27;
+    const tx = Math.min(60 + title.width + 30, 1040 - 510 * sc) - 330 * sc;
+    const ty = 95 - 735 * sc;
+    effects.push((t) => {
+      const u = ease(clamp((t - s0) / (s1 - s0)));
+      const k = lerp(1, sc, u);
+      urn.setAttribute('transform', `translate(${lerp(0, tx, u)} ${lerp(0, ty, u)}) scale(${k})`);
+    });
+  }
+
+  // ---------- CENA 2: gráfico + linha de 50% + 1 ----------
+  const BASE = 1220, PX = 14;                    // 0% em y=1220; 14 px por ponto percentual
+  const yOf = (pct) => BASE - pct * PX;
+  const META_Y = yOf(50);
+  draw(2, 0.07, 0.27, [
+    strokePath(roughLine(130, BASE + 6, 130, 440, 2), INK.black, 7),
+    strokePath(arrowHead(130, 440, -Math.PI / 2, 26), INK.black, 7),
+    strokePath(roughLine(124, BASE, 1045, BASE, 2), INK.black, 7),
+    strokePath(roughLine(118, yOf(25), 142, yOf(25), 1) + ' ' + roughLine(118, META_Y, 142, META_Y, 1), INK.black, 6),
+  ]);
+  draw(2, 0.28, 0.40, [
+    ...textStrokes('0', 108, BASE + 12, 42, INK.black, null, 'end').strokes,
+    ...textStrokes('25%', 110, yOf(25) + 12, 40, INK.black, null, 'end').strokes,
+    ...textStrokes('50%', 110, META_Y + 12, 40, INK.red, null, 'end').strokes,
+  ]);
+  draw(2, 0.44, 0.62, [strokePath(dashedLine(140, 1045, META_Y), INK.red, 9)]);
+  draw(2, 0.64, 0.97, textStrokes('Meta 1º Turno: 50% + 1', 1040, META_Y - 22, 60, INK.red, null, 'end').strokes);
+
+  // ---------- CENA 3: barras dos candidatos ----------
+  function bar(x0, pct, color, parent, hatchOpacity = 0.75) {
+    const x1 = x0 + 100, y0 = yOf(pct);
+    return [
+      strokePath(roughRect(x0, y0, x1, BASE - 4), color, 7, parent),
+      strokePath(zigzagHatch(x0, y0, x1, BASE - 4, 15), color, 4, parent, { opacity: hatchOpacity }),
+    ];
+  }
+  // Candidato A
+  const aParts = bar(200, 43, INK.blue);
+  draw(3, 0.02, 0.10, [aParts[0]]);
+  draw(3, 0.10, 0.21, [aParts[1]]);
+  draw(3, 0.21, 0.27, textStrokes('43%', 250, yOf(43) - 16, 54, INK.blue, null, 'middle').strokes);
+  draw(3, 0.27, 0.35, textStrokes('Candidato A', 250, BASE + 52, 40, INK.blue, null, 'middle').strokes);
+  // Candidato B
+  const bParts = bar(400, 28, INK.green);
+  draw(3, 0.37, 0.43, [bParts[0]]);
+  draw(3, 0.43, 0.51, [bParts[1]]);
+  const b28 = group();
+  draw(3, 0.51, 0.56, textStrokes('28%', 450, yOf(28) - 16, 54, INK.green, b28, 'middle').strokes);
+  draw(3, 0.56, 0.64, textStrokes('Candidato B', 450, BASE + 52, 40, INK.green, null, 'middle').strokes);
+  // C, D, E — blocos que depois serão "transferidos" para o B
+  const small = [
+    { name: 'C', pct: 6, x: 600, f: [0.66, 0.76] },
+    { name: 'D', pct: 5, x: 750, f: [0.77, 0.865] },
+    { name: 'E', pct: 4, x: 900, f: [0.875, 0.97] },
+  ];
+  for (const b of small) {
+    b.ghost = group();
+    b.g = group();
+    const st = [
+      strokePath(roughRect(b.x, yOf(b.pct), b.x + 100, BASE - 4), INK.green, 7, b.g),
+      strokePath(zigzagHatch(b.x, yOf(b.pct), b.x + 100, BASE - 4, 15), INK.green, 4, b.g, { opacity: 0.35 }),
+      ...textStrokes(`${b.pct}%`, b.x + 50, BASE - 4 - (b.pct * PX) / 2 + 14, 42, INK.black, b.g, 'middle').strokes,
+      ...textStrokes(b.name, b.x + 50, BASE + 52, 44, INK.green, null, 'middle').strokes,
+    ];
+    draw(3, b.f[0], b.f[1], st);
+    // contorno tracejado que fica no lugar original depois que o bloco sai
+    mk('path', {
+      d: roughRect(b.x, yOf(b.pct), b.x + 100, BASE - 4), fill: 'none', stroke: INK.gray,
+      'stroke-width': 4, 'stroke-dasharray': '10 12', 'stroke-linecap': 'round',
+    }, b.ghost);
+    b.ghost.setAttribute('opacity', 0);
+  }
+
+  // ---------- CENA 4: setas e empilhamento sobre o B ----------
+  let stackTop = yOf(28);
+  const arrowG = group();
+  const arrowF = [[0.05, 0.16], [0.17, 0.28], [0.29, 0.40]];
+  const moveF = [[0.42, 0.50], [0.50, 0.58], [0.58, 0.66]];
+  small.forEach((b, i) => {
+    const h = b.pct * PX;
+    b.dx = 400 - b.x;
+    b.dy = (stackTop - h) - yOf(b.pct);
+    stackTop -= h;
+    // seta curva do topo do bloco até o ponto onde ele vai pousar no B
+    const sx = b.x + 50, sy = yOf(b.pct) - 14;
+    const ex = 512 + i * 6, ey = stackTop + h / 2;
+    const cx = (sx + ex) / 2 + 40, cy = Math.min(sy, ey) - 170 - i * 40;
+    const curve = strokePath(`M ${sx} ${sy} Q ${cx} ${cy} ${ex} ${ey}`, INK.black, 6, arrowG);
+    const ang = Math.atan2(ey - cy, ex - cx);
+    const head = strokePath(arrowHead(ex, ey, ang, 26), INK.black, 6, arrowG);
+    draw(4, arrowF[i][0], arrowF[i][1], [curve, head]);
+
+    // movimento do bloco (a mão "arrasta" o bloco pelo topo)
+    const m0 = at(4, moveF[i][0]), m1 = at(4, moveF[i][1]);
+    const ctrl = { x: b.dx * 0.5 + 30, y: Math.min(0, b.dy) - 160 };
+    const off = (t) => {
+      const u = ease(clamp((t - m0) / (m1 - m0)));
+      const a = 1 - u;
+      return { x: 2 * a * u * ctrl.x + u * u * b.dx, y: 2 * a * u * ctrl.y + u * u * b.dy, u };
+    };
+    effects.push((t) => {
+      const o = off(t);
+      b.g.setAttribute('transform', `translate(${o.x.toFixed(2)} ${o.y.toFixed(2)})`);
+      b.ghost.setAttribute('opacity', clamp((t - m0) / 0.25) * 0.9);
+    });
+    const grab = { x: b.x + 62, y: yOf(b.pct) + 10 };
+    handSegs.push({
+      t0: m0, t1: m1, drawing: false, color: INK.green,
+      pos: (t) => { const o = off(t); return { x: grab.x + o.x, y: grab.y + o.y }; },
+    });
+  });
+  {
+    const c0 = at(4, moveF[0][0]) + 0.15, c1 = c0 + 0.3;
+    effects.push((t) => b28.setAttribute('opacity', 1 - clamp((t - c0) / (c1 - c0))));
+    const f0 = at(4, 0.66), f1 = at(4, 0.71);
+    effects.push((t) => arrowG.setAttribute('opacity', 1 - 0.88 * clamp((t - f0) / (f1 - f0))));
+  }
+  draw(4, 0.71, 0.86, textStrokes('28+6+5+4', 560, 668, 56, INK.green).strokes);
+  draw(4, 0.87, 0.98, textStrokes('= 43%', 600, 738, 60, INK.green).strokes);
+
+  // ---------- CENA 5: X vermelho no B e círculo no A ----------
+  draw(5, 0.30, 0.37, [
+    strokePath(roughLine(410, 528, 492, 610, 3), INK.red, 10),
+    strokePath(roughLine(492, 528, 408, 612, 3), INK.red, 10),
+  ]);
+  draw(5, 0.38, 0.45, textStrokes('Não!', 505, 594, 54, INK.red).strokes);
+  draw(5, 0.50, 0.65, [strokePath(loopEllipse(250, 902, 96, 326), INK.blue, 7)]);
+  draw(5, 0.67, 0.97, textStrokes('Continua com os mesmos 43%!', 60, 1372, 68, INK.blue).strokes);
+
+  // ---------- CENA 6: única saída + resumo ----------
+  {
+    const sx = 292, sy = 560, ex = 372, ey = 336, cx = 262, cy = 400;
+    const curve = strokePath(`M ${sx} ${sy} Q ${cx} ${cy} ${ex} ${ey}`, INK.red, 8);
+    const head = strokePath(arrowHead(ex, ey, Math.atan2(ey - cy, ex - cx), 30), INK.red, 8);
+    draw(6, 0.10, 0.18, [curve, head]);
+  }
+  draw(6, 0.19, 0.31, textStrokes('Única forma de baixar', 392, 344, 62, INK.red).strokes);
+  draw(6, 0.31, 0.39, textStrokes('o % do líder!', 392, 410, 62, INK.red).strokes);
+  draw(6, 0.42, 0.50, [strokePath(roughRect(48, 1425, 1032, 1818), INK.black, 8)]);
+  draw(6, 0.51, 0.66, textStrokes('Soma da oposição < 50%+1', 540, 1540, 84, INK.black, null, 'middle').strokes);
+  draw(6, 0.67, 0.77, textStrokes('= Vai para o 2º turno', 540, 1652, 84, INK.black, null, 'middle').strokes);
+  const last = textStrokes('de qualquer jeito!', 540, 1762, 84, INK.red, null, 'middle');
+  draw(6, 0.78, 0.87, last.strokes);
+  draw(6, 0.875, 0.905, [strokePath(wavyLine(540 - last.width / 2, 540 + last.width / 2, 1790, 5, 60), INK.red, 7)]);
+
+
+  // ---------- utilidades das cenas finais ----------
+  function circlePath(cx, cy, r) {
+    return `M ${cx + r} ${cy} A ${r} ${r} 0 1 1 ${cx - r} ${cy} A ${r} ${r} 0 1 1 ${cx + r} ${cy}`;
+  }
+  function roundRectPath(x, y, w, h, r) {
+    return `M ${x + r} ${y} L ${x + w - r} ${y} Q ${x + w} ${y} ${x + w} ${y + r} L ${x + w} ${y + h - r} ` +
+      `Q ${x + w} ${y + h} ${x + w - r} ${y + h} L ${x + r} ${y + h} Q ${x} ${y + h} ${x} ${y + h - r} ` +
+      `L ${x} ${y + r} Q ${x} ${y} ${x + r} ${y}`;
+  }
+  function cloudPath(cx, cy, rx, ry, n = 11) {
+    const pts = [];
+    for (let i = 0; i < n; i++) {
+      const a = -Math.PI / 2 + (i / n) * Math.PI * 2;
+      pts.push([cx + Math.cos(a) * rx, cy + Math.sin(a) * ry]);
+    }
+    let d = `M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+    for (let i = 0; i < n; i++) {
+      const p = pts[i], q = pts[(i + 1) % n];
+      const mx = (p[0] + q[0]) / 2, my = (p[1] + q[1]) / 2;
+      d += ` Q ${(mx + (mx - cx) * 0.35).toFixed(1)} ${(my + (my - cy) * 0.35).toFixed(1)} ${q[0].toFixed(1)} ${q[1].toFixed(1)}`;
+    }
+    return d;
+  }
+  // Ícones das redes, no mesmo traço de marcador. bg = preenchimento que aparece depois do contorno.
+  function igIcon(x, y, S, parent, w) {
+    const bg = mk('path', { d: roundRectPath(x, y, S, S, S * 0.28), fill: 'url(#igGrad)', 'fill-opacity': 0 }, parent);
+    const outline = strokePath(roundRectPath(x, y, S, S, S * 0.28), '#c13584', w, parent);
+    const rest = [
+      strokePath(roundRectPath(x + S * 0.2, y + S * 0.2, S * 0.6, S * 0.6, S * 0.18), '#ffffff', w, parent),
+      strokePath(circlePath(x + S / 2, y + S / 2, S * 0.14), '#ffffff', w, parent),
+      strokePath(circlePath(x + S * 0.69, y + S * 0.31, S * 0.015), '#ffffff', w * 1.2, parent),
+    ];
+    return { bg, outline, rest };
+  }
+  function ttIcon(x, y, S, parent, w) {
+    const bg = mk('path', { d: roundRectPath(x, y, S, S, S * 0.28), fill: '#111111', 'fill-opacity': 0 }, parent);
+    const outline = strokePath(roundRectPath(x, y, S, S, S * 0.28), '#111111', w, parent);
+    const note = (dx, dy, color) => {
+      const X = (k) => (x + S * k + dx).toFixed(1), Y = (k) => (y + S * k + dy).toFixed(1), r = (S * 0.13).toFixed(1);
+      return strokePath(`M ${X(0.76)} ${Y(0.37)} Q ${X(0.59)} ${Y(0.34)} ${X(0.56)} ${Y(0.18)} L ${X(0.56)} ${Y(0.66)} ` +
+        `A ${r} ${r} 0 1 1 ${X(0.30)} ${Y(0.66)} A ${r} ${r} 0 1 1 ${X(0.56)} ${Y(0.66)}`, color, S * 0.085, parent);
+    };
+    const rest = [note(-S * 0.03, -S * 0.02, '#25f4ee'), note(S * 0.03, S * 0.02, '#fe2c55'), note(0, 0, '#ffffff')];
+    return { bg, outline, rest };
+  }
+  function showNow(list) {
+    for (const s of list.flat(3)) {
+      s.el.style.visibility = 'visible';
+      s.el.style.strokeDashoffset = 0;
+      if (s.fillEl) s.fillEl.setAttribute('fill-opacity', 1);
+    }
+  }
+  function fillAfter(bg, strokeList, dur = 0.35) {
+    const s = strokeList.flat(3).slice(-1)[0];
+    effects.push((t) => bg.setAttribute('fill-opacity', clamp((t - s.t1) / dur).toFixed(3)));
+  }
+  // A folha de cima sobe (como virar a página do bloco), puxada pela mão.
+  function flipPage(pageEl, scene, f0, f1) {
+    const t0 = at(scene, f0), t1 = at(scene, f1);
+    const lift = (t) => ease(clamp((t - t0) / (t1 - t0)));
+    effects.push((t) => {
+      const u = lift(t);
+      pageEl.setAttribute('transform', u <= 0 ? '' :
+        `translate(0 ${(-2000 * u).toFixed(1)}) rotate(${(-4 * Math.sin(Math.PI * u)).toFixed(2)} 0 1920)`);
+      pageEl.style.display = u >= 1 ? 'none' : '';
+    });
+    handSegs.push({
+      t0, t1, drawing: false, color: INK.black,
+      pos: (t) => ({ x: 760 - 140 * lift(t), y: Math.max(260, 1890 - 2000 * lift(t)) }),
+    });
+  }
+
+  // ---------- CENA 7: a história do João ----------
+  inkLayer = document.getElementById('ink2');
+  flipPage(document.getElementById('page1'), 7, 0.0, 0.06);
+  const t7 = textStrokes('A história do João', 540, 195, 100, INK.black, null, 'middle');
+  draw(7, 0.07, 0.17, t7.strokes);
+  draw(7, 0.17, 0.20, strokePath(wavyLine(540 - t7.width / 2, 540 + t7.width / 2, 228, 6, 64), INK.blue, 8));
+  draw(7, 0.20, 0.30, [
+    strokePath(circlePath(230, 560, 58), INK.black, 7),
+    strokePath('M 207 545 L 209 549 M 250 545 L 252 549', INK.black, 9),
+    strokePath('M 205 578 Q 230 602 256 578', INK.black, 5),
+    strokePath(roughLine(230, 618, 232, 800, 2), INK.black, 7),
+    strokePath(roughLine(231, 670, 160, 750, 2), INK.black, 7),
+    strokePath(roughLine(231, 670, 305, 628, 2), INK.black, 7),
+    strokePath(roughLine(232, 800, 180, 920, 2), INK.black, 7),
+    strokePath(roughLine(232, 800, 285, 920, 2), INK.black, 7),
+    strokePath(roughRect(296, 566, 350, 630), INK.blue, 5),
+    textStrokes('João', 230, 990, 62, INK.black, null, 'middle').strokes,
+  ]);
+  draw(7, 0.31, 0.38, [
+    strokePath(circlePath(318, 512, 9), INK.black, 5),
+    strokePath(circlePath(354, 478, 14), INK.black, 5),
+    strokePath(cloudPath(700, 480, 290, 160), INK.black, 6),
+  ]);
+  draw(7, 0.38, 0.41, textStrokes('C', 575, 520, 120, INK.green, null, 'middle').strokes);
+  draw(7, 0.41, 0.44, [strokePath(roughLine(630, 478, 745, 478, 2), INK.black, 7), strokePath(arrowHead(745, 478, 0, 24), INK.black, 7)]);
+  draw(7, 0.44, 0.47, textStrokes('B', 805, 520, 120, INK.green, null, 'middle').strokes);
+  draw(7, 0.47, 0.55, textStrokes('p/ vencer o A no 1º turno!', 700, 592, 42, INK.black, null, 'middle').strokes);
+  draw(7, 0.56, 0.61, strokePath(roughRect(110, 1080, 970, 1580), INK.black, 8));
+  draw(7, 0.61, 0.67, textStrokes('Noite da apuração', 540, 1165, 66, INK.black, null, 'middle').strokes);
+  draw(7, 0.68, 0.74, textStrokes('A: 43%', 180, 1310, 100, INK.blue).strokes);
+  draw(7, 0.74, 0.79, textStrokes('B: 43%', 180, 1450, 100, INK.green).strokes);
+  {
+    const stamp = group();
+    stamp.setAttribute('transform', 'rotate(-12 735 1370)');
+    draw(7, 0.80, 0.83, strokePath(roughRect(545, 1295, 925, 1445), INK.red, 9, stamp));
+    draw(7, 0.83, 0.89, textStrokes('2º TURNO', 735, 1408, 100, INK.red, stamp, 'middle').strokes);
+  }
+  draw(7, 0.89, 0.96, textStrokes('…como iria de qualquer jeito!', 540, 1690, 64, INK.red, null, 'middle').strokes);
+
+  // ---------- CENA 8: moral da história + redes sociais ----------
+  inkLayer = document.getElementById('ink3');
+  flipPage(document.getElementById('page2'), 8, 0.0, 0.05);
+  const t8 = textStrokes('Moral da história', 540, 200, 104, INK.red, null, 'middle');
+  draw(8, 0.06, 0.13, t8.strokes);
+  draw(8, 0.13, 0.15, strokePath(wavyLine(540 - t8.width / 2, 540 + t8.width / 2, 234, 6, 64), INK.red, 8));
+  draw(8, 0.16, 0.24, textStrokes('No 1º turno, vote em quem', 540, 380, 72, INK.black, null, 'middle').strokes);
+  draw(8, 0.24, 0.31, textStrokes('realmente te representa.', 540, 468, 72, INK.black, null, 'middle').strokes);
+  draw(8, 0.32, 0.38, textStrokes('O confronto direto', 540, 585, 72, INK.blue, null, 'middle').strokes);
+  draw(8, 0.38, 0.45, textStrokes('fica para o 2º turno!', 540, 673, 72, INK.blue, null, 'middle').strokes);
+  draw(8, 0.48, 0.55, textStrokes('Gostou? Me segue!', 540, 860, 96, INK.green, null, 'middle').strokes);
+  {
+    const ig = igIcon(150, 960, 190, null, 12);
+    draw(8, 0.56, 0.60, ig.outline);
+    fillAfter(ig.bg, ig.outline);
+    draw(8, 0.60, 0.63, ig.rest);
+    draw(8, 0.63, 0.69, [
+      textStrokes('Instagram', 385, 1018, 50, INK.gray).strokes,
+      textStrokes('@rafaelcastrome', 380, 1110, 84, INK.black).strokes,
+    ]);
+    const tt = ttIcon(150, 1240, 190, null, 12);
+    draw(8, 0.70, 0.74, tt.outline);
+    fillAfter(tt.bg, tt.outline);
+    draw(8, 0.74, 0.77, tt.rest);
+    draw(8, 0.77, 0.84, [
+      textStrokes('TikTok', 385, 1298, 50, INK.gray).strokes,
+      textStrokes('@rafaelcastro_me', 380, 1390, 84, INK.black).strokes,
+    ]);
+  }
+  {
+    // urna de volta, agora com um "certo": fecha a história
+    const u = group();
+    const k = 0.42;
+    u.setAttribute('transform', `translate(${540 - 585 * k} ${1500 - 640 * k}) scale(${k})`);
+    draw(8, 0.85, 0.92, [
+      strokePath(roughRect(330, 820, 750, 1180), INK.black, 14, u),
+      strokePath('M 330 820 ' + roughSeg(330, 820, 420, 735) + ' ' + roughSeg(420, 735, 840, 735) + ' ' +
+        roughSeg(840, 735, 750, 820), INK.black, 14, u),
+      strokePath('M 840 735 ' + roughSeg(840, 735, 840, 1095) + ' ' + roughSeg(840, 1095, 750, 1180), INK.black, 14, u),
+      strokePath(roughRect(505, 765, 665, 790), INK.black, 10, u),
+    ]);
+    draw(8, 0.92, 0.95, strokePath('M 430 985 L 515 1080 L 685 880', INK.green, 26, u));
+  }
+
+  // ---------- marca d'água fixa com as redes ----------
+  {
+    const wm = document.getElementById('watermark');
+    const S = 42, fs = 36, y = 1856;
+    const h1 = '@rafaelcastrome', h2 = '@rafaelcastro_me';
+    const w1 = font.getAdvanceWidth(h1, fs), w2 = font.getAdvanceWidth(h2, fs);
+    const total = S + 12 + w1 + 44 + S + 12 + w2;
+    let x = 540 - total / 2;
+    mk('rect', {
+      x: x - 22, y: y - 10, width: total + 44, height: S + 20, rx: (S + 20) / 2,
+      fill: '#fffaf0', 'fill-opacity': 0.9, stroke: '#1f1f24', 'stroke-opacity': 0.25, 'stroke-width': 2,
+    }, wm);
+    const ig = igIcon(x, y, S, wm, 4);
+    ig.bg.setAttribute('fill-opacity', 1);
+    showNow([ig.outline, ig.rest]);
+    x += S + 12;
+    showNow(textStrokes(h1, x, y + S * 0.78, fs, INK.black, wm).strokes);
+    x += w1 + 44;
+    const tt = ttIcon(x, y, S, wm, 4);
+    tt.bg.setAttribute('fill-opacity', 1);
+    showNow([tt.outline, tt.rest]);
+    x += S + 12;
+    showNow(textStrokes(h2, x, y + S * 0.78, fs, INK.black, wm).strokes);
+    // aparece no início e sai na última cena, onde os perfis ganham destaque
+    const a1 = at(8, 0.02);
+    effects.push((t) => wm.setAttribute('opacity', (clamp((t - 0.4) / 0.6) * (1 - clamp((t - a1) / 0.5))).toFixed(3)));
+  }
+
+  handSegs.sort((a, b) => a.t0 - b.t0);
+  const allStrokes = drawItems.flatMap(d => d.strokes);
+
+  // ---------- posição da mão (100% função de t) ----------
+  function handState(t) {
+    let prev = null, next = null;
+    for (const s of handSegs) {
+      if (t >= s.t0 && t <= s.t1) return { p: s.pos(t), drawing: s.drawing, color: s.color };
+      if (s.t1 < t && (!prev || s.t1 > prev.t1)) prev = s;
+      if (s.t0 > t && !next) next = s;
+    }
+    const P = prev ? prev.pos(prev.t1) : REST, tp = prev ? prev.t1 : 0;
+    const N = next ? next.pos(next.t0) : REST, tn = next ? next.t0 : Infinity;
+    const color = (prev || next || { color: INK.black }).color;
+    const MOVE = 0.6;
+    if (!next) return { p: lerpP(P, REST, ease(clamp((t - tp) / 0.8))), drawing: false, color };
+    const gap = tn - tp;
+    if (gap <= 1.5) {
+      const u = ease(clamp((t - tp) / gap));
+      const p = lerpP(P, N, u);
+      p.y -= Math.sin(Math.PI * u) * Math.min(40, gap * 40);   // a caneta sobe um pouco ao viajar
+      return { p, drawing: false, color };
+    }
+    if (t < tp + MOVE) return { p: lerpP(P, REST, ease((t - tp) / MOVE)), drawing: false, color };
+    if (t > tn - MOVE) return { p: lerpP(REST, N, ease((t - (tn - MOVE)) / MOVE)), drawing: false, color };
+    const idle = { x: REST.x + Math.sin(t * 0.9) * 6, y: REST.y + Math.sin(t * 1.3) * 4 };
+    return { p: idle, drawing: false, color };
+  }
+
+  // ---------- função global de busca no tempo ----------
+  window.seekToTime = function (t) {
+    for (const s of allStrokes) {
+      const u = t <= s.t0 ? 0 : t >= s.t1 ? 1 : (t - s.t0) / (s.t1 - s.t0);
+      s.el.style.strokeDashoffset = ((s.len + 6) * (1 - u)).toFixed(2);
+      s.el.style.visibility = u > 0 ? 'visible' : 'hidden';
+      if (s.fillEl) s.fillEl.setAttribute('fill-opacity', clamp((t - s.t1 + 0.05) / 0.3).toFixed(3));
+    }
+    for (const fx of effects) fx(t);
+
+    const st = handState(t);
+    let { x, y } = st.p;
+    if (st.drawing) {   // tremor natural de quem escreve
+      x += Math.sin(t * 37.0) * 1.4 + Math.sin(t * 13.3) * 1.0;
+      y += Math.cos(t * 29.0) * 1.4 + Math.sin(t * 17.7) * 0.9;
+    }
+    const rot = -30 + Math.sin(t * 1.7) * 2.2 + (x - 540) * 0.006;
+    hand.setAttribute('transform', `translate(${x.toFixed(2)} ${y.toFixed(2)})`);
+    handRot.setAttribute('transform', `rotate(${rot.toFixed(2)})`);
+    for (const el of tipEls) el.setAttribute('fill', st.color);
+  };
+  window.TOTAL = timeline.total;
+  window.seekToTime(0);
+  window.__ready = true;
+
+  // Pré-visualização no navegador: index.html?play toca a animação com o áudio.
+  if (location.search.includes('play')) {
+    const audio = new Audio('narration.mp3');
+    document.body.addEventListener('click', () => {
+      audio.currentTime = 0; audio.play();
+      const loop = () => { window.seekToTime(audio.currentTime); if (!audio.ended) requestAnimationFrame(loop); };
+      requestAnimationFrame(loop);
+    }, { once: true });
+  }
+})();
+</script>
+</body>
+</html>

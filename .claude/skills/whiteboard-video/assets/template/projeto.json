@@ -1,0 +1,14 @@
+{
+  "titulo": "Título do vídeo",
+  "marca": { "handle": "caderno_amarelo", "nome": "Caderno Amarelo" },
+  "marcaDagua": true,
+  "voz": { "edge": "pt-BR-AntonioNeural", "edgeRate": "+10%", "kokoro": "pm_alex", "kokoroSpeed": 1.1 },
+  "pausaPadrao": 0.6,
+  "fontes": [
+    { "fato": "Descreva o fato usado no vídeo", "fonte": "Instituição / publicação, ano", "url": "https://..." }
+  ],
+  "cenas": [
+    { "fala": "Texto narrado da cena 1.", "pausa": 0.6 },
+    { "fala": "Texto narrado da cena 2.", "pausa": 2.5 }
+  ]
+}
