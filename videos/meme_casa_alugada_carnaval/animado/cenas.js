@@ -1,5 +1,6 @@
 // Meme "pós-Carnaval, devolvendo as casas alugadas" no estilo Caderno Amarelo (formato B, desenho animado).
-// Três áudios de WhatsApp: a dona da casa reclama (0–57 s) e a amiga morre de rir (57–92 s).
+// Três áudios de WhatsApp, cada um com seu narrador: a dona da casa (0–30 s), a vizinha do congelador (31–57 s)
+// e o amigo que morre de rir (57–92 s).
 // A boca de quem fala segue a energia do áudio original (ENV: 20 valores por segundo, 0–9).
 window.CENAS = function (WB) {
   const { INK, clamp, lerp, ease } = WB;
@@ -319,54 +320,79 @@ window.CENAS = function (WB) {
       { d: `M ${x - 120} ${y - 200} q 14 -22 0 -44 q -14 -22 0 -44 M ${x - 40} ${y - 196} q 14 -22 0 -44 q -14 -22 0 -44 M ${x + 40} ${y - 200} q 14 -22 0 -44 q -14 -22 0 -44`, c: '#9ca3af', w: 6 }];
   }
 
-  // ---------------- dona da casa (camada fixa) ----------------
-  const girl = (() => {
-    const root = WB.mk('g', { transform: 'translate(540 1300)' }, WB.overlay);
+  // ---------------- os três narradores (camada fixa, um de cada vez) ----------------
+  // 1º áudio: dona da casa (W1) · 2º áudio: vizinha que conta do congelador (W2) · 3º áudio: o amigo que morre de rir (H)
+  const W2_HAIR = '#3b2416', W2_SKIN = '#e8bf9a', H_SKIN = '#d9a074', H_HAIR = '#1f1410';
+  const curls = (pts, fill) => pts.map(([x, y, r]) => circ(x, y, r, fill, null, 5));
+  const W2_CURLS = [[-112, -50, 58], [-66, -112, 60], [0, -136, 62], [66, -112, 60], [112, -50, 58], [-130, 20, 48], [130, 20, 48], [-122, 84, 42], [122, 84, 42]];
+  const CHARS = [
+    { id: 'w1', win: [-9, 30.9], skin: SKIN, brow: HAIR,
+      back: [{ d: 'M -122 -5 Q -140 -150 0 -150 Q 140 -150 124 -5 Q 132 110 100 190 L -100 190 Q -132 110 -122 -5 Z', fill: HAIR, w: 6 }],
+      top: [{ d: 'M -128 430 Q -126 290 -92 262 Q 0 300 92 262 Q 126 290 128 430 Z', fill: PINK, w: 6 },
+        { d: 'M -100 268 L -84 186', c: '#e58bb0', w: 11 }, { d: 'M 100 268 L 84 186', c: '#e58bb0', w: 11 }],
+      hair: [{ d: 'M -102 -5 Q -110 -128 5 -132 Q 112 -128 104 -15 Q 72 -88 -12 -74 Q -66 -64 -102 -5 Z', fill: HAIR, w: 6 },
+        { d: 'M 62 -96 Q 124 -20 98 100 Q 84 40 58 -30 Z', fill: HAIR, w: 5 }] },
+    { id: 'w2', win: [30.9, 57.3], skin: W2_SKIN, brow: W2_HAIR,
+      back: curls(W2_CURLS, W2_HAIR),
+      top: [{ d: 'M -190 430 Q -185 215 -60 180 Q 0 200 60 180 Q 185 215 190 430 Z', fill: '#facc15', w: 7 },
+        { d: 'M -58 182 Q 0 250 58 182 Z', fill: W2_SKIN, w: 6 }, T('CARNAVAL', 0, 360, 52, INK.purple)],
+      hair: [{ d: 'M -100 -10 Q -98 -122 0 -126 Q 98 -122 100 -10 Q 84 -66 50 -58 Q 28 -92 0 -70 Q -28 -92 -50 -58 Q -84 -66 -100 -10 Z', fill: W2_HAIR, w: 6 },
+        circ(-104, 52, 16, null, '#f59e0b', 7), circ(104, 52, 16, null, '#f59e0b', 7)] },
+    { id: 'h', win: [57.3, 99], skin: H_SKIN, brow: H_HAIR,
+      back: [],
+      top: [{ d: 'M -190 430 Q -185 215 -60 180 Q 0 200 60 180 Q 185 215 190 430 Z', fill: '#16a34a', w: 7 },
+        { d: 'M -60 182 L 0 236 L 60 182 L 40 176 L 0 210 L -40 176 Z', fill: '#ffffff', w: 6 },
+        { d: 'M -150 300 L -150 430 M 150 300 L 150 430', c: '#facc15', w: 12 }, T('10', 0, 380, 96, '#facc15')],
+      hair: [{ d: 'M -100 -18 Q -106 -122 0 -126 Q 106 -122 100 -18 Q 94 -72 60 -82 Q 0 -70 -60 -82 Q -94 -72 -100 -18 Z', fill: H_HAIR, w: 6 },
+        { d: 'M -98 10 Q -94 104 0 118 Q 94 104 98 10 Q 86 64 46 76 Q 0 66 -46 76 Q -86 64 -98 10 Z', fill: '#4a3527', w: 5 },
+        { d: 'M -44 58 Q -20 44 0 54 Q 20 44 44 58 Q 22 64 0 60 Q -22 64 -44 58 Z', fill: H_HAIR, w: 4 }] },
+  ];
+  function makeBust(cfg) {
+    const root = WB.mk('g', { transform: 'translate(540 1300)', opacity: 0 }, WB.overlay);
     const backG = WB.mk('g', {}, root), bodyG = WB.mk('g', {}, root), headG = WB.mk('g', {}, root), armG = WB.mk('g', {}, root);
-    const back = build([{ d: 'M -122 -5 Q -140 -150 0 -150 Q 140 -150 124 -5 Q 132 110 100 190 L -100 190 Q -132 110 -122 -5 Z', fill: HAIR, w: 6 }], backG);
-    const body = build([
-      { d: 'M -28 90 L -26 185 L 26 185 L 28 90 Z', fill: SKIN, w: 6 },
-      { d: 'M -190 430 Q -185 215 -60 180 Q 0 200 60 180 Q 185 215 190 430 Z', fill: SKIN, w: 7 },
-      { d: 'M -128 430 Q -126 290 -92 262 Q 0 300 92 262 Q 126 290 128 430 Z', fill: PINK, w: 6 },
-      { d: 'M -100 268 L -84 186', c: '#e58bb0', w: 11 }, { d: 'M 100 268 L 84 186', c: '#e58bb0', w: 11 },
-    ], bodyG);
-    const head = build([
-      { d: ellipse(-98, 12, 15, 24), fill: SKIN, w: 5 }, { d: ellipse(98, 12, 15, 24), fill: SKIN, w: 5 },
-      { d: ellipse(0, 0, 100, 118), fill: SKIN, w: 7 },
-      { d: ellipse(-38, 8, 21, 15), fill: '#ffffff', w: 5 }, { d: ellipse(38, 8, 21, 15), fill: '#ffffff', w: 5 },
-      { d: 'M -4 26 Q -14 46 0 50 Q 9 51 12 46', w: 5, c: '#5a3a22' },
-      { d: 'M -102 -5 Q -110 -128 5 -132 Q 112 -128 104 -15 Q 72 -88 -12 -74 Q -66 -64 -102 -5 Z', fill: HAIR, w: 6 },
-      { d: 'M 62 -96 Q 124 -20 98 100 Q 84 40 58 -30 Z', fill: HAIR, w: 5 },
-    ], headG);
-    for (const p of [body, back, head]) { WB.showNow(p.strokes); p.fills.forEach(f => f.el.setAttribute('fill-opacity', 1)); }
+    const parts = [
+      build(cfg.back, backG),
+      build([{ d: 'M -28 90 L -26 185 L 26 185 L 28 90 Z', fill: cfg.skin, w: 6 },
+        { d: 'M -190 430 Q -185 215 -60 180 Q 0 200 60 180 Q 185 215 190 430 Z', fill: cfg.skin, w: 7 }, cfg.top], bodyG),
+      build([{ d: ellipse(-98, 12, 15, 24), fill: cfg.skin, w: 5 }, { d: ellipse(98, 12, 15, 24), fill: cfg.skin, w: 5 },
+        { d: ellipse(0, 0, 100, 118), fill: cfg.skin, w: 7 },
+        { d: 'M -4 26 Q -14 46 0 50 Q 9 51 12 46', w: 5, c: '#5a3a22' }, cfg.hair], headG),
+    ];
+    for (const p of parts) { WB.showNow(p.strokes); p.fills.forEach(f => f.el.setAttribute('fill-opacity', 1)); }
     const dyn = WB.mk('g', {}, headG);
+    const eyeG = WB.mk('g', {}, dyn);
     const eyes = [-38, 38].map((ex, i) => {
-      const cp = WB.mk('clipPath', { id: `eye${i}c` }, dyn);
+      WB.mk('path', { d: ellipse(ex, 8, 21, 15), fill: '#ffffff', stroke: INK.black, 'stroke-width': 5 }, eyeG);
+      const cp = WB.mk('clipPath', { id: `eye${i}${cfg.id}` }, eyeG);
       WB.mk('path', { d: ellipse(ex, 8, 20, 14) }, cp);
-      const clip = `url(#eye${i}c)`;
+      const clip = `url(#eye${i}${cfg.id})`;
       return {
         ex,
-        pupil: WB.mk('circle', { cx: ex, cy: 8, r: 9, fill: '#1f1410', 'clip-path': clip }, dyn),
-        lid: WB.mk('rect', { x: ex - 24, y: -12, width: 48, height: 0, fill: SKIN, 'clip-path': clip }, dyn),
-        lidLine: WB.mk('path', { d: '', fill: 'none', stroke: INK.black, 'stroke-width': 5, 'stroke-linecap': 'round', 'clip-path': clip }, dyn),
-        brow: WB.mk('path', { d: '', fill: 'none', stroke: HAIR, 'stroke-width': 10, 'stroke-linecap': 'round' }, dyn),
+        pupil: WB.mk('circle', { cx: ex, cy: 8, r: 9, fill: '#1f1410', 'clip-path': clip }, eyeG),
+        lid: WB.mk('rect', { x: ex - 24, y: -12, width: 48, height: 0, fill: cfg.skin, 'clip-path': clip }, eyeG),
+        lidLine: WB.mk('path', { d: '', fill: 'none', stroke: INK.black, 'stroke-width': 5, 'stroke-linecap': 'round', 'clip-path': clip }, eyeG),
+        brow: WB.mk('path', { d: '', fill: 'none', stroke: cfg.brow, 'stroke-width': 10, 'stroke-linecap': 'round' }, dyn),
       };
     });
+    const laughEyes = WB.mk('path', { d: 'M -60 14 Q -38 -14 -16 14 M 16 14 Q 38 -14 60 14', fill: 'none', stroke: INK.black, 'stroke-width': 9, 'stroke-linecap': 'round', opacity: 0 }, dyn);
     const mouth = WB.mk('path', { d: '', fill: MOUTH, stroke: INK.black, 'stroke-width': 5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, dyn);
+    const teeth = WB.mk('path', { d: '', fill: '#ffffff', stroke: 'none' }, dyn);
     const green = WB.mk('g', { opacity: 0 }, dyn);   // cara verde de nojo
     WB.mk('path', { d: 'M -70 30 Q -40 20 -20 40 M 20 40 Q 40 20 70 30', fill: 'none', stroke: '#65a30d', 'stroke-width': 6, 'stroke-linecap': 'round' }, green);
     WB.mk('ellipse', { cx: -62, cy: 44, rx: 22, ry: 12, fill: '#84cc16', opacity: 0.55 }, green);
     WB.mk('ellipse', { cx: 62, cy: 44, rx: 22, ry: 12, fill: '#84cc16', opacity: 0.55 }, green);
     const sweat = WB.mk('path', { d: 'M 86 -60 q -14 24 0 36 q 14 -12 0 -36 Z', fill: '#93c5fd', stroke: INK.black, 'stroke-width': 4, opacity: 0 }, dyn);
+    const tears = [0, 1, 2, 3].map(() => WB.mk('path', { d: 'M 0 -14 Q -11 4 0 8 Q 11 4 0 -14 Z', fill: '#60a5fa', stroke: '#1d4ed8', 'stroke-width': 3, opacity: 0 }, dyn));
     // braço + mão: sai do ombro direito (140, 245)
     const armOut = WB.mk('path', { d: '', fill: 'none', stroke: INK.black, 'stroke-width': 56, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, armG);
-    const armIn = WB.mk('path', { d: '', fill: 'none', stroke: SKIN, 'stroke-width': 44, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, armG);
+    const armIn = WB.mk('path', { d: '', fill: 'none', stroke: cfg.skin, 'stroke-width': 44, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, armG);
     const handG = WB.mk('g', {}, armG);
-    const finger = WB.mk('path', { d: 'M 20 -16 Q 80 -30 108 -24 Q 118 -12 106 -4 Q 70 -2 28 8 Z', fill: SKIN, stroke: INK.black, 'stroke-width': 5, opacity: 0 }, handG);
-    WB.mk('path', { d: 'M -36 30 Q -46 -16 -26 -46 Q 0 -62 26 -46 Q 46 -16 36 30 Q 0 48 -36 30 Z', fill: SKIN, stroke: INK.black, 'stroke-width': 5 }, handG);
+    const finger = WB.mk('path', { d: 'M 20 -16 Q 80 -30 108 -24 Q 118 -12 106 -4 Q 70 -2 28 8 Z', fill: cfg.skin, stroke: INK.black, 'stroke-width': 5, opacity: 0 }, handG);
+    WB.mk('path', { d: 'M -36 30 Q -46 -16 -26 -46 Q 0 -62 26 -46 Q 46 -16 36 30 Q 0 48 -36 30 Z', fill: cfg.skin, stroke: INK.black, 'stroke-width': 5 }, handG);
     WB.mk('path', { d: 'M -14 -42 L -12 -12 M 4 -46 L 4 -14 M 20 -40 L 18 -12', stroke: '#7a4f30', 'stroke-width': 4, fill: 'none', 'stroke-linecap': 'round' }, handG);
-    return { root, backG, headG, armG, dyn, eyes, mouth, green, sweat, armOut, armIn, handG, finger };
-  })();
+    return Object.assign({ root, backG, headG, armG, dyn, eyeG, eyes, laughEyes, mouth, teeth, green, sweat, tears, armOut, armIn, handG, finger }, cfg);
+  }
+  const BUSTS = CHARS.map(makeBust);
 
   const MOODS = {
     lado: { lid: 0.15, px: 9, py: 1, bi: 0, bo: 0, smile: 0, rot: 4 },
@@ -382,20 +408,25 @@ window.CENAS = function (WB) {
     ouch: { lid: 0.7, px: 0, py: 0, bi: 9, bo: -2, smile: -12, rot: -7, green: 1 },
     confusa: { lid: 0.1, px: 7, py: -5, bi: -9, bo: -2, smile: -4, rot: 9, asym: 1 },
     nojo: { lid: 0.45, px: -7, py: 3, bi: 10, bo: 3, smile: -11, rot: -10, asym: -0.6, green: 1 },
+    risada: { lid: 0, px: 0, py: 0, bi: -10, bo: -8, smile: 12, rot: -6, laugh: 1 },
   };
-  // [início, humor, mão, aceno]
-  const TL = [
-    [0, 'lado'], [1.0, 'enfado'], [1.8, 'arregalada'], [3.0, 'seria'], [4.5, 'arregalada', 'testa'], [7.0, 'estresse', 'testa'],
-    [8.2, 'nojo'], [10.2, 'nojo'], [11.4, 'ouch'], [13.0, 'brava'], [13.8, 'brava', 'aponta'], [15.0, 'brava', null, 1],
-    [16.8, 'estresse'], [19.4, 'estresse', 'testa'], [21.6, 'confusa'], [22.4, 'enfado'], [24.9, 'nojo'], [27.7, 'brava', 'aponta'],
-    [29.6, 'brava', null, 1], [30.8, 'seria'], [33.9, 'sorriso'], [35.6, 'leve'], [38.6, 'arregalada'], [40.4, 'nojo'],
-    [42.1, 'arregalada', 'testa'], [44.6, 'pensativa', 'queixo'], [48.8, 'sorriso'], [52.3, 'arregalada'], [53.95, 'ouch', 'testa'],
-    [55.0, 'seria', null, 1], [57.3, 'confusa'], [59.0, 'enfado'], [61.2, 'revira'], [66.2, 'enfado', 'queixo'], [69.5, 'revira'],
-    [72.5, 'enfado', 'queixo'], [76.0, 'revira'], [79.5, 'estresse', 'testa'], [84.3, 'nojo'], [87.9, 'ouch'], [89.4, 'sorriso'],
-  ];
-  const HAND = { none: { x: 165, y: 400, r: 0, ex: 165, ey: 330 }, queixo: { x: 42, y: 152, r: -12, ex: 178, ey: 345 }, testa: { x: 112, y: -58, r: -28, ex: 222, ey: 165 }, aponta: { x: 262, y: 40, r: -8, ex: 225, ey: 255 } };
-  const keys = ['lid', 'px', 'py', 'bi', 'bo', 'smile', 'rot', 'asym', 'green', 'sweat'];
-  function stateAt(t) {
+  // [início, humor, mão, aceno] de cada narrador
+  const TLS = {
+    w1: [[0, 'lado'], [1.0, 'enfado'], [1.8, 'arregalada'], [3.0, 'seria'], [4.5, 'arregalada', 'testa'], [7.0, 'estresse', 'testa'],
+      [8.2, 'nojo'], [10.2, 'nojo'], [11.4, 'ouch'], [13.0, 'brava'], [13.8, 'brava', 'aponta'], [15.0, 'brava', null, 1],
+      [16.8, 'estresse'], [19.4, 'estresse', 'testa'], [21.6, 'confusa'], [22.4, 'enfado'], [24.9, 'nojo'], [27.7, 'brava', 'aponta'],
+      [29.6, 'brava', null, 1]],
+    w2: [[30.8, 'seria'], [33.9, 'sorriso'], [35.6, 'leve'], [38.6, 'arregalada'], [40.4, 'nojo'],
+      [42.1, 'arregalada', 'testa'], [44.6, 'pensativa', 'queixo'], [48.8, 'sorriso'], [52.3, 'arregalada'], [53.95, 'ouch', 'testa'],
+      [55.0, 'seria', null, 1]],
+    h: [[57.3, 'risada'], [58.8, 'risada', 'barriga'], [61.2, 'risada', 'testa'], [66.2, 'risada'], [67.4, 'risada', 'aponta'],
+      [69.5, 'risada', 'barriga'], [74.0, 'risada', 'testa'], [79.0, 'risada', 'barriga'], [84.3, 'risada'], [86.9, 'risada', 'aponta'],
+      [89.2, 'risada', 'barriga']],
+  };
+  const HAND = { none: { x: 165, y: 400, r: 0, ex: 165, ey: 330 }, queixo: { x: 42, y: 152, r: -12, ex: 178, ey: 345 }, testa: { x: 112, y: -58, r: -28, ex: 222, ey: 165 },
+    aponta: { x: 262, y: 40, r: -8, ex: 225, ey: 255 }, barriga: { x: 20, y: 330, r: 80, ex: 210, ey: 400 } };
+  const keys = ['lid', 'px', 'py', 'bi', 'bo', 'smile', 'rot', 'asym', 'green', 'sweat', 'laugh'];
+  function stateAt(TL, t) {
     let i = 0;
     while (i + 1 < TL.length && TL[i + 1][0] <= t) i++;
     const cur = TL[i], prev = TL[Math.max(0, i - 1)];
@@ -405,7 +436,7 @@ window.CENAS = function (WB) {
     const h0 = HAND[prev[2] || 'none'], h1 = HAND[cur[2] || 'none'], hu = i === 0 ? 1 : ease(clamp((t - cur[0]) / 0.4));
     s.hand = { x: lerp(h0.x, h1.x, hu), y: lerp(h0.y, h1.y, hu), r: lerp(h0.r, h1.r, hu), ex: lerp(h0.ex, h1.ex, hu), ey: lerp(h0.ey, h1.ey, hu) };
     s.point = (prev[2] === 'aponta' ? 1 - hu : 0) + (cur[2] === 'aponta' ? hu : 0);
-    s.handOn = (prev[2] ? 1 - hu : 0) + (cur[2] ? hu : 0);
+    s.handOn = (i === 0 && !cur[2]) ? 0 : (prev[2] ? 1 - hu : 0) + (cur[2] ? hu : 0);
     s.nod = cur[3] ? Math.abs(Math.sin((t - cur[0]) * 7)) * 10 * clamp((t - cur[0]) / 0.2) : 0;
     return s;
   }
@@ -420,50 +451,71 @@ window.CENAS = function (WB) {
   document.getElementById('hand').style.display = 'none';
   // tremidas de susto: [início, duração]
   const JOLTS = [[4.64, 0.6], [7.24, 0.5], [13.86, 0.4], [28.08, 0.6], [42.26, 0.6], [53.98, 0.8], [87.98, 0.7]];
+  const SLIDE = 0.45;
   WB.effect((t) => {
-    const s = stateAt(t);
-    const op = t < FRIEND_T0 ? clamp(envAt(t) * 1.15) : 0, talk = op > 0.05 ? 1 : 0;
-    const lid = Math.max(s.lid, blink(t));
-    girl.eyes.forEach((e, i) => {
-      const px = e.ex + s.px, py = 8 + s.py;
-      e.pupil.setAttribute('cx', px.toFixed(1)); e.pupil.setAttribute('cy', py.toFixed(1));
-      const h = lid * 32, yl = -10 + h;
-      e.lid.setAttribute('height', h.toFixed(1));
-      e.lidLine.setAttribute('d', lid > 0.06 ? `M ${e.ex - 24} ${yl.toFixed(1)} Q ${e.ex} ${(yl + 3).toFixed(1)} ${e.ex + 24} ${yl.toFixed(1)}` : '');
-      const side = i === 0 ? -1 : 1, bi = s.bi + (i === 1 ? s.asym * 14 : 0);
-      const ox = e.ex + side * 26, ix = e.ex - side * 24, oy = -24 + s.bo, iy = -26 + bi;
-      e.brow.setAttribute('d', `M ${ox} ${oy.toFixed(1)} Q ${e.ex} ${(Math.min(oy, iy) - 7).toFixed(1)} ${ix} ${iy.toFixed(1)}`);
-    });
-    const sm = s.smile;
-    if (op < 0.06) {
-      girl.mouth.setAttribute('fill', 'none');
-      girl.mouth.setAttribute('d', `M -26 74 Q 0 ${(74 + sm * 1.6).toFixed(1)} 26 74`);
-    } else {
-      const rx = 26 - 4 * op, top = 74 - 4 - 6 * op + Math.max(0, sm) * 0.3, bot = 74 + 6 + 30 * op + Math.max(0, sm) * 0.6;
-      girl.mouth.setAttribute('fill', MOUTH);
-      girl.mouth.setAttribute('d', `M ${-rx} 74 Q 0 ${(2 * top - 74).toFixed(1)} ${rx} 74 Q 0 ${(2 * bot - 74).toFixed(1)} ${-rx} 74 Z`);
-    }
-    girl.green.setAttribute('opacity', s.green.toFixed(2));
-    girl.sweat.setAttribute('opacity', s.sweat.toFixed(2));
-    girl.sweat.setAttribute('transform', `translate(0 ${((t * 30) % 40).toFixed(1)})`);
-    const rot = s.rot + talk * 1.8 * Math.sin(t * 6.5);
-    const dy = s.nod + talk * 2 * Math.sin(t * 11);
-    const tr = `translate(0 ${dy.toFixed(1)}) rotate(${rot.toFixed(2)} 0 100)`;
-    girl.headG.setAttribute('transform', tr); girl.backG.setAttribute('transform', tr);
-    let sx = 0, sy = 0;
-    for (const [j0, jd] of JOLTS) if (t > j0 && t < j0 + jd) { const f = 1 - (t - j0) / jd; sx += Math.sin(t * 70) * 10 * f; sy -= Math.abs(Math.sin(t * 20)) * 14 * f; }
-    girl.root.setAttribute('transform', `translate(${(540 + sx).toFixed(1)} ${(1300 + sy).toFixed(1)})`);
-    if (s.handOn < 0.02) { girl.armG.setAttribute('opacity', 0); }
-    else {
-      const h = s.hand;
-      girl.armG.setAttribute('opacity', clamp(s.handOn * 2).toFixed(2));
-      const d = `M 140 245 L ${h.ex.toFixed(1)} ${h.ey.toFixed(1)} L ${h.x.toFixed(1)} ${(h.y + 22).toFixed(1)}`;
-      girl.armOut.setAttribute('d', d); girl.armIn.setAttribute('d', d);
-      girl.handG.setAttribute('transform', `translate(${h.x.toFixed(1)} ${h.y.toFixed(1)}) rotate(${h.r.toFixed(1)})`);
-      girl.finger.setAttribute('opacity', s.point.toFixed(2));
+    for (const ch of BUSTS) {
+      const [a, b] = ch.win;
+      if (t < a || t > b) { ch.root.setAttribute('opacity', 0); continue; }
+      // entra pela direita, sai pela esquerda
+      const din = a > 0 ? (1 - ease(clamp((t - a) / SLIDE))) * 760 : 0;
+      const dout = b < 95 ? -ease(clamp((t - (b - SLIDE)) / SLIDE)) * 760 : 0;
+      const s = stateAt(TLS[ch.id], t);
+      let op = clamp(envAt(t) * 1.15);
+      if (s.laugh > 0.5) op = Math.max(op, 0.3);
+      const talk = op > 0.05 ? 1 : 0;
+      const lid = Math.max(s.lid, blink(t));
+      ch.eyeG.setAttribute('opacity', (1 - s.laugh).toFixed(2));
+      ch.laughEyes.setAttribute('opacity', s.laugh.toFixed(2));
+      ch.eyes.forEach((e, i) => {
+        const px = e.ex + s.px, py = 8 + s.py;
+        e.pupil.setAttribute('cx', px.toFixed(1)); e.pupil.setAttribute('cy', py.toFixed(1));
+        const h = lid * 32, yl = -10 + h;
+        e.lid.setAttribute('height', h.toFixed(1));
+        e.lidLine.setAttribute('d', lid > 0.06 ? `M ${e.ex - 24} ${yl.toFixed(1)} Q ${e.ex} ${(yl + 3).toFixed(1)} ${e.ex + 24} ${yl.toFixed(1)}` : '');
+        const side = i === 0 ? -1 : 1, bi = s.bi + (i === 1 ? s.asym * 14 : 0);
+        const ox = e.ex + side * 26, ix = e.ex - side * 24, oy = -24 + s.bo, iy = -26 + bi;
+        e.brow.setAttribute('d', `M ${ox} ${oy.toFixed(1)} Q ${e.ex} ${(Math.min(oy, iy) - 7).toFixed(1)} ${ix} ${iy.toFixed(1)}`);
+      });
+      const sm = s.smile;
+      if (op < 0.06) {
+        ch.mouth.setAttribute('fill', 'none'); ch.teeth.setAttribute('d', '');
+        ch.mouth.setAttribute('d', `M -26 74 Q 0 ${(74 + sm * 1.6).toFixed(1)} 26 74`);
+      } else {
+        const big = 1 + s.laugh * 0.7;
+        const rx = (26 - 4 * op) * big, top = 74 - 4 - 6 * op + Math.max(0, sm) * 0.3, bot = 74 + 6 + 30 * op * big + Math.max(0, sm) * 0.6;
+        ch.mouth.setAttribute('fill', MOUTH);
+        ch.mouth.setAttribute('d', `M ${(-rx).toFixed(1)} 74 Q 0 ${(2 * top - 74).toFixed(1)} ${rx.toFixed(1)} 74 Q 0 ${(2 * bot - 74).toFixed(1)} ${(-rx).toFixed(1)} 74 Z`);
+        ch.teeth.setAttribute('d', s.laugh > 0.5 ? `M ${(-rx + 8).toFixed(1)} 76 Q 0 ${(2 * top - 70).toFixed(1)} ${(rx - 8).toFixed(1)} 76 L ${(rx - 12).toFixed(1)} 84 Q 0 86 ${(-rx + 12).toFixed(1)} 84 Z` : '');
+      }
+      ch.green.setAttribute('opacity', s.green.toFixed(2));
+      ch.sweat.setAttribute('opacity', s.sweat.toFixed(2));
+      ch.sweat.setAttribute('transform', `translate(0 ${((t * 30) % 40).toFixed(1)})`);
+      ch.tears.forEach((el, j) => {
+        const side = j % 2 ? 1 : -1, ph = ((t * 1.3 + j * 0.37) % 1);
+        el.setAttribute('transform', `translate(${(side * (66 + 50 * ph)).toFixed(1)} ${(10 + 120 * ph * ph).toFixed(1)})`);
+        el.setAttribute('opacity', (s.laugh * (1 - ph)).toFixed(2));
+      });
+      // cabeça: humor + fala; quem gargalha joga a cabeça pra trás e sacode
+      const rot = s.rot + talk * 1.8 * Math.sin(t * 6.5) + s.laugh * Math.sin(t * 10) * 6 * op;
+      const dy = s.nod + talk * 2 * Math.sin(t * 11) - s.laugh * Math.abs(Math.sin(t * 9)) * 12 * op;
+      const tr = `translate(0 ${dy.toFixed(1)}) rotate(${rot.toFixed(2)} 0 100)`;
+      ch.headG.setAttribute('transform', tr); ch.backG.setAttribute('transform', tr);
+      let sx = 0, sy = 0;
+      for (const [j0, jd] of JOLTS) if (t > j0 && t < j0 + jd) { const f = 1 - (t - j0) / jd; sx += Math.sin(t * 70) * 10 * f; sy -= Math.abs(Math.sin(t * 20)) * 14 * f; }
+      sy -= s.laugh * Math.abs(Math.sin(t * 9)) * 8 * op;
+      ch.root.setAttribute('opacity', 1);
+      ch.root.setAttribute('transform', `translate(${(540 + sx + din + dout).toFixed(1)} ${(1300 + sy).toFixed(1)})`);
+      if (s.handOn < 0.02) { ch.armG.setAttribute('opacity', 0); }
+      else {
+        const h = s.hand;
+        ch.armG.setAttribute('opacity', clamp(s.handOn * 2).toFixed(2));
+        const d = `M 140 245 L ${h.ex.toFixed(1)} ${h.ey.toFixed(1)} L ${h.x.toFixed(1)} ${(h.y + 22).toFixed(1)}`;
+        ch.armOut.setAttribute('d', d); ch.armIn.setAttribute('d', d);
+        ch.handG.setAttribute('transform', `translate(${h.x.toFixed(1)} ${h.y.toFixed(1)}) rotate(${h.r.toFixed(1)})`);
+        ch.finger.setAttribute('opacity', s.point.toFixed(2));
+      }
     }
   });
-
   // ================= CENAS =================
   // 1) "Ó Fernando, tu acredita que teve uns meninos aqui que..." (0–4,3)
   pg(0, 4.3);
@@ -670,42 +722,41 @@ window.CENAS = function (WB) {
     animate(g, 92.35, { loop: 'float' });
   }
 
-  // ---------------- amiga no celular (gravando áudio e morrendo de rir) ----------------
+  // ---------------- a vizinha no celular, de cara fechada, ouvindo o amigo rir ----------------
   const phone = (() => {
     const root = WB.mk('g', {}, WB.overlay);
     const inner = WB.mk('g', {}, root);
     const mk = (tag, a, p = inner) => WB.mk(tag, a, p);
     mk('rect', { x: -175, y: -310, width: 350, height: 620, rx: 44, fill: '#1f2937', stroke: INK.black, 'stroke-width': 7 });
-    mk('rect', { id: 'scrBg', x: -155, y: -268, width: 310, height: 540, rx: 18, fill: '#dcf8c6', stroke: INK.black, 'stroke-width': 4 });
+    mk('rect', { x: -155, y: -268, width: 310, height: 540, rx: 18, fill: '#dcf8c6', stroke: INK.black, 'stroke-width': 4 });
     const cp = mk('clipPath', { id: 'scrClip' });
     WB.mk('rect', { x: -155, y: -268, width: 310, height: 540, rx: 18 }, cp);
     mk('rect', { x: -40, y: -296, width: 80, height: 12, rx: 6, fill: '#4b5563' });
     const scr = mk('g', { 'clip-path': 'url(#scrClip)' });
-    const FS = '#e0a77e', FH = '#3b2416';
-    const bust = WB.mk('g', {}, scr);
-    WB.mk('path', { d: 'M -150 290 Q -140 150 -40 130 L 40 130 Q 140 150 150 290 Z', fill: '#a855f7', stroke: INK.black, 'stroke-width': 6 }, bust);
-    WB.mk('path', { d: 'M -24 80 L -22 140 L 22 140 L 24 80 Z', fill: FS, stroke: INK.black, 'stroke-width': 5 }, bust);
-    const head = WB.mk('g', {}, scr);
-    for (const [x, y, r] of [[-80, -70, 52], [-30, -100, 56], [30, -100, 56], [80, -70, 52], [-100, -10, 44], [100, -10, 44], [-92, 40, 36], [92, 40, 36]])
-      WB.mk('circle', { cx: x, cy: y, r, fill: FH, stroke: INK.black, 'stroke-width': 5 }, head);
-    WB.mk('ellipse', { cx: 0, cy: 10, rx: 86, ry: 98, fill: FS, stroke: INK.black, 'stroke-width': 6 }, head);
-    WB.mk('path', { d: 'M -86 -10 Q -80 -96 0 -94 Q 80 -96 86 -10 Q 50 -62 0 -58 Q -50 -62 -86 -10 Z', fill: FH, stroke: INK.black, 'stroke-width': 5 }, head);
-    WB.mk('circle', { cx: -86, cy: 52, r: 12, fill: '#facc15', stroke: INK.black, 'stroke-width': 4 }, head);
-    WB.mk('circle', { cx: 86, cy: 52, r: 12, fill: '#facc15', stroke: INK.black, 'stroke-width': 4 }, head);
-    WB.mk('path', { d: 'M -62 4 Q -40 -22 -16 4 M 16 4 Q 40 -22 62 4', fill: 'none', stroke: INK.black, 'stroke-width': 8, 'stroke-linecap': 'round' }, head);
-    WB.mk('path', { d: 'M -64 -30 Q -40 -48 -18 -36 M 18 -36 Q 40 -48 64 -30', fill: 'none', stroke: FH, 'stroke-width': 9, 'stroke-linecap': 'round' }, head);
-    WB.mk('ellipse', { cx: -56, cy: 34, rx: 18, ry: 10, fill: '#f472b6', opacity: 0.6 }, head);
-    WB.mk('ellipse', { cx: 56, cy: 34, rx: 18, ry: 10, fill: '#f472b6', opacity: 0.6 }, head);
-    WB.mk('path', { d: 'M -4 18 Q -12 34 0 38 Q 8 38 10 34', fill: 'none', stroke: '#7a4f30', 'stroke-width': 5, 'stroke-linecap': 'round' }, head);
-    const mouth = WB.mk('path', { d: '', fill: MOUTH, stroke: INK.black, 'stroke-width': 5, 'stroke-linejoin': 'round' }, head);
-    const teeth = WB.mk('path', { d: '', fill: '#ffffff', stroke: 'none' }, head);
-    const tears = [0, 1, 2, 3].map(() => WB.mk('path', { d: 'M 0 -14 Q -11 4 0 8 Q 11 4 0 -14 Z', fill: '#60a5fa', stroke: '#1d4ed8', 'stroke-width': 3 }, head));
-    // barra "gravando áudio"
+    const g = WB.mk('g', { transform: 'translate(0 10) scale(0.82)' }, scr);
+    const p = build([curls(W2_CURLS, W2_HAIR),
+      { d: 'M -28 90 L -26 185 L 26 185 L 28 90 Z', fill: W2_SKIN, w: 6 },
+      { d: 'M -190 430 Q -185 215 -60 180 Q 0 200 60 180 Q 185 215 190 430 Z', fill: '#facc15', w: 7 },
+      { d: 'M -58 182 Q 0 250 58 182 Z', fill: W2_SKIN, w: 6 },
+      { d: ellipse(-98, 12, 15, 24), fill: W2_SKIN, w: 5 }, { d: ellipse(98, 12, 15, 24), fill: W2_SKIN, w: 5 },
+      { d: ellipse(0, 0, 100, 118), fill: W2_SKIN, w: 7 },
+      { d: ellipse(-38, 8, 21, 15), fill: '#ffffff', w: 5 }, { d: ellipse(38, 8, 21, 15), fill: '#ffffff', w: 5 },
+      { d: 'M -4 26 Q -14 46 0 50 Q 9 51 12 46', w: 5, c: '#5a3a22' },
+      { d: 'M -100 -10 Q -98 -122 0 -126 Q 98 -122 100 -10 Q 84 -66 50 -58 Q 28 -92 0 -70 Q -28 -92 -50 -58 Q -84 -66 -100 -10 Z', fill: W2_HAIR, w: 6 },
+      circ(-104, 52, 16, null, '#f59e0b', 7), circ(104, 52, 16, null, '#f59e0b', 7),
+      { d: 'M -64 -22 L -14 -14 M 14 -14 L 64 -22', c: W2_HAIR, w: 10 },
+      { d: 'M -28 82 Q 0 74 28 84', w: 6 },
+    ], g);
+    WB.showNow(p.strokes); p.fills.forEach(f => f.el.setAttribute('fill-opacity', 1));
+    const pupils = [-38, 38].map(ex => WB.mk('circle', { cx: ex, cy: 10, r: 9, fill: '#1f1410' }, g));
+    // pálpebra caída (cara de "tá rindo de quê?")
+    WB.mk('path', { d: 'M -60 -6 L -16 -6 L -16 6 Q -38 9 -60 6 Z M 16 -6 L 60 -6 L 60 6 Q 38 9 16 6 Z', fill: W2_SKIN, stroke: 'none' }, g);
+    WB.mk('path', { d: 'M -60 6 Q -38 9 -16 6 M 16 6 Q 38 9 60 6', fill: 'none', stroke: INK.black, 'stroke-width': 5, 'stroke-linecap': 'round' }, g);
+    const sweat = WB.mk('path', { d: 'M 86 -70 q -14 24 0 36 q 14 -12 0 -36 Z', fill: '#93c5fd', stroke: INK.black, 'stroke-width': 4 }, g);
     const bar = WB.mk('g', {}, inner);
     WB.mk('rect', { x: -140, y: 196, width: 280, height: 60, rx: 30, fill: '#ffffff', stroke: INK.black, 'stroke-width': 4 }, bar);
-    const dot = WB.mk('circle', { cx: -108, cy: 226, r: 12, fill: '#ef4444' }, bar);
-    WB.showNow(WB.textStrokes('gravando...', 10, 240, 40, INK.black, bar, 'middle').strokes);
-    return { root, inner, head, mouth, teeth, tears, dot };
+    WB.showNow(WB.textStrokes('ouvindo...', 0, 240, 40, INK.black, bar, 'middle').strokes);
+    return { root, pupils, sweat };
   })();
   const LEFT = { x: 300, y: 660, s: 1 }, MID = { x: 540, y: 680, s: 1.05 };
   const POS = [[FRIEND_T0, LEFT], [61.2, MID], [66.2, LEFT], [69.5, MID], [84.3, LEFT], [89.2, MID]];
@@ -714,24 +765,13 @@ window.CENAS = function (WB) {
     let i = 0;
     while (i + 1 < POS.length && POS[i + 1][0] <= t) i++;
     const a = POS[Math.max(0, i - 1)][1], b = POS[i][1], u = i === 0 ? 1 : ease(clamp((t - POS[i][0]) / 0.45));
-    const op = envAt(t), tt = t - FRIEND_T0;
+    const tt = t - FRIEND_T0;
     const k = backOut(clamp(tt / 0.45)) * lerp(a.s, b.s, u);
-    const x = lerp(a.x, b.x, u) + Math.sin(t * 31) * 4 * op, y = lerp(a.y, b.y, u) + Math.sin(t * 23) * 3 * op;
     phone.root.setAttribute('opacity', (clamp(tt / 0.15) * (1 - clamp((t - FRIEND_T1) / 0.25))).toFixed(3));
-    phone.root.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${k.toFixed(3)}) rotate(${(Math.sin(t * 13) * 2.5 * op).toFixed(2)})`);
-    // cabeça jogada pra trás de tanto rir
-    const hr = Math.sin(t * 10) * 7 * op - 4, hy = -Math.abs(Math.sin(t * 9)) * 12 * op;
-    phone.head.setAttribute('transform', `translate(0 ${hy.toFixed(1)}) rotate(${hr.toFixed(2)} 0 120)`);
-    const open = Math.max(0.3, clamp(op * 1.2));
-    const bot = 52 + 18 + 62 * open;
-    phone.mouth.setAttribute('d', `M -44 52 Q 0 46 44 52 Q 0 ${(2 * bot - 52).toFixed(1)} -44 52 Z`);
-    phone.teeth.setAttribute('d', `M -38 54 Q 0 49 38 54 L 34 ${(54 + 8 + 4 * open).toFixed(1)} Q 0 ${(60 + 4 * open).toFixed(1)} -34 ${(54 + 8 + 4 * open).toFixed(1)} Z`);
-    phone.tears.forEach((el, j) => {
-      const side = j % 2 ? 1 : -1, ph = ((t * 1.3 + j * 0.37) % 1);
-      const tx = side * (66 + 46 * ph), ty = 6 + 110 * ph * ph;
-      el.setAttribute('transform', `translate(${tx.toFixed(1)} ${ty.toFixed(1)})`);
-      el.setAttribute('opacity', (1 - ph).toFixed(2));
-    });
-    phone.dot.setAttribute('opacity', Math.sin(t * 6) > 0 ? 1 : 0.25);
+    phone.root.setAttribute('transform', `translate(${lerp(a.x, b.x, u).toFixed(1)} ${lerp(a.y, b.y, u).toFixed(1)}) scale(${k.toFixed(3)})`);
+    // revira o olho de vez em quando
+    const up = Math.max(0, Math.sin(t * 0.9)) > 0.6 ? -7 : 2, side = Math.sin(t * 0.5) * 6;
+    phone.pupils.forEach((pp, j) => { pp.setAttribute('cx', ((j ? 38 : -38) + side).toFixed(1)); pp.setAttribute('cy', (10 + up).toFixed(1)); });
+    phone.sweat.setAttribute('transform', `translate(0 ${((t * 25) % 36).toFixed(1)})`);
   });
 };
