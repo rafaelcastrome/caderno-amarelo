@@ -344,8 +344,8 @@ window.CENAS = function (WB) {
     const mouth = WB.mk('path', { d: '', fill: MOUTH, stroke: INK.black, 'stroke-width': 5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, dyn);
     const nose = WB.mk('circle', { cx: 2, cy: 40, r: 20, fill: '#e3262f', stroke: INK.black, 'stroke-width': 4, opacity: 0 }, dyn);
     // braço + mão (só no formato B)
-    const armOut = WB.mk('path', { d: '', fill: 'none', stroke: INK.black, 'stroke-width': 56, 'stroke-linecap': 'round' }, armG);
-    const armIn = WB.mk('path', { d: '', fill: 'none', stroke: SKIN, 'stroke-width': 44, 'stroke-linecap': 'round' }, armG);
+    const armOut = WB.mk('path', { d: '', fill: 'none', stroke: INK.black, 'stroke-width': 56, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, armG);
+    const armIn = WB.mk('path', { d: '', fill: 'none', stroke: SKIN, 'stroke-width': 44, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, armG);
     const handG = WB.mk('g', {}, armG);
     const finger = WB.mk('path', { d: 'M 20 -16 Q 80 -30 108 -24 Q 118 -12 106 -4 Q 70 -2 28 8 Z', fill: SKIN, stroke: INK.black, 'stroke-width': 5, opacity: 0 }, handG);
     WB.mk('path', { d: 'M -36 30 Q -46 -16 -26 -46 Q 0 -62 26 -46 Q 46 -16 36 30 Q 0 48 -36 30 Z', fill: SKIN, stroke: INK.black, 'stroke-width': 5 }, handG);
@@ -377,7 +377,8 @@ window.CENAS = function (WB) {
     [66.5, 'seria'], [68.33, 'confusa'], [71.53, 'confusa', 'testa'], [74.67, 'sorriso'],
   ];
   const TL = A ? [[0, 'leve']] : TIMELINE_B;
-  const HAND = { none: { x: 175, y: 600, r: 0 }, queixo: { x: 42, y: 152, r: -12 }, testa: { x: 112, y: -58, r: -28 }, aponta: { x: 262, y: 40, r: -8 } };
+  // mão (x, y, r) e cotovelo (ex, ey); o braço sai do ombro direito (140, 245)
+  const HAND = { none: { x: 165, y: 400, r: 0, ex: 165, ey: 330 }, queixo: { x: 42, y: 152, r: -12, ex: 178, ey: 345 }, testa: { x: 112, y: -58, r: -28, ex: 222, ey: 165 }, aponta: { x: 262, y: 40, r: -8, ex: 225, ey: 255 } };
   const keys = ['lid', 'px', 'py', 'bi', 'bo', 'smile', 'rot', 'asym'];
   function stateAt(t) {
     let i = 0;
@@ -387,7 +388,7 @@ window.CENAS = function (WB) {
     const m0 = MOODS[prev[1]], m1 = MOODS[cur[1]], s = {};
     for (const k of keys) s[k] = lerp(m0[k] || 0, m1[k] || 0, u);
     const h0 = HAND[prev[2] || 'none'], h1 = HAND[cur[2] || 'none'], hu = i === 0 ? 1 : ease(clamp((t - cur[0]) / 0.4));
-    s.hand = { x: lerp(h0.x, h1.x, hu), y: lerp(h0.y, h1.y, hu), r: lerp(h0.r, h1.r, hu) };
+    s.hand = { x: lerp(h0.x, h1.x, hu), y: lerp(h0.y, h1.y, hu), r: lerp(h0.r, h1.r, hu), ex: lerp(h0.ex, h1.ex, hu), ey: lerp(h0.ey, h1.ey, hu) };
     s.point = (prev[2] === 'aponta' ? 1 - hu : 0) + (cur[2] === 'aponta' ? hu : 0);
     s.handOn = (prev[2] ? 1 - hu : 0) + (cur[2] ? hu : 0);
     s.nod = cur[3] ? Math.abs(Math.sin((t - cur[0]) * 7)) * 10 * clamp((t - cur[0]) / 0.2) : 0;
@@ -438,9 +439,9 @@ window.CENAS = function (WB) {
     // braço
     if (A || s.handOn < 0.02) { girl.armG.setAttribute('opacity', 0); }
     else {
-      const h = s.hand, ex = 185, ey = 660;
+      const h = s.hand;
       girl.armG.setAttribute('opacity', clamp(s.handOn * 2).toFixed(2));
-      const d = `M ${ex} ${ey} Q ${((ex + h.x) / 2 + 70).toFixed(1)} ${((ey + h.y) / 2 + 30).toFixed(1)} ${h.x.toFixed(1)} ${(h.y + 22).toFixed(1)}`;
+      const d = `M 140 245 L ${h.ex.toFixed(1)} ${h.ey.toFixed(1)} L ${h.x.toFixed(1)} ${(h.y + 22).toFixed(1)}`;
       girl.armOut.setAttribute('d', d); girl.armIn.setAttribute('d', d);
       girl.handG.setAttribute('transform', `translate(${h.x.toFixed(1)} ${h.y.toFixed(1)}) rotate(${h.r.toFixed(1)})`);
       girl.finger.setAttribute('opacity', s.point.toFixed(2));

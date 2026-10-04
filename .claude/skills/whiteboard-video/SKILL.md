@@ -1,6 +1,6 @@
 ---
 name: whiteboard-video
-description: Cria e renderiza vídeos explicativos verticais (1080x1920, 30 fps, .mp4) no estilo whiteboard / "papel e caneta", com uma mão desenhando em tempo real sobre papel quadriculado, texto manuscrito e narração em português brasileiro, prontos para TikTok, Reels e Shorts. Use esta skill sempre que o usuário pedir um vídeo explicativo, animação de quadro branco, vídeo "desenhado à mão", vídeo para TikTok/Reels/Shorts que explique um conceito, conta, regra ou notícia, ou disser algo como "faz um vídeo daquele tipo/no mesmo estilo/sobre um tema", mesmo sem citar "whiteboard". Também entrega legenda de postagem e dica de música. Se o usuário pedir vídeo "animado"/desenho animado (em vez de desenhado), use a skill cartoon-animado.
+description: Cria e renderiza vídeos explicativos verticais (1080x1920, 30 fps, .mp4) no estilo whiteboard / "papel e caneta", com uma mão desenhando em tempo real sobre papel quadriculado, texto manuscrito e narração em português brasileiro, prontos para TikTok, Reels e Shorts. Use esta skill sempre que o usuário pedir um vídeo explicativo, animação de quadro branco, vídeo "desenhado à mão", vídeo para TikTok/Reels/Shorts que explique um conceito, conta, regra ou notícia, ou disser algo como "faz um vídeo daquele tipo/no mesmo estilo/sobre um tema", mesmo sem citar "whiteboard". Também entrega legenda de postagem e dica de música. Também faz a versão "animada" (personagem já desenhado no caderno, com expressões e boca sincronizada), que é o padrão quando o usuário pede vídeo animado ou meme animado.
 ---
 
 # Vídeo whiteboard (papel e caneta)
@@ -77,3 +77,7 @@ Extraia 2–3 quadros (`ffmpeg -ss <t> -i <nome>.mp4 -frames:v 1 q.png`) e olhe.
 - **Mudou fala/texto narrado** → rode `gerar_audio.py` de novo (as cenas se reajustam sozinhas) e renderize.
 - **Mudou só o visual** → edite `cenas.js`, gere prévias e renderize. Não precisa regerar áudio.
 - **Trocou a voz** → `projeto.json` → `voz` (`kokoro`: `pm_alex`, `pm_santa`, `pf_dora`; `edge`: qualquer voz pt-BR do edge-tts) ou `gerar_audio.py --motor kokoro|edge|espeak`.
+
+## Versão "animada" (padrão para memes e pedidos de vídeo animado)
+O Rafael prefere este formato ao estilo esquete da skill `cartoon-animado`. Mesmo papel quadriculado, mas sem mão: a personagem (busto, embaixo) já aparece desenhada, mexe a boca no tempo de cada palavra, pisca e muda de expressão; os objetos de cada cena entram com "pop" e se mexem. Exemplo completo: `videos/meme_quem_luta_sou_eu/animado/cenas.js` (`projeto.json` → `"modo": "B"`; o mesmo arquivo com `"modo": "A"` gera a versão desenhada na hora). O braço da personagem sempre sai do ombro (cotovelo + mão por pose), nunca da borda de baixo do quadro.
+

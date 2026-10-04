@@ -1,11 +1,11 @@
 ---
 name: cartoon-animado
-description: Cria vídeos verticais (1080x1920, 30 fps) no estilo DESENHO ANIMADO 2D de esquete de TikTok — personagens de corpo inteiro com contorno preto, olhos grandes, pernas de palito e chinelo, cenários chapados (sala, banheiro, rua, quintal, noite), caixa de título vermelha no topo e legenda preta embaixo, com boca sincronizada e expressões. Use sempre que o usuário pedir vídeo "animado", "desenho animado", "em vez de desenhado", esquete/cartoon, ou recriar um meme/áudio com personagens animados. Para vídeo "desenhado" (mão desenhando no caderno) use a skill whiteboard-video.
+description: Cria vídeos verticais (1080x1920, 30 fps) no estilo DESENHO ANIMADO 2D de esquete de TikTok — personagens de corpo inteiro com contorno preto, olhos grandes, pernas de palito e chinelo, cenários chapados (sala, banheiro, rua, quintal, noite), caixa de título vermelha no topo e legenda preta embaixo, com boca sincronizada e expressões. Use só quando o usuário pedir explicitamente o estilo esquete/cartoon 2D da referência (caixa vermelha de título, personagens de corpo inteiro). Para vídeo "animado" ou meme animado o padrão é a versão animada da skill whiteboard-video, que o Rafael preferiu.
 ---
 
 # Desenho animado (estilo esquete de TikTok)
 
-Referência visual escolhida pelo Rafael (vídeo "quando a namorada quer mandar no cara igual mãe"): desenho 2D chapado, sem textura de papel e sem mão desenhando. **Quando ele pedir vídeo "animado", é este estilo; "desenhado" é a skill `whiteboard-video`.**
+Referência visual enviada pelo Rafael (vídeo "quando a namorada quer mandar no cara igual mãe"): desenho 2D chapado, sem textura de papel e sem mão desenhando. **Ao ver o meme nesse estilo ele preferiu a versão animada do caderno (skill `whiteboard-video`); use esta skill só quando ele pedir este estilo.**
 
 O que define o estilo (não fuja disso):
 - **Caixa de título fixa no topo**: fundo creme, borda e texto vermelho-escuro, MAIÚSCULAS, 2–3 linhas, no formato de meme "QUANDO ... :". Fica o vídeo inteiro.
