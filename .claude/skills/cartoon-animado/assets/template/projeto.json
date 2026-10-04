@@ -1,0 +1,6 @@
+{
+  "titulo": "Nome do vídeo",
+  "titulo_caixa": ["QUANDO ALGUÉM", "FAZ TAL COISA", "IGUAL TAL OUTRA:"],
+  "marca": { "handle": "caderno_amarelo", "nome": "Caderno Amarelo" },
+  "marcaDagua": true
+}

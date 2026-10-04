@@ -1,6 +1,6 @@
 ---
 name: whiteboard-video
-description: Cria e renderiza vídeos explicativos verticais (1080x1920, 30 fps, .mp4) no estilo whiteboard / "papel e caneta", com uma mão desenhando em tempo real sobre papel quadriculado, texto manuscrito e narração em português brasileiro, prontos para TikTok, Reels e Shorts. Use esta skill sempre que o usuário pedir um vídeo explicativo, animação de quadro branco, vídeo "desenhado à mão", vídeo para TikTok/Reels/Shorts que explique um conceito, conta, regra ou notícia, ou disser algo como "faz um vídeo daquele tipo/no mesmo estilo/sobre um tema", mesmo sem citar "whiteboard". Também entrega legenda de postagem e dica de música.
+description: Cria e renderiza vídeos explicativos verticais (1080x1920, 30 fps, .mp4) no estilo whiteboard / "papel e caneta", com uma mão desenhando em tempo real sobre papel quadriculado, texto manuscrito e narração em português brasileiro, prontos para TikTok, Reels e Shorts. Use esta skill sempre que o usuário pedir um vídeo explicativo, animação de quadro branco, vídeo "desenhado à mão", vídeo para TikTok/Reels/Shorts que explique um conceito, conta, regra ou notícia, ou disser algo como "faz um vídeo daquele tipo/no mesmo estilo/sobre um tema", mesmo sem citar "whiteboard". Também entrega legenda de postagem e dica de música. Se o usuário pedir vídeo "animado"/desenho animado (em vez de desenhado), use a skill cartoon-animado.
 ---
 
 # Vídeo whiteboard (papel e caneta)
