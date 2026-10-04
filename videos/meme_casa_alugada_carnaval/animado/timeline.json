@@ -1,0 +1,150 @@
+{
+ "total": 95.0,
+ "motor_tts": "audio original do meme (sem TTS)",
+ "cenas": [
+  {
+   "n": 1,
+   "start": 0,
+   "end": 4.3,
+   "fala": "Ó Fernando, tu acredita que teve uns meninos aqui que"
+  },
+  {
+   "n": 2,
+   "start": 4.3,
+   "end": 8.1,
+   "fala": "cagaram a sala, o sofá, cagaram,"
+  },
+  {
+   "n": 3,
+   "start": 8.1,
+   "end": 10.2,
+   "fala": "fizeram cocô no banheiro,"
+  },
+  {
+   "n": 4,
+   "start": 10.2,
+   "end": 13.0,
+   "fala": "limparam a bunda com a toalha, com a camisa de outro..."
+  },
+  {
+   "n": 5,
+   "start": 13.0,
+   "end": 16.8,
+   "fala": "Rapaz, isso não é justo, essa bagaceira que fizeram aqui em casa,"
+  },
+  {
+   "n": 6,
+   "start": 16.8,
+   "end": 22.3,
+   "fala": "a sala tá toda cagada, o sofá, entendeu?"
+  },
+  {
+   "n": 7,
+   "start": 22.3,
+   "end": 24.9,
+   "fala": "Tivemos que lavar o banheiro, a camisa,"
+  },
+  {
+   "n": 8,
+   "start": 24.9,
+   "end": 27.7,
+   "fala": "tivemos que jogar fora a toalha, jogar fora."
+  },
+  {
+   "n": 9,
+   "start": 27.7,
+   "end": 30.8,
+   "fala": "Tudo cagado! Isso não é justo não."
+  },
+  {
+   "n": 10,
+   "start": 30.8,
+   "end": 35.6,
+   "fala": "Uma vez também aconteceu aqui na minha rua, foi ano retrasado, no Carnaval,"
+  },
+  {
+   "n": 11,
+   "start": 35.6,
+   "end": 38.5,
+   "fala": "o pessoal alugou a casa,"
+  },
+  {
+   "n": 12,
+   "start": 38.5,
+   "end": 42.0,
+   "fala": "aí cagaram num bocado de sacola"
+  },
+  {
+   "n": 13,
+   "start": 42.0,
+   "end": 45.0,
+   "fala": "e botaram no congelador."
+  },
+  {
+   "n": 14,
+   "start": 45.0,
+   "end": 48.8,
+   "fala": "Quando a mulher foi pegar a casa..."
+  },
+  {
+   "n": 15,
+   "start": 48.8,
+   "end": 52.3,
+   "fala": "ela pensou que era carne."
+  },
+  {
+   "n": 16,
+   "start": 52.3,
+   "end": 55.0,
+   "fala": "Quando foi ver, era um tolete de bosta dura!"
+  },
+  {
+   "n": 17,
+   "start": 55.0,
+   "end": 57.3,
+   "fala": "Ela nunca mais quis alugar a casa."
+  },
+  {
+   "n": 18,
+   "start": 57.3,
+   "end": 61.2,
+   "fala": "(a amiga) Mas... filho de rapariga, Deus! Tem que ser muito porco..."
+  },
+  {
+   "n": 19,
+   "start": 61.2,
+   "end": 66.2,
+   "fala": "(gargalhada)"
+  },
+  {
+   "n": 20,
+   "start": 66.2,
+   "end": 69.5,
+   "fala": "Tem que ser muito porco, véi, filho de rapariga..."
+  },
+  {
+   "n": 21,
+   "start": 69.5,
+   "end": 84.3,
+   "fala": "(gargalhada sem fim)"
+  },
+  {
+   "n": 22,
+   "start": 84.3,
+   "end": 89.2,
+   "fala": "A mulher descongelando a bosta!"
+  },
+  {
+   "n": 23,
+   "start": 89.2,
+   "end": 92.2,
+   "fala": "(gargalhada)"
+  },
+  {
+   "n": 24,
+   "start": 92.2,
+   "end": 95.0,
+   "fala": "(fim / chamada para seguir)"
+  }
+ ]
+}
