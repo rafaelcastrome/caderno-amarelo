@@ -33,7 +33,12 @@ Bio (3 linhas):
 
 ## Linha editorial
 
-Curiosidades e assuntos do dia a dia, leves e com humor. Política só em datas pontuais, como o vídeo da eleição. No Instagram, conteúdo político não é recomendado por padrão para quem não segue a conta, então esses posts pontuais vão alcançar mais no TikTok.
+Dois pilares, sempre com a marca do caderno ("no papel", "no caderno", ✏️):
+
+1. **Curiosidades no papel:** assuntos do dia a dia, leves e com humor, com a conta feita no caderno, o post-it do final e fontes no comentário fixado.
+2. **Memes redesenhados no caderno:** áudios virais redesenhados cena por cena. O humor pode ser mais escrachado que nas curiosidades, mas sem atacar pessoas reais.
+
+Política só em datas pontuais, como o vídeo da eleição. No Instagram, conteúdo político não é recomendado por padrão para quem não segue a conta, então esses posts pontuais vão alcançar mais no TikTok.
 
 Ideias de primeiros vídeos:
 - Por que a fila do lado sempre anda mais rápido?
@@ -42,6 +47,15 @@ Ideias de primeiros vídeos:
 - Quanto tempo da vida você passa no banheiro, no trânsito ou no celular?
 - Se você guardasse R$ 1 por dia desde que nasceu, quanto teria hoje?
 - Quantas vezes dá pra dobrar uma folha de papel ao meio?
+
+## Regras das legendas
+
+- Toda legenda (TikTok e Instagram, principal e variação) termina com `#cadernoamarelo`. Sem `#fyp`/`#foryou`.
+- Memes: nomear o @ de quem criou o áudio na legenda e no comentário fixado. Postar a versão sem som e usar o áudio da biblioteca do app; a versão com som serve só para conferir o sincronismo.
+- Números e estudos citados precisam de fonte no comentário fixado; se for suposição, dizer que é suposição ("vamos supor…").
+- Saúde, dieta e dinheiro: aviso "não é recomendação" visível na legenda das duas redes, e nenhum CTA que trate o vídeo como orientação.
+- Vídeos com a mão desenhando: creditar "Mão: Twemoji (CC-BY 4.0)" junto das fontes.
+- Mesmo nas versões em desenho animado, falar em "caderno" ou "papel", nunca só "desenho animado".
 
 ## Primeiros passos
 
