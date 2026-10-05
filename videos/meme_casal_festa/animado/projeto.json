@@ -1,0 +1,76 @@
+{
+ "titulo": "Meme: o casal, a festa às 3 da manhã e o helicóptero",
+ "modo": "B",
+ "marca": {
+  "handle": "caderno_amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": true,
+ "audio": "Áudio original do meme (animação original de @camillailustra). Transcrição com Whisper small local conferida com a legenda embutida; quem fala em cada trecho separado pelo tom de voz (homem ~130–240 Hz, mulher ~260–450 Hz) e conferido nos quadros do vídeo original.",
+ "cenas": [
+  {
+   "fala": "Tu vai pra onde?",
+   "voz": "Ela"
+  },
+  {
+   "fala": "Vou pra uma festa.",
+   "voz": "Ele"
+  },
+  {
+   "fala": "Feeeesta?",
+   "voz": "Ela"
+  },
+  {
+   "fala": "É... em outra cidade.",
+   "voz": "Ele"
+  },
+  {
+   "fala": "Uma hora dessa? Tá ficando doido, é?",
+   "voz": "Ela"
+  },
+  {
+   "fala": "Os meninos tá vindo aí.",
+   "voz": "Ele"
+  },
+  {
+   "fala": "Que meninooo?",
+   "voz": "Ela"
+  },
+  {
+   "fala": "Os meninos, meus amigos, tá vindo aí, tudo de helicóptero, vai pousar no terreno do lado.",
+   "voz": "Ele"
+  },
+  {
+   "fala": "Tá ficando doido? Tás sonhando, é?",
+   "voz": "Ela"
+  },
+  {
+   "fala": "Quem tá ficando doida é tu!",
+   "voz": "Ele"
+  },
+  {
+   "fala": "Escuridão dessa, rapaz, três horas da manhã...",
+   "voz": "Ele"
+  },
+  {
+   "fala": "Vou no banheiro.",
+   "voz": "Ele"
+  },
+  {
+   "fala": "Doida!",
+   "voz": "Ele"
+  },
+  {
+   "fala": "Vai dormir!",
+   "voz": "Ele"
+  },
+  {
+   "fala": "Oxi.",
+   "voz": "Ele"
+  },
+  {
+   "fala": "(fim)",
+   "voz": ""
+  }
+ ]
+}
