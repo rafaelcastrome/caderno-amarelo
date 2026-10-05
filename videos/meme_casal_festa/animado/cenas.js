@@ -5,6 +5,13 @@
 // a boca de cada boneco só mexe dentro das janelas da sua própria voz (FALA_ELA / FALA_ELE).
 window.CENAS = function (WB) {
   const { INK, clamp, lerp, ease } = WB;
+  // Abertura sem fala (OFF s): ele deitado, acorda e pula da cama de pijama antes do "Tu vai pra onde?".
+  // Todos os tempos abaixo são do áudio original; o motor recebe o tempo do vídeo, deslocado aqui.
+  const OFF = 2.6;
+  const rawEffect = WB.effect;
+  WB.effect = fn => rawEffect(t => fn(t - OFF));
+  // ele: 0 = deitado, 1 = sentado na beirada
+  const sitU = t => ease(clamp((t + 1.5) / 0.7));
   const r1 = n => Math.round(n * 10) / 10;
   const MOUTH = '#6b1f2b';
   const ellipse = (cx, cy, rx, ry) => WB.arcPath(cx, cy, rx, ry, 0, Math.PI * 2, 48) + ' Z';
@@ -365,14 +372,15 @@ window.CENAS = function (WB) {
     pergunta: { el: [415, 1262], h: [470, 1190], r: -60 },
     aponta: { el: [420, 1250], h: [520, 1212], r: -12, pt: 1 },
     testa: { el: [415, 1232], h: [292, 1150], r: 180 },
+    dorme: { el: [372, 1312], h: [330, 1296], r: 0 },
   };
-  const TL_ELA = [[0, 'leve'], [0.4, 'confusa', 'pergunta'], [1.5, 'enfado'], [2.7, 'enfado'], [3.6, 'arregalada', 'pergunta'], [4.5, 'enfado'],
+  const TL_ELA = [[-9, 'sono', 'dorme'], [-0.6, 'arregalada'], [0, 'leve'], [0.4, 'confusa', 'pergunta'], [1.5, 'enfado'], [2.7, 'enfado'], [3.6, 'arregalada', 'pergunta'], [4.5, 'enfado'],
     [5.6, 'brava', 'pergunta'], [6.4, 'confusa', 'aponta'], [7.2, 'enfado'], [8.45, 'confusa', 'pergunta'], [9.3, 'enfado'], [10.9, 'revira'],
     [12.9, 'brava', 'aponta'], [13.85, 'revira', 'testa'], [14.8, 'arregalada'], [15.9, 'enfado'], [17.6, 'confusa'], [18.45, 'brava'],
     [19.25, 'enfado'], [19.6, 'sono']];
 
   // ---------------- ELE: sentado na beirada da cama, depois levanta ----------------
-  const M_SKIN = '#e8bf9a', M_HAIR = '#1f1410', M_SHIRT = '#16a34a', M_SHORTS = '#1d4ed8';
+  const M_SKIN = '#e8bf9a', M_HAIR = '#1f1410', M_SHIRT = '#60a5fa', M_SHORTS = '#60a5fa';   // pijama listrado
   const M_SC = 0.85;
   const eleRoot = WB.mk('g', {}, WB.overlay);
   const legsG = WB.mk('g', {}, eleRoot);
@@ -386,6 +394,8 @@ window.CENAS = function (WB) {
     { d: 'M -26 -250 L -24 -200 L 24 -200 L 26 -250 Z', fill: M_SKIN, w: 6 },
     { d: 'M -84 0 Q -96 -120 -98 -170 Q -96 -205 -60 -212 Q 0 -196 60 -212 Q 96 -205 98 -170 Q 96 -120 84 0 Z', fill: M_SHIRT, w: 7 },
     { d: 'M -40 -208 Q 0 -170 40 -208', w: 6 },
+    { d: 'M -60 -190 L -64 -10 M -20 -186 L -22 -10 M 30 -186 L 30 -10 M 70 -190 L 68 -10 M -60 -2 L -62 68 M -24 -2 L -24 62 M 30 -2 L 30 62 M 66 -2 L 68 68', c: '#ffffff', w: 9 },
+    circ(0, -150, 7, '#ffffff', null, 3), circ(0, -100, 7, '#ffffff', null, 3), circ(0, -50, 7, '#ffffff', null, 3),
   ], eleRoot));
   const armsG = WB.mk('g', {}, eleRoot);
   const eleArmL = makeArm(armsG, M_SKIN, M_SHIRT, 44, 32, 26);
@@ -396,6 +406,11 @@ window.CENAS = function (WB) {
     hair: [{ d: 'M -102 -10 Q -112 -132 -10 -138 Q 70 -150 104 -60 Q 110 -36 102 -10 Q 90 -70 50 -84 Q 60 -60 30 -70 Q 0 -80 -30 -66 Q -70 -76 -102 -10 Z', fill: M_HAIR, w: 6 }],
     extra: [{ d: 'M -46 60 Q -24 44 0 54 Q 24 44 46 60 Q 24 66 0 60 Q -24 66 -46 60 Z', fill: M_HAIR, w: 4 }],
   });
+  // touca de dormir: some quando o chapéu de festa aparece
+  const cap = WB.mk('g', {}, eleHead);
+  showAll(build([{ d: 'M -100 -70 Q -60 -150 20 -140 Q 110 -130 150 -40 Q 170 10 190 40 Q 120 -40 96 -70 Q 0 -100 -100 -70 Z', fill: '#60a5fa', w: 6 },
+    { d: 'M -104 -66 Q 0 -110 100 -66', c: '#ffffff', w: 14 }, circ(194, 48, 20, '#ffffff', null, 5)], cap));
+  WB.effect(t => cap.setAttribute('opacity', (1 - clamp((t - 2.55) / 0.12)).toFixed(3)));
   // chapéu de festa (aparece no "festa" e voa quando ele inventa que vai ao banheiro)
   const hat = WB.mk('g', {}, eleHead);
   showAll(build([{ d: 'M -50 -112 L 14 -250 L 62 -100 Z', fill: '#ec4899', w: 6 }, { d: 'M -30 -150 L 44 -146 M -14 -196 L 30 -194', c: '#facc15', w: 8 },
@@ -416,7 +431,7 @@ window.CENAS = function (WB) {
     ceu: { L: { el: [-128, -95], h: [-108, -12] }, R: { el: [175, -290], h: [200, -430], r: -90, pt: 1 } },
     coca: { L: { el: [-128, -95], h: [-108, -12] }, R: { el: [205, -265], h: [100, -430], r: -150 } },
   };
-  const TL_ELE = [[0, 'arregalada'], [1.9, 'sorriso', 'festa'], [3.6, 'sorriso'], [4.43, 'pensativa', 'explica'], [5.6, 'leve'],
+  const TL_ELE = [[-9, 'sono'], [-1.9, 'arregalada'], [-1.5, 'euforia'], [-0.6, 'arregalada'], [1.9, 'sorriso', 'festa'], [3.6, 'sorriso'], [4.43, 'pensativa', 'explica'], [5.6, 'leve'],
     [7.13, 'arregalada', 'explica'], [8.45, 'leve'], [9.25, 'sorriso', 'explica'], [10.85, 'euforia', 'ceu'], [11.9, 'euforia', 'festa'],
     [12.9, 'enfado'], [14.77, 'brava', 'aponta'], [15.85, 'pensativa', 'explica'], [16.9, 'estresse', 'coca'], [18.1, 'estresse'],
     [18.4, 'brava', 'aponta'], [19.8, 'enfado'], [20.3, 'confusa']];
@@ -448,7 +463,8 @@ window.CENAS = function (WB) {
       elaHead.setAttribute('transform', `translate(${r1(ELA.x + sx)} ${r1(ELA.y + sy - talk * 2 * Math.abs(Math.sin(t * 11)))}) rotate(${r1(rot)}) scale(${ELA.s})`);
       // máscara: testa (-82) → olhos (8)
       const mu = ease(clamp((t - 19.55) / 0.45));
-      mask.setAttribute('transform', `translate(0 ${r1(lerp(-84, 8, mu))})`);
+      const mup = ease(clamp((t + 0.75) / 0.35));   // começa nos olhos e ela levanta quando ele pula da cama
+      mask.setAttribute('transform', `translate(0 ${r1(lerp(lerp(8, -84, mup), 8, mu))})`);
       const P = poseLerp(ELA_POSE[s.pose0], ELA_POSE[s.pose1], s.pu);
       elaArm(ELA_SH, P.el, P.h, P.r, P.pt);
     }
@@ -460,10 +476,11 @@ window.CENAS = function (WB) {
       const pos = elePos(t);
       eleFace(t, s, op, -1);
       const [sx, sy] = jolt('ele', t);
-      const hipY = lerp(1380, 1328, pos.stand) - pos.walk * Math.abs(Math.sin(t * 16)) * 8;
+      const su = sitU(t);
+      const hipY = lerp(lerp(1330, 1380, su), 1328, pos.stand) - pos.walk * Math.abs(Math.sin(t * 16)) * 8;
       const fade = 1 - clamp((t - 20.75) / 0.35);
       eleRoot.setAttribute('opacity', fade.toFixed(3));
-      eleRoot.setAttribute('transform', `translate(${r1(pos.x + sx)} ${r1(hipY + sy)}) scale(${M_SC})`);
+      eleRoot.setAttribute('transform', `translate(${r1(lerp(740, pos.x, su) + sx)} ${r1(hipY + sy)}) rotate(${r1(lerp(-80, 0, su) + Math.sin(Math.PI * su) * -8)}) scale(${M_SC})`);
       const rot = s.rot + talk * 2 * Math.sin(t * 6.5) + (s.pose1 === 'festa' ? Math.sin(t * 9) * 5 : 0);
       eleHead.setAttribute('transform', `translate(0 ${r1(-340 + talk * 2 * Math.sin(t * 11))}) rotate(${r1(rot)} 0 100)`);
       // pernas: sentado (coxa encurtada, canela pendurada na frente do colchão) → em pé
@@ -471,8 +488,8 @@ window.CENAS = function (WB) {
         const side = i ? 1 : -1;
         const ph = Math.sin(t * 16 + i * Math.PI) * pos.walk;
         const hip = [side * 42, 40];
-        const knee = [side * lerp(62, 40, pos.stand) + ph * 14, lerp(58, 150, pos.stand)];
-        const foot = [side * lerp(52, 42, pos.stand) + ph * 30, lerp(215, 290, pos.stand) - Math.max(0, ph) * 18];
+        const knee = [side * lerp(lerp(50, 62, su), 40, pos.stand) + ph * 14, lerp(lerp(90, 58, su), 150, pos.stand)];
+        const foot = [side * lerp(lerp(30, 52, su), 42, pos.stand) + ph * 30, lerp(lerp(150, 215, su), 290, pos.stand) - Math.max(0, ph) * 18];
         const d = `M ${hip[0]} ${hip[1]} L ${r1(knee[0])} ${r1(knee[1])} L ${r1(foot[0])} ${r1(foot[1])}`;
         L.out.setAttribute('d', d); L.inn.setAttribute('d', d);
         L.shoe.setAttribute('d', ellipse(r1(foot[0] + side * 10), r1(foot[1] + 14), 34, 16));
@@ -484,14 +501,34 @@ window.CENAS = function (WB) {
       eleArmR(SH_R, pr.el, [pr.h[0] + wave, pr.h[1]], pr.r, pr.pt);
     }
   });
+  // coberta por cima dele deitado: é jogada pra longe quando ele pula da cama
+  const cover = WB.mk('g', {}, WB.overlay);
+  showAll(build([{ d: 'M 500 1300 Q 520 1236 600 1232 Q 720 1226 800 1236 Q 860 1240 872 1300 L 876 1420 Q 690 1436 500 1420 Z', fill: '#f4a6c4', w: 7 },
+    { d: 'M 506 1330 Q 690 1348 872 1330', c: '#ec4899', w: 6 }], cover));
+  WB.effect(t => {
+    const u = ease(clamp((t + 1.55) / 0.45));
+    cover.setAttribute('opacity', (1 - u).toFixed(3));
+    cover.setAttribute('transform', `translate(${r1(u * 260)} ${r1(-Math.sin(Math.PI * u) * 160)}) rotate(${r1(u * 25)} 690 1330)`);
+  });
+  // Zzz dele dormindo na abertura
+  [[-2.5, 'Z', 470, 1150, 56], [-2.15, 'z', 505, 1095, 46]].forEach(([bt, z, x, y, sz]) => {
+    const it = P(bt, T(z, x, y, sz, INK.blue), { parent: WB.overlay, loop: 'float' });
+    WB.effect(t => { if (t > -1.95) it.g.setAttribute('opacity', 0); });
+  });
   // Zzz dela no final
   [[20.7, 'Z', 320, 1120, 60], [21.4, 'z', 355, 1060, 50], [22.1, 'Z', 310, 1000, 64], [22.8, 'z', 350, 950, 48], [23.5, 'Z', 315, 900, 58]]
     .forEach(([bt, z, x, y, sz]) => P(bt, T(z, x, y, sz, INK.blue), { parent: WB.overlay, loop: 'rise' }));
 
   // ================= CENAS (desenhos de cada fala, em cima) =================
+  // 0) Abertura: 3h da manhã, ele acorda e pula da cama de pijama (−2,6–0)
+  pg(-2.6, 0);
+  P(-2.5, T('3h da manhã...', 540, 400, 96, INK.gray));
+  P(-2.3, [{ d: 'M 470 520 A 90 90 0 1 0 560 690 A 72 72 0 1 1 470 520 Z', fill: '#fde68a', c: '#facc15', w: 6 }, T('*', 640, 560, 60, '#facc15'), T('*', 400, 700, 46, '#facc15')], { loop: 'float' });
+  stamp(-1.9, '!!', 800, 640, 150, INK.red, 8, { loop: 'shake' });
+  P(-1.45, T('PULOU DA CAMA!', 540, 900, 90, INK.orange), { anim: 'slam', loop: 'wiggle' });
+
   // 1) ELA: "Tu vai pra onde?" (0–1,9)
   pg(0, 1.9);
-  P(0.05, T('3h da manhã...', 540, 330, 64, INK.gray));
   P(0.5, T('Tu vai pra onde??', 540, 470, 104, INK.purple), { anim: 'slam', loop: 'wiggle' });
   P(0.75, [{ d: 'M 540 560 L 540 930', c: '#8b5a2b', w: 18 },
     { d: 'M 380 600 L 680 600 L 720 650 L 680 700 L 380 700 Z', fill: '#fde68a', w: 7 }, T('festa?', 540, 672, 56, INK.black),

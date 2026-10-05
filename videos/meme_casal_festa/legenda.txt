@@ -4,7 +4,9 @@ MEME "O CASAL, A FESTA ÀS 3 DA MANHÃ E O HELICÓPTERO" — versão Caderno Ama
 COMO POSTAR (versão sem som)
 - Suba o arquivo animado_sem_som.mp4.
 - No TikTok: abra o vídeo original (animação de @camillailustra) > toque no disco girando > "Usar este som".
-  Deixe o som em 100% e comece o áudio no 0:00 (o desenho foi sincronizado a partir do início).
+  Deixe o som em 100%. ATENÇÃO: o vídeo tem 2,6 s de abertura sem fala (ele pulando da cama),
+  então a primeira fala ("Tu vai pra onde?") entra em 0:03. O som da biblioteca começa junto com o vídeo,
+  então confira se o editor deixa atrasar o som; se não deixar, ele fica 2,6 s adiantado.
 - No Instagram: "Adicionar áudio" > procure o mesmo som.
 - A versão animado_com_audio_previa.mp4 serve só para conferir o sincronismo.
 

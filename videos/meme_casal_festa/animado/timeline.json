@@ -1,116 +1,123 @@
 {
- "total": 24.6,
+ "total": 27.2,
  "motor_tts": "audio original do meme (sem TTS)",
  "cenas": [
   {
    "n": 1,
    "start": 0,
-   "end": 1.9,
+   "end": 2.6,
+   "fala": "(abertura sem fala: ele acorda e pula da cama de pijama)",
+   "voz": ""
+  },
+  {
+   "n": 2,
+   "start": 2.6,
+   "end": 4.5,
    "fala": "Tu vai pra onde?",
    "voz": "Ela"
   },
   {
-   "n": 2,
-   "start": 1.9,
-   "end": 3.6,
+   "n": 3,
+   "start": 4.5,
+   "end": 6.2,
    "fala": "Vou pra uma festa.",
    "voz": "Ele"
   },
   {
-   "n": 3,
-   "start": 3.6,
-   "end": 4.43,
+   "n": 4,
+   "start": 6.2,
+   "end": 7.03,
    "fala": "Feeeesta?",
    "voz": "Ela"
   },
   {
-   "n": 4,
-   "start": 4.43,
-   "end": 5.58,
+   "n": 5,
+   "start": 7.03,
+   "end": 8.18,
    "fala": "É... em outra cidade.",
    "voz": "Ele"
   },
   {
-   "n": 5,
-   "start": 5.58,
-   "end": 7.13,
+   "n": 6,
+   "start": 8.18,
+   "end": 9.73,
    "fala": "Uma hora dessa? Tá ficando doido, é?",
    "voz": "Ela"
   },
   {
-   "n": 6,
-   "start": 7.13,
-   "end": 8.45,
+   "n": 7,
+   "start": 9.73,
+   "end": 11.05,
    "fala": "Os meninos tá vindo aí.",
    "voz": "Ele"
   },
   {
-   "n": 7,
-   "start": 8.45,
-   "end": 9.23,
+   "n": 8,
+   "start": 11.05,
+   "end": 11.83,
    "fala": "Que meninooo?",
    "voz": "Ela"
   },
   {
-   "n": 8,
-   "start": 9.23,
-   "end": 12.9,
+   "n": 9,
+   "start": 11.83,
+   "end": 15.5,
    "fala": "Os meninos, meus amigos, tá vindo aí, tudo de helicóptero, vai pousar no terreno do lado.",
    "voz": "Ele"
   },
   {
-   "n": 9,
-   "start": 12.9,
-   "end": 14.77,
+   "n": 10,
+   "start": 15.5,
+   "end": 17.37,
    "fala": "Tá ficando doido? Tás sonhando, é?",
    "voz": "Ela"
   },
   {
-   "n": 10,
-   "start": 14.77,
-   "end": 15.85,
+   "n": 11,
+   "start": 17.37,
+   "end": 18.45,
    "fala": "Quem tá ficando doida é tu!",
    "voz": "Ele"
   },
   {
-   "n": 11,
-   "start": 15.85,
-   "end": 17.55,
+   "n": 12,
+   "start": 18.45,
+   "end": 20.15,
    "fala": "Escuridão dessa, rapaz, três horas da manhã...",
    "voz": "Ele"
   },
   {
-   "n": 12,
-   "start": 17.55,
-   "end": 18.4,
+   "n": 13,
+   "start": 20.15,
+   "end": 21.0,
    "fala": "Vou no banheiro.",
    "voz": "Ele"
   },
   {
-   "n": 13,
-   "start": 18.4,
-   "end": 19.2,
+   "n": 14,
+   "start": 21.0,
+   "end": 21.8,
    "fala": "Doida!",
    "voz": "Ele"
   },
   {
-   "n": 14,
-   "start": 19.2,
-   "end": 20.3,
+   "n": 15,
+   "start": 21.8,
+   "end": 22.9,
    "fala": "Vai dormir!",
    "voz": "Ele"
   },
   {
-   "n": 15,
-   "start": 20.3,
-   "end": 21.0,
+   "n": 16,
+   "start": 22.9,
+   "end": 23.6,
    "fala": "Oxi.",
    "voz": "Ele"
   },
   {
-   "n": 16,
-   "start": 21.0,
-   "end": 24.6,
+   "n": 17,
+   "start": 23.6,
+   "end": 27.2,
    "fala": "(fim)",
    "voz": ""
   }
