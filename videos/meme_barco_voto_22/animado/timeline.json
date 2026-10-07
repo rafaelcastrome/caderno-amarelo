@@ -1,0 +1,102 @@
+{
+ "total": 93.75,
+ "motor_tts": "audio original do meme (sem TTS)",
+ "cenas": [
+  {
+   "n": 1,
+   "start": 0,
+   "end": 4.0,
+   "fala": "Bom dia, bom dia, bom dia, bom dia,"
+  },
+  {
+   "n": 2,
+   "start": 4.0,
+   "end": 10.6,
+   "fala": "bom dia, galera do voto 22."
+  },
+  {
+   "n": 3,
+   "start": 10.6,
+   "end": 15.6,
+   "fala": "Eu fico triste porque eu estou dentro do barco, né? Eu estou dentro desse barco aí."
+  },
+  {
+   "n": 4,
+   "start": 15.6,
+   "end": 18.5,
+   "fala": "E esse barco aí, meu irmãozinho,"
+  },
+  {
+   "n": 5,
+   "start": 18.5,
+   "end": 24.0,
+   "fala": "a probabilidade dele ir afundar... é de afundar,"
+  },
+  {
+   "n": 6,
+   "start": 24.0,
+   "end": 29.1,
+   "fala": "bem, bem, bem grande, viu? Bem grande, bem grande."
+  },
+  {
+   "n": 7,
+   "start": 29.1,
+   "end": 35.0,
+   "fala": "Tá aí, os ricão já estão comemorando, já. A Bolsa, já tá todo mundo comemorando,"
+  },
+  {
+   "n": 8,
+   "start": 35.0,
+   "end": 41.5,
+   "fala": "o dólar já tá baixando, né? Os juros estão baixando também, quer dizer,"
+  },
+  {
+   "n": 9,
+   "start": 41.5,
+   "end": 51.7,
+   "fala": "os banqueiros já estão comemorando, já estão muito satisfatórios o resultado, né? O resultado pra eles é muito satisfatório."
+  },
+  {
+   "n": 10,
+   "start": 51.7,
+   "end": 59.3,
+   "fala": "Será que essa satisfação também vem pro outro lado? O pobre, o lado do pobre, tá?"
+  },
+  {
+   "n": 11,
+   "start": 59.3,
+   "end": 69.5,
+   "fala": "Mas vamos lá, Bolsonaro! Vamos lá, vamos lá, vamos pra cima, vamos pra cima. Deus, pátria e família. Vamos lá, vamos ver."
+  },
+  {
+   "n": 12,
+   "start": 69.5,
+   "end": 76.3,
+   "fala": "Eu queria que ele ganhasse, eu tô torcendo pra que ele ganhe. Apesar de eu estar dentro desse barco, eu tô torcendo pra que ele ganhe."
+  },
+  {
+   "n": 13,
+   "start": 76.3,
+   "end": 83.3,
+   "fala": "Tá certo? Aí vocês vão ver o que é realmente o bolsonarismo, tá certo?"
+  },
+  {
+   "n": 14,
+   "start": 83.3,
+   "end": 86.6,
+   "fala": "Aí vocês vão sentir, beleza? Pura!"
+  },
+  {
+   "n": 15,
+   "start": 86.6,
+   "end": 90.8,
+   "fala": "Vamo pra cima, gente, vamo pra cima, vai dar certo, vai dar certo!"
+  },
+  {
+   "n": 16,
+   "start": 90.8,
+   "end": 93.75,
+   "fala": "(fim / chamada para seguir)"
+  }
+ ]
+}
