@@ -1,0 +1,54 @@
+{
+ "total": 25.8,
+ "motor_tts": "audio original do meme (sem TTS)",
+ "cenas": [
+  {
+   "n": 1,
+   "start": 0,
+   "end": 3.75,
+   "fala": "Boa tarde, família. Hoje eu não tô participando de nada,"
+  },
+  {
+   "n": 2,
+   "start": 3.75,
+   "end": 6.1,
+   "fala": "tive um entupimento."
+  },
+  {
+   "n": 3,
+   "start": 6.1,
+   "end": 12.2,
+   "fala": "Desde de manhã que eu pelejava com as hemorroidas, tudo desmantelado."
+  },
+  {
+   "n": 4,
+   "start": 12.2,
+   "end": 15.2,
+   "fala": "Tive, tive o menino agora quase meio-dia,"
+  },
+  {
+   "n": 5,
+   "start": 15.2,
+   "end": 17.7,
+   "fala": "chega, tô com câimbra nas pernas."
+  },
+  {
+   "n": 6,
+   "start": 17.7,
+   "end": 20.3,
+   "fala": "Pense num parto... (infeliz) isso!"
+  },
+  {
+   "n": 7,
+   "start": 20.3,
+   "end": 22.4,
+   "fala": "CREEEEDO!"
+  },
+  {
+   "n": 8,
+   "start": 22.4,
+   "end": 25.8,
+   "fala": "(fim / chamada para seguir)"
+  }
+ ]
+}

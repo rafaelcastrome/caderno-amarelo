@@ -1,0 +1,36 @@
+{
+ "titulo": "Meme: tive o menino (o tio no trono)",
+ "modo": "B",
+ "marca": {
+  "handle": "caderno_amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": true,
+ "audio": "Áudio de WhatsApp enviado pelo Rafael (25,6 s), usado inteiro de 1,8 s a 24,6 s, com 3 s de silêncio no fim. Transcrição com Whisper small local; boca pela energia do áudio.",
+ "cenas": [
+  {
+   "fala": "Boa tarde, família. Hoje eu não tô participando de nada,"
+  },
+  {
+   "fala": "tive um entupimento."
+  },
+  {
+   "fala": "Desde de manhã que eu pelejava com as hemorroidas, tudo desmantelado."
+  },
+  {
+   "fala": "Tive, tive o menino agora quase meio-dia,"
+  },
+  {
+   "fala": "chega, tô com câimbra nas pernas."
+  },
+  {
+   "fala": "Pense num parto... (infeliz) isso!"
+  },
+  {
+   "fala": "CREEEEDO!"
+  },
+  {
+   "fala": "(fim / chamada para seguir)"
+  }
+ ]
+}
