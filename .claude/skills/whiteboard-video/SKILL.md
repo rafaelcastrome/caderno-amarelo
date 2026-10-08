@@ -73,6 +73,16 @@ Extraia 2–3 quadros (`ffmpeg -ss <t> -i <nome>.mp4 -frames:v 1 q.png`) e olhe.
 - Entregue as **fontes** em formato curto, prontas para a legenda ou para um comentário fixado ("📚 Fontes: …"). Isso protege o perfil quando alguém questionar nos comentários.
 - Se estiver num repositório git e o usuário não tiver dito o contrário, faça o commit da pasta do vídeo (o `.gitignore` do projeto já exclui `frames/` e `preview/`).
 
+## Áudio dos memes (voz original)
+Memes redesenhados no caderno usam o áudio original do vídeo, sem TTS: corte o áudio antes da vinheta da rede (`ffmpeg -af "atrim=0:<fim>,afade=t=out:st=<fim-0.3>:d=0.3,apad=whole_dur=<total>"`) e deixe uns 3–4 s de sobra para a chamada final.
+- **Final com plateia rindo (padrão):** depois da última fala, mixe uma risada de plateia que cresce e some no fim do vídeo:
+  ```bash
+  python3 <skill>/scripts/risada_plateia.py --mix narration.mp3 --inicio <fim da última fala - 0,4> --fim <total> --out narration.mp3
+  ```
+  A risada é **sintetizada no próprio script** (vozes "ha-ha-ha" com tom e ritmo diferentes, burburinho e reverberação de sala), porque Wikimedia Commons e Freesound costumam estar bloqueados no sandbox e assim não entra som de terceiros. Precisa de `numpy` e `scipy` (`python3 -m pip install numpy scipy`). `--ganho` (padrão 1,2) controla o volume; a risada deve ficar uns 6–8 dB abaixo da média das falas (confira com `ffmpeg -af volumedetect`). `--seed` gera outra plateia. Sem `--mix`, `--out risada.wav --dur 5` gera só a risada.
+- Rode a mixagem **antes** de renderizar. Se o vídeo já estiver renderizado, troque só o áudio: `ffmpeg -i video.mp4 -i narration.mp3 -map 0:v -map 1:a -c:v copy -c:a aac -b:a 128k -shortest -movflags +faststart novo.mp4`.
+- **Entrega:** com a risada embutida, o vídeo é postado com o áudio dele (`animado_com_audio.mp4`, comprimido para menos de ~10 MB com `-crf 30–32`), sem versão muda; trocar pelo som da biblioteca apagaria a risada. Credite o @ do autor do áudio na legenda e no comentário fixado.
+
 ## Ajustes depois de pronto
 - **Mudou fala/texto narrado** → rode `gerar_audio.py` de novo (as cenas se reajustam sozinhas) e renderize.
 - **Mudou só o visual** → edite `cenas.js`, gere prévias e renderize. Não precisa regerar áudio.

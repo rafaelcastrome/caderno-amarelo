@@ -2,13 +2,10 @@ MEME "PESQUISA DE BOTECO" (esquerda ou direita, Vorcaro, 51) — versão Caderno
 ====================================================================================
 
 COMO POSTAR
-- O áudio é a voz original do vídeo de @mateuscidrao (série "Pesquisa Instituto Data Rolha"),
-  não é um som da biblioteca.
-- TikTok: suba animado_sem_som.mp4, abra o vídeo original de @mateuscidrao > toque no disco girando >
-  "Usar este som" (som original) e deixe em 100%. A primeira fala entra em 0:00, então o som já casa.
-  Se o som original não aparecer ou estiver bloqueado, poste animado_com_audio_previa.mp4 (com a voz embutida)
-  e mantenha o crédito na legenda e no comentário fixado.
-- Instagram: o som do TikTok não existe lá, então use animado_com_audio_previa.mp4 (voz embutida) com o crédito.
+- Poste animado_com_audio.mp4 nas duas redes, com o áudio embutido: a voz original do vídeo de
+  @mateuscidrao (série "Pesquisa Instituto Data Rolha") mais a plateia rindo no final, que foi
+  sintetizada aqui (não é som de terceiros). Não troque pelo som da biblioteca, senão a risada some.
+- Mantenha o crédito a @mateuscidrao na legenda e no comentário fixado.
 - Período eleitoral: o áudio cita Lula e os números 13 e 22. É a fala original e o tom é de humor,
   mas o app pode segurar o alcance de vídeo com tema político.
 
@@ -59,4 +56,4 @@ TEXTO DA CAPA
 "13 OU 22? NÃO... 51!"   (ou: "PESQUISA DE BOTECO")
 
 MÚSICA DE FUNDO
-Nenhuma: a conversa já é o vídeo.
+Nenhuma: a conversa já é o vídeo, e o final já tem a plateia rindo.
