@@ -6,9 +6,11 @@ Os bancos de sons livres (Wikimedia Commons, Freesound) costumam estar bloqueado
 com tremor) passando por formantes da vogal "a", com sopro de "h" no começo de cada sílaba. Juntam-se dezenas
 de pessoas com entradas espalhadas, posição estéreo diferente, um burburinho de fundo e uma reverberação de sala.
 
-Uso:
+Uso (padrão: risada gravada do meme da casa alugada, que o Rafael aprovou; a sintetizada soou "de filme maligno"):
+  python3 risada_plateia.py --mix narration.mp3 --inicio 69.9 --out narration.mp3 --arquivo <skill>/assets/risada_gargalhada.wav
+Outros usos:
   python3 risada_plateia.py --out risada.wav --dur 5 [--pessoas 32] [--seed 7]
-  python3 risada_plateia.py --mix narration.mp3 --inicio 69.6 --out narration.mp3 [--fim 73.8] [--ganho 1.2]
+  python3 risada_plateia.py --mix narration.mp3 --inicio 69.6 --out narration.mp3 [--fim 73.8] [--ganho 1.5]
      --mix:    áudio do vídeo; a risada entra em --inicio (s) e vai até --fim (padrão: fim do áudio),
                crescendo em ~0,6 s e sumindo nos últimos ~1,2 s. O resultado mantém a duração de --fim.
 Requer numpy, scipy e ffmpeg (python3 -m pip install numpy scipy).
@@ -95,6 +97,18 @@ def crowd(dur, pessoas=32, seed=7):
     return st / np.abs(st).max() * 0.9
 
 
+def load_audio(path, dur):
+    """Lê uma risada gravada (estéreo, 44,1 kHz), repete se for curta e corta na duração pedida."""
+    raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', path, '-vn', '-ac', '2', '-ar', str(SR), '-f', 's16le', '-'],
+                         capture_output=True, check=True).stdout
+    st = np.frombuffer(raw, dtype=np.int16).reshape(-1, 2).astype(float) / 32768
+    n = int(dur * SR)
+    if len(st) < n:
+        st = np.tile(st, (n // len(st) + 1, 1))
+    st = st[:n]
+    return st / (np.abs(st).max() + 1e-9) * 0.9
+
+
 def write_wav(path, st):
     d = (np.clip(st, -1, 1) * 32767).astype(np.int16)
     with wave.open(path, 'wb') as w:
@@ -110,14 +124,15 @@ def main():
     ap.add_argument('--mix')
     ap.add_argument('--inicio', type=float)
     ap.add_argument('--fim', type=float)
-    ap.add_argument('--ganho', type=float, default=1.2)
+    ap.add_argument('--ganho', type=float, default=1.5)
+    ap.add_argument('--arquivo', help='usa esta risada gravada (wav/mp3/mp4) em vez de sintetizar; a risada preferida do Rafael fica em assets/risada_gargalhada.wav')
     a = ap.parse_args()
     if not a.mix:
         write_wav(a.out, crowd(a.dur, a.pessoas, a.seed)); print('OK', a.out); return
     fim = a.fim or float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', a.mix],
                                         capture_output=True, text=True).stdout)
     dur = fim - a.inicio
-    st = crowd(dur, a.pessoas, a.seed)
+    st = load_audio(a.arquivo, dur) if a.arquivo else crowd(dur, a.pessoas, a.seed)
     tt = np.arange(len(st)) / SR
     env = np.minimum(1, tt / 0.6) * np.clip((dur - tt) / 1.2, 0, 1)
     st = st * env[:, None] * a.ganho

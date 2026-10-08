@@ -75,11 +75,12 @@ Extraia 2–3 quadros (`ffmpeg -ss <t> -i <nome>.mp4 -frames:v 1 q.png`) e olhe.
 
 ## Áudio dos memes (voz original)
 Memes redesenhados no caderno usam o áudio original do vídeo, sem TTS: corte o áudio antes da vinheta da rede (`ffmpeg -af "atrim=0:<fim>,afade=t=out:st=<fim-0.3>:d=0.3,apad=whole_dur=<total>"`) e deixe uns 3–4 s de sobra para a chamada final.
-- **Final com plateia rindo (padrão):** depois da última fala, mixe uma risada de plateia que cresce e some no fim do vídeo:
+- **Final com risada (padrão):** depois da última fala, mixe a gargalhada que o Rafael aprovou (gravada, tirada do áudio do meme da casa alugada no Carnaval, `assets/risada_gargalhada.wav`, 4,5 s), crescendo e sumindo no fim do vídeo:
   ```bash
-  python3 <skill>/scripts/risada_plateia.py --mix narration.mp3 --inicio <fim da última fala - 0,4> --fim <total> --out narration.mp3
+  python3 <skill>/scripts/risada_plateia.py --mix narration.mp3 --inicio <fim da última fala - 0,2> --fim <total> \
+      --arquivo <skill>/assets/risada_gargalhada.wav --out narration.mp3
   ```
-  A risada é **sintetizada no próprio script** (vozes "ha-ha-ha" com tom e ritmo diferentes, burburinho e reverberação de sala), porque Wikimedia Commons e Freesound costumam estar bloqueados no sandbox e assim não entra som de terceiros. Precisa de `numpy` e `scipy` (`python3 -m pip install numpy scipy`). `--ganho` (padrão 1,2) controla o volume; a risada deve ficar uns 6–8 dB abaixo da média das falas (confira com `ffmpeg -af volumedetect`). `--seed` gera outra plateia. Sem `--mix`, `--out risada.wav --dur 5` gera só a risada.
+  Se o trecho for mais longo que 4,5 s, o script repete a risada. `--ganho` (padrão 1,5) controla o volume; a risada deve ficar uns 5 dB abaixo da média das falas (confira com `ffmpeg -af volumedetect`). Sem `--arquivo` o script **sintetiza** uma plateia, mas o Rafael achou que ela soa "risada de filme maligno": use só se ele pedir outra risada e não houver gravação. Para trocar de risada, ponha outro arquivo em `assets/` (os bancos livres, como Wikimedia e Freesound, costumam estar bloqueados no sandbox). Precisa de `numpy` e `scipy`.
 - Rode a mixagem **antes** de renderizar. Se o vídeo já estiver renderizado, troque só o áudio: `ffmpeg -i video.mp4 -i narration.mp3 -map 0:v -map 1:a -c:v copy -c:a aac -b:a 128k -shortest -movflags +faststart novo.mp4`.
 - **Entrega:** com a risada embutida, o vídeo é postado com o áudio dele (`animado_com_audio.mp4`, comprimido para menos de ~10 MB com `-crf 30–32`), sem versão muda; trocar pelo som da biblioteca apagaria a risada. Credite o @ do autor do áudio na legenda e no comentário fixado.
 
