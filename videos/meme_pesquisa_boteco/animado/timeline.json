@@ -1,0 +1,153 @@
+{
+ "total": 73.8,
+ "motor_tts": "audio original do video (sem TTS)",
+ "cenas": [
+  {
+   "n": 1,
+   "start": 0.0,
+   "end": 3.0,
+   "fala": "O senhor tá mais pra esquerda ou mais pra direita?",
+   "voz": "Entrevistador"
+  },
+  {
+   "n": 2,
+   "start": 3.0,
+   "end": 5.0,
+   "fala": "Eu tô é... (resposta embolada)",
+   "voz": "Seu da latinha"
+  },
+  {
+   "n": 3,
+   "start": 5.0,
+   "end": 6.75,
+   "fala": "O que o senhor tá achando do Brasil hoje?",
+   "voz": "Entrevistador"
+  },
+  {
+   "n": 4,
+   "start": 6.75,
+   "end": 7.65,
+   "fala": "Pra mim tá tudo bem.",
+   "voz": "Seu de rosa"
+  },
+  {
+   "n": 5,
+   "start": 7.65,
+   "end": 9.7,
+   "fala": "E o senhor, meu querido, o que tá achando do Brasil hoje?",
+   "voz": "Entrevistador"
+  },
+  {
+   "n": 6,
+   "start": 9.7,
+   "end": 11.58,
+   "fala": "Tenho nem o que dizer, não.",
+   "voz": "Seu do boné"
+  },
+  {
+   "n": 7,
+   "start": 11.58,
+   "end": 15.08,
+   "fala": "Se o senhor tivesse aquele dinheiro que o Vorcaro tem, o que é que o senhor faria?",
+   "voz": "Entrevistador"
+  },
+  {
+   "n": 8,
+   "start": 15.08,
+   "end": 25.38,
+   "fala": "O cabaré é o gasto, meu filho! Eu gasto é hoje sem ter... Uma parte, sabe? Dava tudo! Dava tudo!",
+   "voz": "Seu do boné"
+  },
+  {
+   "n": 9,
+   "start": 25.38,
+   "end": 28.5,
+   "fala": "Sabe por quê? Porque ninguém votou.",
+   "voz": "Seu do boné"
+  },
+  {
+   "n": 10,
+   "start": 28.5,
+   "end": 31.2,
+   "fala": "(entrevistador comenta e ri)",
+   "voz": "Entrevistador"
+  },
+  {
+   "n": 11,
+   "start": 31.2,
+   "end": 34.7,
+   "fala": "Aí, deixa comigo! ... Eu vou!",
+   "voz": "Seu do boné"
+  },
+  {
+   "n": 12,
+   "start": 34.7,
+   "end": 37.0,
+   "fala": "O senhor prefere 13 ou 22?",
+   "voz": "Entrevistador"
+  },
+  {
+   "n": 13,
+   "start": 37.0,
+   "end": 44.1,
+   "fala": "Não... 51! O Lula é o melhor presidente que existe.",
+   "voz": "Seu sem camisa"
+  },
+  {
+   "n": 14,
+   "start": 44.1,
+   "end": 48.88,
+   "fala": "Todo presidente rouba. Quem é que não rouba nesse mundo? Eu!",
+   "voz": "Seu sem camisa"
+  },
+  {
+   "n": 15,
+   "start": 48.88,
+   "end": 53.35,
+   "fala": "E o caso agora do Daniel Vorcaro, que tava com uns 100 bilhões de reais?",
+   "voz": "Entrevistador"
+  },
+  {
+   "n": 16,
+   "start": 53.35,
+   "end": 56.24,
+   "fala": "Daniel quê? (Vorcaro) ... nem sei quem é!",
+   "voz": "Seu sem camisa"
+  },
+  {
+   "n": 17,
+   "start": 56.24,
+   "end": 60.25,
+   "fala": "Se o senhor tivesse com uns bilhões de reais que ele tem, qual era a primeira coisa que o senhor faria?",
+   "voz": "Entrevistador"
+  },
+  {
+   "n": 18,
+   "start": 60.25,
+   "end": 64.35,
+   "fala": "Jogar baralho e beber cachaça!",
+   "voz": "Seu sem camisa"
+  },
+  {
+   "n": 19,
+   "start": 64.35,
+   "end": 64.98,
+   "fala": "Tem véia?",
+   "voz": "Entrevistador"
+  },
+  {
+   "n": 20,
+   "start": 64.98,
+   "end": 70.3,
+   "fala": "Não, porque a bicha morreu, faz tempo. Morreu!",
+   "voz": "Seu sem camisa"
+  },
+  {
+   "n": 21,
+   "start": 70.3,
+   "end": 73.8,
+   "fala": "(fim: chamada para seguir)",
+   "voz": ""
+  }
+ ]
+}

@@ -1,0 +1,96 @@
+{
+ "titulo": "Meme: pesquisa de boteco com os velhinhos (esquerda ou direita, Vorcaro, 51)",
+ "modo": "B",
+ "marca": {
+  "handle": "caderno_amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": true,
+ "audio": "Áudio original do vídeo de @mateuscidrao (série 'Pesquisa Instituto Data Rolha'), cortado antes da vinheta final do TikTok. Transcrição com Whisper small local; quem fala em cada trecho conferido nos quadros do vídeo original (boca abrindo).",
+ "cenas": [
+  {
+   "fala": "O senhor tá mais pra esquerda ou mais pra direita?",
+   "voz": "Entrevistador"
+  },
+  {
+   "fala": "Eu tô é... (resposta embolada)",
+   "voz": "Seu da latinha"
+  },
+  {
+   "fala": "O que o senhor tá achando do Brasil hoje?",
+   "voz": "Entrevistador"
+  },
+  {
+   "fala": "Pra mim tá tudo bem.",
+   "voz": "Seu de rosa"
+  },
+  {
+   "fala": "E o senhor, meu querido, o que tá achando do Brasil hoje?",
+   "voz": "Entrevistador"
+  },
+  {
+   "fala": "Tenho nem o que dizer, não.",
+   "voz": "Seu do boné"
+  },
+  {
+   "fala": "Se o senhor tivesse aquele dinheiro que o Vorcaro tem, o que é que o senhor faria?",
+   "voz": "Entrevistador"
+  },
+  {
+   "fala": "O cabaré é o gasto, meu filho! Eu gasto é hoje sem ter... Uma parte, sabe? Dava tudo! Dava tudo!",
+   "voz": "Seu do boné"
+  },
+  {
+   "fala": "Sabe por quê? Porque ninguém votou.",
+   "voz": "Seu do boné"
+  },
+  {
+   "fala": "(entrevistador comenta e ri)",
+   "voz": "Entrevistador"
+  },
+  {
+   "fala": "Aí, deixa comigo! ... Eu vou!",
+   "voz": "Seu do boné"
+  },
+  {
+   "fala": "O senhor prefere 13 ou 22?",
+   "voz": "Entrevistador"
+  },
+  {
+   "fala": "Não... 51! O Lula é o melhor presidente que existe.",
+   "voz": "Seu sem camisa"
+  },
+  {
+   "fala": "Todo presidente rouba. Quem é que não rouba nesse mundo? Eu!",
+   "voz": "Seu sem camisa"
+  },
+  {
+   "fala": "E o caso agora do Daniel Vorcaro, que tava com uns 100 bilhões de reais?",
+   "voz": "Entrevistador"
+  },
+  {
+   "fala": "Daniel quê? (Vorcaro) ... nem sei quem é!",
+   "voz": "Seu sem camisa"
+  },
+  {
+   "fala": "Se o senhor tivesse com uns bilhões de reais que ele tem, qual era a primeira coisa que o senhor faria?",
+   "voz": "Entrevistador"
+  },
+  {
+   "fala": "Jogar baralho e beber cachaça!",
+   "voz": "Seu sem camisa"
+  },
+  {
+   "fala": "Tem véia?",
+   "voz": "Entrevistador"
+  },
+  {
+   "fala": "Não, porque a bicha morreu, faz tempo. Morreu!",
+   "voz": "Seu sem camisa"
+  },
+  {
+   "fala": "(fim: chamada para seguir)",
+   "voz": ""
+  }
+ ]
+}
