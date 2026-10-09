@@ -1,0 +1,54 @@
+{
+  "titulo": "Você já é um milagre",
+  "marca": {
+    "handle": "caderno_amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": true,
+  "pausaPadrao": 0.6,
+  "fontes": [
+    {
+      "fato": "A Terra se move a ~370 km/s (~1,3 milhão de km/h) em relação à radiação cósmica de fundo",
+      "fonte": "Planck Collaboration, 2018 (dipolo da CMB)",
+      "url": "https://arxiv.org/abs/1807.06205"
+    },
+    {
+      "fato": "80 anos ≈ 4.170 semanas ('4 mil semanas')",
+      "fonte": "conta: 80 × 52,18; ideia popularizada por Oliver Burkeman, 'Quatro Mil Semanas' (2021)",
+      "url": ""
+    }
+  ],
+  "cenas": [
+    {
+      "fala": "Você é um fantasma que pilota um esqueleto coberto de carne, que habita em uma rocha que viaja a mais de um milhão de quilômetros por hora pelo espaço infinito,"
+    },
+    {
+      "fala": "e você está preocupado com o que você vai postar."
+    },
+    {
+      "fala": "Todas as noites você sai do teu corpo, alucina por horas, esquece quase tudo, acorda como se nada tivesse acontecido."
+    },
+    {
+      "fala": "Faz isso todas as noites e chama de dormir, como se isso por si só já não fosse insano."
+    },
+    {
+      "fala": "Você é uma coleção de átomos que de alguma forma aprendeu a pensar sobre eles mesmos pensando."
+    },
+    {
+      "fala": "Sentir sentimentos sobre ter sentimentos, estar consciente que está consciente. Você entende quanto isso é complexo?"
+    },
+    {
+      "fala": "Você é um universo consciente, dobrado num corpo temporário, por aproximadamente 80, 90 anos."
+    },
+    {
+      "fala": "São 4 mil semanas, e algumas dessas semanas você vai gastar preocupado se o texto ficou muito bom, se sua voz está muito alta ou se aquele projeto realmente é o correto a se fazer."
+    },
+    {
+      "fala": "Você já é um milagre que nem a própria física pode explicar por inteiro."
+    },
+    {
+      "fala": "(chamada final: caderninho e @)"
+    }
+  ],
+  "audio_original": "@giacomo_ronsini (TikTok)"
+}

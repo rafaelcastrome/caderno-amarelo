@@ -1,0 +1,66 @@
+{
+  "total": 91.4,
+  "motor_tts": "voz original do vídeo (@giacomo_ronsini), separada da música com UVR-MDX-NET-Voc_FT",
+  "cenas": [
+    {
+      "cena": 1,
+      "start": 0,
+      "end": 12.2,
+      "fala": 12.2
+    },
+    {
+      "cena": 2,
+      "start": 12.2,
+      "end": 16.6,
+      "fala": 4.4
+    },
+    {
+      "cena": 3,
+      "start": 16.6,
+      "end": 26.3,
+      "fala": 9.7
+    },
+    {
+      "cena": 4,
+      "start": 26.3,
+      "end": 35.8,
+      "fala": 9.5
+    },
+    {
+      "cena": 5,
+      "start": 35.8,
+      "end": 43.7,
+      "fala": 7.9
+    },
+    {
+      "cena": 6,
+      "start": 43.7,
+      "end": 53.8,
+      "fala": 10.1
+    },
+    {
+      "cena": 7,
+      "start": 53.8,
+      "end": 62.9,
+      "fala": 9.1
+    },
+    {
+      "cena": 8,
+      "start": 62.9,
+      "end": 80.6,
+      "fala": 17.7
+    },
+    {
+      "cena": 9,
+      "start": 80.6,
+      "end": 86.4,
+      "fala": 5.8
+    },
+    {
+      "cena": 10,
+      "start": 86.4,
+      "end": 91.4,
+      "fala": 5.0
+    }
+  ]
+}
