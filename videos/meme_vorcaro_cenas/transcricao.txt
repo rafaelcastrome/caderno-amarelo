@@ -1,0 +1,2 @@
+Transcrição (Whisper small local, conferida com a legenda embutida no vídeo original). Uma voz só (ela).
+Linhas com o início em segundos estão em cenas/cenas.js → CAPS.

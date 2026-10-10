@@ -1,0 +1,8 @@
+{
+ "titulo": "Meme: as dúvidas pro Vorcaro (formato de cenas)",
+ "modo": "cenas",
+ "marca": { "handle": "caderno_amarelo", "nome": "Caderno Amarelo" },
+ "marcaDagua": true,
+ "audio": "Áudio original do meme enviado pelo Rafael (uma voz feminina mandando um áudio pro Vorcaro na cadeia). Transcrição com Whisper small local conferida com a legenda embutida no vídeo original. Risada de plateia (assets/risada_gargalhada.wav) mixada a partir de 109,6 s.",
+ "cenas": [ { "fala": "(áudio original completo, 0–109,9 s; ver legendas em cenas.js → CAPS)", "voz": "Ela" } ]
+}
