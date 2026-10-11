@@ -1,0 +1,8 @@
+{
+ "titulo": "Meme: gato vs cachorro (a dona chega em casa)",
+ "modo": "B",
+ "marca": { "handle": "caderno_amarelo", "nome": "Caderno Amarelo" },
+ "marcaDagua": true,
+ "audio": "Áudio original da animação de @rafaellatuma (uma voz faz a dona, o cachorro Bidu e o gato Bartolomeu). Falas tiradas da legenda embutida no vídeo original (Whisper alucinou no começo); quem fala em cada trecho foi conferido nos quadros do original. Risada de plateia (assets/risada_gargalhada.wav, ganho 0,5) a partir de 61,1 s.",
+ "cenas": [ { "fala": "(áudio original completo, 0–61,6 s; ver legendas em cenas.js → CAPS)", "voz": "Dona, Bidu e Bartolomeu" } ]
+}
