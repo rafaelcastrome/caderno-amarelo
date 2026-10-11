@@ -765,31 +765,80 @@ window.CENAS = function (WB) {
   // CENA 2 (6,0–9,55): andando juntos... e o leão morde a pata do veado
   // =====================================================================
   const S2 = [[6.0, 9.55]];
-  shot(S2);
+  const s2root = shot(S2);
+  // grupo com zoom próprio: a câmera dá um "punch-in" na mordida e depois volta
+  const zoom2 = WB.mk('g', {}, s2root);
+  cont = zoom2;
   put(savanna({ sunX: 230, sunY: 620, cx: 760, cy: 600, tree: [[960, 1180, 0.8]] }));
   const rab2 = [makeRabbit(cont), makeRabbit(cont)];
   const d2 = beast(DEER), l2 = beast(LION);
-  const D2X = K([[6.0, 420], [7.35, 690, 'l'], [7.55, 700, 'o']]), D2o = odo(D2X, 6.0, 9.6);
-  const L2X = K([[6.0, 100], [7.15, 330, 'l'], [7.45, 452, 'o']]), L2o = odo(L2X, 6.0, 9.6);
+  // cópia da canela do veado por cima do leão: a pata aparece atravessando a boca dele
+  const legOv = WB.mk('g', { opacity: 0 }, cont);
+  const legOvO = dyn(legOv, { 'stroke-width': DEER.legW + 11 }), legOvI = dyn(legOv, { stroke: DEER.legCol, 'stroke-width': DEER.legW });
+  const hoofOv = WB.mk('path', { d: '', fill: '#3f2a1c', stroke: BK, 'stroke-width': 5 }, legOv);
+  const fangs = WB.mk('g', { opacity: 0 }, cont);
+  const fangUp = WB.mk('path', { d: '', fill: '#ffffff', stroke: BK, 'stroke-width': 4, 'stroke-linejoin': 'round' }, fangs);
+  const fangDn = WB.mk('path', { d: '', fill: '#ffffff', stroke: BK, 'stroke-width': 4, 'stroke-linejoin': 'round' }, fangs);
+  const lipUp = dyn(fangs, { 'stroke-width': 7 }), lipDn = dyn(fangs, { 'stroke-width': 7 });
+  const D2X = K([[6.0, 420], [7.3, 680, 'l'], [7.45, 690, 'o']]), D2o = odo(D2X, 6.0, 9.6);
+  const L2X = K([[6.0, 120], [7.0, 330, 'l'], [7.3, 360, 'o']]), L2o = odo(L2X, 6.0, 9.6);
   const D2M = moodTrack(MOODS, [[6.0, 'sing'], [7.5, 'shock'], [8.0, 'pain']]);
-  const L2M = moodTrack(MOODS, [[6.0, 'sing'], [7.15, 'greedy'], [7.45, 'calm']]);
-  const BITE = t => clamp((t - 7.2) / 0.25);
+  const L2M = moodTrack(MOODS, [[6.0, 'sing'], [7.0, 'greedy'], [7.38, 'calm']]);
+  const LUNGE = K([[7.3, 0], [7.45, 1, 'o']]);
+  const ZOOM = K([[7.42, 1], [7.55, 1.9, 'b'], [8.85, 1.9], [9.25, 1.1, 'io']]);
   const R2X = [K([[6.0, 760], [7.4, 1000, 'l'], [8.2, 1250, 'l']]), K([[6.0, 600], [7.4, 820, 'l'], [8.4, 1250, 'l']])];
+  let BP = [600, 1380];
   WB.effect(t => {
     if (!inWin(S2, t)) return;
     R2X.forEach((X, i) => rab2[i](t, X(t), 1330 + i * 30, 0.5, 1, 0, 1));
     const bitten = t > 7.45;
-    const jit = bitten ? Math.sin(t * 40) * 3 : 0;
-    d2.update(t, Object.assign({ x: D2X(t) + jit, y: FL, s: DS, f: 1, mood: D2M(t), op: t < 7.45 ? talk(SING, t) * 0.9 : 0, headRot: t < 7.45 ? Math.sin(t * 3.2) * 9 : -10 + jit,
-      seed: 0.2, earFlap: bitten ? 1 : 0.3, sp: bitten ? -8 : 0, hop: bitten ? 18 * bump(t, 7.45, 7.75) : 0, neckRot: bitten ? 10 : 0 }, D2o(t)));
-    const b = BITE(t);
-    const chew = t > 7.6 ? Math.sin(t * 16) * 5 : 0;
-    l2.update(t, Object.assign({ x: L2X(t), y: FL, s: LS, f: 1, mood: L2M(t), op: t < 7.15 ? talk(SING, t) * 0.9 : 0, headRot: t < 7.15 ? Math.sin(t * 3.2 + 1) * 9 : 8 * b + chew,
-      seed: 1.3, sp: 10 * b, neckRot: 62 * b, run: b * 0.3 }, L2o(t)));
+    const jit = bitten && t < 8.9 ? Math.sin(t * 40) * 3 : 0;
+    const stD = Object.assign({ x: D2X(t) + jit, y: FL, s: DS, f: 1, mood: D2M(t), op: t < 7.45 ? talk(SING, t) * 0.9 : (t > 8.9 ? 0.5 + 0.3 * Math.sin(t * 20) : 0),
+      headRot: t < 7.45 ? Math.sin(t * 3.2) * 9 : -12 + jit, seed: 0.2, earFlap: bitten ? 1.4 : 0.3, sp: bitten ? -10 : 0,
+      hop: bitten ? 14 * bump(t, 7.45, 7.7) : 0, neckRot: bitten ? 12 : 0 }, D2o(t));
+    d2.update(t, stD);
+    // ponto da mordida: no meio da canela da pata de trás do veado
+    const k = d2.hindKneeW, e = d2.hindW;
+    const bp = [lerp(k[0], e[0], 0.62), lerp(k[1], e[1], 0.62)];
+    const lu = LUNGE(t);
+    const chew = t > 7.5 && t < 8.9 ? Math.sin(t * 16) * 6 : 0;
+    const eyeing = t > 7.0 && t < 7.3;
+    const stL = Object.assign({ x: L2X(t), y: FL, s: LS, f: 1, mood: L2M(t), op: t < 7.0 ? talk(SING, t) * 0.9 : (lu > 0.5 ? 0.55 : 0),
+      headRot: t < 7.0 ? Math.sin(t * 3.2 + 1) * 9 : 6 * lu + chew, seed: 1.3, sp: 12 * lu, neckRot: 60 * lu,
+      look: eyeing ? 9 : 0, lookY: eyeing ? 9 : 0, tongue: eyeing ? 0.6 + 0.4 * Math.sin(t * 14) : 0, drool: eyeing ? 1 : 0 }, L2o(t));
+    // duas passadas: mede onde fica a boca e desloca o leão até ela encostar na pata
+    l2.update(t, stL);
+    if (lu > 0) {
+      stL.x += (bp[0] - l2.mouthW[0]) * lu;
+      l2.update(t, stL);
+    }
+    BP = bp;
+    const on = bitten && t < 8.95;
+    fangs.setAttribute('opacity', on ? 1 : 0);
+    legOv.setAttribute('opacity', lu > 0.3 ? 1 : 0);
+    if (lu > 0.3) {
+      const ld = `M ${r1(k[0])} ${r1(k[1])} L ${r1(e[0])} ${r1(e[1])}`;
+      legOvO.setAttribute('d', ld); legOvI.setAttribute('d', ld);
+      hoofOv.setAttribute('d', `M ${r1(e[0] - 11)} ${r1(e[1] - 10)} L ${r1(e[0] + 11)} ${r1(e[1] - 10)} L ${r1(e[0] + 14)} ${r1(e[1] + 4)} L ${r1(e[0] - 12)} ${r1(e[1] + 4)} Z`);
+    }
+    if (on) {
+      const m = l2.mouthW, cx = bp[0], cy = Math.min(Math.max(m[1], k[1] + 10), e[1] - 10);
+      const gap = 20 + Math.abs(chew) * 1.2;
+      const row = (y, dir) => [-28, -9, 10].map(dx => `M ${r1(cx + dx)} ${r1(y)} l 9 ${r1(dir * 20)} l 9 ${r1(-dir * 20)} Z`).join(' ');
+      fangUp.setAttribute('d', row(cy - gap, 1)); fangDn.setAttribute('d', row(cy + gap, -1));
+      lipUp.setAttribute('d', `M ${r1(cx - 40)} ${r1(cy - gap)} Q ${r1(cx)} ${r1(cy - gap - 8)} ${r1(cx + 40)} ${r1(cy - gap)}`);
+      lipDn.setAttribute('d', `M ${r1(cx - 40)} ${r1(cy + gap)} Q ${r1(cx)} ${r1(cy + gap + 8)} ${r1(cx + 40)} ${r1(cy + gap)}`);
+    }
+    // câmera: zoom em volta da mordida
+    const z = ZOOM(t), fx = lerp(540, BP[0] - 40, clamp((z - 1) / 0.9)), fy = lerp(1200, BP[1] - 30, clamp((z - 1) / 0.9));
+    const shake = t > 7.45 && t < 7.75 ? Math.sin(t * 90) * 8 * (1 - (t - 7.45) / 0.3) : 0;
+    zoom2.setAttribute('transform', `translate(${r1(540 + shake)} 1200) scale(${z.toFixed(3)}) translate(${r1(-fx)} ${r1(-fy)})`);
   });
-  TX(7.5, 'NHAC!', 560, 1040, 110, INK.red, -8, { anim: 'slam', until: 8.4 });
-  TX(8.3, 'chomp chomp', 520, 1120, 64, '#7c2d12', 6, { loop: 'wiggle', until: 9.55 });
-  TX(7.6, '!!', 790, 860, 120, INK.red, 8, { anim: 'slam', loop: 'shake', until: 9.55 });
+  cont = s2root;
+  TX(7.05, 'hmm...', 300, 900, 64, '#b45309', -6, { loop: 'wiggle', until: 7.3 });
+  P(7.46, [burst(330, 760, 120, '#fef08a'), T('NHAC!', 330, 790, 92, INK.red)], { anim: 'slam', until: 8.3 });
+  TX(8.32, 'chomp chomp', 330, 820, 72, '#7c2d12', 4, { loop: 'wiggle', until: 8.9 });
+  TX(8.95, 'AAAI!', 760, 820, 110, INK.red, 8, { anim: 'slam', loop: 'shake', until: 9.55 });
 
   // =====================================================================
   // CENA 3 (9,55–16,6): "Que é isso, Leãonardo?" — a bronca (com balão do cruzeiro)
