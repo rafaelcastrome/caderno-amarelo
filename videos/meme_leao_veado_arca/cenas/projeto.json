@@ -1,0 +1,8 @@
+{
+ "titulo": "Meme: o leão e o veado saindo da Arca de Noé",
+ "modo": "B",
+ "marca": { "handle": "caderno_amarelo", "nome": "Caderno Amarelo" },
+ "marcaDagua": false,
+ "audio": "Áudio original da animação de @dalvarothi (leão e veado). Falas tiradas da legenda embutida no original; quem fala em cada trecho foi conferido nos quadros. Sem risada no final (pedido do Rafael). A marca d'água @caderno_amarelo é desenhada em cenas.js e passeia por quatro cantos seguros.",
+ "cenas": [ { "fala": "(áudio original completo, 0–60,76 s; ver legendas em cenas.js → CAPS)", "voz": "Leão e Veado" } ]
+}
