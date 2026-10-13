@@ -8,7 +8,7 @@
     { "fato": "Funcionalidades e preços do Gestôplay (R$ 69 por módulo; R$ 179/mês o completo, em promoção)", "fonte": "Informado pelo Rafael (Gestôplay), 13/10/2026", "url": "" }
   ],
   "cenas": [
-    { "fala": "Ô, dono de arena... me responde uma coisa: quantos sistemas você paga hoje? Um? Dois? Três?", "pausa": 0.5 },
+    { "fala": "Ou, dono de arena... me responde uma coisa: quantos sistemas você paga hoje? Um? Dois? Três?", "pausa": 0.5 },
     { "fala": "É um pra agenda de quadra... outro pro caixa... outro pra escolinha... e o cadastro do cliente? Tá lá, numa planilha que ninguém acha.", "pausa": 0.5 },
     { "fala": "Aí chega o fim do mês, e é boleto pra cá, senha pra lá... e nada conversa com nada. Cansa, né?", "pausa": 1.1 },
     { "fala": "Pois é! Acabei com isso contratando o Gestô Plêi!", "pausa": 0.5 },
