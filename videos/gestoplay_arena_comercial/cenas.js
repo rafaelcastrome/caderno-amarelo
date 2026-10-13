@@ -30,8 +30,8 @@ window.CENAS = function (WB) {
   WB.effect((t) => wm.setAttribute('opacity', (WB.clamp((t - 0.4) / 0.5) * (1 - WB.clamp((t - tEnd) / 0.5))).toFixed(3)));
 
   // ================= FOLHA 1: a dor =================
-  // CENA 1 (6,0 s): "Ô, dono de arena... quantos sistemas você paga hoje? Um? Dois? Três?"
-  const t1 = WB.write(1, 0.02, 0.24, 'Ô, dono de arena…', 540, 200, 100, NAVY, { anchor: 'middle' });
+  // CENA 1 (6,0 s): "Ou, dono de arena... quantos sistemas você paga hoje? Um? Dois? Três?"
+  const t1 = WB.write(1, 0.02, 0.24, 'Ou, dono de arena…', 540, 200, 100, NAVY, { anchor: 'middle' });
   WB.draw(1, 0.24, 0.28, C.underline(540 - t1.width / 2, 540 + t1.width / 2, 232, LIME));
   WB.draw(1, 0.29, 0.47, C.stickFigure(190, 380, { scale: 0.75 }));
   WB.writeLines(1, 0.48, 0.66, ['Quantos sistemas', 'você paga hoje?'], 640, 400, 70, INK.black, { anchor: 'middle', lineHeight: 84 });

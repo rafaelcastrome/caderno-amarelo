@@ -11,7 +11,7 @@ Motores de voz, nesta ordem (usa o primeiro que funcionar em TODAS as cenas):
   1. edge-tts      (voz neural da Microsoft, ex.: pt-BR-AntonioNeural; precisa de speech.platform.bing.com)
   2. Kokoro        (neural, offline, voz brasileira pm_alex/pf_dora; modelo baixado do GitHub, ~350 MB)
   3. eSpeak+MBROLA (sintética, último recurso)
-Force um motor com --motor edge|kokoro|espeak.
+Force um motor com --motor edge|kokoro|espeak, ou --motor pronto para usar audio/cenaN.mp3 já existentes.
 """
 import argparse
 import asyncio
@@ -46,6 +46,9 @@ class Edge:
         for ca in CA_BUNDLES:
             if os.path.exists(ca):
                 communicate._SSL_CTX.load_verify_locations(cafile=ca)
+        # Out/2026 a Microsoft desligou o endereço antigo (403); o novo é o que o Edge usa hoje (edge-tts PR #491).
+        communicate.WSS_URL = ("wss://api.msedgeservices.com/tts/cognitiveservices/websocket/v1"
+                               "?Ocp-Apim-Subscription-Key=" + edge_tts.constants.TRUSTED_CLIENT_TOKEN)
         self.edge_tts, self.voz, self.rate = edge_tts, voz.get("edge", "pt-BR-AntonioNeural"), voz.get("edgeRate", "+10%")
         self.nome = f"edge-tts ({self.voz})"
 
@@ -94,7 +97,19 @@ class Espeak:
         para_mp3(wav, mp3)
 
 
-MOTORES = {"edge": Edge, "kokoro": Kokoro, "espeak": Espeak}
+class Pronto:
+    """Usa audio/cenaN.mp3 já gravados em outro lugar (ex.: no computador do usuário) sem gerar nada."""
+    nome = "áudios prontos"
+
+    def __init__(self, voz):
+        pass
+
+    def gerar(self, texto, mp3):
+        if not os.path.exists(mp3):
+            raise FileNotFoundError(mp3)
+
+
+MOTORES = {"pronto": Pronto, "edge": Edge, "kokoro": Kokoro, "espeak": Espeak}
 
 
 def main():

@@ -1,72 +1,72 @@
 {
-  "total": 81.894,
-  "motor_tts": "kokoro (pm_alex, pt-BR)",
+  "total": 106.527,
+  "motor_tts": "áudios prontos",
   "cenas": [
     {
       "cena": 1,
       "start": 0.0,
-      "end": 6.047,
-      "fala": 5.616
+      "end": 9.596,
+      "fala": 9.096
     },
     {
       "cena": 2,
-      "start": 6.047,
-      "end": 13.48,
-      "fala": 6.984
+      "start": 9.596,
+      "end": 19.096,
+      "fala": 9.0
     },
     {
       "cena": 3,
-      "start": 13.48,
-      "end": 19.551,
-      "fala": 5.04
+      "start": 19.096,
+      "end": 28.044,
+      "fala": 7.848
     },
     {
       "cena": 4,
-      "start": 19.551,
-      "end": 22.952,
-      "fala": 2.952
+      "start": 28.044,
+      "end": 33.08,
+      "fala": 4.536
     },
     {
       "cena": 5,
-      "start": 22.952,
-      "end": 30.857,
-      "fala": 6.864
+      "start": 33.08,
+      "end": 43.708,
+      "fala": 9.528
     },
     {
       "cena": 6,
-      "start": 30.857,
-      "end": 40.555,
-      "fala": 8.664
+      "start": 43.708,
+      "end": 56.592,
+      "fala": 11.784
     },
     {
       "cena": 7,
-      "start": 40.555,
-      "end": 47.604,
-      "fala": 6.6
+      "start": 56.592,
+      "end": 66.332,
+      "fala": 9.24
     },
     {
       "cena": 8,
-      "start": 47.604,
-      "end": 54.016,
-      "fala": 5.376
+      "start": 66.332,
+      "end": 73.696,
+      "fala": 6.264
     },
     {
       "cena": 9,
-      "start": 54.016,
-      "end": 61.559,
-      "fala": 6.504
+      "start": 73.696,
+      "end": 83.148,
+      "fala": 8.352
     },
     {
       "cena": 10,
-      "start": 61.559,
-      "end": 72.899,
-      "fala": 10.296
+      "start": 83.148,
+      "end": 95.936,
+      "fala": 11.688
     },
     {
       "cena": 11,
-      "start": 72.899,
-      "end": 81.863,
-      "fala": 6.528
+      "start": 95.936,
+      "end": 106.5,
+      "fala": 8.064
     }
   ]
 }
