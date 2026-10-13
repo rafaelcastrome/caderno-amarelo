@@ -1,0 +1,8 @@
+{
+ "titulo": "Meme: a baratinha (Eu sou o cordeirinho)",
+ "modo": "B",
+ "marca": { "handle": "caderno_amarelo", "nome": "Caderno Amarelo" },
+ "marcaDagua": false,
+ "audio": "Áudio original do vídeo de @rafaellatuma (2022), cortado antes da vinheta do TikTok (19,38 s), com a gargalhada aprovada no final. A marca d'água @caderno_amarelo é desenhada em cenas.js e passeia por quatro cantos seguros.",
+ "cenas": [ { "fala": "(áudio original completo, 0–19,38 s; letra em cenas.js → LYR)", "voz": "Criança cantando" } ]
+}
