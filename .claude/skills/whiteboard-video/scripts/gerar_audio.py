@@ -50,7 +50,9 @@ class Edge:
         self.nome = f"edge-tts ({self.voz})"
 
     def gerar(self, texto, mp3):
-        asyncio.run(self.edge_tts.Communicate(texto, self.voz, rate=self.rate).save(mp3))
+        # aiohttp ignora HTTPS_PROXY; sem passar o proxy, o edge-tts falha com erro de DNS em ambientes com proxy.
+        proxy = os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy")
+        asyncio.run(self.edge_tts.Communicate(texto, self.voz, rate=self.rate, proxy=proxy).save(mp3))
 
 
 class Kokoro:
