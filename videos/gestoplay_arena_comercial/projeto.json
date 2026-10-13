@@ -1,0 +1,23 @@
+{
+  "titulo": "Gestôplay: sua arena inteira num lugar só",
+  "marca": { "handle": "gestoplay", "nome": "Gestôplay" },
+  "marcaDagua": false,
+  "voz": { "edge": "pt-BR-AntonioNeural", "edgeRate": "+8%", "kokoro": "pm_alex", "kokoroSpeed": 1.05 },
+  "pausaPadrao": 0.5,
+  "fontes": [
+    { "fato": "Funcionalidades e preços do Gestôplay (R$ 69 por módulo; R$ 179/mês o completo, em promoção)", "fonte": "Informado pelo Rafael (Gestôplay), 13/10/2026", "url": "" }
+  ],
+  "cenas": [
+    { "fala": "Ô, dono de arena... me responde uma coisa: quantos sistemas você paga hoje? Um? Dois? Três?", "pausa": 0.5 },
+    { "fala": "É um pra agenda de quadra... outro pro caixa... outro pra escolinha... e o cadastro do cliente? Tá lá, numa planilha que ninguém acha.", "pausa": 0.5 },
+    { "fala": "Aí chega o fim do mês, e é boleto pra cá, senha pra lá... e nada conversa com nada. Cansa, né?", "pausa": 1.1 },
+    { "fala": "Pois é! Acabei com isso contratando o Gestô Plêi!", "pausa": 0.5 },
+    { "fala": "Agenda com aluguel das quadras, pê dê vê, escolinha, cadastro de cliente e de produto. Tudo num lugar só. Simples assim.", "pausa": 1.1 },
+    { "fala": "E olha que legal: sua arena ganha um link só dela. Você manda no uótsap, posta no Instagrã, e o cliente vê o horário livre e já reserva. Sem ficar te ligando.", "pausa": 1.1 },
+    { "fala": "Tem mais! Sua arena aparece na vitrine do Gestô Plêi. O atleta abre, procura, e encontra as arenas mais perto dele.", "pausa": 0.5 },
+    { "fala": "Quer sair na frente da concorrência? Dá pra destacar sua arena e aparecer primeiro na lista.", "pausa": 1.1 },
+    { "fala": "Bateu dúvida no sistema? Pergunta pra nossa inteligência artificial. Ela te explica na hora, tim-tim por tim-tim.", "pausa": 1.1 },
+    { "fala": "E o melhor: cada módulo sai por só sessenta e nove reais, e você pode escolher só o que você usar. E o sistema completo, na promoção, sai por cento e setenta e nove reais por mês!", "pausa": 1.1 },
+    { "fala": "Então não perde tempo: chama a gente no dairécti do arroba gestô plêi. Gestô Plêi: sua arena inteira num lugar só!", "pausa": 2.5 }
+  ]
+}
