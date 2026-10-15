@@ -548,6 +548,7 @@ window.CENAS = function (WB) {
     up: { lid: 0.22, smile: 0, bi: -6 },
     shrug: { lid: 0.6, smile: -5, bi: -8, asym: 1 },
     love: { happy: 1, smile: 15, blush: 1 },
+    sip: { lid: 1, smile: -2, bi: -4 },
   };
   function makeFlyEye(parent, cx, cy, r) {
     const id = 'fe' + (UID++);
@@ -738,18 +739,24 @@ window.CENAS = function (WB) {
   {
     const bricks = [[120, 520], [205, 545], [880, 505], [965, 535], [400, 860], [80, 900], [165, 930], [930, 880], [1010, 905], [700, 860],
       [300, 600], [760, 610], [140, 700], [960, 720], [620, 940], [340, 960]];
-    put(bricks.map(([x, y]) => ({ d: WB.roughRect(x - 38, y - 15, x + 38, y + 15), fill: '#eab48f', c: '#b9774f', w: 4 })));
-    put([{ d: WB.roundRectPath(330, 600, 420, 92, 22), fill: '#fff1f5', c: '#db2777', w: 7 },
+    const brick = ([x, y]) => ({ d: WB.roughRect(x - 38, y - 15, x + 38, y + 15), fill: '#eab48f', c: '#b9774f', w: 4 });
+    put(bricks.filter(([, y]) => y >= 800).map(brick));
+    const highWall = put(bricks.filter(([, y]) => y < 800).map(brick));
+    WB.effect(t => show(highWall.g, !(t >= 30.6 && t < CTA0)));
+    const neon = put([{ d: WB.roundRectPath(330, 600, 420, 92, 22), fill: '#fff1f5', c: '#db2777', w: 7 },
       { d: WB.roundRectPath(342, 612, 396, 68, 14), c: '#f9a8d4', w: 4 },
       T('BAR DO INSETO', 540, 663, 52, '#db2777'),
       { d: 'M 380 600 L 360 560 M 700 600 L 720 560', w: 5 }]);
+    WB.effect(t => show(neon.g, !(t >= 30.6 && t < CTA0)));
     // quadro da esquerda: flor; da direita: gota de sangue com coração
     put([{ d: WB.roughRect(110, 650, 250, 790), fill: '#ecfccb', c: '#4d7c0f', w: 8 },
       { d: 'M 180 770 L 180 725', c: '#15803d', w: 5 }, circ(180, 715, 16, '#facc15', BK, 4),
       { d: ellipse(160, 715, 10, 7), fill: '#ffffff', w: 3 }, { d: ellipse(200, 715, 10, 7), fill: '#ffffff', w: 3 },
-      { d: WB.roughRect(830, 650, 970, 790), fill: '#fee2e2', c: '#9f1239', w: 8 },
+    ]);
+    const bloodFrame = put([{ d: WB.roughRect(830, 650, 970, 790), fill: '#fee2e2', c: '#9f1239', w: 8 },
       { d: 'M 900 680 Q 940 730 924 752 Q 900 776 876 752 Q 860 730 900 680 Z', fill: '#dc2626', w: 5 },
       heart(900, 745, 0.25, '#ffffff')]);
+    WB.effect(t => show(bloodFrame.g, !(t >= 30.6 && t < CTA0)));
     // lambri rosa e piso
     put([{ d: 'M 60 1000 L 1020 1000 L 1020 1240 L 60 1240 Z', fill: '#f6cfd3', w: 6 },
       { d: 'M 60 1024 L 1020 1024', w: 5 },
@@ -791,7 +798,9 @@ window.CENAS = function (WB) {
   P(19.25, [{ d: 'M 690 850 l 26 -18 M 700 880 l 32 -2 M 694 910 l 26 16', c: '#dc2626', w: 7 }], { loop: 'shake', until: 21.8 });
   TX(18.45, 'hmm...', 180, 900, 54, C_BEE, -8, { until: 19.05, loop: 'wiggle' });
   P(28.25, [{ d: 'M 560 950 L 690 990', c: '#dc2626', w: 7 }, { d: WB.arrowHead(690, 990, 0.3, 26), c: '#dc2626', w: 7 }], { until: 29.4 });
-  TX(29.05, '?', 760, 900, 80, C_FLY, 8, { until: 30.5, loop: 'wiggle' });
+  TX(29.05, '?', 900, 860, 80, C_FLY, 8, { until: 29.6, loop: 'wiggle' });
+  TX(29.66, 'glup!', 985, 960, 58, '#92400e', -8, { until: 30.0 });
+  TX(30.24, 'glup!', 1000, 915, 62, '#92400e', 6, { until: 30.6 });
   P(32.7, [heart(650, 900, 0.5, '#f472b6'), heart(930, 870, 0.4), heart(700, 820, 0.35)], { loop: 'rise', until: CTA0 });
   TX(34.25, 'ECA!', 250, 900, 84, '#65a30d', -10, { anim: 'slam', loop: 'tremble' });
   TX(34.45, 'ECA!', 700, 830, 70, '#65a30d', 8, { anim: 'slam', loop: 'tremble' });
@@ -850,19 +859,20 @@ window.CENAS = function (WB) {
     });
   });
   // ---- mosca no bar
-  const FLY_MOOD = moodTrack(FLY_MOODS, [[0, 'sleepy'], [6.2, 'bored'], [7.6, 'sleepy'], [29.15, 'up'], [30.6, 'up'], [30.85, 'shrug'],
+  const FLY_MOOD = moodTrack(FLY_MOODS, [[0, 'sleepy'], [6.2, 'bored'], [7.6, 'sleepy'], [29.15, 'up'], [29.5, 'sip'], [30.55, 'up'], [30.85, 'shrug'],
     [32.35, 'love']]);
-  const F_ARMS = K([[0, [-70, -60, 104, -92]], [30.85, [-70, -60, 104, -92]], [31.1, [-140, -200, 104, -92], 'b'], [32.0, [-140, -200, 104, -92]],
+  const F_ARMS = K([[0, [-70, -60, 104, -92]], [29.25, [-70, -60, 104, -92]], [29.55, [-70, -60, 40, -150], 'o'], [30.55, [-70, -60, 40, -150]], [30.85, [-70, -60, 104, -92]], [31.1, [-140, -200, 104, -92], 'b'], [32.0, [-140, -200, 104, -92]],
     [32.35, [-70, -60, 104, -92]], [32.7, [-70, -60, 118, -178], 'b']]);
-  const F_HEAD = K([[0, 0], [29.15, 0], [29.35, -8, 's'], [30.85, -8], [31.1, 10, 'b'], [32.0, 10], [32.35, -4], [33.2, 4]]);
+  const F_MUG = K([[0, 0], [29.25, 0], [29.55, -12], [29.65, -36], [29.87, -36], [30.02, -12], [30.22, -38], [30.46, -38], [30.6, -10], [30.85, 0], [32.6, 0], [32.7, -8]]);
+  const F_HEAD = K([[0, 0], [29.15, 0], [29.35, -8, 's'], [29.65, -15], [29.87, -5], [30.22, -15], [30.46, -5], [30.85, -8], [31.1, 10, 'b'], [32.0, 10], [32.35, -4], [33.2, 4]]);
   WB.effect(t => {
     if (!inWin(BAR_WINS, t)) return;
     const a = F_ARMS(t);
     const nod = t < 29 ? Math.sin(t * 1.3) * 3 : 0;
     flyBar(t, {
-      x: 840, y: 1250, s: 0.95, f: -1, lean: nod + (t > 30.85 && t < 32 ? 4 : 0), m: FLY_MOOD(t), headRot: F_HEAD(t) + nod,
+      x: 840, y: 1250, s: 0.95, f: -1, lean: nod + (t > 30.85 && t < 32 ? 4 : 0) - 4 * (bump(t, 29.62, 29.9) + bump(t, 30.2, 30.48)), m: FLY_MOOD(t), headRot: F_HEAD(t) + nod,
       L: [a[0] + (t < 29 ? Math.sin(t * 9) * 5 : 0), a[1]], R: [a[2], a[3]], op: talk(FLY_WIN, t),
-      poop: t >= 32.6 ? backOut(clamp((t - 32.6) / 0.45)) : 0, mugRot: t >= 32.6 ? -8 : 0,
+      poop: t >= 32.6 ? backOut(clamp((t - 32.6) / 0.45)) : 0, mugRot: F_MUG(t),
     });
   });
 
