@@ -1,0 +1,8 @@
+{
+ "titulo": "Meme: o pernilongo sommelier (abelha, pernilongo e mosca no bar)",
+ "modo": "B",
+ "marca": { "handle": "caderno_amarelo", "nome": "Caderno Amarelo" },
+ "marcaDagua": false,
+ "audio": "Áudio original da animação de @rafaellatuma (abelha, pernilongo e mosca), 0–33,78 s, com a gargalhada aprovada (assets/risada_gargalhada.wav, ganho 0,55) a partir de 33,5 s. A marca d'água @caderno_amarelo é desenhada em cenas.js e passeia por quatro cantos seguros.",
+ "cenas": [ { "fala": "(áudio original completo, 0–33,78 s; falas em cenas.js → CAPS)", "voz": "Abelha, pernilongo e mosca" } ]
+}
