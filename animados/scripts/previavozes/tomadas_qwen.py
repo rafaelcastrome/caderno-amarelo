@@ -1,7 +1,7 @@
 """Tomadas do Qwen3-TTS 0.6B CustomVoice. Na GTX 1650 precisa de fp32 (em fp16 a amostragem dá NaN)."""
 import os, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from comum import AMOSTRAS, N_TOMADAS, TOMADAS, falas_do_motor
+from comum import ja_existe, AMOSTRAS, N_TOMADAS, TOMADAS, falas_do_motor
 import soundfile as sf
 import torch
 from qwen_tts import Qwen3TTSModel
@@ -10,7 +10,7 @@ dev = "cuda:0" if torch.cuda.is_available() else "cpu"
 m = Qwen3TTSModel.from_pretrained(os.path.join(AMOSTRAS, "_models", "Qwen3-TTS-12Hz-0.6B-CustomVoice"),
                                   device_map=dev, dtype=torch.float32, attn_implementation="sdpa")
 os.makedirs(TOMADAS, exist_ok=True)
-for c, voz in falas_do_motor("qwen"):
+for c, voz in [x for x in falas_do_motor("qwen") if not ja_existe(x[0]["id"])]:
     for n in range(1, N_TOMADAS + 1):
         torch.manual_seed(n)
         t0 = time.time()

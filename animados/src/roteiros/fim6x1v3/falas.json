@@ -1,0 +1,39 @@
+{
+  "_sobre": "Fim da 6x1 — v3: mesma historinha e mesmas cenas do v2 (sem alteração), com falas reescritas em tom de áudio de WhatsApp e uma voz por personagem. Fatos (iguais ao v2): Rádio Senado/Senado Notícias 14/10/2026: PEC 221/2019 aprovada em 2 turnos, segue para promulgação (sessão marcada para 16/10); prazos contam da publicação da emenda: 42h dois meses depois, 40h um ano após essa etapa; 2 dias de descanso remunerado; sem redução salarial. Efeitos econômicos = cenários. A gag da calculadora é fictícia. Áudio e narracao.json gerados por amostras_vozes/_scripts/previa (ROTEIRO=fim6x1v3): 3 tomadas por fala, Whisper escolhe e dá o tempo de cada palavra.",
+  "fontes": [
+    "https://www12.senado.leg.br/radio/1/noticia/2026/10/14/senado-aprova-pec-que-acaba-com-escala-6x1-texto-segue-para-promulgacao",
+    "https://www12.senado.leg.br/noticias/senado-agora/2026/10/14/aprovado-em-segundo-turno-fim-da-6x1-vai-a-promulgacao"
+  ],
+  "pasta_audio": "fim6x1v3",
+  "vozes": {
+    "ze": { "motor": "chatterbox", "voz": "padrao", "exaggeration": 0.8 },
+    "claudio": { "motor": "qwen", "voz": "Uncle_Fu", "velocidade": 1.15 },
+    "amarelinho": { "motor": "edge", "voz": "en-US-AndrewMultilingualNeural", "ritmo": "+10%" }
+  },
+  "cenas": [
+    { "id": "v1a", "cena": 1, "quem": "ze", "antes": 0.15, "pausa": 0.25, "fala": "Aí sim! Acabou a escala seis por um!", "destaques": ["acabou", "6x1"], "trocas": { "seis": "6x1", "por": "", "um": "" } },
+    { "id": "v1b", "cena": 1, "quem": "claudio", "antes": 0.3, "pausa": 0.6, "fala": "É... acabou foi o meu sossego.", "destaques": ["sossego"] },
+    { "id": "v1c", "cena": 1, "quem": "amarelinho", "pausa": 0.4, "fala": "Opa, calma, gente! Vamos ver o que muda de verdade?", "destaques": ["muda", "verdade"] },
+
+    { "id": "v2a", "cena": 2, "quem": "amarelinho", "pausa": 0.3, "fala": "Olha só... o texto aprovado fala em dois dias de folga por semana. Remunerada, tá?", "destaques": ["dois", "dias", "folga"] },
+    { "id": "v2b", "cena": 2, "quem": "ze", "antes": 0.2, "pausa": 0.5, "fala": "Dois?! Pô, meu corpo nem lembra mais o que é isso!", "destaques": ["dois", "corpo"] },
+    { "id": "v2c", "cena": 2, "quem": "amarelinho", "pausa": 0.5, "fala": "E a jornada cai aos poucos, sabe? De quarenta e quatro horas pra quarenta e duas... depois quarenta. E sem cortar salário!", "destaques": ["quarenta", "duas", "salário"] },
+
+    { "id": "v3a", "cena": 3, "quem": "claudio", "pausa": 0.5, "fala": "Mesmo salário, menos horas... aí minha conta mudou, né?", "destaques": ["salário", "menos", "horas"] },
+    { "id": "v3b", "cena": 3, "quem": "amarelinho", "antes": 0.3, "pausa": 0.5, "fala": "Pera aí! Custo maior por hora não vira preço mais alto automaticamente, tá? Depende do setor... e de como cada empresa se adapta.", "destaques": ["automaticamente", "setor"] },
+
+    { "id": "v4a", "cena": 4, "quem": "claudio", "pausa": 0.3, "fala": "Olha, minha padaria abre de segunda a sábado. Aí se o Zé folga dois dias... quem fica no balcão?", "destaques": ["padaria", "balcão"] },
+    { "id": "v4b", "cena": 4, "quem": "ze", "antes": 0.2, "pausa": 0.5, "fala": "Ué, reveza! Faz um turno novo aí e todo mundo descansa, sabe?", "destaques": ["reveza", "turno"] },
+
+    { "id": "v5a", "cena": 5, "quem": "amarelinho", "pausa": 0.3, "fala": "Aí cada negócio vai num caminho, tipo: reorganizar a escala, ganhar produtividade, contratar... ou repassar parte do custo.", "destaques": ["reorganizar", "produtividade", "contratar", "repassar"] },
+    { "id": "v5b", "cena": 5, "quem": "amarelinho", "pausa": 0.5, "fala": "Mas nenhum deles é garantido, viu?", "destaques": ["garantido"] },
+
+    { "id": "v6a", "cena": 6, "quem": "ze", "antes": 0.5, "pausa": 0.5, "fala": "Pô, pra mim é mais tempo com a família, sabe? E descanso de verdade... finalmente!", "destaques": ["família", "descanso"] },
+
+    { "id": "v7a", "cena": 7, "quem": "amarelinho", "pausa": 0.3, "fala": "Só que não muda no dia seguinte, tá? A contagem só começa quando a emenda é publicada.", "destaques": ["publicada"] },
+    { "id": "v7b", "cena": 7, "quem": "amarelinho", "pausa": 0.5, "fala": "Dois meses depois, quarenta e duas horas. Aí, um ano depois disso... quarenta.", "destaques": ["meses", "ano", "quarenta"] },
+
+    { "id": "v8a", "cena": 8, "quem": "amarelinho", "pausa": 0.3, "fala": "E você? Tá com o Zé, com o Seu Cláudio... ou com os dois?", "destaques": ["Zé", "Cláudio", "dois"] },
+    { "id": "v8b", "cena": 8, "quem": "amarelinho", "pausa": 1.8, "fala": "Comenta aí e segue o arroba caderno ânderláin amarelo!", "destaques": ["comenta", "@caderno_amarelo"], "trocas": { "arroba": "@caderno_amarelo", "caderno": "", "ânderláin": "", "amarelo": "" } }
+  ]
+}

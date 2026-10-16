@@ -1,0 +1,1311 @@
+{
+ "voz": "varias (ver falas.json > vozes)",
+ "falas": {
+  "v1a": {
+   "texto": "Aí sim! Acabou a escala seis por um!",
+   "tomada": "v1a_t2.wav",
+   "nota_whisper": 1.0,
+   "ouvido": "Ai sim, acabou a escala 6x1.",
+   "arquivo": "assets/audio/fim6x1v3/v1a.mp3",
+   "duracao": 2.68,
+   "palavras": [
+    {
+     "texto": "Aí",
+     "inicio": 0.0,
+     "fim": 0.4
+    },
+    {
+     "texto": "sim",
+     "inicio": 0.4,
+     "fim": 0.72
+    },
+    {
+     "texto": "Acabou",
+     "inicio": 1.02,
+     "fim": 1.22
+    },
+    {
+     "texto": "a",
+     "inicio": 1.22,
+     "fim": 1.34
+    },
+    {
+     "texto": "escala",
+     "inicio": 1.34,
+     "fim": 1.66
+    },
+    {
+     "texto": "seis",
+     "inicio": 1.66,
+     "fim": 1.853
+    },
+    {
+     "texto": "por",
+     "inicio": 1.853,
+     "fim": 2.047
+    },
+    {
+     "texto": "um",
+     "inicio": 2.047,
+     "fim": 2.24
+    }
+   ]
+  },
+  "v1b": {
+   "texto": "É... acabou foi o meu sossego.",
+   "tomada": "v1b_t3.wav",
+   "nota_whisper": 1.0,
+   "ouvido": "É, acabou foi o meu sossego.",
+   "arquivo": "assets/audio/fim6x1v3/v1b.mp3",
+   "duracao": 2.922,
+   "palavras": [
+    {
+     "texto": "É",
+     "inicio": 0.0,
+     "fim": 0.348
+    },
+    {
+     "texto": "acabou",
+     "inicio": 0.661,
+     "fim": 1.235
+    },
+    {
+     "texto": "foi",
+     "inicio": 1.235,
+     "fim": 1.461
+    },
+    {
+     "texto": "o",
+     "inicio": 1.461,
+     "fim": 1.67
+    },
+    {
+     "texto": "meu",
+     "inicio": 1.67,
+     "fim": 1.826
+    },
+    {
+     "texto": "sossego",
+     "inicio": 1.826,
+     "fim": 2.522
+    }
+   ]
+  },
+  "v1c": {
+   "texto": "Opa, calma, gente! Vamos ver o que muda de verdade?",
+   "tomada": "v1c_t1.mp3",
+   "nota_whisper": 1.0,
+   "ouvido": "Opa, calma, gente, vamos ver o que muda de verdade.",
+   "arquivo": "assets/audio/fim6x1v3/v1c.mp3",
+   "duracao": 4.488,
+   "palavras": [
+    {
+     "texto": "Opa",
+     "inicio": 0.0,
+     "fim": 0.36
+    },
+    {
+     "texto": "calma",
+     "inicio": 0.8,
+     "fim": 1.12
+    },
+    {
+     "texto": "gente",
+     "inicio": 1.52,
+     "fim": 1.78
+    },
+    {
+     "texto": "Vamos",
+     "inicio": 2.32,
+     "fim": 2.58
+    },
+    {
+     "texto": "ver",
+     "inicio": 2.58,
+     "fim": 2.92
+    },
+    {
+     "texto": "o",
+     "inicio": 2.92,
+     "fim": 3.06
+    },
+    {
+     "texto": "que",
+     "inicio": 3.06,
+     "fim": 3.16
+    },
+    {
+     "texto": "muda",
+     "inicio": 3.16,
+     "fim": 3.54
+    },
+    {
+     "texto": "de",
+     "inicio": 3.54,
+     "fim": 3.66
+    },
+    {
+     "texto": "verdade",
+     "inicio": 3.66,
+     "fim": 4.02
+    }
+   ]
+  },
+  "v2a": {
+   "texto": "Olha só... o texto aprovado fala em dois dias de folga por semana. Remunerada, tá?",
+   "tomada": "v2a_t1.mp3",
+   "nota_whisper": 1.0,
+   "ouvido": "Olha só, o texto aprovado fala em dois dias de folga por semana. Remunerada, tá?",
+   "arquivo": "assets/audio/fim6x1v3/v2a.mp3",
+   "duracao": 6.0,
+   "palavras": [
+    {
+     "texto": "Olha",
+     "inicio": 0.0,
+     "fim": 0.3
+    },
+    {
+     "texto": "só",
+     "inicio": 0.3,
+     "fim": 0.64
+    },
+    {
+     "texto": "o",
+     "inicio": 0.88,
+     "fim": 1.16
+    },
+    {
+     "texto": "texto",
+     "inicio": 1.16,
+     "fim": 1.42
+    },
+    {
+     "texto": "aprovado",
+     "inicio": 1.42,
+     "fim": 1.9
+    },
+    {
+     "texto": "fala",
+     "inicio": 1.9,
+     "fim": 2.26
+    },
+    {
+     "texto": "em",
+     "inicio": 2.26,
+     "fim": 2.36
+    },
+    {
+     "texto": "dois",
+     "inicio": 2.36,
+     "fim": 2.58
+    },
+    {
+     "texto": "dias",
+     "inicio": 2.58,
+     "fim": 2.92
+    },
+    {
+     "texto": "de",
+     "inicio": 2.92,
+     "fim": 3.1
+    },
+    {
+     "texto": "folga",
+     "inicio": 3.1,
+     "fim": 3.44
+    },
+    {
+     "texto": "por",
+     "inicio": 3.44,
+     "fim": 3.6
+    },
+    {
+     "texto": "semana",
+     "inicio": 3.6,
+     "fim": 4.02
+    },
+    {
+     "texto": "Remunerada",
+     "inicio": 4.46,
+     "fim": 5.06
+    },
+    {
+     "texto": "tá",
+     "inicio": 5.44,
+     "fim": 5.58
+    }
+   ]
+  },
+  "v2b": {
+   "texto": "Dois?! Pô, meu corpo nem lembra mais o que é isso!",
+   "tomada": "v2b_t2.wav",
+   "nota_whisper": 1.0,
+   "ouvido": "Dois? Pô, meu corpo nem lembra mais o que é isso.",
+   "arquivo": "assets/audio/fim6x1v3/v2b.mp3",
+   "duracao": 3.04,
+   "palavras": [
+    {
+     "texto": "Dois",
+     "inicio": 0.34,
+     "fim": 0.64
+    },
+    {
+     "texto": "Pô",
+     "inicio": 0.78,
+     "fim": 1.06
+    },
+    {
+     "texto": "meu",
+     "inicio": 1.18,
+     "fim": 1.32
+    },
+    {
+     "texto": "corpo",
+     "inicio": 1.32,
+     "fim": 1.56
+    },
+    {
+     "texto": "nem",
+     "inicio": 1.56,
+     "fim": 1.72
+    },
+    {
+     "texto": "lembra",
+     "inicio": 1.72,
+     "fim": 1.96
+    },
+    {
+     "texto": "mais",
+     "inicio": 1.96,
+     "fim": 2.16
+    },
+    {
+     "texto": "o",
+     "inicio": 2.16,
+     "fim": 2.24
+    },
+    {
+     "texto": "que",
+     "inicio": 2.24,
+     "fim": 2.32
+    },
+    {
+     "texto": "é",
+     "inicio": 2.32,
+     "fim": 2.44
+    },
+    {
+     "texto": "isso",
+     "inicio": 2.44,
+     "fim": 2.66
+    }
+   ]
+  },
+  "v2c": {
+   "texto": "E a jornada cai aos poucos, sabe? De quarenta e quatro horas pra quarenta e duas... depois quarenta. E sem cortar salário!",
+   "tomada": "v2c_t1.mp3",
+   "nota_whisper": 0.955,
+   "ouvido": "E a jornada cai aos poucos, sabe? De 44 horas para 42, depois 40, e sem cortar salário.",
+   "arquivo": "assets/audio/fim6x1v3/v2c.mp3",
+   "duracao": 7.92,
+   "palavras": [
+    {
+     "texto": "E",
+     "inicio": 0.0,
+     "fim": 0.18
+    },
+    {
+     "texto": "a",
+     "inicio": 0.18,
+     "fim": 0.28
+    },
+    {
+     "texto": "jornada",
+     "inicio": 0.28,
+     "fim": 0.7
+    },
+    {
+     "texto": "cai",
+     "inicio": 0.7,
+     "fim": 0.92
+    },
+    {
+     "texto": "aos",
+     "inicio": 0.92,
+     "fim": 1.14
+    },
+    {
+     "texto": "poucos",
+     "inicio": 1.14,
+     "fim": 1.66
+    },
+    {
+     "texto": "sabe",
+     "inicio": 1.86,
+     "fim": 2.36
+    },
+    {
+     "texto": "De",
+     "inicio": 2.62,
+     "fim": 2.88
+    },
+    {
+     "texto": "quarenta",
+     "inicio": 2.88,
+     "fim": 3.027
+    },
+    {
+     "texto": "e",
+     "inicio": 3.027,
+     "fim": 3.173
+    },
+    {
+     "texto": "quatro",
+     "inicio": 3.173,
+     "fim": 3.32
+    },
+    {
+     "texto": "horas",
+     "inicio": 3.32,
+     "fim": 3.82
+    },
+    {
+     "texto": "pra",
+     "inicio": 3.82,
+     "fim": 3.96
+    },
+    {
+     "texto": "quarenta",
+     "inicio": 3.96,
+     "fim": 4.14
+    },
+    {
+     "texto": "e",
+     "inicio": 4.14,
+     "fim": 4.32
+    },
+    {
+     "texto": "duas",
+     "inicio": 4.32,
+     "fim": 4.5
+    },
+    {
+     "texto": "depois",
+     "inicio": 4.86,
+     "fim": 5.4
+    },
+    {
+     "texto": "quarenta",
+     "inicio": 5.4,
+     "fim": 5.86
+    },
+    {
+     "texto": "E",
+     "inicio": 6.04,
+     "fim": 6.38
+    },
+    {
+     "texto": "sem",
+     "inicio": 6.38,
+     "fim": 6.58
+    },
+    {
+     "texto": "cortar",
+     "inicio": 6.58,
+     "fim": 6.98
+    },
+    {
+     "texto": "salário",
+     "inicio": 6.98,
+     "fim": 7.56
+    }
+   ]
+  },
+  "v3a": {
+   "texto": "Mesmo salário, menos horas... aí minha conta mudou, né?",
+   "tomada": "v3a_t2.wav",
+   "nota_whisper": 1.0,
+   "ouvido": "Mesmo salário, menos horas. Aí minha conta mudou, né?",
+   "arquivo": "assets/audio/fim6x1v3/v3a.mp3",
+   "duracao": 5.009,
+   "palavras": [
+    {
+     "texto": "Mesmo",
+     "inicio": 0.0,
+     "fim": 0.87
+    },
+    {
+     "texto": "salário",
+     "inicio": 0.87,
+     "fim": 1.374
+    },
+    {
+     "texto": "menos",
+     "inicio": 1.583,
+     "fim": 1.913
+    },
+    {
+     "texto": "horas",
+     "inicio": 1.913,
+     "fim": 2.33
+    },
+    {
+     "texto": "aí",
+     "inicio": 2.783,
+     "fim": 3.287
+    },
+    {
+     "texto": "minha",
+     "inicio": 3.287,
+     "fim": 3.53
+    },
+    {
+     "texto": "conta",
+     "inicio": 3.53,
+     "fim": 3.826
+    },
+    {
+     "texto": "mudou",
+     "inicio": 3.826,
+     "fim": 4.174
+    },
+    {
+     "texto": "né",
+     "inicio": 4.243,
+     "fim": 4.348
+    }
+   ]
+  },
+  "v3b": {
+   "texto": "Pera aí! Custo maior por hora não vira preço mais alto automaticamente, tá? Depende do setor... e de como cada empresa se adapta.",
+   "tomada": "v3b_t1.mp3",
+   "nota_whisper": 0.933,
+   "ouvido": "Peraí, custo maior por hora não vira preço mais alto automaticamente, tá? Depende do setor e de como cada empresa se adapta.",
+   "arquivo": "assets/audio/fim6x1v3/v3b.mp3",
+   "duracao": 9.48,
+   "palavras": [
+    {
+     "texto": "Pera",
+     "inicio": 0.0,
+     "fim": 0.28
+    },
+    {
+     "texto": "aí",
+     "inicio": 0.28,
+     "fim": 0.56
+    },
+    {
+     "texto": "Custo",
+     "inicio": 0.92,
+     "fim": 1.28
+    },
+    {
+     "texto": "maior",
+     "inicio": 1.28,
+     "fim": 1.48
+    },
+    {
+     "texto": "por",
+     "inicio": 1.48,
+     "fim": 1.7
+    },
+    {
+     "texto": "hora",
+     "inicio": 1.7,
+     "fim": 2.02
+    },
+    {
+     "texto": "não",
+     "inicio": 2.02,
+     "fim": 2.62
+    },
+    {
+     "texto": "vira",
+     "inicio": 2.62,
+     "fim": 2.96
+    },
+    {
+     "texto": "preço",
+     "inicio": 2.96,
+     "fim": 3.28
+    },
+    {
+     "texto": "mais",
+     "inicio": 3.28,
+     "fim": 3.9
+    },
+    {
+     "texto": "alto",
+     "inicio": 3.9,
+     "fim": 4.24
+    },
+    {
+     "texto": "automaticamente",
+     "inicio": 4.24,
+     "fim": 5.2
+    },
+    {
+     "texto": "tá",
+     "inicio": 5.46,
+     "fim": 5.62
+    },
+    {
+     "texto": "Depende",
+     "inicio": 6.0,
+     "fim": 6.5
+    },
+    {
+     "texto": "do",
+     "inicio": 6.5,
+     "fim": 6.64
+    },
+    {
+     "texto": "setor",
+     "inicio": 6.64,
+     "fim": 7.08
+    },
+    {
+     "texto": "e",
+     "inicio": 7.08,
+     "fim": 7.58
+    },
+    {
+     "texto": "de",
+     "inicio": 7.58,
+     "fim": 7.66
+    },
+    {
+     "texto": "como",
+     "inicio": 7.66,
+     "fim": 7.84
+    },
+    {
+     "texto": "cada",
+     "inicio": 7.84,
+     "fim": 8.12
+    },
+    {
+     "texto": "empresa",
+     "inicio": 8.12,
+     "fim": 8.52
+    },
+    {
+     "texto": "se",
+     "inicio": 8.52,
+     "fim": 8.76
+    },
+    {
+     "texto": "adapta",
+     "inicio": 8.76,
+     "fim": 9.16
+    }
+   ]
+  },
+  "v4a": {
+   "texto": "Olha, minha padaria abre de segunda a sábado. Aí se o Zé folga dois dias... quem fica no balcão?",
+   "tomada": "v4a_t3.wav",
+   "nota_whisper": 1.0,
+   "ouvido": "Olha, minha padaria abre de segunda a sábado. Aí se o Zé folga dois dias. Quem fica no balcão?",
+   "arquivo": "assets/audio/fim6x1v3/v4a.mp3",
+   "duracao": 8.696,
+   "palavras": [
+    {
+     "texto": "Olha",
+     "inicio": 0.0,
+     "fim": 0.522
+    },
+    {
+     "texto": "minha",
+     "inicio": 1.252,
+     "fim": 1.757
+    },
+    {
+     "texto": "padaria",
+     "inicio": 1.757,
+     "fim": 2.191
+    },
+    {
+     "texto": "abre",
+     "inicio": 2.191,
+     "fim": 2.522
+    },
+    {
+     "texto": "de",
+     "inicio": 2.522,
+     "fim": 2.713
+    },
+    {
+     "texto": "segunda",
+     "inicio": 2.713,
+     "fim": 2.991
+    },
+    {
+     "texto": "a",
+     "inicio": 2.991,
+     "fim": 3.148
+    },
+    {
+     "texto": "sábado",
+     "inicio": 3.148,
+     "fim": 3.53
+    },
+    {
+     "texto": "Aí",
+     "inicio": 4.104,
+     "fim": 4.661
+    },
+    {
+     "texto": "se",
+     "inicio": 4.661,
+     "fim": 4.835
+    },
+    {
+     "texto": "o",
+     "inicio": 4.835,
+     "fim": 4.991
+    },
+    {
+     "texto": "Zé",
+     "inicio": 4.991,
+     "fim": 5.252
+    },
+    {
+     "texto": "folga",
+     "inicio": 5.252,
+     "fim": 5.548
+    },
+    {
+     "texto": "dois",
+     "inicio": 5.548,
+     "fim": 5.861
+    },
+    {
+     "texto": "dias",
+     "inicio": 5.861,
+     "fim": 6.296
+    },
+    {
+     "texto": "quem",
+     "inicio": 6.835,
+     "fim": 7.391
+    },
+    {
+     "texto": "fica",
+     "inicio": 7.391,
+     "fim": 7.791
+    },
+    {
+     "texto": "no",
+     "inicio": 7.791,
+     "fim": 7.896
+    },
+    {
+     "texto": "balcão",
+     "inicio": 7.896,
+     "fim": 8.226
+    }
+   ]
+  },
+  "v4b": {
+   "texto": "Ué, reveza! Faz um turno novo aí e todo mundo descansa, sabe?",
+   "tomada": "v4b_t3.wav",
+   "nota_whisper": 1.0,
+   "ouvido": "Ué, reveza! Faz um turno novo aí e todo mundo descansa, sabe?",
+   "arquivo": "assets/audio/fim6x1v3/v4b.mp3",
+   "duracao": 5.0,
+   "palavras": [
+    {
+     "texto": "Ué",
+     "inicio": 0.0,
+     "fim": 0.78
+    },
+    {
+     "texto": "reveza",
+     "inicio": 0.86,
+     "fim": 1.52
+    },
+    {
+     "texto": "Faz",
+     "inicio": 1.8,
+     "fim": 2.08
+    },
+    {
+     "texto": "um",
+     "inicio": 2.08,
+     "fim": 2.22
+    },
+    {
+     "texto": "turno",
+     "inicio": 2.22,
+     "fim": 2.48
+    },
+    {
+     "texto": "novo",
+     "inicio": 2.48,
+     "fim": 2.74
+    },
+    {
+     "texto": "aí",
+     "inicio": 2.74,
+     "fim": 2.98
+    },
+    {
+     "texto": "e",
+     "inicio": 2.98,
+     "fim": 3.2
+    },
+    {
+     "texto": "todo",
+     "inicio": 3.2,
+     "fim": 3.32
+    },
+    {
+     "texto": "mundo",
+     "inicio": 3.32,
+     "fim": 3.54
+    },
+    {
+     "texto": "descansa",
+     "inicio": 3.54,
+     "fim": 4.0
+    },
+    {
+     "texto": "sabe",
+     "inicio": 4.12,
+     "fim": 4.36
+    }
+   ]
+  },
+  "v5a": {
+   "texto": "Aí cada negócio vai num caminho, tipo: reorganizar a escala, ganhar produtividade, contratar... ou repassar parte do custo.",
+   "tomada": "v5a_t1.mp3",
+   "nota_whisper": 1.0,
+   "ouvido": "Aí cada negócio vai num caminho, tipo reorganizar a escala, ganhar produtividade, contratar ou repassar parte do custo.",
+   "arquivo": "assets/audio/fim6x1v3/v5a.mp3",
+   "duracao": 8.544,
+   "palavras": [
+    {
+     "texto": "Aí",
+     "inicio": 0.0,
+     "fim": 0.3
+    },
+    {
+     "texto": "cada",
+     "inicio": 0.3,
+     "fim": 0.6
+    },
+    {
+     "texto": "negócio",
+     "inicio": 0.6,
+     "fim": 1.0
+    },
+    {
+     "texto": "vai",
+     "inicio": 1.0,
+     "fim": 1.28
+    },
+    {
+     "texto": "num",
+     "inicio": 1.28,
+     "fim": 1.38
+    },
+    {
+     "texto": "caminho",
+     "inicio": 1.38,
+     "fim": 1.82
+    },
+    {
+     "texto": "tipo",
+     "inicio": 2.06,
+     "fim": 2.5
+    },
+    {
+     "texto": "reorganizar",
+     "inicio": 2.5,
+     "fim": 3.5
+    },
+    {
+     "texto": "a",
+     "inicio": 3.5,
+     "fim": 3.62
+    },
+    {
+     "texto": "escala",
+     "inicio": 3.62,
+     "fim": 4.04
+    },
+    {
+     "texto": "ganhar",
+     "inicio": 4.26,
+     "fim": 4.52
+    },
+    {
+     "texto": "produtividade",
+     "inicio": 4.52,
+     "fim": 5.32
+    },
+    {
+     "texto": "contratar",
+     "inicio": 5.78,
+     "fim": 6.36
+    },
+    {
+     "texto": "ou",
+     "inicio": 6.36,
+     "fim": 6.86
+    },
+    {
+     "texto": "repassar",
+     "inicio": 6.86,
+     "fim": 7.4
+    },
+    {
+     "texto": "parte",
+     "inicio": 7.4,
+     "fim": 7.72
+    },
+    {
+     "texto": "do",
+     "inicio": 7.72,
+     "fim": 7.84
+    },
+    {
+     "texto": "custo",
+     "inicio": 7.84,
+     "fim": 8.26
+    }
+   ]
+  },
+  "v5b": {
+   "texto": "Mas nenhum deles é garantido, viu?",
+   "tomada": "v5b_t1.mp3",
+   "nota_whisper": 1.0,
+   "ouvido": "Mas nenhum deles é garantido, viu?",
+   "arquivo": "assets/audio/fim6x1v3/v5b.mp3",
+   "duracao": 2.424,
+   "palavras": [
+    {
+     "texto": "Mas",
+     "inicio": 0.0,
+     "fim": 0.28
+    },
+    {
+     "texto": "nenhum",
+     "inicio": 0.28,
+     "fim": 0.52
+    },
+    {
+     "texto": "deles",
+     "inicio": 0.52,
+     "fim": 0.84
+    },
+    {
+     "texto": "é",
+     "inicio": 0.84,
+     "fim": 1.02
+    },
+    {
+     "texto": "garantido",
+     "inicio": 1.02,
+     "fim": 1.58
+    },
+    {
+     "texto": "viu",
+     "inicio": 1.9,
+     "fim": 2.06
+    }
+   ]
+  },
+  "v6a": {
+   "texto": "Pô, pra mim é mais tempo com a família, sabe? E descanso de verdade... finalmente!",
+   "tomada": "v6a_t3.wav",
+   "nota_whisper": 1.0,
+   "ouvido": "Pô, pra mim é mais tempo com a família, sabe? E descanso de verdade, finalmente.",
+   "arquivo": "assets/audio/fim6x1v3/v6a.mp3",
+   "duracao": 4.08,
+   "palavras": [
+    {
+     "texto": "Pô",
+     "inicio": 0.0,
+     "fim": 0.28
+    },
+    {
+     "texto": "pra",
+     "inicio": 0.32,
+     "fim": 0.4
+    },
+    {
+     "texto": "mim",
+     "inicio": 0.4,
+     "fim": 0.56
+    },
+    {
+     "texto": "é",
+     "inicio": 0.56,
+     "fim": 0.62
+    },
+    {
+     "texto": "mais",
+     "inicio": 0.62,
+     "fim": 0.8
+    },
+    {
+     "texto": "tempo",
+     "inicio": 0.8,
+     "fim": 1.0
+    },
+    {
+     "texto": "com",
+     "inicio": 1.0,
+     "fim": 1.12
+    },
+    {
+     "texto": "a",
+     "inicio": 1.12,
+     "fim": 1.18
+    },
+    {
+     "texto": "família",
+     "inicio": 1.18,
+     "fim": 1.52
+    },
+    {
+     "texto": "sabe",
+     "inicio": 1.66,
+     "fim": 1.88
+    },
+    {
+     "texto": "E",
+     "inicio": 2.02,
+     "fim": 2.16
+    },
+    {
+     "texto": "descanso",
+     "inicio": 2.16,
+     "fim": 2.52
+    },
+    {
+     "texto": "de",
+     "inicio": 2.52,
+     "fim": 2.64
+    },
+    {
+     "texto": "verdade",
+     "inicio": 2.64,
+     "fim": 2.98
+    },
+    {
+     "texto": "finalmente",
+     "inicio": 3.04,
+     "fim": 3.4
+    }
+   ]
+  },
+  "v7a": {
+   "texto": "Só que não muda no dia seguinte, tá? A contagem só começa quando a emenda é publicada.",
+   "tomada": "v7a_t1.mp3",
+   "nota_whisper": 1.0,
+   "ouvido": "Só que não muda no dia seguinte, tá? A contagem só começa quando a emenda é publicada.",
+   "arquivo": "assets/audio/fim6x1v3/v7a.mp3",
+   "duracao": 5.568,
+   "palavras": [
+    {
+     "texto": "Só",
+     "inicio": 0.0,
+     "fim": 0.22
+    },
+    {
+     "texto": "que",
+     "inicio": 0.22,
+     "fim": 0.32
+    },
+    {
+     "texto": "não",
+     "inicio": 0.32,
+     "fim": 0.44
+    },
+    {
+     "texto": "muda",
+     "inicio": 0.44,
+     "fim": 0.72
+    },
+    {
+     "texto": "no",
+     "inicio": 0.72,
+     "fim": 0.82
+    },
+    {
+     "texto": "dia",
+     "inicio": 0.82,
+     "fim": 0.98
+    },
+    {
+     "texto": "seguinte",
+     "inicio": 0.98,
+     "fim": 1.46
+    },
+    {
+     "texto": "tá",
+     "inicio": 1.96,
+     "fim": 2.08
+    },
+    {
+     "texto": "A",
+     "inicio": 2.36,
+     "fim": 2.6
+    },
+    {
+     "texto": "contagem",
+     "inicio": 2.6,
+     "fim": 3.06
+    },
+    {
+     "texto": "só",
+     "inicio": 3.06,
+     "fim": 3.26
+    },
+    {
+     "texto": "começa",
+     "inicio": 3.26,
+     "fim": 3.68
+    },
+    {
+     "texto": "quando",
+     "inicio": 3.68,
+     "fim": 3.94
+    },
+    {
+     "texto": "a",
+     "inicio": 3.94,
+     "fim": 4.06
+    },
+    {
+     "texto": "emenda",
+     "inicio": 4.06,
+     "fim": 4.4
+    },
+    {
+     "texto": "é",
+     "inicio": 4.4,
+     "fim": 4.66
+    },
+    {
+     "texto": "publicada",
+     "inicio": 4.66,
+     "fim": 5.22
+    }
+   ]
+  },
+  "v7b": {
+   "texto": "Dois meses depois, quarenta e duas horas. Aí, um ano depois disso... quarenta.",
+   "tomada": "v7b_t1.mp3",
+   "nota_whisper": 1.0,
+   "ouvido": "Dois meses depois, 42 horas. Aí, um ano depois disso, 40.",
+   "arquivo": "assets/audio/fim6x1v3/v7b.mp3",
+   "duracao": 5.928,
+   "palavras": [
+    {
+     "texto": "Dois",
+     "inicio": 0.0,
+     "fim": 0.4
+    },
+    {
+     "texto": "meses",
+     "inicio": 0.4,
+     "fim": 0.7
+    },
+    {
+     "texto": "depois",
+     "inicio": 0.7,
+     "fim": 1.06
+    },
+    {
+     "texto": "quarenta",
+     "inicio": 1.46,
+     "fim": 1.627
+    },
+    {
+     "texto": "e",
+     "inicio": 1.627,
+     "fim": 1.793
+    },
+    {
+     "texto": "duas",
+     "inicio": 1.793,
+     "fim": 1.96
+    },
+    {
+     "texto": "horas",
+     "inicio": 1.96,
+     "fim": 2.52
+    },
+    {
+     "texto": "Aí",
+     "inicio": 2.88,
+     "fim": 3.26
+    },
+    {
+     "texto": "um",
+     "inicio": 3.5,
+     "fim": 3.78
+    },
+    {
+     "texto": "ano",
+     "inicio": 3.78,
+     "fim": 3.98
+    },
+    {
+     "texto": "depois",
+     "inicio": 3.98,
+     "fim": 4.36
+    },
+    {
+     "texto": "disso",
+     "inicio": 4.36,
+     "fim": 4.72
+    },
+    {
+     "texto": "quarenta",
+     "inicio": 5.02,
+     "fim": 5.46
+    }
+   ]
+  },
+  "v8a": {
+   "texto": "E você? Tá com o Zé, com o Seu Cláudio... ou com os dois?",
+   "tomada": "v8a_t1.mp3",
+   "nota_whisper": 1.0,
+   "ouvido": "E você? Tá com o Zé? Com o seu Cláudio? Ou com os dois?",
+   "arquivo": "assets/audio/fim6x1v3/v8a.mp3",
+   "duracao": 4.344,
+   "palavras": [
+    {
+     "texto": "E",
+     "inicio": 0.0,
+     "fim": 0.16
+    },
+    {
+     "texto": "você",
+     "inicio": 0.16,
+     "fim": 0.48
+    },
+    {
+     "texto": "Tá",
+     "inicio": 0.64,
+     "fim": 0.96
+    },
+    {
+     "texto": "com",
+     "inicio": 0.96,
+     "fim": 1.18
+    },
+    {
+     "texto": "o",
+     "inicio": 1.18,
+     "fim": 1.36
+    },
+    {
+     "texto": "Zé",
+     "inicio": 1.36,
+     "fim": 1.6
+    },
+    {
+     "texto": "com",
+     "inicio": 1.82,
+     "fim": 2.2
+    },
+    {
+     "texto": "o",
+     "inicio": 2.2,
+     "fim": 2.32
+    },
+    {
+     "texto": "Seu",
+     "inicio": 2.32,
+     "fim": 2.4
+    },
+    {
+     "texto": "Cláudio",
+     "inicio": 2.4,
+     "fim": 2.92
+    },
+    {
+     "texto": "ou",
+     "inicio": 3.06,
+     "fim": 3.36
+    },
+    {
+     "texto": "com",
+     "inicio": 3.36,
+     "fim": 3.5
+    },
+    {
+     "texto": "os",
+     "inicio": 3.5,
+     "fim": 3.66
+    },
+    {
+     "texto": "dois",
+     "inicio": 3.66,
+     "fim": 3.84
+    }
+   ]
+  },
+  "v8b": {
+   "texto": "Comenta aí e segue o arroba caderno ânderláin amarelo!",
+   "tomada": "v8b_t1.mp3",
+   "nota_whisper": 1.0,
+   "ouvido": "Comenta aí e segue o arroba caderno underline amarelo.",
+   "arquivo": "assets/audio/fim6x1v3/v8b.mp3",
+   "duracao": 3.984,
+   "palavras": [
+    {
+     "texto": "Comenta",
+     "inicio": 0.0,
+     "fim": 0.48
+    },
+    {
+     "texto": "aí",
+     "inicio": 0.48,
+     "fim": 0.76
+    },
+    {
+     "texto": "e",
+     "inicio": 0.76,
+     "fim": 0.98
+    },
+    {
+     "texto": "segue",
+     "inicio": 0.98,
+     "fim": 1.22
+    },
+    {
+     "texto": "o",
+     "inicio": 1.22,
+     "fim": 1.34
+    },
+    {
+     "texto": "arroba",
+     "inicio": 1.34,
+     "fim": 1.68
+    },
+    {
+     "texto": "caderno",
+     "inicio": 1.68,
+     "fim": 2.2
+    },
+    {
+     "texto": "ânderláin",
+     "inicio": 2.2,
+     "fim": 2.9
+    },
+    {
+     "texto": "amarelo",
+     "inicio": 2.9,
+     "fim": 3.64
+    }
+   ]
+  }
+ },
+ "total": 97.006
+}

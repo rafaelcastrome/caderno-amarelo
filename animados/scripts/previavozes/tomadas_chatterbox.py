@@ -1,7 +1,7 @@
 """Tomadas do Chatterbox pt-BR (ResembleAI/Chatterbox-Multilingual-pt-br), uma por semente, na GPU se houver."""
 import os, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from comum import AMOSTRAS, N_TOMADAS, TOMADAS, falas_do_motor
+from comum import ja_existe, AMOSTRAS, N_TOMADAS, TOMADAS, falas_do_motor
 sys.path.insert(0, os.path.join(AMOSTRAS, "_space"))
 import soundfile as sf
 import torch
@@ -10,7 +10,7 @@ from chatterbox.src.chatterbox.tts import ChatterboxTTS
 dev = "cuda" if torch.cuda.is_available() else "cpu"
 m = ChatterboxTTS.from_local(os.path.join(AMOSTRAS, "_models", "chatterbox_ptbr"), dev)
 os.makedirs(TOMADAS, exist_ok=True)
-for c, voz in falas_do_motor("chatterbox"):
+for c, voz in [x for x in falas_do_motor("chatterbox") if not ja_existe(x[0]["id"])]:
     for n in range(1, N_TOMADAS + 1):
         torch.manual_seed(n)
         t0 = time.time()

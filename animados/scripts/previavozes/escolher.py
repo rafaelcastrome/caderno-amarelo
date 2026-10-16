@@ -7,7 +7,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from comum import AUDIO, FFMPEG, ROTEIRO, TOMADAS, roteiro
 from faster_whisper import WhisperModel
 
-NUM = {"1": "um", "2": "dois", "6": "seis", "6x1": "seis por um", "6por1": "seis por um"}
+NUM = {"1": "um", "2": "dois", "6": "seis", "6x1": "seis por um", "6por1": "seis por um", "40": "quarenta",
+       "42": "quarenta e duas", "44": "quarenta e quatro", "underline": "anderlain"}
 
 
 def normal(s):
@@ -25,8 +26,10 @@ def palavras_whisper(segs):
     for s in segs:
         for w in s.words or []:
             t = normal(w.word)
-            for parte in NUM.get(t, t).split():
-                out.append({"n": parte, "inicio": w.start, "fim": w.end})
+            partes = NUM.get(t, t).split()
+            passo = (w.end - w.start) / max(1, len(partes))  # "42" -> "quarenta e duas": divide o tempo da palavra
+            for k, parte in enumerate(partes):
+                out.append({"n": parte, "inicio": w.start + k * passo, "fim": w.start + (k + 1) * passo})
     return out
 
 
@@ -80,7 +83,7 @@ def main():
         subprocess.check_call([FFMPEG, "-y", "-loglevel", "error", "-i", arq, "-af", filtro,
                                "-ar", "48000", "-ac", "1", "-b:a", "160k", os.path.join(AUDIO, f"{c['id']}.mp3")])
         indice["falas"][c["id"]] = {"texto": c["fala"], "tomada": os.path.basename(arq), "nota_whisper": round(nota, 3),
-                                    "ouvido": txt, "arquivo": f"assets/audio/previavozes/{c['id']}.mp3",
+                                    "ouvido": txt, "arquivo": f"assets/audio/{r.get('pasta_audio', 'previavozes')}/{c['id']}.mp3",
                                     "duracao": round(dur, 3), "palavras": palavras}
         print(f"==> {c['id']}: {os.path.basename(arq)} (nota {nota:.2f})", flush=True)
         total += c.get("antes", 0) + min(dur, palavras[-1]["fim"] + 0.25) + c.get("pausa", 0.5)
