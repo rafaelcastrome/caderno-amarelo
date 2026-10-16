@@ -1,0 +1,15 @@
+{
+  "_sobre": "Prévia de vozes (~20 s): cenas 1 e 4 do Fim6x1v2 com as falas reescritas em tom de áudio de WhatsApp. Zé = Chatterbox pt-BR (voz padrão, exaggeration 0.8); Seu Cláudio = Qwen3-TTS 0.6B (Uncle_Fu, 15% mais rápido via atempo); Amarelinho = edge-tts en-US-AndrewMultilingualNeural. Áudio e narracao.json gerados por amostras_vozes/_scripts/previa (3 tomadas por fala, Whisper escolhe; não usa narrar.mjs). As cenas são as mesmas do Fim6x1v2, sem alteração.",
+  "vozes": {
+    "ze": { "motor": "chatterbox", "voz": "padrao", "exaggeration": 0.8 },
+    "claudio": { "motor": "qwen", "voz": "Uncle_Fu", "velocidade": 1.15 },
+    "amarelinho": { "motor": "edge", "voz": "en-US-AndrewMultilingualNeural", "ritmo": "+10%" }
+  },
+  "cenas": [
+    { "id": "v1a", "cena": 1, "quem": "ze", "antes": 0.15, "pausa": 0.25, "fala": "Aí sim! Acabou a escala seis por um!", "destaques": ["acabou", "6x1"], "trocas": { "seis": "6x1", "por": "", "um": "" } },
+    { "id": "v1b", "cena": 1, "quem": "claudio", "antes": 0.3, "pausa": 0.6, "fala": "É... acabou foi o meu sossego.", "destaques": ["sossego"] },
+    { "id": "v1c", "cena": 1, "quem": "amarelinho", "pausa": 0.4, "fala": "Opa, calma, gente! Vamos ver o que muda de verdade?", "destaques": ["muda", "verdade"] },
+    { "id": "v4a", "cena": 4, "quem": "claudio", "pausa": 0.3, "fala": "Ó, minha padaria abre de segunda a sábado. Aí se o Zé folga dois dias... quem fica no balcão?", "destaques": ["padaria", "balcão"] },
+    { "id": "v4b", "cena": 4, "quem": "ze", "antes": 0.2, "pausa": 0.5, "fala": "Ué, reveza! Faz um turno novo aí e todo mundo descansa, sabe?", "destaques": ["reveza", "turno"] }
+  ]
+}

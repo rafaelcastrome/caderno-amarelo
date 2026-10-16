@@ -1,0 +1,331 @@
+{
+ "voz": "varias (ver falas.json > vozes)",
+ "falas": {
+  "v1a": {
+   "texto": "Aí sim! Acabou a escala seis por um!",
+   "tomada": "v1a_t2.wav",
+   "nota_whisper": 1.0,
+   "ouvido": "Ai sim, acabou a escala 6x1.",
+   "arquivo": "assets/audio/previavozes/v1a.mp3",
+   "duracao": 2.68,
+   "palavras": [
+    {
+     "texto": "Aí",
+     "inicio": 0.0,
+     "fim": 0.4
+    },
+    {
+     "texto": "sim",
+     "inicio": 0.4,
+     "fim": 0.72
+    },
+    {
+     "texto": "Acabou",
+     "inicio": 1.02,
+     "fim": 1.22
+    },
+    {
+     "texto": "a",
+     "inicio": 1.22,
+     "fim": 1.34
+    },
+    {
+     "texto": "escala",
+     "inicio": 1.34,
+     "fim": 1.66
+    },
+    {
+     "texto": "seis",
+     "inicio": 1.66,
+     "fim": 2.24
+    },
+    {
+     "texto": "por",
+     "inicio": 1.66,
+     "fim": 2.24
+    },
+    {
+     "texto": "um",
+     "inicio": 1.66,
+     "fim": 2.24
+    }
+   ]
+  },
+  "v1b": {
+   "texto": "É... acabou foi o meu sossego.",
+   "tomada": "v1b_t3.wav",
+   "nota_whisper": 1.0,
+   "ouvido": "É, acabou foi o meu sossego.",
+   "arquivo": "assets/audio/previavozes/v1b.mp3",
+   "duracao": 2.922,
+   "palavras": [
+    {
+     "texto": "É",
+     "inicio": 0.0,
+     "fim": 0.348
+    },
+    {
+     "texto": "acabou",
+     "inicio": 0.661,
+     "fim": 1.235
+    },
+    {
+     "texto": "foi",
+     "inicio": 1.235,
+     "fim": 1.461
+    },
+    {
+     "texto": "o",
+     "inicio": 1.461,
+     "fim": 1.67
+    },
+    {
+     "texto": "meu",
+     "inicio": 1.67,
+     "fim": 1.826
+    },
+    {
+     "texto": "sossego",
+     "inicio": 1.826,
+     "fim": 2.522
+    }
+   ]
+  },
+  "v1c": {
+   "texto": "Opa, calma, gente! Vamos ver o que muda de verdade?",
+   "tomada": "v1c_t1.mp3",
+   "nota_whisper": 1.0,
+   "ouvido": "Opa, calma, gente, vamos ver o que muda de verdade.",
+   "arquivo": "assets/audio/previavozes/v1c.mp3",
+   "duracao": 4.488,
+   "palavras": [
+    {
+     "texto": "Opa",
+     "inicio": 0.0,
+     "fim": 0.36
+    },
+    {
+     "texto": "calma",
+     "inicio": 0.8,
+     "fim": 1.12
+    },
+    {
+     "texto": "gente",
+     "inicio": 1.52,
+     "fim": 1.78
+    },
+    {
+     "texto": "Vamos",
+     "inicio": 2.32,
+     "fim": 2.58
+    },
+    {
+     "texto": "ver",
+     "inicio": 2.58,
+     "fim": 2.92
+    },
+    {
+     "texto": "o",
+     "inicio": 2.92,
+     "fim": 3.06
+    },
+    {
+     "texto": "que",
+     "inicio": 3.06,
+     "fim": 3.16
+    },
+    {
+     "texto": "muda",
+     "inicio": 3.16,
+     "fim": 3.54
+    },
+    {
+     "texto": "de",
+     "inicio": 3.54,
+     "fim": 3.66
+    },
+    {
+     "texto": "verdade",
+     "inicio": 3.66,
+     "fim": 4.02
+    }
+   ]
+  },
+  "v4a": {
+   "texto": "Ó, minha padaria abre de segunda a sábado. Aí se o Zé folga dois dias... quem fica no balcão?",
+   "tomada": "v4a_t1.wav",
+   "nota_whisper": 0.947,
+   "ouvido": "Oh, minha padaria abre de segunda a sábado. Aí se o Zé folga dois dias, quem fica no balcão?",
+   "arquivo": "assets/audio/previavozes/v4a.mp3",
+   "duracao": 7.374,
+   "palavras": [
+    {
+     "texto": "Ó",
+     "inicio": 0.0,
+     "fim": 0.609
+    },
+    {
+     "texto": "minha",
+     "inicio": 0.783,
+     "fim": 0.939
+    },
+    {
+     "texto": "padaria",
+     "inicio": 0.939,
+     "fim": 1.339
+    },
+    {
+     "texto": "abre",
+     "inicio": 1.339,
+     "fim": 1.583
+    },
+    {
+     "texto": "de",
+     "inicio": 1.583,
+     "fim": 1.791
+    },
+    {
+     "texto": "segunda",
+     "inicio": 1.791,
+     "fim": 2.104
+    },
+    {
+     "texto": "a",
+     "inicio": 2.104,
+     "fim": 2.313
+    },
+    {
+     "texto": "sábado",
+     "inicio": 2.313,
+     "fim": 2.765
+    },
+    {
+     "texto": "Aí",
+     "inicio": 3.165,
+     "fim": 3.6
+    },
+    {
+     "texto": "se",
+     "inicio": 3.6,
+     "fim": 3.757
+    },
+    {
+     "texto": "o",
+     "inicio": 3.757,
+     "fim": 3.878
+    },
+    {
+     "texto": "Zé",
+     "inicio": 3.878,
+     "fim": 4.122
+    },
+    {
+     "texto": "folga",
+     "inicio": 4.122,
+     "fim": 4.4
+    },
+    {
+     "texto": "dois",
+     "inicio": 4.4,
+     "fim": 4.957
+    },
+    {
+     "texto": "dias",
+     "inicio": 4.957,
+     "fim": 5.426
+    },
+    {
+     "texto": "quem",
+     "inicio": 5.704,
+     "fim": 6.035
+    },
+    {
+     "texto": "fica",
+     "inicio": 6.035,
+     "fim": 6.261
+    },
+    {
+     "texto": "no",
+     "inicio": 6.261,
+     "fim": 6.348
+    },
+    {
+     "texto": "balcão",
+     "inicio": 6.348,
+     "fim": 6.765
+    }
+   ]
+  },
+  "v4b": {
+   "texto": "Ué, reveza! Faz um turno novo aí e todo mundo descansa, sabe?",
+   "tomada": "v4b_t2.wav",
+   "nota_whisper": 0.917,
+   "ouvido": "Ué, reveza, faça um turno novo aí e todo mundo descansa, sabe?",
+   "arquivo": "assets/audio/previavozes/v4b.mp3",
+   "duracao": 4.64,
+   "palavras": [
+    {
+     "texto": "Ué",
+     "inicio": 0.8,
+     "fim": 1.14
+    },
+    {
+     "texto": "reveza",
+     "inicio": 1.14,
+     "fim": 1.48
+    },
+    {
+     "texto": "Faz",
+     "inicio": 1.64,
+     "fim": 1.8
+    },
+    {
+     "texto": "um",
+     "inicio": 1.8,
+     "fim": 1.92
+    },
+    {
+     "texto": "turno",
+     "inicio": 1.92,
+     "fim": 2.2
+    },
+    {
+     "texto": "novo",
+     "inicio": 2.2,
+     "fim": 2.48
+    },
+    {
+     "texto": "aí",
+     "inicio": 2.48,
+     "fim": 2.64
+    },
+    {
+     "texto": "e",
+     "inicio": 2.64,
+     "fim": 2.8
+    },
+    {
+     "texto": "todo",
+     "inicio": 2.8,
+     "fim": 2.94
+    },
+    {
+     "texto": "mundo",
+     "inicio": 2.94,
+     "fim": 3.12
+    },
+    {
+     "texto": "descansa",
+     "inicio": 3.12,
+     "fim": 3.7
+    },
+    {
+     "texto": "sabe",
+     "inicio": 3.82,
+     "fim": 4.06
+    }
+   ]
+  }
+ },
+ "total": 23.557
+}
