@@ -1,0 +1,12 @@
+# Falas do roteiro Fim6x1v2 (animados/src/roteiros/fim6x1v2/falas.json).
+# Linhas com "#" = texto ORIGINAL do roteiro. Linhas sem "#" = versão REESCRITA (coloquial, estilo áudio de WhatsApp), usada nas amostras.
+# formato: personagem|id|texto
+#
+# ORIGINAL ze|v6a|Pra mim é mais tempo com a família e descanso de verdade!
+ze|v6a|Pô, pra mim é mais tempo com a família, sabe? E descanso de verdade... finalmente!
+#
+# ORIGINAL claudio|v4a|Minha padaria abre de segunda a sábado. Se o Zé folga dois dias, quem fica no balcão?
+claudio|v4a|Olha... minha padaria abre de segunda a sábado. Aí o Zé folga dois dias, e quem fica no balcão? Eu?!
+#
+# ORIGINAL amarelinho|v3b|Pera! Custo maior por hora não vira preço mais alto automaticamente. Depende do setor e de como cada empresa se adapta.
+amarelinho|v3b|Pera aí! Custo maior por hora não vira preço mais alto do nada, tá? Depende do setor... e de como cada empresa se vira.
