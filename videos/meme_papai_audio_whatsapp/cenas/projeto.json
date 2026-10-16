@@ -1,0 +1,8 @@
+{
+ "titulo": "Meme: o áudio da baixinha (criança tentando explicar e o papai sem entender)",
+ "modo": "B",
+ "marca": { "handle": "caderno_amarelo", "nome": "Caderno Amarelo" },
+ "marcaDagua": false,
+ "audio": "Áudio original de WhatsApp enviado pelo Rafael (voz da criança, 34 s), +6 dB, com a risada de plateia (risada_gargalhada.wav, ganho 0,9) a partir de 33,9 s. Transcrição por Whisper small; o trecho de 18 a 26,7 s é balbucio e foi legendado de forma aproximada. Personagens genéricos, sem nomes. A marca d'água @caderno_amarelo é desenhada em cenas.js e passeia por quatro cantos seguros.",
+ "cenas": [ { "fala": "(áudio original completo, 0–34 s; ver legendas em cenas.js → CAPS)", "voz": "Criança" } ]
+}
