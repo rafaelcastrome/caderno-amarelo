@@ -1,0 +1,8 @@
+{
+ "titulo": "Meme: indo comprar um Mobi (vendedor de peruca tenta vender um Mobi pro pai de sete filhos)",
+ "modo": "B",
+ "marca": { "handle": "caderno_amarelo", "nome": "Caderno Amarelo" },
+ "marcaDagua": false,
+ "audio": "Áudio original do vídeo de @matheus.ruff (vendedor na tela + cliente fora de quadro), cortado em 80,75 s antes da vinheta do TikTok, com a risada de plateia (risada_gargalhada.wav, ganho 0,85) de 80,3 a 86 s. Transcrição por Whisper small; o trecho final (76–80 s) é aproximado. A marca d'água @caderno_amarelo é desenhada em cenas.js e passeia por quatro cantos seguros.",
+ "cenas": [ { "fala": "(áudio original completo, 0–80,6 s; ver legendas em cenas.js → CAPS)", "voz": "Vendedor e cliente" } ]
+}
