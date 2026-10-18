@@ -280,8 +280,8 @@ window.CENAS = function (WB) {
     return (a + (b - a) * f) / 9;
   };
   // quem fala: V = vendedor (na tela), C = cliente (fora de quadro no vídeo original)
-  const C_WIN = [[4.5, 9.5], [11.6, 12.5], [17.1, 19.3], [42.5, 43.5], [45.35, 49.45], [56.9, 58.2]];
-  const V_WIN = [[0.1, 4.3], [9.6, 11.55], [12.8, 17.05], [19.35, 42.45], [43.55, 45.3], [49.5, 56.85], [58.4, 60.1], [66.0, 68.3], [70.2, 80.5]];
+  const C_WIN = [[4.5, 6.2], [7.75, 9.5], [11.6, 12.5], [17.1, 19.3], [42.5, 43.5], [45.35, 49.45], [56.9, 58.2]];
+  const V_WIN = [[0.1, 4.3], [6.3, 7.7], [9.6, 11.55], [12.8, 17.05], [19.35, 42.45], [43.55, 45.3], [49.5, 56.85], [58.4, 60.1], [66.0, 68.3], [70.2, 80.5]];
   const talk = (wins, t, k = 1.25) => {
     for (const [a, b] of wins) if (t >= a && t <= b) return clamp(envAt(t) * k) * clamp((b - t) / 0.06) * clamp((t - a) / 0.04);
     return 0;
@@ -535,73 +535,98 @@ window.CENAS = function (WB) {
   const priceTag = (txt) => [{ d: 'M -150 -70 L 110 -70 L 170 0 L 110 70 L -150 70 Z', fill: '#fde047', w: 7 }, circ(118, 0, 12, '#fffdf5', null, 5), T(txt, -20, 22, 64, INK.red)];
   const shadesS = (x, y, s = 1) => [{ d: `M ${x - 56 * s} ${y - 10 * s} L ${x + 56 * s} ${y - 10 * s}`, w: 6 }, { d: ellipse(x - 30 * s, y + 4 * s, 24 * s, 16 * s), fill: '#111827' }, { d: ellipse(x + 30 * s, y + 4 * s, 24 * s, 16 * s), fill: '#111827' }];
 
-  // ---------------- o carro (Mobi / Onix) — vista de lado, frente para a direita; origem no chão, no meio ----------------
-  const CAR_BODY = 'M -366 -60 L -374 -200 Q -372 -300 -300 -332 L 70 -338 Q 120 -334 225 -222 L 340 -202 Q 380 -192 380 -150 L 378 -80 Q 376 -60 350 -60 Z';
+  // ---------------- o carro — vista de lado, frente para a direita; origem no chão, no meio ----------------
+  // Mobi (padrão): hatch alto e curtinho, com moldura preta nas rodas e rack no teto, bem MENOR que o vendedor.
+  // Onix (o: big): sedã-hatch comprido da cena 1, para contrastar.
+  const GEO = {
+    mobi: {
+      body: 'M -255 -60 L -262 -150 Q -262 -270 -215 -287 L 95 -292 Q 130 -290 172 -207 L 240 -192 Q 262 -186 262 -150 L 260 -80 Q 258 -60 240 -60 Z',
+      win: ['M -140 -278 L -20 -280 L -20 -207 L -140 -205 Z'],
+      doorP: 'M -10 -286 L 95 -290 Q 128 -286 168 -207 L 170 -72 L -10 -72 Z', doorW: 'M -2 -278 L 92 -282 Q 120 -278 158 -209 L -2 -209 Z', doorX: 170,
+      lidP: 'M -215 -289 L -150 -289 L -150 -105 L -258 -105 L -262 -150 Q -262 -270 -215 -289 Z', lidW: 'M -212 -278 Q -250 -258 -254 -207 L -162 -207 L -162 -278 Z', lidH: [-215, -289],
+      hoodP: 'M 172 -209 L 240 -194 Q 263 -188 263 -158 L 175 -160 Z', hoodH: [172, -209], eng: [220, -172],
+      tail: [-270, -208, 18, 50], head: 'M 230 -186 L 260 -180 L 262 -162 L 232 -164 Z', mirror: 'M 158 -210 L 182 -222 L 186 -202 Z',
+      wheels: [-165, 168], wr: 40, ar: 56, badge: [-205, -132], sticker: [20, -262], extra: [{ d: 'M -200 -300 L 92 -303', c: '#1f2937', w: 9 }, { d: 'M -150 -296 L -150 -290 M 40 -300 L 40 -294', w: 5 },
+        { d: 'M -252 -82 L 258 -82', c: '#1f2937', w: 18 }],
+    },
+    onix: {
+      body: 'M -366 -60 L -374 -200 Q -372 -300 -300 -332 L 70 -338 Q 120 -334 225 -222 L 340 -202 Q 380 -192 380 -150 L 378 -80 Q 376 -60 350 -60 Z',
+      win: ['M -270 -318 L -40 -322 L -40 -232 L -280 -230 Z'],
+      doorP: 'M -28 -324 L 70 -326 Q 108 -322 196 -230 L 200 -76 L -28 -76 Z', doorW: 'M -20 -318 L 70 -322 Q 106 -318 184 -236 L -20 -236 Z', doorX: 200,
+      lidP: 'M -300 -332 L -214 -332 L -214 -112 L -368 -112 L -374 -200 Q -372 -300 -300 -332 Z', lidW: 'M -296 -320 Q -352 -296 -360 -236 L -232 -236 L -232 -320 Z', lidH: [-300, -332],
+      hoodP: 'M 222 -224 L 340 -204 Q 380 -194 380 -160 L 226 -162 Z', hoodH: [222, -224], eng: [300, -172],
+      tail: [-380, -236, 22, 64], head: 'M 332 -194 L 374 -186 L 378 -162 L 336 -166 Z', mirror: 'M 186 -236 L 214 -250 L 220 -226 Z',
+      wheels: [-235, 250], wr: 60, ar: 82, badge: [-290, -160], sticker: [29, -280], extra: [{ d: 'M -372 -110 L 378 -110', c: '#9ca3af', w: 5 }],
+    },
+  };
   function makeCar(parent, o = {}) {
+    const G = o.big ? GEO.onix : GEO.mobi;
     const g = WB.mk('g', {}, parent);
     const bodyC = o.color || '#ffffff';
     const inner = WB.mk('g', {}, g);
-    // carroceria
-    put([{ d: CAR_BODY, fill: bodyC, w: 8 },
-      { d: 'M -270 -318 L -40 -322 L -40 -232 L -280 -230 Z', fill: '#bae6fd', w: 6 },
-      { d: 'M -25 -322 L 70 -326 Q 108 -322 186 -234 L -25 -234 Z', fill: '#bae6fd', w: 6 },
-      { d: 'M -30 -232 L -30 -74 M 196 -228 L 200 -74', w: 5 }, { d: 'M -10 -190 L 30 -190 M 216 -190 L 250 -190', w: 7 },
-      box(-380, -236, 22, 64, 8, '#ef4444', null, 5), { d: 'M 332 -194 L 374 -186 L 378 -162 L 336 -166 Z', fill: '#fde047', w: 5 },
-      { d: 'M -372 -110 L 378 -110', c: '#9ca3af', w: 5 },
-      { d: 'M 186 -236 L 214 -250 L 220 -226 Z', fill: '#e5e7eb', w: 5 }], inner);
-    if (o.sticker) put([box(-6, -306, 70, 52, 4, '#fde047', null, 4), T('R$', 29, -270, 30, INK.red)], inner);
-    if (o.label) put([T(o.label, -120, -140, 56, o.labelC || '#1d4ed8')], inner);
+    const glass = o.seeThru ? 0.22 : 1;
+    put([{ d: G.body, fill: bodyC, w: 8 }], inner);
+    // o que fica "dentro" do carro: só aparece pelos vidros (e acima do teto, para a cabeça furar o teto)
+    const cid = 'car' + (UID++);
+    const cp = WB.mk('clipPath', { id: cid }, inner);
+    [...G.win, G.doorW, G.lidW, 'M -400 -296 L 400 -296 L 400 -1200 L -400 -1200 Z'].forEach(d => WB.mk('path', { d }, cp));
+    const behind = WB.mk('g', { 'clip-path': `url(#${cid})` }, inner);
+    put([...G.win.map(d => ({ d, fill: '#bae6fd', fo: glass, w: 6 })),
+      { d: `M ${G.doorX + 2} -205 L ${G.doorX + 4} -74`, w: 5 },
+      box(...G.tail, 8, '#ef4444', null, 5), { d: G.head, fill: '#fde047', w: 5 }, { d: G.mirror, fill: '#1f2937', w: 5 }, ...G.extra], inner);
     if (o.dents) put([{ d: 'M -320 -150 q 20 -16 40 0 q 20 16 40 0', c: '#6b7280', w: 5 }, { d: 'M 100 -150 q 14 -24 34 -6 q 14 14 30 -4', c: '#6b7280', w: 5 },
       { d: 'M 280 -120 l 20 -20 l 10 14 l 18 -22', c: '#6b7280', w: 5 },
       box(-200, -175, 70, 26, 8, '#fcd34d', null, 4), { d: 'M -180 -168 l 0 12 M -150 -168 l 0 12', c: '#b45309', w: 3 },
       box(120, -210, 66, 24, 8, '#fcd34d', null, 4)], inner);
     // interior do porta-malas (aparece quando a tampa abre)
     const trunkIn = WB.mk('g', { opacity: 0 }, inner);
-    put([{ d: 'M -300 -330 L -214 -330 L -214 -110 L -366 -110 L -374 -200 Q -372 -300 -300 -330 Z', fill: o.void ? '#0f172a' : '#44403c', w: 6 }], trunkIn);
+    put([{ d: G.lidP, fill: '#44403c', w: 6 }], trunkIn);
+    if (o.tinyTrunk) put([box(-232, -150, 52, 36, 6, '#60a5fa', null, 4), { d: 'M -222 -150 L -222 -160 L -190 -160 L -190 -150', w: 4 }], trunkIn);
     const voidG = WB.mk('g', {}, trunkIn);
-    if (o.void) put([star(-300, -270, 9, '#ffffff'), star(-250, -170, 7, '#fde047'), star(-330, -150, 6, '#ffffff'), star(-240, -290, 5, '#93c5fd'),
-      circ(-280, -210, 26, '#7c3aed', 'none'), { d: 'M -330 -210 Q -280 -260 -232 -210 Q -280 -170 -330 -210', c: '#c4b5fd', w: 4 }], voidG);
     // vão do motor
     const bay = WB.mk('g', { opacity: 0 }, inner);
-    put([{ d: 'M 222 -222 L 340 -202 Q 378 -192 378 -160 L 226 -160 Z', fill: '#292524', w: 6 }], bay);
-    const eng = WB.mk('g', { transform: 'translate(300 -172)' }, bay);
-    put(engine(o.tinyEngine ? 0.22 : 0.9), eng);
+    put([{ d: G.hoodP, fill: '#292524', w: 6 }], bay);
+    const eng = WB.mk('g', { transform: `translate(${G.eng[0]} ${G.eng[1]})` }, bay);
+    put(engine(o.tinyEngine ? 0.18 : 0.6), eng);
     // tampa do porta-malas
     const lid = WB.mk('g', {}, inner);
-    put([{ d: 'M -300 -332 L -214 -332 L -214 -112 L -368 -112 L -374 -200 Q -372 -300 -300 -332 Z', fill: bodyC, w: 7 },
-      { d: 'M -296 -320 Q -352 -296 -360 -236 L -232 -236 L -232 -320 Z', fill: '#bae6fd', w: 5 }, box(-380, -236, 22, 64, 8, '#ef4444', null, 5),
-      T(o.badge || 'MOBI', -290, -160, 40, '#6b7280')], lid);
+    put([{ d: G.lidP, fill: bodyC, w: 7 }, { d: G.lidW, fill: '#bae6fd', fo: glass, w: 5 }, box(...G.tail, 8, '#ef4444', null, 5),
+      T(o.badge || 'MOBI', G.badge[0] + (o.big ? 0 : 52), G.badge[1], o.big ? 40 : 30, '#6b7280')], lid);
     // capô
     const hood = WB.mk('g', {}, inner);
-    put([{ d: 'M 222 -224 L 340 -204 Q 380 -194 380 -160 L 226 -162 Z', fill: bodyC, w: 7 }], hood);
+    put([{ d: G.hoodP, fill: bodyC, w: 7 }], hood);
     // porta da frente (quando abre mostra o banco)
     const doorIn = WB.mk('g', { opacity: 0 }, inner);
-    put([{ d: 'M -28 -324 L 70 -326 Q 108 -322 196 -230 L 200 -76 L -28 -76 Z', fill: '#57534e', w: 6 }, box(0, -300, 80, 190, 30, '#1f2937', null, 5), box(-10, -140, 150, 50, 16, '#1f2937', null, 5)], doorIn);
+    put([{ d: G.doorP, fill: '#57534e', w: 6 }, box(G.doorX - 150, -260, 60, 150, 24, '#1f2937', null, 5)], doorIn);
     const door = WB.mk('g', {}, inner);
-    put([{ d: 'M -28 -324 L 70 -326 Q 108 -322 196 -230 L 200 -76 L -28 -76 Z', fill: bodyC, w: 7 },
-      { d: 'M -20 -318 L 70 -322 Q 106 -318 184 -236 L -20 -236 Z', fill: '#bae6fd', w: 5 }, { d: 'M 10 -190 L 50 -190', w: 7 }], door);
+    put([{ d: G.doorP, fill: bodyC, w: 7 }, { d: G.doorW, fill: '#bae6fd', fo: glass, w: 5 }, { d: `M ${G.doorX - 150} -170 L ${G.doorX - 115} -170`, w: 7 }], door);
+    if (o.sticker) put([box(G.sticker[0] - 30, G.sticker[1] - 30, 60, 44, 4, '#fde047', null, 4), T('R$', G.sticker[0], G.sticker[1] + 2, 26, INK.red)], inner);
+    const front = WB.mk('g', {}, inner);   // por cima da carroceria (ex.: pés saindo pela janela)
     // rodas
-    const wheels = [-235, 250].map(wx => {
-      put([{ d: WB.arcPath(wx, -62, 82, 82, Math.PI, Math.PI * 2, 24) + ' Z', fill: '#292524', w: 6 }], inner);
+    const wheels = G.wheels.map(wx => {
+      put([{ d: WB.arcPath(wx, -60, G.ar, G.ar, Math.PI, Math.PI * 2, 24) + ' Z', fill: o.big ? '#292524' : '#1f2937', w: 6 }], inner);
       const wg = WB.mk('g', {}, inner);
-      put([circ(0, 0, 60, '#1f2937', null, 6), circ(0, 0, 32, '#d1d5db', null, 5), { d: 'M -28 0 L 28 0 M 0 -28 L 0 28', c: '#6b7280', w: 5 }], wg);
+      put([circ(0, 0, G.wr, '#1f2937', null, 6), circ(0, 0, G.wr * 0.52, '#d1d5db', null, 5), { d: `M ${-G.wr * 0.46} 0 L ${G.wr * 0.46} 0 M 0 ${-G.wr * 0.46} L 0 ${G.wr * 0.46}`, c: '#6b7280', w: 5 }], wg);
       return { wg, wx };
     });
     const car = {
-      g, eng, set(x, y, s = 1, st = {}) {
-        const b = st.bounce || 0;
+      g, eng, behind, front, G, set(x, y, s = 1, st = {}) {
+        const b = st.bounce || 0, sq = st.squash || 0;
+        car.x = x; car.y = y; car.s = s;
         g.setAttribute('transform', `translate(${r1(x)} ${r1(y)}) scale(${s * (st.f || 1)} ${s})`);
-        inner.setAttribute('transform', `translate(0 ${r1(-b)}) rotate(${r1(st.rot || 0)} 0 -60)`);
+        inner.setAttribute('transform', `translate(0 ${r1(-b + sq * 14)}) rotate(${r1(st.rot || 0)} 0 -60)`);
         const tr = st.trunk || 0, hd = st.hood || 0, dr = st.door || 0;
-        lid.setAttribute('transform', `rotate(${r1(78 * tr)} -300 -332)`);
+        lid.setAttribute('transform', `rotate(${r1(78 * tr)} ${G.lidH[0]} ${G.lidH[1]})`);
         trunkIn.setAttribute('opacity', tr > 0.02 ? 1 : 0);
-        voidG.setAttribute('transform', `rotate(${r1((st.t || 0) * 60)} -280 -210)`);
-        hood.setAttribute('transform', `rotate(${r1(-62 * hd)} 222 -224)`);
+        hood.setAttribute('transform', `rotate(${r1(-62 * hd)} ${G.hoodH[0]} ${G.hoodH[1]})`);
         bay.setAttribute('opacity', hd > 0.02 ? 1 : 0);
-        door.setAttribute('transform', `translate(200 0) scale(${r1((1 - 0.72 * dr) * 1000) / 1000} 1) translate(-200 0)`);
+        door.setAttribute('transform', `translate(${G.doorX} 0) scale(${r1((1 - 0.72 * dr) * 1000) / 1000} 1) translate(${-G.doorX} 0)`);
         doorIn.setAttribute('opacity', dr > 0.02 ? 1 : 0);
-        wheels.forEach(w => w.wg.setAttribute('transform', `translate(${w.wx} ${r1(-62 + b)}) rotate(${r1(st.spin || 0)})`));
+        // pneus amassando quando o carro está "pesado"
+        wheels.forEach(w => w.wg.setAttribute('transform', `translate(${w.wx} ${r1(-G.wr - 2 + b - sq * 14 + G.wr * 0.3 * sq)}) scale(${r1((1 + 0.25 * sq) * 100) / 100} ${r1((1 - 0.3 * sq) * 100) / 100}) rotate(${r1(st.spin || 0)})`));
       },
+      // ponto local do carro -> mundo
+      at(lx, ly) { return [car.x + lx * car.s, car.y + ly * car.s]; },
     };
     return car;
   }
@@ -682,7 +707,7 @@ window.CENAS = function (WB) {
   const V = 0, C = 1;
   const CAPS = [
     [0.1, 'Por que todo Onix zero é batido, Deus?', V], [2.2, 'Não vejo um inteiro!', V], [3.35, 'Opa, boa tarde!', V],
-    [4.5, 'Bom dia! Pode me ajudar?', C], [7.7, 'Eu queria comprar um carro pra família.', C],
+    [4.5, 'Bom dia! Pode me ajudar?', C], [6.3, 'Senhor... é boa noite!', V], [7.75, 'Eu queria comprar um carro pra família.', C],
     [9.6, 'Ô major, tu tem quantos menino?', V], [11.6, 'Sete.', C],
     [12.8, 'Ô cara... o teu é um Mobi, major!', V], [15.05, 'Tá entendendo, major? Tu tá entendendo?', V],
     [17.1, 'Esse aqui pra levar minha família?', C], [18.5, 'Tu tá doido, é?', C],
@@ -732,7 +757,7 @@ window.CENAS = function (WB) {
   const S1 = [[0, 3.35]];
   shot(S1);
   put(loja({ vitrine: false }));
-  const onix = makeCar(cont, { dents: true, badge: 'ONIX' });
+  const onix = makeCar(cont, { dents: true, badge: 'ONIX', big: true });
   const v1 = dudeV();
   const V1X = K([[0, 160], [1.6, 330, 'io'], [2.4, 330]]), V1o = odo(V1X, 0, 3.4);
   const V1M = moodTrack(MOODS, [[0, 'squint'], [1.0, 'horror'], [2.2, 'sad']]);
@@ -757,15 +782,15 @@ window.CENAS = function (WB) {
   const C2X = K([[3.35, -120], [4.0, -120], [6.2, 300, 'o']]), C2o = odo(C2X, 3.3, 9.7);
   WB.effect(t => {
     if (!inWin(S2, t)) return;
-    const greet = t < 4.5;
+    const greet = t < 4.5, noite = t > 6.3 && t < 7.7;
     v2.update(t, vend({ x: 760, mood: greet ? MOODS.happy : (t < 7.6 ? MOODS.neutral : MOODS.greedy), op: opV(t), f: -1, look: -10,
-      L: greet ? [-150 + Math.sin(t * 14) * 22, -300] : [-60, -60], R: [60, -60], headRot: greet ? -6 : 0 }));
-    c2.update(t, Object.assign(cli({ x: C2X(t), mood: t < 7.6 ? MOODS.happy : MOODS.proud, op: opC(t), look: 10,
+      L: greet ? [-150 + Math.sin(t * 14) * 22, -300] : (noite ? [-120, -400] : [-60, -60]), R: [60, -60], headRot: greet ? -6 : (noite ? -10 : 0) }));
+    c2.update(t, Object.assign(cli({ x: C2X(t), mood: t > 6.4 && t < 7.7 ? MOODS.confused : (t < 7.6 ? MOODS.happy : MOODS.proud), op: opC(t), look: 10,
       R: t > 4.6 && t < 6.0 ? [150 + Math.sin(t * 14) * 20, -300] : (t > 7.7 ? [110, -240] : undefined) }), C2o(t)));
   });
   O(3.5, [circ(860, 520, 34, '#fde047', '#f59e0b', 5)], { anim: 'pop', until: 4.5 });
   O(4.6, [circ(220, 520, 34, '#fde047', '#f59e0b', 5)], { anim: 'pop', until: 6.4 });
-  O(6.4, [{ d: 'M 560 430 A 60 60 0 1 0 610 540 A 46 46 0 1 1 560 430 Z', fill: '#e2e8f0', w: 5 }, T('...é de noite!', 560, 610, 50, '#475569')], { anim: 'pop', until: 9.6 });
+  O(6.4, [{ d: 'M 560 430 A 60 60 0 1 0 610 540 A 46 46 0 1 1 560 430 Z', fill: '#e2e8f0', w: 5 }, T('boa noite!', 560, 610, 50, '#475569')], { anim: 'pop', until: 9.6 });
   O(8.0, [heart(300, 560, 1.1), T('família', 300, 660, 50, '#be185d')], { loop: 'pulse' });
 
   // =====================================================================
@@ -810,7 +835,7 @@ window.CENAS = function (WB) {
   const V5X = K([[12.8, 100], [14.0, 250, 'o']]), V5o = odo(V5X, 12.7, 17.2);
   WB.effect(t => {
     if (!inWin(S5, t)) return;
-    mobi5.set(700, FL, 1.0, {});
+    mobi5.set(690, FL, 0.95, {});
     const tad = t < 14.4, ent = t > 15.05;
     v5.update(t, Object.assign(vend({ x: V5X(t), mood: ent ? MOODS.sly : MOODS.joy, op: opV(t), lean: tad ? 8 : 0,
       R: tad ? [190, -270 + Math.sin(t * 8) * 8] : (ent ? roll(t, 1.2) : [210, -200]), L: ent ? [-110, -60] : [-80, -280], headRot: ent ? Math.sin(t * 5) * 6 : 6, look: 8 }), V5o(t)));
@@ -818,6 +843,7 @@ window.CENAS = function (WB) {
   O(13.6, [star(420, 980, 30), star(860, 960, 24, '#f472b6'), star(700, 1080, 18)], { loop: 'pulse' });
   ostamp(14.0, 'MOBI!', 760, 680, 110, '#1d4ed8', -6, { loop: 'pulse', until: 15.0 });
   OT(15.2, 'tá entendendo?', 720, 690, 66, '#7c3aed', 4, { loop: 'wiggle' });
+  O(15.6, [box(560, 1560, 420, 74, 16, '#fffdf5', INK.red, 6), T('"CARRO DE FAMÍLIA"', 770, 1612, 46, INK.red), { d: 'M 770 1556 L 770 1500', c: INK.red, w: 6 }, { d: WB.arrowHead(770, 1500, -1.57, 16), c: INK.red, w: 6 }], { anim: 'slam' });
 
   // =====================================================================
   // CENA 6 (17,1–19,35): o cliente em choque: "pra levar MINHA FAMÍLIA?"
@@ -850,22 +876,25 @@ window.CENAS = function (WB) {
   // =====================================================================
   const S7 = [[19.35, 22.55]];
   shot(S7, 1);
-  put([{ d: 'M 60 1600 L 1020 1600', w: 6 }]);
+  put([{ d: WB.roughLine(60, 1560, 1020, 1560, 2), w: 7 }]);
   {
-    const big = makeCar(cont, {});
-    const kg = WB.mk('g', {}, cont);
-    const k7 = [0, 1, 2, 3, 4, 5, 6].map(k => miniKid(kg, k));
+    const m7 = makeCar(cont, { seeThru: true });
+    // 3 lá dentro (cara amassada no vidro), 2 no teto, 1 saindo pela janela, 1 pendurado no porta-malas
+    const kin = [0, 1, 2].map(k => miniKid(m7.behind, k));
+    const kout = [3, 4, 5, 6].map(k => miniKid(m7.front, k));
     WB.effect(t => {
       if (!inWin(S7, t)) return;
-      big.set(540, 1600, 1.27, {});
-      k7.forEach((f, k) => {
-        const sp = 0.55 + (k % 3) * 0.18, ph = t * sp + k * 0.9, xx = 540 + Math.sin(ph) * 330, dir = Math.cos(ph) >= 0 ? 1 : -1;
-        f(xx, k % 2 ? 1430 : 1300 - (k > 4 ? 0 : 0), 0.9, t, { run: 1, f: dir, yell: k % 2 === 0, armsUp: k === 3 });
-      });
+      const run = t > 21.6, dx = run ? Math.sin((t - 21.6) * 6) * 40 : 0;
+      m7.set(540 + dx, 1560, 1.45, { squash: 1, rot: Math.sin(t * 10) * 1.2, spin: dx * 3 });
+      kin.forEach((f, k) => f(-110 + k * 85, -84, 0.92, t, { yell: true, rot: (k - 1) * 14, armsUp: k === 1 }));
+      kout[0](-120, -300, 0.8, t, { yell: true, armsUp: true, rot: -8, hop: run ? 16 : 0 });
+      kout[1](20, -302, 0.8, t, { yell: true, armsUp: true, rot: 10, hop: run ? 16 : 0 });
+      kout[2](150, -150, 0.75, t, { yell: true, rot: 70, armsUp: true });
+      kout[3](-300, -140, 0.75, t, { yell: true, rot: -75, armsUp: true });
     });
   }
-  O(19.5, [T('RAIO-X DO MOBI', 540, 560, 70, '#1d4ed8')], {});
-  ostamp(20.4, 'FOLGADO!', 760, 720, 92, '#15803d', 5, { loop: 'pulse' });
+  O(19.5, [T('7 MENINOS NUM MOBI', 540, 560, 72, '#1d4ed8')], {});
+  ostamp(20.4, 'FOLGADO?!', 760, 720, 92, '#15803d', 5, { loop: 'shake' });
   OT(21.7, 'tudo correndo!', 300, 760, 62, INK.red, -6, { loop: 'wiggle' });
 
   // =====================================================================
@@ -874,22 +903,21 @@ window.CENAS = function (WB) {
   const S8 = [[22.55, 30.9]];
   shot(S8, 1.12, 540, 1250);
   put(loja({ placa: false }));
-  const mobi8 = makeCar(cont, { void: true });
+  const mobi8 = makeCar(cont, { tinyTrunk: true });
   const v8 = dudeV();
   const TR8 = K([[22.55, 0], [22.8, 0], [23.4, 1, 'b'], [28.85, 1], [29.05, 0, 'i']]);
-  const V8X = K([[22.55, 250], [25.5, 250], [26.0, 300, 'io'], [26.6, 130, 'o'], [28.6, 130], [28.85, 230, 'io']]), V8o = odo(V8X, 22.5, 31);
+  const V8X = K([[22.55, 220], [25.5, 220], [26.0, 260, 'io'], [26.6, 130, 'o'], [28.6, 130], [28.85, 210, 'io']]), V8o = odo(V8X, 22.5, 31);
   const V8M = moodTrack(MOODS, [[22.55, 'proud'], [24.3, 'greedy'], [25.6, 'horror'], [27.6, 'shock'], [29.0, 'sly']]);
   WB.effect(t => {
     if (!inWin(S8, t)) return;
-    mobi8.set(840, FL, 1.25, { trunk: TR8(t), t });
+    mobi8.set(740, FL, 1.05, { trunk: TR8(t) });
     const scared = t > 25.6 && t < 28.6;
     v8.update(t, Object.assign(vend({ x: V8X(t), mood: V8M(t), op: opV(t), look: 12, lean: scared ? -10 : 4,
       R: t < 23.4 ? [160, -330] : (scared ? [60, -300] : (t > 28.85 ? [180, -260] : [190, -200])),
       L: scared ? [-60, -300] : (t > 29.6 ? roll(t, -1) : [-90, -70]), headRot: scared ? -10 + Math.sin(t * 30) * 2 : 4 }), V8o(t)));
   });
-  OT(24.4, 'eco... eco...', 480, 860, 54, '#6b7280', -4, { loop: 'float', until: 28.8 });
-  O(26.4, [box(300, 650, 300, 110, 12, '#22c55e', null, 6), T('SAÍDA → 5 km', 450, 722, 48, '#ffffff')], { anim: 'slam', loop: 'wiggle', until: 28.8 });
-  O(27.4, [box(640, 560, 340, 80, 40, '#fffdf5', INK.red, 6), T('VOCÊ ESTÁ AQUI', 810, 615, 40, INK.red)], { anim: 'pop', until: 28.8 });
+  O(24.4, [box(560, 1600, 440, 74, 16, '#fffdf5', INK.red, 6), T('cabe: 1 marmita', 780, 1652, 50, INK.red), { d: 'M 640 1596 Q 600 1520 560 1460', c: INK.red, w: 6 }, { d: WB.arrowHead(560, 1460, -2.2, 16), c: INK.red, w: 6 }], { anim: 'slam', until: 28.8 });
+  ostamp(26.4, 'SE PERDER ONDE?!', 640, 700, 72, '#1d4ed8', 4, { loop: 'shake', until: 28.8 });
   O(29.0, [burst(330, 1050, 70, '#fef08a'), T('PÁ!', 330, 1075, 70, INK.red)], { anim: 'slam' });
 
   // =====================================================================
@@ -906,16 +934,16 @@ window.CENAS = function (WB) {
   const Z9 = [1.12, 540, 1250], t9 = toS(...Z9);
   WB.effect(t => {
     if (!inWin(S9, t)) return;
-    mobi9.set(330, FL, 1.25, { hood: HD9(t) });
+    mobi9.set(420, FL, 1.05, { hood: HD9(t) });
     const look = t > 33.3 && t < 36.1;
     v9.update(t, Object.assign(vend({ x: V9X(t), mood: t > 36.1 ? MOODS.proud : (look ? MOODS.think : MOODS.happy), op: opV(t), f: -1, look: -12, lean: look ? -12 : 0,
       L: look ? [-170, -250] : [-160, -330], R: t > 36.1 ? roll(t, -1) : [90, -80], headRot: look ? -10 : 0 }), V9o(t)));
     // lupa sobre o motorzinho (posição do motor: carro em 330, motor em +300 x -172, escala 1,25)
-    const ep = t9([330 + 300 * 1.25, FL - 172 * 1.25]);
+    const ep = t9(mobi9.at(...mobi9.G.eng));
     const u = clamp((t - 33.3) / 0.3);
     lupaH(ep[0] + 10, ep[1] + 60 + Math.sin(t * 3) * 6, -18, 1, look ? u : 0);
   });
-  O(33.5, [{ d: 'M 680 820 Q 700 890 730 930', c: INK.red, w: 6 }, { d: WB.arrowHead(730, 930, 1.1, 18), c: INK.red, w: 6 }, T('o motor!', 640, 800, 56, INK.red)], { until: 36.1 });
+  O(33.5, [{ d: 'M 600 1000 Q 620 1080 640 1130', c: INK.red, w: 6 }, { d: WB.arrowHead(640, 1130, 1.2, 18), c: INK.red, w: 6 }, T('o motor!', 580, 980, 56, INK.red)], { until: 36.1 });
   OT(36.2, 'tá entendendo?', 520, 760, 66, '#7c3aed', -4, { loop: 'wiggle' });
 
   // =====================================================================
@@ -989,7 +1017,7 @@ window.CENAS = function (WB) {
   const C12X = K([[45.35, 120], [46.6, 290, 'io']]), C12o = odo(C12X, 45.3, 49.6);
   WB.effect(t => {
     if (!inWin(S12, t)) return;
-    mobi12.set(700, FL, 1.12, { door: DR12(t) });
+    mobi12.set(700, FL, 1.0, { door: DR12(t) });
     c12.update(t, Object.assign(cli({ x: C12X(t), mood: t < 47.6 ? MOODS.think : MOODS.squint, op: opC(t), look: 12, lean: t > 46.6 ? 10 : 0,
       R: t < 46.6 ? [170, -260] : [150, -300], L: [-70, -80] }), C12o(t)));
   });
@@ -1011,22 +1039,37 @@ window.CENAS = function (WB) {
   // =====================================================================
   // CENA 13 (49,5–56,9): no banco do motorista: "pensando no futuro: mais dois menino!"
   // =====================================================================
+  // vendedor todo encolhido dentro do Mobi: corpo no banco (aparece pelos vidros), cabeça furando o teto, joelho no queixo, pé pela janela
+  function cramScene(win, o) {
+    put(loja({ placa: false }));
+    const car = makeCar(cont, { seeThru: true, sticker: true });
+    const v = makePerson(car.behind, VEND);
+    put([{ d: 'M -120 -292 L -96 -318 L -76 -296 L -50 -326 L -30 -296 L -4 -322 L 10 -292', c: BK, w: 6, fill: 'none' }], car.front);
+    const shoe = holder([{ d: ellipse(0, 0, 26, 13), fill: '#111827', w: 5 }, { d: 'M -14 -10 L -20 -46', c: '#4b5563', w: 24 }, { d: 'M -14 -10 L -20 -46', c: BK, w: 4, op: 0 }], car.front);
+    const sweat = WB.mk('g', {}, car.front);
+    put([{ d: 'M 60 -470 q -14 24 0 36 q 14 -12 0 -36 Z', fill: '#93c5fd', w: 4 }, { d: 'M -150 -430 q -12 20 0 30 q 12 -10 0 -30 Z', fill: '#93c5fd', w: 4 }], sweat);
+    WB.effect(t => {
+      if (!inWin(win, t)) return;
+      const b = o.beat ? o.beat(t) : 0;
+      car.set(560, FL, 1.3, { squash: 1, rot: -2 + Math.sin(t * 2) * 0.6, bounce: b * 40 });
+      const st = o.st(t);
+      v.update(t, Object.assign({ x: -60, y: -96, s: 0.8, f: 1, seed: 0.3, sit: 1, seatH: 70, lean: -14, headRot: 22 + (st.headRot || 0),
+        footT: [[60, -170], [90, -150]], op: opV(t) }, st, { headRot: 22 + (st.headRot || 0) }));
+      shoe(222, -150 + Math.sin(t * 6) * 4, -20, 1, 1);
+      sweat.setAttribute('transform', `translate(0 ${r1((t * 40) % 30)})`);
+    });
+    return car;
+  }
   const S13 = [[49.5, 56.9]];
-  shot(S13, 1.1, 540, 1250);
-  put(dentro());
-  const v13 = dudeV();
-  put(painel());
-  const vol13 = holder(volante());
-  WB.effect(t => {
-    if (!inWin(S13, t)) return;
+  shot(S13, 1.12, 540, 1250);
+  cramScene(S13, { st: t => {
     const ent = t > 54.8;
-    v13.update(t, vend({ x: 380, sit: 1, seatH: 150, mood: t < 52.1 ? MOODS.happy : (ent ? MOODS.sly : MOODS.greedy), op: opV(t), look: -6,
-      R: ent ? roll(t, 1.4) : [230, -270], L: t > 52.1 && t < 54.8 ? [-130, -330] : [-60, -120], headRot: ent ? Math.sin(t * 5) * 6 : 0 }));
-    vol13(620, 1240, Math.sin(t * 2) * 6, 1);
-  });
-  O(50.6, calendar(810, 760, 'FUTURO', '', '#7c3aed', 240), { anim: 'slam', until: 52.1 });
-  O(50.7, [T('2030', 810, 830, 72, BK)], { until: 52.1 });
-  ostamp(52.3, '+2 MENINOS', 760, 700, 80, '#db2777', 5, { loop: 'pulse' });
+    return { mood: t < 52.1 ? MOODS.happy : (ent ? MOODS.sly : MOODS.greedy), look: -6,
+      R: ent ? roll(t, 1.2) : [150, -200], L: t > 52.1 && t < 54.8 ? [-110, -260] : [-60, -110], headRot: ent ? Math.sin(t * 5) * 5 : 0 };
+  } });
+  OT(49.7, 'espaçoso!', 300, 700, 76, '#15803d', -6, { loop: 'wiggle', until: 52.1 });
+  O(50.4, [box(540, 1590, 420, 74, 16, '#fffdf5', INK.red, 6), T('teto: opcional', 750, 1642, 50, INK.red)], { anim: 'slam', until: 52.2 });
+  ostamp(52.3, '+2 MENINOS?!', 700, 700, 80, '#db2777', 5, { loop: 'pulse' });
   {
     const bg = WB.mk('g', {}, ov);
     const b1 = miniKid(bg, 3), b2 = miniKid(bg, 6);
@@ -1034,10 +1077,10 @@ window.CENAS = function (WB) {
       if (!inWin(S13, t) || t < 52.6) { bg.setAttribute('opacity', 0); return; }
       bg.setAttribute('opacity', 1);
       const u = backOut(clamp((t - 52.6) / 0.3));
-      b1(690, 940, 0.8 * u, t, { hop: 20, armsUp: true }); b2(840, 940, 0.8 * u, t, { hop: 20, armsUp: true });
+      b1(800, 1000, 0.7 * u, t, { yell: true, rot: -20 }); b2(900, 1010, 0.7 * u, t, { yell: true, rot: 15 });
     });
   }
-  O(53.0, [heart(620, 860, 0.8), heart(930, 860, 0.7, '#f472b6')], { loop: 'float' });
+  O(52.7, [{ d: 'M 860 1040 Q 900 1100 860 1150', c: INK.red, w: 6 }, T('onde?', 940, 1200, 54, INK.red)], { anim: 'pop' });
 
   // =====================================================================
   // CENA 14 (56,9–58,4): "E o som do bichão?"
@@ -1056,21 +1099,15 @@ window.CENAS = function (WB) {
   // CENA 15 (58,4–61,0 dentro / 61,0–66,0 fora): liga o som... TUM TUM, o Mobi pula
   // =====================================================================
   const S15 = [[58.4, 61.0]];
-  shot(S15, 1.1, 540, 1250);
-  put(dentro());
-  const v15 = dudeV();
-  put(painel());
-  const vol15 = holder(volante());
+  shot(S15, 1.12, 540, 1250);
   const BEAT = t => { const u = ((t - 60.0) % 2 + 2) % 2; return t < 60 ? 0 : Math.exp(-u * 5); };
-  WB.effect(t => {
-    if (!inWin(S15, t)) return;
+  cramScene(S15, { beat: BEAT, st: t => {
     const press = t < 59.3;
-    v15.update(t, vend({ x: 380, sit: 1, seatH: 150, mood: press ? MOODS.sly : MOODS.joy, op: opV(t), look: press ? 12 : 0, shades: t > 59.3,
-      R: press ? [470, -190 + Math.sin(t * 8) * 6] : [120, -330 + Math.sin(t * 9) * 16], L: press ? [-60, -120] : [-120, -330 + Math.cos(t * 9) * 16],
-      headRot: press ? 6 : Math.sin(t * 9) * 8, hop: BEAT(t) * 26 }));
-    vol15(620, 1240, 0, 1);
-  });
-  O(59.4, [...note(860, 1080, 0.8, '#22d3ee'), ...note(940, 980, 0.6, '#7c3aed')], { loop: 'rise' });
+    return { mood: press ? MOODS.sly : MOODS.joy, look: press ? 12 : 0, shades: t > 59.3,
+      R: press ? [160, -160 + Math.sin(t * 8) * 6] : [100, -240 + Math.sin(t * 9) * 12], L: press ? [-60, -110] : [-100, -240 + Math.cos(t * 9) * 12],
+      headRot: press ? 0 : Math.sin(t * 9) * 6 };
+  } });
+  O(59.4, [...note(860, 900, 0.8, '#22d3ee'), ...note(940, 800, 0.6, '#7c3aed')], { loop: 'rise' });
   const S15b = [[61.0, 66.0]];
   shot(S15b, 1.12, 540, 1250);
   put(loja({ placa: false }));
@@ -1084,7 +1121,7 @@ window.CENAS = function (WB) {
     WB.effect(t => {
       if (!inWin(S15b, t)) return;
       const b = BEAT(t);
-      mobi15.set(540, FL, 1.12, { bounce: b * 60, rot: Math.sin(t * 3) * 1.5 * b });
+      mobi15.set(540, FL, 1.3, { bounce: b * 70, rot: Math.sin(t * 3) * 2 * b });
       waves.setAttribute('opacity', b.toFixed(2));
       tum.setAttribute('opacity', b > 0.15 ? 1 : 0);
       const k = Math.floor((t - 60) / 2);
@@ -1105,7 +1142,7 @@ window.CENAS = function (WB) {
   const V16X = K([[66.0, 420], [67.4, 560, 'o'], [68.8, 460], [70.2, 540]]), V16o = odo(V16X, 65.9, 70.3);
   WB.effect(t => {
     if (!inWin(S16, t)) return;
-    mobi16.set(640, FL - 40, 0.8, { door: 1 });
+    mobi16.set(700, FL, 0.9, { door: 1 });
     v16.update(t, Object.assign(vend({ x: V16X(t), mood: MOODS.joy, op: opV(t), shades: true, hop: Math.abs(Math.sin(t * 7)) * 30,
       L: [-140 + Math.sin(t * 7) * 30, -320], R: roll(t, 1.4), headRot: Math.sin(t * 7) * 8, lean: Math.sin(t * 3.5) * 6 }), V16o(t)));
   });
@@ -1172,7 +1209,7 @@ window.CENAS = function (WB) {
     const vc = makePerson(cont, VEND);
     WB.effect(t => {
       if (t < CTA0) return;
-      cc.set(640, 1600, 0.75, { bounce: Math.abs(Math.sin(t * 5)) * 16 });
+      cc.set(700, 1600, 0.85, { bounce: Math.abs(Math.sin(t * 5)) * 16 });
       vc.update(t, { x: 260, y: 1600, s: 0.85, f: 1, seed: 0.3, mood: MOODS.joy, shades: true, L: [-90 + Math.sin(t * 10) * 26, -300], R: roll(t, 1.3), hop: Math.abs(Math.sin(t * 6)) * 24 });
     });
   }
