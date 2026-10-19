@@ -1,6 +1,6 @@
 {
   "titulo": "Título do vídeo",
-  "marca": { "handle": "caderno_amarelo", "nome": "Caderno Amarelo" },
+  "marca": { "handle": "cardeno_amarelo", "nome": "Caderno Amarelo" },
   "marcaDagua": true,
   "voz": { "edge": "pt-BR-AntonioNeural", "edgeRate": "+10%", "kokoro": "pm_alex", "kokoroSpeed": 1.1 },
   "pausaPadrao": 0.6,

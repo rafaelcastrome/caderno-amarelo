@@ -2,7 +2,7 @@
 // Áudio original (vendedor + cliente fora de quadro) + risada de plateia no final. Formato de cenas no papel do caderno:
 // cortes com deslize, faixa amarela de legenda (texto azul = cliente) e bonecos articulados (makePerson, base do meme
 // "o áudio da baixinha") com peruca cacheada, barba e boné. O Mobi (makeCar) abre porta-malas, capô e porta e pula com o som.
-// A marca d'água @caderno_amarelo passeia por 4 cantos seguros.
+// A marca d'água @cardeno_amarelo passeia por 4 cantos seguros.
 window.CENAS = function (WB) {
   const { INK, clamp, lerp } = WB;
   document.getElementById('hand').style.display = 'none';
@@ -280,8 +280,8 @@ window.CENAS = function (WB) {
     return (a + (b - a) * f) / 9;
   };
   // quem fala: V = vendedor (na tela), C = cliente (fora de quadro no vídeo original)
-  const C_WIN = [[4.5, 6.2], [7.75, 9.5], [11.6, 12.5], [17.1, 19.3], [42.5, 43.5], [45.35, 49.45], [56.9, 58.2]];
-  const V_WIN = [[0.1, 4.3], [6.3, 7.7], [9.6, 11.55], [12.8, 17.05], [19.35, 42.45], [43.55, 45.3], [49.5, 56.85], [58.4, 60.1], [66.0, 68.3], [70.2, 80.5]];
+  const C_WIN = [[3.35, 4.35], [7.75, 9.5], [11.6, 12.5], [17.1, 19.3], [42.5, 43.5], [45.35, 49.45], [56.9, 58.2]];
+  const V_WIN = [[0.1, 3.3], [4.5, 7.7], [9.6, 11.55], [12.8, 17.05], [19.35, 42.45], [43.55, 45.3], [49.5, 56.85], [58.4, 60.1], [66.0, 68.3], [70.2, 80.5]];
   const talk = (wins, t, k = 1.25) => {
     for (const [a, b] of wins) if (t >= a && t <= b) return clamp(envAt(t) * k) * clamp((b - t) / 0.06) * clamp((t - a) / 0.04);
     return 0;
@@ -706,8 +706,8 @@ window.CENAS = function (WB) {
   const capLayer = WB.mk('g', {}, WB.overlay);
   const V = 0, C = 1;
   const CAPS = [
-    [0.1, 'Por que todo Onix zero é batido, Deus?', V], [2.2, 'Não vejo um inteiro!', V], [3.35, 'Opa, boa tarde!', V],
-    [4.5, 'Bom dia! Pode me ajudar?', C], [6.3, 'Senhor... é boa noite!', V], [7.75, 'Eu queria comprar um carro pra família.', C],
+    [0.1, 'Por que todo Onix zero é batido, Deus?', V], [2.2, 'Não vejo um inteiro!', V], [3.35, 'Opa, boa tarde!', C],
+    [4.5, 'Bom dia! Em que posso ajudar?', V], [6.3, 'Senhor... é boa noite!', V], [7.75, 'Eu queria comprar um carro pra família.', C],
     [9.6, 'Ô major, tu tem quantos menino?', V], [11.6, 'Sete.', C],
     [12.8, 'Ô cara... o teu é um Mobi, major!', V], [15.05, 'Tá entendendo, major? Tu tá entendendo?', V],
     [17.1, 'Esse aqui pra levar minha família?', C], [18.5, 'Tu tá doido, é?', C],
@@ -722,7 +722,7 @@ window.CENAS = function (WB) {
     [45.35, 'Deixa aí, major... dá pra ver dentro do bichão?', C], [47.6, 'Tem certeza que dá pra levar os sete menino aqui dentro?', C],
     [49.5, 'Tem, major! Aqui tu já tá pensando no futuro...', V], [52.1, '...pra quando quiser fazer mais dois menino!', V],
     [54.8, 'Entendeu? Tá entendendo, major?', V], [56.9, 'E o som do bichão?', C],
-    [58.4, 'Primeiro, major... oi, oi, oi!', V], [60.2, 'TUM... TUM... TUM...', V],
+    [58.4, 'Primeiro, major... oi, oi, oi!', V], [60.2, '(toca a chamada da Uber)', V],
     [66.0, 'Tu tá entendendo, major! Tu tá entendendo!', V], [68.4, ''],
     [70.2, 'Major, e aqui eu vou fazer no precinho, viu?', V], [73.2, '72 parcelas de 3.890!', V],
     [76.25, 'Se tu quiser rodar de Uber... em duas semanas...', V], [79.5, 'felizmente.', V], [80.6, ''],
@@ -779,17 +779,17 @@ window.CENAS = function (WB) {
   shot(S2, 1.12, 540, 1250);
   put(loja({ placa: false }));
   const v2 = dudeV(), c2 = dudeC();
-  const C2X = K([[3.35, -120], [4.0, -120], [6.2, 300, 'o']]), C2o = odo(C2X, 3.3, 9.7);
+  const C2X = K([[3.35, -60], [5.2, 300, 'o']]), C2o = odo(C2X, 3.3, 9.7);
   WB.effect(t => {
     if (!inWin(S2, t)) return;
-    const greet = t < 4.5, noite = t > 6.3 && t < 7.7;
+    const greet = t > 4.5 && t < 6.2, oi = t < 4.4, noite = t > 6.3 && t < 7.7;
     v2.update(t, vend({ x: 760, mood: greet ? MOODS.happy : (t < 7.6 ? MOODS.neutral : MOODS.greedy), op: opV(t), f: -1, look: -10,
       L: greet ? [-150 + Math.sin(t * 14) * 22, -300] : (noite ? [-120, -400] : [-60, -60]), R: [60, -60], headRot: greet ? -6 : (noite ? -10 : 0) }));
     c2.update(t, Object.assign(cli({ x: C2X(t), mood: t > 6.4 && t < 7.7 ? MOODS.confused : (t < 7.6 ? MOODS.happy : MOODS.proud), op: opC(t), look: 10,
-      R: t > 4.6 && t < 6.0 ? [150 + Math.sin(t * 14) * 20, -300] : (t > 7.7 ? [110, -240] : undefined) }), C2o(t)));
+      R: oi ? [150 + Math.sin(t * 14) * 20, -300] : (t > 7.7 ? [110, -240] : undefined) }), C2o(t)));
   });
-  O(3.5, [circ(860, 520, 34, '#fde047', '#f59e0b', 5)], { anim: 'pop', until: 4.5 });
-  O(4.6, [circ(220, 520, 34, '#fde047', '#f59e0b', 5)], { anim: 'pop', until: 6.4 });
+  O(3.5, [circ(220, 520, 34, '#fde047', '#f59e0b', 5)], { anim: 'pop', until: 4.5 });
+  O(4.6, [circ(860, 520, 34, '#fde047', '#f59e0b', 5)], { anim: 'pop', until: 6.4 });
   O(6.4, [{ d: 'M 560 430 A 60 60 0 1 0 610 540 A 46 46 0 1 1 560 430 Z', fill: '#e2e8f0', w: 5 }, T('boa noite!', 560, 610, 50, '#475569')], { anim: 'pop', until: 9.6 });
   O(8.0, [heart(300, 560, 1.1), T('família', 300, 660, 50, '#be185d')], { loop: 'pulse' });
 
@@ -1098,6 +1098,10 @@ window.CENAS = function (WB) {
   // =====================================================================
   // CENA 15 (58,4–61,0 dentro / 61,0–66,0 fora): liga o som... TUM TUM, o Mobi pula
   // =====================================================================
+  // celular com chamada de corrida (só o nome escrito, sem logotipo)
+  const uberPhone = () => [box(640, 480, 300, 540, 40, '#111827', null, 7), box(660, 530, 260, 440, 14, '#ffffff', null, 4),
+    T('Uber', 790, 610, 70, BK), T('NOVA CORRIDA!', 790, 680, 36, INK.red), { d: 'M 680 760 Q 740 700 790 780 T 900 740', c: '#9ca3af', w: 6 },
+    circ(690, 760, 10, '#22c55e', null, 3), circ(898, 742, 10, '#111827', null, 3), box(680, 860, 220, 74, 37, '#22c55e', null, 5), T('ACEITAR', 790, 910, 42, '#ffffff')];
   const S15 = [[58.4, 61.0]];
   shot(S15, 1.12, 540, 1250);
   const BEAT = t => { const u = ((t - 60.0) % 2 + 2) % 2; return t < 60 ? 0 : Math.exp(-u * 5); };
@@ -1107,17 +1111,18 @@ window.CENAS = function (WB) {
       R: press ? [160, -160 + Math.sin(t * 8) * 6] : [100, -240 + Math.sin(t * 9) * 12], L: press ? [-60, -110] : [-100, -240 + Math.cos(t * 9) * 12],
       headRot: press ? 0 : Math.sin(t * 9) * 6 };
   } });
-  O(59.4, [...note(860, 900, 0.8, '#22d3ee'), ...note(940, 800, 0.6, '#7c3aed')], { loop: 'rise' });
+  O(60.0, uberPhone(), { anim: 'slam', loop: 'pulse', ox: 790, oy: 760 });
   const S15b = [[61.0, 66.0]];
   shot(S15b, 1.12, 540, 1250);
   put(loja({ placa: false }));
   const mobi15 = makeCar(cont, {});
+  put([box(-90, -352, 180, 50, 12, '#111827', null, 5), T('UBER', 0, -314, 38, '#ffffff')], mobi15.front);
   {
     const waves = WB.mk('g', {}, cont);
     put([{ d: 'M 920 1050 Q 960 1150 920 1250 M 970 1010 Q 1030 1150 970 1290', c: '#7c3aed', w: 8 },
       { d: 'M 160 1050 Q 120 1150 160 1250 M 110 1010 Q 50 1150 110 1290', c: '#7c3aed', w: 8 }], waves);
     const tum = WB.mk('g', {}, ov);
-    WB.showNow(WB.textStrokes('TUM!', 0, 0, 120, INK.red, tum, 'middle').strokes);
+    WB.showNow(WB.textStrokes('PLIM!', 0, 0, 110, '#15803d', tum, 'middle').strokes);
     WB.effect(t => {
       if (!inWin(S15b, t)) return;
       const b = BEAT(t);
@@ -1125,11 +1130,11 @@ window.CENAS = function (WB) {
       waves.setAttribute('opacity', b.toFixed(2));
       tum.setAttribute('opacity', b > 0.15 ? 1 : 0);
       const k = Math.floor((t - 60) / 2);
-      tum.setAttribute('transform', `translate(${k % 2 ? 760 : 320} ${k % 2 ? 640 : 700}) rotate(${k % 2 ? 8 : -8}) scale(${r1((0.8 + b * 0.5) * 100) / 100})`);
+      tum.setAttribute('transform', `translate(${k % 2 ? 300 : 260} ${k % 2 ? 640 : 760}) rotate(${k % 2 ? 8 : -8}) scale(${r1((0.8 + b * 0.5) * 100) / 100})`);
     });
   }
-  O(61.2, [...note(380, 760, 0.9), ...note(700, 720, 0.7, '#22d3ee')], { loop: 'float' });
-  OT(61.6, 'o paredão do Mobi', 540, 1640, 56, '#7c3aed', 0);
+  O(61.05, uberPhone(), { loop: 'pulse', ox: 790, oy: 760 });
+  OT(61.6, 'todo Mobi vira Uber', 540, 1640, 60, '#7c3aed', 0);
 
   // =====================================================================
   // CENA 16 (66,0–70,2): ele sai do carro dançando de óculos: "tu tá entendendo!"
@@ -1202,7 +1207,7 @@ window.CENAS = function (WB) {
     WB.showNow(WB.textStrokes('Gostou? Me segue!', 540, 560, 96, INK.green, g, 'middle').strokes);
     const ic = WB.notebookIcon(150, 650, 190, g, 12);
     ic.bg.setAttribute('fill-opacity', 1); WB.showNow([ic.outline, ic.rest]);
-    WB.showNow(WB.textStrokes('@caderno_amarelo', 380, 650 + 190 * 0.62, 84, BK, g).strokes);
+    WB.showNow(WB.textStrokes('@cardeno_amarelo', 380, 650 + 190 * 0.62, 84, BK, g).strokes);
     animate(g, CTA0 + 0.1, { loop: 'float' });
     put([{ d: WB.roughLine(96, 1600, 1060, 1600, 2), w: 7 }]);
     const cc = makeCar(cont, { sticker: true });
@@ -1216,11 +1221,11 @@ window.CENAS = function (WB) {
 
 
   // =====================================================================
-  // MARCA D'ÁGUA QUE PASSEIA: @caderno_amarelo troca de canto a cada ~5 s
+  // MARCA D'ÁGUA QUE PASSEIA: @cardeno_amarelo troca de canto a cada ~5 s
   // =====================================================================
   {
     const wm = WB.mk('g', { opacity: 0 }, WB.overlay);
-    const S = 40, fs = 36, handle = '@caderno_amarelo';
+    const S = 40, fs = 36, handle = '@cardeno_amarelo';
     const tw = WB.measure(handle, fs), total = S + 12 + tw;
     WB.mk('rect', { x: r1(-total / 2 - 22), y: -S / 2 - 10, width: r1(total + 44), height: S + 20, rx: (S + 20) / 2,
       fill: '#fffaf0', 'fill-opacity': 0.92, stroke: '#1f1f24', 'stroke-opacity': 0.3, 'stroke-width': 2 }, wm);

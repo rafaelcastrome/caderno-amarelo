@@ -64,10 +64,10 @@ Texto da fala: frases curtas, voz ativa, segunda pessoa ("você"). Evite parênt
 O campo `fala` do `projeto.json` é o que a voz pronuncia. Escreva-o **como se fala**:
 - **Números e símbolos por extenso:** "quarenta e três por cento", "cinquenta por cento mais um", "R$ 1.200" → "mil e duzentos reais".
 - **Siglas soletradas:** "INSS" → "i ene esse esse".
-- **Redes e @:** "Instagram" → `Instagrã`; "TikTok" → `Tic Tóc`; "@nome_sobrenome" → `arroba nome ânderláin sobrenome`. Separe palavras coladas (`cadernoamarelo` → `caderno amarelo`); quando o @ é igual nas duas redes, fale uma vez só ("Me segue no Instagrã e no Tic Tóc: arroba caderno ânderláin amarelo") e evite letras soltas ("ê" é lido como "e circunflexo").
+- **Redes e @:** "Instagram" → `Instagrã`; "TikTok" → `Tic Tóc`; "@nome_sobrenome" → `arroba nome ânderláin sobrenome`. Separe palavras coladas (`cadernoamarelo` → `caderno amarelo`); quando o @ é igual nas duas redes, fale uma vez só ("Me segue no Instagrã e no Tic Tóc: arroba cardeno ânderláin amarelo") e evite letras soltas ("ê" é lido como "e circunflexo").
 - Para conferir a pronúncia da voz Kokoro antes de gerar: `python3 -c "from kokoro_onnx import Kokoro; import os; d=os.path.expanduser('~/.cache/whiteboard-video/kokoro'); k=Kokoro(d+'/kokoro-v1.0.onnx', d+'/voices-v1.0.bin'); print(k.tokenizer.phonemize('TEXTO', 'pt-br'))"`. Fonemas brasileiros têm "tʃ" em "ti" e "ʊ" no final de "-o".
 
-Na tela, sempre use a grafia correta (`@caderno_amarelo`, `50%+1`).
+Na tela, sempre use a grafia correta (`@cardeno_amarelo`, `50%+1`).
 
 ## Fatos e fontes (vale para todo vídeo, principalmente curiosidades)
 
