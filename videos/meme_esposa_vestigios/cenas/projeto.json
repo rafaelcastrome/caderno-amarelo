@@ -1,0 +1,8 @@
+{
+ "titulo": "Meme: minha esposa adora morar comigo, só não pode ter vestígio",
+ "modo": "B",
+ "marca": { "handle": "cardeno_amarelo", "nome": "Caderno Amarelo" },
+ "marcaDagua": false,
+ "audio": "Só a voz do vídeo enviado pelo Rafael (Instagram, autor do áudio a confirmar); as imagens originais foram descartadas. Uma voz (o marido), que imita a esposa entre 11,55 e 13,1 s. Risada de plateia (risada_gargalhada.wav, ganho 0,85) de 30,4 a 35,5 s. Transcrição por Whisper small. A marca d'água @cardeno_amarelo é desenhada em cenas.js e passeia por quatro cantos seguros.",
+ "cenas": [ { "fala": "(áudio original completo, 0–30,7 s; ver legendas em cenas.js → CAPS)", "voz": "Marido (imitando a esposa numa fala)" } ]
+}
