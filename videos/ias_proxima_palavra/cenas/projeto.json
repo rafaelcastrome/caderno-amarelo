@@ -1,0 +1,8 @@
+{
+ "titulo": "Era uma... próxima palavra? Conversa entre o Claude e um boneco de blocos",
+ "modo": "B",
+ "marca": { "handle": "cardeno_amarelo", "nome": "Caderno Amarelo" },
+ "marcaDagua": false,
+ "audio": "Só o áudio do vídeo enviado pelo Rafael (Instagram); as imagens originais foram descartadas. Duas vozes: o boneco branco e o Claude (as falas do Claude são as marcadas com asterisco laranja no original). Sem risada no final, porque não é meme de humor. Transcrição por Whisper small.",
+ "cenas": [ { "fala": "(áudio original completo, 0–155 s; ver SEG em cenas.js)", "voz": "Boneco branco e Claude" } ]
+}

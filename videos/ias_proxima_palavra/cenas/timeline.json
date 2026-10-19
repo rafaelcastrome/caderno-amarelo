@@ -1,0 +1,5 @@
+{
+ "total": 159.0,
+ "motor_tts": "audio original (sem TTS)",
+ "cenas": [ { "n": 1, "start": 0, "end": 159.0, "fala": "(áudio original + chamada)", "voz": "Boneco branco e Claude" } ]
+}
