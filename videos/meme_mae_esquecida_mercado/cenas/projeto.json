@@ -1,0 +1,8 @@
+{
+ "titulo": "Meme: Zé Carlos, cadê tu? (esqueceu a mãe no mercado)",
+ "modo": "B",
+ "marca": { "handle": "cardeno_amarelo", "nome": "Caderno Amarelo" },
+ "marcaDagua": false,
+ "audio": "Só a voz do vídeo enviado pelo Rafael (TikTok @camillailustra); as imagens originais foram descartadas. Duas vozes: a mãe (no mercado) e o Zé Carlos (em casa). Áudio original 0–26,25 s (sem a vinheta do TikTok). Risada de plateia (risada_gargalhada.wav do meme do Carnaval, ganho 0,85) a partir de 24,35 s. Transcrição por Whisper small conferida com as legendas do original. A marca d'água @cardeno_amarelo é desenhada em cenas.js e passeia por quatro cantos seguros.",
+ "cenas": [ { "fala": "(áudio original completo, 0–26,25 s; ver legendas em cenas.js → CAPS)", "voz": "Mãe e Zé Carlos" } ]
+}
