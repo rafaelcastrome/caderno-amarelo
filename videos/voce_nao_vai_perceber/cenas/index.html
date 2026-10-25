@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Vídeo whiteboard</title>
+<meta name="viewport" content="width=1080">
+<style>
+  html, body { margin: 0; padding: 0; background: #222; }
+  #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #fbf5df; }
+  svg { position: absolute; left: 0; top: 0; }
+</style>
+</head>
+<body>
+<div id="stage"><svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg></div>
+<script src="opentype.min.js"></script>
+<script src="cenas.js"></script>
+<script src="engine.js"></script>
+</body>
+</html>
