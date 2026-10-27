@@ -1,0 +1,78 @@
+{
+ "total": 51.64,
+ "motor_tts": "ElevenLabs eleven_v4 (Gabriel Euz\u00e9bio, r3KkFedJ4n8aabIZ0RFQ), take 1, uma tomada s\u00f3; 1,8 s de sil\u00eancio inserido depois de 'r\u00e1pido!' (17,12 s) para o desafio; cortes de cena pelas palavras do Whisper",
+ "cenas": [
+  {
+   "cena": 1,
+   "start": 0,
+   "end": 3.05,
+   "fala": 3.05
+  },
+  {
+   "cena": 2,
+   "start": 3.05,
+   "end": 7.35,
+   "fala": 4.3
+  },
+  {
+   "cena": 3,
+   "start": 7.35,
+   "end": 12.43,
+   "fala": 5.08
+  },
+  {
+   "cena": 4,
+   "start": 12.43,
+   "end": 14.9,
+   "fala": 2.47
+  },
+  {
+   "cena": 5,
+   "start": 14.9,
+   "end": 18.92,
+   "fala": 4.02
+  },
+  {
+   "cena": 6,
+   "start": 18.92,
+   "end": 22.16,
+   "fala": 3.24
+  },
+  {
+   "cena": 7,
+   "start": 22.16,
+   "end": 25.45,
+   "fala": 3.29
+  },
+  {
+   "cena": 8,
+   "start": 25.45,
+   "end": 31.23,
+   "fala": 5.78
+  },
+  {
+   "cena": 9,
+   "start": 31.23,
+   "end": 37.7,
+   "fala": 6.47
+  },
+  {
+   "cena": 10,
+   "start": 37.7,
+   "end": 41.95,
+   "fala": 4.25
+  },
+  {
+   "cena": 11,
+   "start": 41.95,
+   "end": 47.42,
+   "fala": 5.47
+  },
+  {
+   "cena": 12,
+   "start": 47.42,
+   "end": 51.64,
+   "fala": 4.22
+  }
+ ]
+}

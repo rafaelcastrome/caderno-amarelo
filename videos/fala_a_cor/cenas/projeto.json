@@ -1,0 +1,25 @@
+{
+  "titulo": "Fala a cor (efeito Stroop + frase-pegadinha)",
+  "marca": { "handle": "cardeno_amarelo", "nome": "Caderno Amarelo" },
+  "marcaDagua": false,
+  "voz": { "elevenlabs": "Gabriel Euzébio (r3KkFedJ4n8aabIZ0RFQ), modelo eleven_v4, aprovada pelo Rafael em 2026-10-25" },
+  "audio": "Narração gerada fora do gerar_audio.py (a skill não tem ElevenLabs): uma tomada só (../audio_eleven/take1.mp3), com 1,8 s de silêncio inserido depois de 'rápido!' para o espectador tentar. Cortes de cena pelas palavras do Whisper small.",
+  "fontes": [
+    { "fato": "Dizer a cor da tinta de uma palavra que nomeia outra cor é mais lento e dá mais erro (efeito Stroop), descrito por J. Ridley Stroop em 1935", "fonte": "Stroop, J. R. (1935). Studies of interference in serial verbal reactions. Journal of Experimental Psychology, 18(6), 643-662", "url": "https://doi.org/10.1037/h0054651" },
+    { "fato": "Frase no triângulo com palavra repetida na quebra de linha ('Paris in the the spring'): ilusão clássica; o cérebro lê o que espera e pula a repetição", "fonte": "Demonstração clássica de leitura por expectativa (sem número no vídeo)", "url": "" }
+  ],
+  "cenas": [
+    { "fala": "Lê essa frase aí... em voz alta. Rapidinho!" },
+    { "fala": "Leu? Beleza. Guarda ela aí... que já já a gente volta nela." },
+    { "fala": "Agora um teste. Fala a cor da tinta... não a palavra. Primeiro, o fácil:" },
+    { "fala": "Azul... verde... vermelho." },
+    { "fala": "Agora valendo! Fala a cor... rápido!" },
+    { "fala": "Laranja... azul... roxo... vermelho... verde!" },
+    { "fala": "Travou, né? Relaxa... todo mundo trava!" },
+    { "fala": "Isso tem nome: efeito Strúp. Um cientista descobriu isso lá em mil novecentos e trinta e cinco." },
+    { "fala": "Teu cérebro lê a palavra sozinho... sem pedir licença. Aí a palavra briga com a cor... e você trava." },
+    { "fala": "E a frase do começo? Você leu \"eu amo Paris na primavera\"... né?" },
+    { "fala": "Pois é... tem uma pegadinha nela. Teu cérebro lê o que ele espera... não o que tá escrito." },
+    { "fala": "Achou? Comenta aí! Não achou? Me segue... e volta." }
+  ]
+}
