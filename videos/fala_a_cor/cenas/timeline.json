@@ -1,6 +1,6 @@
 {
  "total": 51.64,
- "motor_tts": "ElevenLabs eleven_v4 (Gabriel Euz\u00e9bio, r3KkFedJ4n8aabIZ0RFQ), take 1, uma tomada s\u00f3; 1,8 s de sil\u00eancio inserido depois de 'r\u00e1pido!' (17,12 s) para o desafio; cortes de cena pelas palavras do Whisper",
+ "motor_tts": "ElevenLabs eleven_v4 (Gabriel Euz\u00e9bio, r3KkFedJ4n8aabIZ0RFQ), take 1, uma tomada s\u00f3; 1,8 s de sil\u00eancio inserido depois de 'r\u00e1pido!' (16,92 s, no sil\u00eancio entre as palavras) para o desafio; cortes de cena pelas palavras do Whisper",
  "cenas": [
   {
    "cena": 1,
@@ -29,14 +29,14 @@
   {
    "cena": 5,
    "start": 14.9,
-   "end": 18.92,
-   "fala": 4.02
+   "end": 18.75,
+   "fala": 3.85
   },
   {
    "cena": 6,
-   "start": 18.92,
+   "start": 18.75,
    "end": 22.16,
-   "fala": 3.24
+   "fala": 3.41
   },
   {
    "cena": 7,

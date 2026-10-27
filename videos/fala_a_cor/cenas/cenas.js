@@ -82,10 +82,10 @@ window.CENAS = function (WB) {
   WB.effect(t => card.setAttribute('opacity', clamp((t - 15.25) / 0.15).toFixed(3)));
   const st = C.stamp('RÁPIDO!', 540, 1060, { size: 70, rot: -6, color: INK.red });
   D(5, 15.85, 16.15, st.box); D(5, 16.15, 17.05, st.text);
-  rest(5, 17.15, 18.9);   // silêncio: a pessoa tenta sozinha
+  rest(5, 17.15, 18.7);   // silêncio: a pessoa tenta sozinha
 
   // cena 6: as respostas, sublinhando cada palavra quando o narrador fala a cor
-  const AT = [19.0, 19.8, 20.24, 20.76, 21.56];
+  const AT = [18.84, 19.48, 20.04, 20.56, 21.28];
   GRID.forEach(([, cor, x, y], i) => {
     const w = gw[i];
     D(6, AT[i], AT[i] + 0.38, C.underline(x - w / 2, x + w / 2, y + 22, cor));
