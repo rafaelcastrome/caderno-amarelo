@@ -1,0 +1,62 @@
+{
+  "titulo": "Vou adivinhar o que tu tá pensando (elefante cinza na Dinamarca)",
+  "marca": {
+    "handle": "cardeno_amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": false,
+  "voz": {
+    "elevenlabs": "Gabriel Euzébio (r3KkFedJ4n8aabIZ0RFQ), modelo eleven_v4, aprovada pelo Rafael em 2026-10-25"
+  },
+  "audio": "Narração gerada fora do gerar_audio.py: 3 tomadas (../audio_eleven/p1-p3.mp3) cortadas nos silêncios entre palavras (Whisper) com pausas para o espectador fazer a conta.",
+  "fontes": [
+    {
+      "fato": "Todo número de 1 a 10 multiplicado por 9 (9, 18, 27, 36, 45, 54, 63, 72, 81, 90) tem dígitos que somam 9; 9 - 5 = 4 = D",
+      "fonte": "Aritmética (regra da divisibilidade por 9)",
+      "url": "https://pt.wikipedia.org/wiki/Divisibilidade"
+    },
+    {
+      "fato": "Bandeira da Dinamarca: vermelha com cruz nórdica branca",
+      "fonte": "Wikipedia, Bandeira da Dinamarca",
+      "url": "https://pt.wikipedia.org/wiki/Bandeira_da_Dinamarca"
+    }
+  ],
+  "cenas": [
+    {
+      "fala": "Eu vou adivinhar o que tu tá pensando. Só faz o que eu mandar... e sem trapacear, hein!"
+    },
+    {
+      "fala": "Pensa num número de um a dez. Pensou? Beleza."
+    },
+    {
+      "fala": "Agora multiplica ele por nove."
+    },
+    {
+      "fala": "Deu dois dígitos? Soma um com o outro."
+    },
+    {
+      "fala": "Agora tira cinco."
+    },
+    {
+      "fala": "Troca esse número por uma letra. Um é A... dois é B... três é C..."
+    },
+    {
+      "fala": "Pensa num país com essa letra."
+    },
+    {
+      "fala": "Agora pega a letra seguinte do alfabeto... e pensa num bicho com ela."
+    },
+    {
+      "fala": "E qual é a cor desse bicho?"
+    },
+    {
+      "fala": "Pronto... Tu tá pensando num elefante cinza... na Dinamarca! Acertei?"
+    },
+    {
+      "fala": "Mas peraí... que que um elefante tá fazendo na Dinamarca?"
+    },
+    {
+      "fala": "(sem fala: ACERTEI? comenta! / VOLTA e pensa em outro número)"
+    }
+  ]
+}

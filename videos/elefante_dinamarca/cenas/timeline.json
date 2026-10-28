@@ -1,0 +1,78 @@
+{
+ "total": 57.52,
+ "motor_tts": "ElevenLabs eleven_v4 (Gabriel Euz\u00e9bio, r3KkFedJ4n8aabIZ0RFQ), 3 tomadas (audio_eleven/p1-p3) emendadas com pausas para o espectador pensar",
+ "cenas": [
+  {
+   "cena": 1,
+   "start": 0,
+   "end": 5.25,
+   "fala": 5.25
+  },
+  {
+   "cena": 2,
+   "start": 5.25,
+   "end": 9.91,
+   "fala": 4.66
+  },
+  {
+   "cena": 3,
+   "start": 9.91,
+   "end": 14.55,
+   "fala": 4.64
+  },
+  {
+   "cena": 4,
+   "start": 14.55,
+   "end": 19.47,
+   "fala": 4.92
+  },
+  {
+   "cena": 5,
+   "start": 19.47,
+   "end": 22.37,
+   "fala": 2.9
+  },
+  {
+   "cena": 6,
+   "start": 22.37,
+   "end": 30.26,
+   "fala": 7.89
+  },
+  {
+   "cena": 7,
+   "start": 30.26,
+   "end": 34.34,
+   "fala": 4.08
+  },
+  {
+   "cena": 8,
+   "start": 34.34,
+   "end": 40.71,
+   "fala": 6.37
+  },
+  {
+   "cena": 9,
+   "start": 40.71,
+   "end": 44.35,
+   "fala": 3.64
+  },
+  {
+   "cena": 10,
+   "start": 44.35,
+   "end": 49.95,
+   "fala": 5.6
+  },
+  {
+   "cena": 11,
+   "start": 49.95,
+   "end": 53.92,
+   "fala": 3.97
+  },
+  {
+   "cena": 12,
+   "start": 53.92,
+   "end": 57.52,
+   "fala": 3.6
+  }
+ ]
+}
