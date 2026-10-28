@@ -6,7 +6,11 @@
 window.CENAS = function (WB) {
   const { INK, C, clamp, lerp, ease } = WB;
   const S = WB.scenes;
-  const fr = (c, t) => (t - S[c - 1].start) / (S[c - 1].end - S[c - 1].start);
+  // tempos escritos na mixagem antiga; M() leva cada um, proporcionalmente dentro da cena, para a mixagem nova
+  const OLD = [[0, 5.25], [5.25, 9.91], [9.91, 14.55], [14.55, 19.47], [19.47, 22.37], [22.37, 30.26], [30.26, 34.34], [34.34, 40.71], [40.71, 44.35], [44.35, 49.95], [49.95, 53.92], [53.92, 57.52]];
+  const M = t => { const i = OLD.findIndex(([a, b]) => t < b), k = i < 0 ? OLD.length - 1 : i;
+    const [a, b] = OLD[k]; return S[k].start + (t - a) / (b - a) * (S[k].end - S[k].start); };
+  const fr = (c, t) => (M(t) - S[c - 1].start) / (S[c - 1].end - S[c - 1].start);
   const D = (c, t0, t1, st) => WB.draw(c, fr(c, t0), fr(c, t1), st);
   const W = (c, t0, t1, txt, x, y, size, cor, o = {}) => WB.write(c, fr(c, t0), fr(c, t1), txt, x, y, size, cor, { anchor: 'middle', ...o });
   const rest = (c, t0, t1) => WB.restHand(c, fr(c, t0), fr(c, t1));
@@ -28,7 +32,7 @@ window.CENAS = function (WB) {
       nums.push(gk);
     }
     WB.effect(t => {
-      const v = (t >= t0 && t < t1) ? Math.ceil(t1 - t - 0.05) : 0;
+      const v = (t >= M(t0) && t < M(t1)) ? Math.ceil(M(t1) - t - 0.05) : 0;
       nums.forEach((gk, i) => gk.setAttribute('opacity', i + 1 === v ? 1 : 0));
     });
   }
@@ -207,7 +211,7 @@ window.CENAS = function (WB) {
   rest(11, 53.55, 53.85);
   // tremedeira
   WB.effect(t => {
-    const k = clamp((t - 51.3) / 0.3) * (1 - clamp((t - S[11].start) / 0.2));
+    const k = clamp((t - M(51.3)) / 0.3) * (1 - clamp((t - S[11].start) / 0.2));
     eleG.setAttribute('transform', `translate(${r1(Math.sin(t * 55) * 5 * k)} 0)`);
   });
 

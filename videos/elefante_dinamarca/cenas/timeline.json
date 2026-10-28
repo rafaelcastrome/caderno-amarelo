@@ -1,77 +1,77 @@
 {
- "total": 57.52,
- "motor_tts": "ElevenLabs eleven_v4 (Gabriel Euz\u00e9bio, r3KkFedJ4n8aabIZ0RFQ), 3 tomadas (audio_eleven/p1-p3) emendadas com pausas para o espectador pensar",
+ "total": 57.38,
+ "motor_tts": "ElevenLabs eleven_v4 (Gabriel Euz\u00e9bio), 3 tomadas (audio_eleven/p1-p3) cortadas s\u00f3 dentro de sil\u00eancio real (< -55 dB) com fade de 8 ms, pausas para o espectador pensar",
  "cenas": [
   {
    "cena": 1,
    "start": 0,
-   "end": 5.25,
-   "fala": 5.25
+   "end": 5.04,
+   "fala": 5.04
   },
   {
    "cena": 2,
-   "start": 5.25,
-   "end": 9.91,
-   "fala": 4.66
+   "start": 5.04,
+   "end": 9.685,
+   "fala": 4.645
   },
   {
    "cena": 3,
-   "start": 9.91,
-   "end": 14.55,
+   "start": 9.685,
+   "end": 14.325,
    "fala": 4.64
   },
   {
    "cena": 4,
-   "start": 14.55,
-   "end": 19.47,
-   "fala": 4.92
+   "start": 14.325,
+   "end": 19.16,
+   "fala": 4.835
   },
   {
    "cena": 5,
-   "start": 19.47,
-   "end": 22.37,
-   "fala": 2.9
+   "start": 19.16,
+   "end": 22.32,
+   "fala": 3.16
   },
   {
    "cena": 6,
-   "start": 22.37,
-   "end": 30.26,
-   "fala": 7.89
+   "start": 22.32,
+   "end": 30.03,
+   "fala": 7.71
   },
   {
    "cena": 7,
-   "start": 30.26,
-   "end": 34.34,
-   "fala": 4.08
+   "start": 30.03,
+   "end": 34.005,
+   "fala": 3.975
   },
   {
    "cena": 8,
-   "start": 34.34,
-   "end": 40.71,
-   "fala": 6.37
+   "start": 34.005,
+   "end": 40.425,
+   "fala": 6.42
   },
   {
    "cena": 9,
-   "start": 40.71,
-   "end": 44.35,
-   "fala": 3.64
+   "start": 40.425,
+   "end": 44.26,
+   "fala": 3.835
   },
   {
    "cena": 10,
-   "start": 44.35,
-   "end": 49.95,
-   "fala": 5.6
+   "start": 44.26,
+   "end": 49.68,
+   "fala": 5.42
   },
   {
    "cena": 11,
-   "start": 49.95,
-   "end": 53.92,
-   "fala": 3.97
+   "start": 49.68,
+   "end": 53.78,
+   "fala": 4.1
   },
   {
    "cena": 12,
-   "start": 53.92,
-   "end": 57.52,
+   "start": 53.78,
+   "end": 57.38,
    "fala": 3.6
   }
  ]
