@@ -1,0 +1,57 @@
+{
+  "titulo": "Tu nunca devia chegar na porta (paradoxo de Zenão)",
+  "marca": {
+    "handle": "cardeno_amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": false,
+  "voz": {
+    "edge": "pt-BR-AntonioNeural",
+    "edgeRate": "+10%"
+  },
+  "pausaPadrao": 0.5,
+  "fontes": [
+    {
+      "fato": "Paradoxo da dicotomia: para chegar a um ponto é preciso antes percorrer a metade, depois a metade do resto, infinitamente; criado por Zenão de Eleia (séc. V a.C.) para defender a tese de Parmênides de que o movimento é ilusão; conhecido pela Física de Aristóteles",
+      "fonte": "Stanford Encyclopedia of Philosophy, 'Zeno's Paradoxes'",
+      "url": "https://plato.stanford.edu/entries/paradox-zeno/"
+    },
+    {
+      "fato": "5 + 2,5 + 1,25 + ... é uma série geométrica de razão 1/2 cuja soma é exatamente 10 (a/(1-r) = 5/(1/2))",
+      "fonte": "Série geométrica (Wikipedia)",
+      "url": "https://pt.wikipedia.org/wiki/S%C3%A9rie_geom%C3%A9trica"
+    }
+  ],
+  "cenas": [
+    {
+      "fala": "Tu nunca devia conseguir chegar até aquela porta. Nunca! E um grego provou isso... há uns dois mil e quinhentos anos."
+    },
+    {
+      "fala": "Olha só. A porta tá a dez metros. Pra chegar lá... primeiro tu anda a metade. Cinco metros."
+    },
+    {
+      "fala": "Aí falta a metade do que sobrou. Dois metros e meio. Depois, um e vinte e cinco. Depois... sessenta e dois centímetros."
+    },
+    {
+      "fala": "E sempre sobra um pedacinho! Por menor que seja... dá pra cortar no meio de novo. E de novo. E de novo!"
+    },
+    {
+      "fala": "São infinitos pedaços. Então... como é que tu chega na porta?"
+    },
+    {
+      "fala": "Pensa aí antes de eu contar... Três... dois... um."
+    },
+    {
+      "fala": "O segredo é somar tudo. Cinco... mais dois e meio... mais um e vinte e cinco... Por mais pedaço que tu some, nunca passa de dez. A soma dá exatamente dez!"
+    },
+    {
+      "fala": "E cada pedaço menor leva menos tempo pra andar. Então infinitos pedaços cabem num tempo normal. Tipo... uns dez segundos."
+    },
+    {
+      "fala": "Esse grego se chamava Zenão. E ele inventou esse enigma pra tentar provar que o movimento era uma ilusão."
+    },
+    {
+      "fala": "Comenta aí: Zenão tava certo... ou errado? E pensa: se é impossível chegar no fim... como é que tu chegou no fim desse vídeo?"
+    }
+  ]
+}
