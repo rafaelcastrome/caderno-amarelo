@@ -1,0 +1,61 @@
+{
+ "total": 74.829,
+ "cenas": [
+  {
+   "start": 0,
+   "falaFim": 3.929,
+   "end": 4.229
+  },
+  {
+   "start": 4.229,
+   "falaFim": 9.371,
+   "end": 9.671
+  },
+  {
+   "start": 9.671,
+   "falaFim": 16.029,
+   "end": 20.529
+  },
+  {
+   "start": 20.529,
+   "falaFim": 22.457,
+   "end": 22.857
+  },
+  {
+   "start": 22.857,
+   "falaFim": 29.643,
+   "end": 29.943
+  },
+  {
+   "start": 29.943,
+   "falaFim": 36.086,
+   "end": 36.486
+  },
+  {
+   "start": 36.486,
+   "falaFim": 41.986,
+   "end": 46.986
+  },
+  {
+   "start": 46.986,
+   "falaFim": 52.914,
+   "end": 53.314
+  },
+  {
+   "start": 53.314,
+   "falaFim": 57.671,
+   "end": 58.071
+  },
+  {
+   "start": 58.071,
+   "falaFim": 66.571,
+   "end": 66.971
+  },
+  {
+   "start": 66.971,
+   "falaFim": 73.829,
+   "end": 74.829
+  }
+ ],
+ "motor_tts": "provisorio"
+}

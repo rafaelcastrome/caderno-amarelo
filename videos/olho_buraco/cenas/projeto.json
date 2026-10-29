@@ -1,0 +1,70 @@
+{
+  "titulo": "Teu olho tem um buraco (ponto cego)",
+  "marca": {
+    "handle": "cardeno_amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": false,
+  "voz": {
+    "gemini": "a definir (amostras enviadas ao Rafael em 2026-10-29)"
+  },
+  "audio": "Narração Gemini TTS gerada fora do gerar_audio.py (a skill é imutável): uma fala por cena, concatenadas com as pausas abaixo; timeline.json traz start/end/falaFim.",
+  "fontes": [
+    {
+      "fato": "Ponto cego: no disco óptico, onde o nervo óptico sai da retina, não há cones nem bastonetes; fica ~15° para o lado temporal e o cérebro preenche a lacuna",
+      "fonte": "Wikipedia, 'Blind spot (vision)'; Ramachandran (1992), Scientific American, 'Blind Spots'",
+      "url": "https://en.wikipedia.org/wiki/Blind_spot_(vision)"
+    },
+    {
+      "fato": "Edme Mariotte descobriu o ponto cego nos anos 1660 (publicado em 1668) e a demonstração impressionou a corte francesa",
+      "fonte": "Wikipedia, 'Edme Mariotte'; Encyclopedia.com; History of Hydrology wiki",
+      "url": "https://en.wikipedia.org/wiki/Edme_Mariotte"
+    }
+  ],
+  "cenas": [
+    {
+      "fala": "Tem um buraco no teu olho... E eu vou te provar. Agora!",
+      "pausa": 0.3
+    },
+    {
+      "fala": "Fecha o olho esquerdo. Só o esquerdo! E com o direito... olha fixo no X.",
+      "pausa": 0.3
+    },
+    {
+      "fala": "Agora vai trazendo o celular pra perto... devagar... Não tira o olho do X! Devagarinho...",
+      "pausa": 4.5
+    },
+    {
+      "fala": "Sumiu! A bolinha sumiu, né?",
+      "pausa": 0.4
+    },
+    {
+      "fala": "Isso é o teu ponto cego. É o lugar onde o nervo sai do olho... e ali não tem nada pra enxergar.",
+      "pausa": 0.3
+    },
+    {
+      "fala": "Mas tu nunca viu um buraco no mundo, né? Porque o teu cérebro tapa. Duvida? Fase dois!",
+      "pausa": 0.4
+    },
+    {
+      "fala": "Mesma coisa. Olho esquerdo fechado... olha no X... e vem chegando. Devagar...",
+      "pausa": 5.0
+    },
+    {
+      "fala": "Emendou! A linha ficou inteira, né? Teu cérebro pintou um pedaço... que não existe.",
+      "pausa": 0.4
+    },
+    {
+      "fala": "Ou seja... um pedaço do que tu tá vendo agora... é inventado.",
+      "pausa": 0.4
+    },
+    {
+      "fala": "Um francês, o Mariotte, descobriu isso há mais de trezentos e cinquenta anos... e deixou a corte do rei de boca aberta.",
+      "pausa": 0.4
+    },
+    {
+      "fala": "Sumiu ou não sumiu? Comenta aí! Não deu? Volta... e agora fecha o outro olho e olha pra bolinha.",
+      "pausa": 1.0
+    }
+  ]
+}
