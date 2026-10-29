@@ -100,26 +100,37 @@ window.CENAS = function (WB) {
   // =====================================================================
   page(6, 0.1);
   W(6, 0.45, 0.95, 'FASE 2', 540, 330, 120, INK.orange);
-  // ilustração das mãos (Canva, aprovada pelo Rafael): pontas juntas, dedos do meio dobrados (nós encostando)
-  // imagem 944x1300 (recortada acima dos pulsos) escalada 0,7 -> 661x910, em x 210..871, y 430..1340
-  const IS = 0.7, IX0 = 540 - 944 * IS / 2, IY0 = 430;
-  const ip = (ix, iy) => [r1(IX0 + ix * IS), r1(IY0 + iy * IS)];
+  // ilustração das mãos (desenhada no ChatGPT a partir da mão do Rafael): pontas juntas, vista de frente,
+  // de cima pra baixo: indicador, MEIO dobrado (nós), anelar, mindinho; o polegar fica atrás.
+  // imagem 1127x1395 recortada em y 200..1130 e escalada 0,8 -> 902x744, em x 89..991, y 430..1174
+  const IS = 0.8, IX0 = 540 - 1127 * IS / 2, IY0 = 430;
+  const ip = (ix, iy) => [r1(IX0 + ix * IS), r1(IY0 + (iy - 200) * IS)];
   const gMaos = WB.group();
-  WB.mk('image', { href: window.MAOS_PNG, x: r1(IX0), y: IY0, width: r1(944 * IS), height: r1(1300 * IS) }, gMaos);
+  WB.mk('image', { href: window.MAOS_PNG, x: r1(IX0), y: IY0, width: r1(1127 * IS), height: r1(930 * IS) }, gMaos);
   gMaos.setAttribute('opacity', 0);
   WB.fade(7, fr(7, T(7, 0.03)), fr(7, T(7, 0.2)), gMaos, 0, 1);
-  const [PX, PY] = ip(472, 175), [MX, MY] = ip(472, 745), [TX, TY] = ip(472, 1090);
-  // rótulos com setas
-  W(7, 0.2, 0.32, 'pontas', 900, PY - 20, 54, INK.gray);
-  W(7, 0.32, 0.42, 'juntas', 900, PY + 40, 54, INK.gray);
-  D(7, 0.42, 0.48, [C.arrow(840, PY + 60, 600, PY + 20, INK.gray, 6)]);
-  W(7, P(7, 'dobra'), P(7, 'dobra') + 0.12, 'MEIO', 130, MY - 30, 64, INK.red);
-  W(7, P(7, 'dobra') + 0.12, P(7, 'encostando'), 'dobrado', 130, MY + 40, 54, INK.red);
-  D(7, P(7, 'encostando'), P(7, 'encostando') + 0.08, [C.arrow(210, MY + 10, MX - 60, MY, INK.red, 7)]);
+  const PAR = { indicador: ip(565, 300), MEIO: ip(505, 590), anelar: ip(525, 765), mindinho: ip(540, 1010) };
+  // marcadores numerados em cada par de pontas + legenda embaixo
+  const NUM = { indicador: 1, MEIO: 2, anelar: 3, mindinho: 4 };
+  const LEG = { polegar: 1300, indicador: 1360, MEIO: 1420, anelar: 1480, mindinho: 1540 };
+  const NOME = { polegar: 'polegar (atrás)', indicador: '1 indicador', MEIO: '2 MEIO dobrado', anelar: '3 anelar', mindinho: '4 mindinho' };
+  const COR = { polegar: INK.gray, indicador: INK.black, MEIO: INK.red, anelar: INK.orange, mindinho: INK.black };
+  Object.entries(PAR).forEach(([nome, [x, y]], i) => {
+    const g = WB.group();
+    WB.mk('circle', { cx: x, cy: y, r: 30, fill: '#fffaf0', stroke: COR[nome], 'stroke-width': 5 }, g);
+    WB.showNow(WB.textStrokes(String(NUM[nome]), x, y + 14, 44, COR[nome], g, 'middle').strokes);
+    g.setAttribute('opacity', 0);
+    const f0 = 0.22 + i * 0.06;
+    WB.fade(7, fr(7, T(7, f0)), fr(7, T(7, f0 + 0.03)), g, 0, 1);
+  });
+  ['indicador', 'MEIO', 'anelar', 'mindinho'].forEach((nome, i) => {
+    const f0 = nome === 'MEIO' ? P(7, 'dobra') : 0.22 + i * 0.06;
+    W(7, f0, f0 + 0.08, NOME[nome], 120, LEG[nome], 54, COR[nome], { anchor: 'start' });
+  });
+  W(7, P(7, 'encostando'), P(7, 'encostando') + 0.1, NOME.polegar, 120, LEG.polegar, 54, COR.polegar, { anchor: 'start' });
   rest(7, T(7, 1.0), sc(8).start - 0.1);
 
-  // cena 8: separa e junta (polegar, mindinho, indicador): setas que abrem e lista com ✓
-  const LISTA = { polegar: 1420, mindinho: 1480, indicador: 1540 };
+  // cena 8: separa e junta (polegar, mindinho, indicador): setas verdes abrindo no par e ✓ na legenda
   const abre = (y, tS, tJ) => {
     const g = WB.group(WB.overlay);
     const a1 = WB.group(g), a2 = WB.group(g);
@@ -128,26 +139,27 @@ window.CENAS = function (WB) {
     WB.effect(t => {
       const a = ease(clamp((t - tS) / 0.3) * (1 - clamp((t - tJ) / 0.3)));
       g.setAttribute('opacity', a.toFixed(3));
-      a1.setAttribute('transform', `translate(${r1(560 + 40 * a)} ${y})`);
-      a2.setAttribute('transform', `translate(${r1(520 - 40 * a)} ${y})`);
+      a1.setAttribute('transform', `translate(${r1(580 + 40 * a)} ${y})`);
+      a2.setAttribute('transform', `translate(${r1(500 - 40 * a)} ${y})`);
     });
   };
-  const separa = (nome, y, fS, fJ) => {
-    abre(y, T(8, fS), T(8, fJ));
-    W(8, fS, fS + 0.07, nome, 420, LISTA[nome], 62, INK.green, { anchor: 'end' });
-    D(8, fS + 0.075, fS + 0.11, [C.check(470, LISTA[nome] - 18, 30, INK.green)]);
+  const separa = (nome, fS, fJ) => {
+    if (PAR[nome]) abre(PAR[nome][1], T(8, fS), T(8, fJ));
+    const w = WB.measure(NOME[nome], 54);
+    D(8, fS + 0.03, fS + 0.08, [C.check(120 + w + 40, LEG[nome] - 18, 28, INK.green)]);
   };
-  separa('polegar', TY, P(8, 'Separa', 1), P(8, 'junta', 1));
-  separa('mindinho', PY + 40, P(8, 'Separa', 2), P(8, 'junta', 2));
-  separa('indicador', PY + 100, P(8, 'Separa', 3), P(8, 'junta', 3));
+  separa('polegar', P(8, 'Separa', 1), P(8, 'junta', 1));
+  separa('mindinho', P(8, 'Separa', 2), P(8, 'junta', 2));
+  separa('indicador', P(8, 'Separa', 3), P(8, 'junta', 3));
   rest(8, T(8, 0.98), sc(9).start + 0.05);
 
   // cena 9: e o anelar?
+  const [AX, AY] = PAR.anelar;
   const t3 = WB.group();
-  D(9, 0.25, 0.6, [C.circleAround(540, PY + 60, 95, 110, INK.orange)]);
-  W(9, 0.55, 0.98, 'e o ANELAR?', 760, 1450, 72, INK.orange, { parent: t3 });
-  countdown(sc(9).falaFim, sc(10).start, 760, 1560, t3);
-  // força: a imagem treme um pouco, mas as pontas não abrem
+  D(9, 0.25, 0.6, [C.circleAround(AX, AY, 130, 62, INK.orange)]);
+  W(9, 0.55, 0.98, 'e o ANELAR?', 800, 1380, 64, INK.orange, { parent: t3 });
+  countdown(sc(9).falaFim, sc(10).start, 800, 1500, t3);
+  // força: a imagem treme um pouco, mas o anelar não abre
   WB.effect(t => {
     const on = t > sc(9).falaFim && t < sc(10).start + 1.2;
     const dx = on ? r1(3 * Math.sin(t * 37)) : 0;
@@ -156,15 +168,15 @@ window.CENAS = function (WB) {
   });
   rest(9, T(9, 1.0), sc(10).start - 0.1);
   // cena 10: não sai
-  const st2 = C.stamp('NÃO SAI!', 760, 1490, { size: 84, color: INK.red, rot: -8 });
+  const st2 = C.stamp('NÃO SAI!', 790, 1450, { size: 76, color: INK.red, rot: -8 });
   D(10, 0.0, 0.45, [st2.box, st2.text]);
+  D(10, 0.45, 0.6, [C.xMark(120 + WB.measure(NOME.anelar, 54) + 40, LEG.anelar - 18, 24, INK.red)]);
   // cena 11: o tendão que prende o anelar ao do meio
-  const [Z0x, Z0y] = ip(395, 700), [Z1x, Z1y] = ip(415, 420);
-  const zz = (x0, y0, x1, y1) => `M ${x0} ${y0} L ${r1(x0 + 18)} ${r1(lerp(y0, y1, 0.3))} L ${r1(x0 - 14)} ${r1(lerp(y0, y1, 0.55))} L ${r1(x1 + 14)} ${r1(lerp(y0, y1, 0.8))} L ${x1} ${y1}`;
-  const tend = [sp(zz(Z0x, Z0y, Z1x, Z1y), INK.red, 11), sp(zz(r1(1080 - Z0x), Z0y, r1(1080 - Z1x), Z1y), INK.red, 11)];
+  const [MX2, MY2] = PAR.MEIO;
+  const zz = (x, y0, y1) => `M ${x} ${y0} L ${r1(x + 18)} ${r1(lerp(y0, y1, 0.3))} L ${r1(x - 16)} ${r1(lerp(y0, y1, 0.6))} L ${x} ${y1}`;
+  const tend = [sp(zz(r1(MX2 - 150), MY2 + 10, AY - 10), INK.red, 11), sp(zz(r1(MX2 + 190), MY2 + 10, AY - 10), INK.red, 11)];
   D(11, P(11, 'tendão') - 0.05, P(11, 'tendão') + 0.12, tend);
-  W(11, P(11, 'tendão') + 0.13, P(11, 'tendão') + 0.25, 'tendão', 920, 790, 60, INK.red);
-  W(11, P(11, 'tendão') + 0.25, P(11, 'meio') + 0.05, 'grudado', 920, 850, 60, INK.red);
+  W(11, P(11, 'tendão') + 0.13, P(11, 'meio') + 0.05, 'tendão grudado', 540, 1225, 60, INK.red);
   rest(11, T(11, 0.9), sc(12).start + 0.05);
   // =====================================================================
   // FOLHA 4 — CTA + loop (cena 12)
