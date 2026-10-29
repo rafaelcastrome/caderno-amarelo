@@ -1,0 +1,73 @@
+{
+  "titulo": "Teu corpo não te obedece",
+  "marca": {
+    "handle": "cardeno_amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": false,
+  "voz": {
+    "gemini": "Charon",
+    "modelo": "gemini-2.5-flash-preview-tts"
+  },
+  "audio": "Narração Gemini Charon numa tomada só, cortada em falas nos silêncios reais (cortar_take.py) e montada com as pausas abaixo.",
+  "fontes": [
+    {
+      "fato": "Girar o pé direito no sentido do relógio e desenhar um 6 com a mão direita faz o pé mudar de direção na maioria das pessoas (acoplamento de membros do mesmo lado)",
+      "fonte": "Coordenação motora entre membros (Kelso e colegas; modelo Haken-Kelso-Bunz, 1985)"
+    },
+    {
+      "fato": "Com os dedos médios dobrados, os anelares não se separam: o tendão extensor do anelar é ligado ao do dedo médio (juncturae tendinum) e os flexores compartilham o mesmo músculo",
+      "fonte": "Anatomia da mão: juncturae tendinum; flexor profundo dos dedos"
+    }
+  ],
+  "cenas": [
+    {
+      "fala": "Teu corpo não te obedece... e eu vou te provar agora. Bora!",
+      "pausa": 0.3
+    },
+    {
+      "fala": "Levanta o pé direito do chão... e começa a girar ele em círculo. Pro lado do relógio.",
+      "pausa": 2.5
+    },
+    {
+      "fala": "Isso, não para de girar! Agora, com a mão direita... desenha um seis no ar.",
+      "pausa": 3.0
+    },
+    {
+      "fala": "Olha o teu pé! Mudou de lado sozinho, né?",
+      "pausa": 0.4
+    },
+    {
+      "fala": "Pois é. Mão e pé do mesmo lado querem girar juntos... e o cérebro não consegue separar.",
+      "pausa": 0.3
+    },
+    {
+      "fala": "Duvida? Fase dois!",
+      "pausa": 0.8
+    },
+    {
+      "fala": "Junta as pontas dos dedos de uma mão com as da outra. Agora dobra os dois dedos do meio pra dentro... encostando um no outro.",
+      "pausa": 2.5
+    },
+    {
+      "fala": "Separa os polegares... junta. Separa os mindinhos... junta. Separa os indicadores... junta.",
+      "pausa": 0.5
+    },
+    {
+      "fala": "Agora... separa os anelares.",
+      "pausa": 4.0
+    },
+    {
+      "fala": "Não sai, né? Pode forçar... não vai!",
+      "pausa": 0.4
+    },
+    {
+      "fala": "É que o anelar tem um tendão grudado no do dedo do meio. Dobrou um... o outro fica preso.",
+      "pausa": 0.4
+    },
+    {
+      "fala": "Comenta aí: conseguiu ou não? E volta... gira o pé de novo e tenta não deixar ele virar.",
+      "pausa": 1.0
+    }
+  ]
+}
