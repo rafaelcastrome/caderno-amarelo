@@ -1,5 +1,5 @@
 // "Teu olho tem um buraco" (ponto cego), ~60 s, narração Antonio (edge-tts).
-// Teste 1: olho esquerdo fechado, encara o X e aproxima o celular; a bolinha some (~16-18 cm).
+// Teste 1: olho esquerdo fechado, celular quase no nariz, encara o X e vai afastando; a bolinha some (~14-20 cm).
 // Teste 2: linha azul com um pedaço faltando; no ponto cego o cérebro "emenda" a linha.
 // Fim "Volta... fecha o outro olho e olha pra bolinha" emenda no começo ("Tem um buraco no teu olho").
 // Os tempos são frações da FALA de cada cena (timeline.json -> falaFim), então se ajustam a qualquer take.
@@ -76,10 +76,10 @@ window.CENAS = function (WB) {
   W(2, 0.72, 0.96, 'olha só pro X', 360, 1000, 76, INK.blue, { parent: t1 });
   D(2, 0.8, 0.96, C.arrow(250, 930, 225, 830, INK.blue, 7));
   // cena 3: aproxima devagar (mão fora, contagem até o "Sumiu!")
-  W(3, 0.0, 0.3, 'aproxima', 540, 1200, 88, INK.orange, { parent: t1 });
-  W(3, 0.18, 0.42, 'DEVAGAR...', 540, 1310, 88, INK.orange, { parent: t1 });
-  rest(3, T(3, 0.45), sc(4).start - 0.1);
-  countdown(T(3, 0.5), sc(4).start, 540, 1480, t1);
+  W(3, 0.0, 0.25, 'começa PERTINHO', 540, 1200, 88, INK.orange, { parent: t1 });
+  W(3, 0.25, 0.5, 'e vai AFASTANDO...', 540, 1310, 88, INK.orange, { parent: t1 });
+  rest(3, T(3, 0.52), sc(4).start - 0.1);
+  countdown(sc(3).falaFim, sc(4).start, 540, 1480, t1);
   // cena 4: sumiu
   WB.effect(t => t1.setAttribute('opacity', t < sc(4).start ? 1 : 0));
   W(4, 0.0, 0.3, 'SUMIU!', 540, 1250, 130, INK.red);
@@ -116,9 +116,10 @@ window.CENAS = function (WB) {
   const lineR = [sp(`M ${GAP1} ${YT} L 990 ${YT}`, INK.blue, 30)];
   D(7, 0.26, 0.42, lineL); D(7, 0.42, 0.5, lineR);
   W(7, 0.0, 0.14, 'olho esquerdo fechado', 540, 520, 64, INK.gray, { parent: t2 });
-  W(7, 0.55, 0.75, 'vem chegando...', 540, 1220, 84, INK.orange, { parent: t2 });
-  rest(7, T(7, 0.78), sc(8).start - 0.1);
-  countdown(T(7, 0.8), sc(8).start, 540, 1420, t2);
+  W(7, 0.3, 0.55, 'começa PERTINHO', 540, 1220, 84, INK.orange, { parent: t2 });
+  W(7, 0.6, 0.78, 'vai afastando...', 540, 1330, 84, INK.orange, { parent: t2 });
+  rest(7, T(7, 0.8), sc(8).start - 0.1);
+  countdown(sc(7).falaFim, sc(8).start, 540, 1480, t2);
   WB.effect(t => t2.setAttribute('opacity', t < sc(8).start ? 1 : 0));
   W(8, 0.0, 0.25, 'EMENDOU!', 540, 1200, 120, INK.green);
   W(8, 0.55, 0.9, 'pintou o que NÃO EXISTE', 540, 1340, 72, INK.purple);
