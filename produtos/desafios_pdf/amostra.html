@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<style>
+@font-face { font-family: Caveat; src: url('Caveat-Bold.ttf'); }
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Caveat, cursive; color: #1f1f24; }
+.page {
+  width: 210mm; height: 297mm; position: relative; overflow: hidden; page-break-after: always;
+  background-color: #fbf5df;
+  background-image:
+    linear-gradient(rgba(70,130,200,0.26) 0.5mm, transparent 0.5mm),
+    linear-gradient(90deg, rgba(70,130,200,0.26) 0.5mm, transparent 0.5mm),
+    linear-gradient(rgba(70,130,200,0.16) 0.25mm, transparent 0.25mm),
+    linear-gradient(90deg, rgba(70,130,200,0.16) 0.25mm, transparent 0.25mm);
+  background-size: 20mm 20mm, 20mm 20mm, 5mm 5mm, 5mm 5mm;
+  padding: 16mm 14mm 14mm 28mm;
+}
+.page::before { content: ''; position: absolute; left: 20mm; top: 0; bottom: 0; width: 0.8mm; background: rgba(214,40,40,0.35); }
+.red { color: #d62828; } .blue { color: #1d4ed8; } .green { color: #15803d; }
+.orange { color: #ea580c; } .purple { color: #7c3aed; } .gray { color: #8a8a8a; }
+.tag { display: inline-block; background: #ffd23f; padding: 0 4mm; border-radius: 2mm; transform: rotate(-2deg); font-size: 20pt; }
+h1 { font-size: 46pt; line-height: 0.95; }
+h2 { font-size: 34pt; line-height: 1; margin: 3mm 0 2mm; }
+p, li { font-size: 19pt; line-height: 1.15; }
+.handle { position: absolute; bottom: 8mm; right: 14mm; font-size: 16pt; color: #8a8a8a; }
+.pg { position: absolute; bottom: 8mm; left: 28mm; font-size: 16pt; color: #8a8a8a; }
+.box { border: 0.6mm solid #1f1f24; border-radius: 3mm; padding: 4mm 5mm; background: rgba(255,250,240,0.85); }
+.flip { transform: rotate(180deg); }
+.underline { background: linear-gradient(transparent 62%, #ffd23f 62%); }
+
+/* capa */
+.capa h1 { font-size: 72pt; margin-top: 18mm; }
+.capa .sub { font-size: 30pt; margin-top: 6mm; }
+.capa .vol { position: absolute; top: 18mm; right: 16mm; font-size: 22pt; transform: rotate(8deg); border: 0.6mm solid #d62828; color: #d62828; padding: 1mm 4mm; border-radius: 2mm; }
+.capa ol { margin: 6mm 0 0 8mm; }
+.capa ol li { font-size: 24pt; margin: 1mm 0; }
+
+/* stroop */
+.grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 3mm 4mm; margin: 4mm 0; text-align: center; font-size: 25pt; }
+.grid span { min-width: 0; }
+.tempos { display: flex; gap: 6mm; margin-top: 3mm; }
+.tempos .box { flex: 1; font-size: 20pt; }
+.escala { margin-top: 4mm; font-size: 18pt; }
+</style></head><body>
+
+<!-- CAPA -->
+<section class="page capa">
+  <div class="vol">volume 1</div>
+  <span class="tag">pra imprimir!</span>
+  <h1>Desafios do<br><span class="underline">Caderno Amarelo</span></h1>
+  <p class="sub">30 testes que <span class="red">enganam</span> o teu cérebro</p>
+
+  <svg width="150mm" height="70mm" viewBox="0 0 300 140" style="margin:6mm 0 2mm 6mm">
+    <g fill="none" stroke="#1f1f24" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M95 105 C55 108 40 80 52 62 C38 45 55 20 80 26 C88 8 118 6 128 20 C142 8 172 12 175 32 C200 30 210 58 195 72 C208 92 185 112 160 105 C150 122 110 122 95 105 Z"/>
+      <path d="M128 22 C120 45 135 60 125 85 M80 26 C85 40 100 45 98 60 M175 34 C160 45 165 60 150 70 M60 70 C75 70 85 82 82 95"/>
+    </g>
+    <g stroke="#d62828" stroke-width="3" stroke-linecap="round">
+      <path d="M215 30 l18 -10 M222 55 l22 0 M215 80 l18 10"/>
+    </g>
+    <text x="238" y="62" font-family="Caveat" font-size="26" fill="#d62828">bug!</text>
+    <text x="8" y="132" font-family="Caveat" font-size="17" fill="#1d4ed8">ilusões · pegadinhas · testes de olho e de mão</text>
+  </svg>
+
+  <div class="box" style="margin-top:4mm">
+    <p style="font-size:26pt">Como usar</p>
+    <ol>
+      <li>Imprime (de preferência <span class="red">colorido</span>).</li>
+      <li>Faz primeiro. Depois desafia alguém e marca o tempo.</li>
+      <li>A explicação tá de cabeça pra baixo. Sem roubar!</li>
+    </ol>
+  </div>
+  <p style="margin-top:6mm;font-size:20pt" class="gray">Pra fazer em família, com os amigos ou na sala de aula.</p>
+  <div class="handle">@Cardeno_Amarelo</div>
+</section>
+
+<!-- DESAFIO STROOP -->
+<section class="page">
+  <span class="tag">desafio 07</span>
+  <h2>Fala a cor</h2>
+  <p>Lê em voz alta a <b>cor da tinta</b>, não a palavra. Da esquerda pra direita, o mais rápido que der. Errou? Volta do começo!</p>
+  <div class="grid">
+    <span class="blue">VERMELHO</span><span class="red">VERDE</span><span class="green">AZUL</span><span class="orange">ROXO</span>
+    <span class="purple">LARANJA</span><span class="green">VERMELHO</span><span class="red">AZUL</span><span class="blue">VERDE</span>
+    <span class="orange">AZUL</span><span class="purple">VERDE</span><span class="blue">ROXO</span><span class="red">LARANJA</span>
+    <span class="green">ROXO</span><span class="orange">VERMELHO</span><span class="purple">AZUL</span><span class="blue">LARANJA</span>
+    <span class="red">ROXO</span><span class="blue">VERMELHO</span><span class="orange">VERDE</span><span class="green">LARANJA</span>
+  </div>
+  <div class="tempos">
+    <div class="box">Teu tempo: ______ s</div>
+    <div class="box">Tempo do amigo: ______ s</div>
+  </div>
+  <p class="escala">Menos de 20 s: cérebro turbo &nbsp;·&nbsp; 20 a 35 s: normal &nbsp;·&nbsp; mais de 35 s: travou bonito!</p>
+
+  <div class="box flip" style="position:absolute;left:28mm;right:14mm;bottom:22mm;">
+    <p style="font-size:22pt"><b>Por que trava?</b></p>
+    <p>Teu cérebro lê a palavra sozinho, sem pedir licença. Aí a palavra briga com a cor e você trava. Isso se chama <b>efeito Stroop</b>, descoberto por J. R. Stroop em 1935. Treinar ajuda um pouquinho, mas ninguém zera!</p>
+  </div>
+  <div class="pg">7</div><div class="handle">@Cardeno_Amarelo</div>
+</section>
+
+<!-- DESAFIO BANDEIRA -->
+<section class="page">
+  <span class="tag">desafio 12</span>
+  <h2>A bandeira que não existe</h2>
+  <p>Essa bandeira tá com as cores <b>todas erradas</b>. Encara o pontinho preto do meio por <b>30 segundos</b> sem piscar. Depois olha rápido pra uma parede branca (ou pro quadrado vazio).</p>
+
+  <svg width="150mm" height="105mm" viewBox="0 0 200 140" style="margin:4mm 0 0 4mm">
+    <rect x="0" y="0" width="200" height="140" fill="#ff63c4"/>
+    <polygon points="100,12 188,70 100,128 12,70" fill="#0120ff"/>
+    <circle cx="100" cy="70" r="33" fill="#ffd889"/>
+    <path d="M68 62 Q100 52 132 70" stroke="#1f1f24" stroke-width="4.5" fill="none"/>
+    <circle cx="100" cy="70" r="2.6" fill="#000"/>
+  </svg>
+
+  <div style="display:flex;gap:6mm;align-items:center;margin-top:5mm">
+    <div style="width:60mm;height:42mm;background:#fff;border:0.4mm dashed #8a8a8a;position:relative">
+      <div style="position:absolute;left:50%;top:50%;width:2mm;height:2mm;margin:-1mm;border-radius:50%;background:#000"></div>
+    </div>
+    <div>
+      <p>Olha aqui depois ←</p>
+      <p style="margin-top:3mm">Viu a bandeira certinha?<br>☐ vi &nbsp;&nbsp; ☐ não vi</p>
+    </div>
+  </div>
+
+  <div class="box flip" style="position:absolute;left:28mm;right:14mm;bottom:22mm;">
+    <p style="font-size:22pt"><b>O que aconteceu?</b></p>
+    <p>As células do teu olho que veem cor cansaram de tanto olhar o rosa, o azul e o bege. Quando a cor some, elas mostram o contrário: verde, amarelo e azul. Isso se chama <b>pós-imagem</b>. A bandeira certa nunca esteve no papel!</p>
+  </div>
+  <div class="pg">12</div><div class="handle">@Cardeno_Amarelo</div>
+</section>
+
+</body></html>
