@@ -101,53 +101,83 @@ window.CENAS = function (WB) {
   page(6, 0.1);
   W(6, 0.45, 0.95, 'FASE 2', 540, 330, 120, INK.orange);
   const t2 = WB.group();
-  W(7, 0.02, 0.3, 'pontas juntas', 540, 450, 70, INK.gray, { parent: t2 });
-  const ROWS = [['polegar', 620], ['indicador', 760], ['MEIO', 900], ['anelar', 1040], ['mindinho', 1180]];
-  const L0 = 290, L1 = 535, R0 = 545, R1 = 790, H = 66;
-  const dedo = {};
-  const tubo = (x0, x1, y, lado, g) => {
-    // tubo arredondado com a ponta virada para o centro
-    const tip = lado < 0 ? x1 : x0, base = lado < 0 ? x0 : x1;
-    const d = `M ${base} ${y - H / 2} L ${tip + lado * 0 - (lado < 0 ? H / 2 : -H / 2)} ${y - H / 2} ` +
-      `A ${H / 2} ${H / 2} 0 0 ${lado < 0 ? 1 : 0} ${tip - (lado < 0 ? H / 2 : -H / 2)} ${y + H / 2} L ${base} ${y + H / 2}`;
+  W(7, 0.0, 0.08, 'pontas juntas', 540, 450, 70, INK.gray, { parent: t2 });
+  // duas mãos de frente, dedos na horizontal, pontas se encostando no meio (x = 540)
+  const CX = 540, m = x => 1080 - x;
+  const DEDOS = { polegar: [600, 72, 300, -1], indicador: [712, 62, 268, -1], MEIO: [776, 64, 255, 0], anelar: [840, 62, 266, 1], mindinho: [900, 54, 300, 1] };
+  const SKIN2 = '#e9b98c';
+  const palma = lado => {
+    const X = x => (lado < 0 ? x : m(x));
+    const d = `M ${X(20)} 770 C ${X(110)} 730 ${X(170)} 606 ${X(312)} 606 L ${X(332)} 930 C ${X(250)} 965 ${X(150)} 965 ${X(20)} 945`;
+    const g = WB.group();
     fill('path', { d: d + ' Z', fill: SKIN, 'fill-opacity': 1 }, g);
-    return sp(d, INK.black, 7, g);
+    WB.showNow([sp(`M ${X(20)} 770 C ${X(110)} 730 ${X(170)} 606 ${X(312)} 606`, INK.black, 8, g),
+      sp(`M ${X(332)} 930 C ${X(250)} 965 ${X(150)} 965 ${X(20)} 945`, INK.black, 8, g)]);
+    g.setAttribute('opacity', 0);
+    return g;
   };
-  const tubos = [];
-  ROWS.forEach(([nome, y]) => {
+  // contorno de um dedo; lado -1 = mão esquerda (ponta à direita); rr = raio da ponta
+  const dedoPath = (y, w, b, lado, rr = w / 2, tip = CX - 3) => {
+    const r = w / 2, X = x => (lado < 0 ? x : m(x)), sw = lado < 0 ? 1 : 0;
+    return `M ${X(b)} ${y - r} L ${X(tip - rr)} ${y - r} Q ${X(tip)} ${y - r} ${X(tip)} ${y - r + rr} L ${X(tip)} ${y + r - rr} Q ${X(tip)} ${y + r} ${X(tip - rr)} ${y + r} L ${X(b)} ${y + r}`;
+  };
+  const unha = (y, w, lado, g, tip = CX - 3) => {
+    const r = w / 2;
+    return sp(WB.roundRectPath(lado < 0 ? tip - r - 26 : m(tip - r + 4), y - r + 10, 30, w - 20, 9), INK.gray, 4, g);
+  };
+  const G1 = palma(-1), G2 = palma(1);
+  WB.fade(7, fr(7, T(7, 0.03)), fr(7, T(7, 0.1)), G1, 0, 1);
+  WB.fade(7, fr(7, T(7, 0.1)), fr(7, T(7, 0.17)), G2, 0, 1);
+  const dedo = {};
+  const ordem = ['polegar', 'indicador', 'MEIO', 'anelar', 'mindinho'];
+  ordem.forEach((nome, i) => {
+    const [y, w, b, dir] = DEDOS[nome];
     const gl = WB.group(), gr = WB.group();
-    const meio = nome === 'MEIO';
-    const sl = tubo(L0, meio ? 420 : L1, y, -1, gl), sr = tubo(meio ? 660 : R0, R1, y, 1, gr);
-    gl.setAttribute('opacity', 0); gr.setAttribute('opacity', 0);
-    WB.showNow([sl, sr]);
-    dedo[nome] = { gl, gr, y };
-    tubos.push({ gl, gr, s: [sl, sr], nome, y });
+    for (const [g, lado] of [[gl, -1], [gr, 1]]) {
+      fill('path', { d: dedoPath(y, w, b - 40, lado) + ' Z', fill: SKIN, 'fill-opacity': 1 }, g);
+      WB.showNow([sp(dedoPath(y, w, b, lado), INK.black, 7, g), unha(y, w, lado, g)]);
+      g.setAttribute('opacity', 0);
+    }
+    const f0 = 0.2 + i * 0.05;
+    WB.fade(7, fr(7, T(7, f0)), fr(7, T(7, f0 + 0.04)), gl, 0, 1);
+    WB.fade(7, fr(7, T(7, f0)), fr(7, T(7, f0 + 0.04)), gr, 0, 1);
+    dedo[nome] = { gl, gr, y, b, dir };
   });
-  // aparecem em sequência durante "Junta as pontas..."
-  tubos.forEach((tb, i) => {
-    const f0 = 0.08 + i * 0.07;
-    WB.fade(7, fr(7, T(7, f0)), fr(7, T(7, f0 + 0.05)), tb.gl, 0, 1);
-    WB.fade(7, fr(7, T(7, f0)), fr(7, T(7, f0 + 0.05)), tb.gr, 0, 1);
-    W(7, f0, f0 + 0.06, tb.nome, L0 - 20, tb.y + 16, tb.nome === 'MEIO' ? 60 : 54, tb.nome === 'MEIO' ? INK.red : INK.gray, { anchor: 'end' });
+  // dedo do meio dobrado: o que encosta agora é o nó (ponta reta, cor mais escura, dobra marcada)
+  const [MY, MW, MB] = DEDOS.MEIO;
+  const gDob = WB.group(); gDob.setAttribute('opacity', 0);
+  for (const lado of [-1, 1]) {
+    const X = x => (lado < 0 ? x : m(x));
+    fill('path', { d: dedoPath(MY, MW, MB + 4, lado, 10) + ' Z', fill: SKIN2, 'fill-opacity': 1 }, gDob);
+    WB.showNow([sp(dedoPath(MY, MW, MB, lado, 10), INK.black, 7, gDob),
+      sp(`M ${X(CX - 46)} ${MY - MW / 2 + 8} Q ${X(CX - 30)} ${MY} ${X(CX - 46)} ${MY + MW / 2 - 8}`, INK.red, 6, gDob)]);
+  }
+  const tDob = T(7, P(7, 'dobra'));
+  WB.effect(t => {
+    const k = clamp((t - tDob) / 0.5);
+    gDob.setAttribute('opacity', k.toFixed(3));
+    dedo.MEIO.gl.setAttribute('opacity', t < tDob ? dedo.MEIO.gl.getAttribute('opacity') : (1 - k).toFixed(3));
+    dedo.MEIO.gr.setAttribute('opacity', t < tDob ? dedo.MEIO.gr.getAttribute('opacity') : (1 - k).toFixed(3));
   });
-  // dedos do meio dobrados: ganchos para baixo
-  const dobra = [sp(`M 420 ${900 - 30} Q 480 ${900 - 20} 470 ${900 + 50}`, INK.red, 8), sp(`M 660 ${900 - 30} Q 600 ${900 - 20} 610 ${900 + 50}`, INK.red, 8)];
-  D(7, P(7, 'dobra'), P(7, 'encostando'), dobra);
-  W(7, P(7, 'encostando'), 0.98, 'dobrados', 540, 915, 44, INK.red);
+  // rótulos curtos nos dedos que importam
+  W(7, P(7, 'dobra') + 0.02, P(7, 'encostando'), 'MEIO', 150, MY + 14, 52, INK.red);
+  const gMeio = WB.group();
+  W(7, P(7, 'encostando'), 0.98, 'dedos do MEIO dobrados', 540, 1040, 62, INK.red, { parent: gMeio });
+  rest(7, T(7, 1.0), sc(8).start - 0.1);
 
-  // cena 8: separa e junta (polegar, mindinho, indicador)
-  const ok = {};
+  // cena 8: separa e junta (polegar, mindinho, indicador): os dedos abrem num V pela base
+  const LISTA = { polegar: 1140, mindinho: 1215, indicador: 1290 };
   const separa = (nome, fS, fJ) => {
-    const { gl, gr } = dedo[nome];
+    const { gl, gr, y, b, dir } = dedo[nome];
     const tS = T(8, fS), tJ = T(8, fJ);
     WB.effect(t => {
       const a = clamp((t - tS) / 0.35) * (1 - clamp((t - tJ) / 0.35));
-      const dx = r1(70 * ease(a));
-      gl.setAttribute('transform', `translate(${-dx} 0)`);
-      gr.setAttribute('transform', `translate(${dx} 0)`);
+      const ang = r1(18 * dir * ease(a));
+      gl.setAttribute('transform', `rotate(${ang} ${b} ${y})`);
+      gr.setAttribute('transform', `rotate(${-ang} ${m(b)} ${y})`);
     });
-    ok[nome] = C.check(890, dedo[nome].y, 34, INK.green);
-    D(8, fS + 0.03, fS + 0.08, ok[nome]);
+    W(8, fS, fS + 0.07, nome, 520, LISTA[nome], 62, INK.green, { anchor: 'end' });
+    D(8, fS + 0.075, fS + 0.11, [C.check(580, LISTA[nome] - 18, 30, INK.green)]);
   };
   separa('polegar', P(8, 'Separa', 1), P(8, 'junta', 1));
   separa('mindinho', P(8, 'Separa', 2), P(8, 'junta', 2));
@@ -157,25 +187,28 @@ window.CENAS = function (WB) {
   // cena 9: e o anelar?
   const an = dedo.anelar;
   const t3 = WB.group();
-  D(9, 0.25, 0.6, [C.circleAround(540, an.y, 300, 52, INK.orange)]);
-  W(9, 0.55, 0.98, 'separa o ANELAR', 540, 1340, 84, INK.orange, { parent: t3 });
-  countdown(sc(9).falaFim, sc(10).start, 540, 1470, t3);
+  D(9, 0.25, 0.6, [C.circleAround(540, an.y, 150, 46, INK.orange)]);
+  W(9, 0.55, 0.98, 'e o ANELAR?', 460, 1410, 84, INK.orange, { parent: t3 });
+  countdown(sc(9).falaFim, sc(10).start, 800, 1410, t3);
   WB.effect(t => {
-    // treme, mas não abre
+    // força, treme, mas não abre
     const on = t > sc(9).falaFim && t < sc(10).start + 1.5;
-    const dx = on ? r1(5 + 4 * Math.sin(t * 31)) : 0;
-    an.gl.setAttribute('transform', `translate(${-dx} 0)`);
-    an.gr.setAttribute('transform', `translate(${dx} 0)`);
+    const ang = on ? r1(1.5 + 1.2 * Math.sin(t * 31)) : 0;
+    an.gl.setAttribute('transform', `rotate(${ang} ${an.b} ${an.y})`);
+    an.gr.setAttribute('transform', `rotate(${-ang} ${m(an.b)} ${an.y})`);
     t3.setAttribute('opacity', t < sc(10).start ? 1 : 0);
   });
   rest(9, T(9, 1.0), sc(10).start - 0.1);
   // cena 10: não sai
-  const st2 = C.stamp('NÃO SAI!', 540, 1370, { size: 110, color: INK.red, rot: -8 });
+  const st2 = C.stamp('NÃO SAI!', 540, 1410, { size: 96, color: INK.red, rot: -8 });
   D(10, 0.0, 0.45, [st2.box, st2.text]);
-  // cena 11: o tendão
-  const tend = [sp(`M 380 ${900 + 30} L 395 ${955} L 365 ${975} L 380 ${1040 - 30}`, INK.red, 12), sp(`M 700 ${900 + 30} L 685 ${955} L 715 ${975} L 700 ${1040 - 30}`, INK.red, 12)];
+  // cena 11: o tendão que liga o anelar ao do meio (nas costas da mão)
+  WB.effect(t => gMeio.setAttribute('opacity', t < T(11, P(11, 'tendão') - 0.06) ? 1 : 0));
+  const AY = DEDOS.anelar[0];
+  const tend = [sp(`M 360 ${MY - 4} L 384 ${MY + 22} L 350 ${MY + 42} L 376 ${AY + 6}`, INK.red, 11),
+    sp(`M ${m(360)} ${MY - 4} L ${m(384)} ${MY + 22} L ${m(350)} ${MY + 42} L ${m(376)} ${AY + 6}`, INK.red, 11)];
   D(11, P(11, 'tendão') - 0.05, P(11, 'tendão') + 0.12, tend);
-  W(11, P(11, 'tendão') + 0.13, P(11, 'meio') + 0.05, 'tendão grudado', 540, 1520, 70, INK.red);
+  W(11, P(11, 'tendão') + 0.13, P(11, 'meio') + 0.05, 'tendão grudado', 540, 1040, 70, INK.red);
   rest(11, T(11, 0.9), sc(12).start + 0.05);
 
   // =====================================================================
