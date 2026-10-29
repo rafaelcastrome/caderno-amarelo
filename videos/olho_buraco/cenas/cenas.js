@@ -1,4 +1,4 @@
-// "Teu olho tem um buraco" (ponto cego), ~60 s, narração Gemini TTS.
+// "Teu olho tem um buraco" (ponto cego), ~60 s, narração Antonio (edge-tts).
 // Teste 1: olho esquerdo fechado, encara o X e aproxima o celular; a bolinha some (~16-18 cm).
 // Teste 2: linha azul com um pedaço faltando; no ponto cego o cérebro "emenda" a linha.
 // Fim "Volta... fecha o outro olho e olha pra bolinha" emenda no começo ("Tem um buraco no teu olho").

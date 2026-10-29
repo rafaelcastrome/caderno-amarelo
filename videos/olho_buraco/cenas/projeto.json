@@ -6,9 +6,11 @@
   },
   "marcaDagua": false,
   "voz": {
-    "gemini": "a definir (amostras enviadas ao Rafael em 2026-10-29)"
+    "edge": "pt-BR-AntonioNeural",
+    "edgeRate": "+10%",
+    "obs": "gravada no PC do Rafael (edge-tts bloqueado na nuvem); Gemini ficou sem cota grátis"
   },
-  "audio": "Narração Gemini TTS gerada fora do gerar_audio.py (a skill é imutável): uma fala por cena, concatenadas com as pausas abaixo; timeline.json traz start/end/falaFim.",
+  "audio": "Narração Antonio gerada fora do gerar_audio.py (a skill é imutável): falas/antonio/cenaNN.mp3 juntadas por montar_audio.py com as pausas abaixo; timeline.json traz start/end/falaFim.",
   "fontes": [
     {
       "fato": "Ponto cego: no disco óptico, onde o nervo óptico sai da retina, não há cones nem bastonetes; fica ~15° para o lado temporal e o cérebro preenche a lacuna",

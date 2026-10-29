@@ -1,6 +1,6 @@
 # "Teu olho tem um buraco" (ponto cego)
 
-Pilar: curiosidades no papel. Formato whiteboard. Duração alvo: ~60 s. Narração Gemini TTS (voz a escolher pelo Rafael).
+Pilar: curiosidades no papel. Formato whiteboard. Duração alvo: ~60 s. Narração: Microsoft Antonio (Gemini ficou sem cota grátis em 2026-10-29).
 
 ## Por que esse formato
 Mesma fórmula dos que viralizaram (Fala a cor, Bandeira pinta): o espectador **faz** o teste e a recompensa acontece no olho dele. Aqui ainda tem uma ação física (aproximar o celular), que segura o dedo longe do "pular".
