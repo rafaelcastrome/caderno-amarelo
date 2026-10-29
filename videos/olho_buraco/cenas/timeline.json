@@ -1,5 +1,5 @@
 {
- "total": 77.714,
+ "total": 87.151,
  "motor_tts": "edge pt-BR-AntonioNeural +10% (gravado no PC)",
  "cenas": [
   {
@@ -14,48 +14,48 @@
   },
   {
    "start": 10.867,
-   "falaFim": 17.545,
-   "end": 22.045
+   "falaFim": 18.571,
+   "end": 26.571
   },
   {
-   "start": 22.045,
-   "falaFim": 24.807,
-   "end": 25.207
+   "start": 26.571,
+   "falaFim": 29.333,
+   "end": 29.733
   },
   {
-   "start": 25.207,
-   "falaFim": 31.13,
-   "end": 31.43
+   "start": 29.733,
+   "falaFim": 35.656,
+   "end": 35.956
   },
   {
-   "start": 31.43,
-   "falaFim": 38.744,
-   "end": 39.144
+   "start": 35.956,
+   "falaFim": 43.27,
+   "end": 43.67
   },
   {
-   "start": 39.144,
-   "falaFim": 45.946,
-   "end": 50.946
+   "start": 43.67,
+   "falaFim": 52.382,
+   "end": 60.382
   },
   {
-   "start": 50.946,
-   "falaFim": 57.272,
-   "end": 57.672
+   "start": 60.382,
+   "falaFim": 66.708,
+   "end": 67.108
   },
   {
-   "start": 57.672,
-   "falaFim": 61.285,
-   "end": 61.685
+   "start": 67.108,
+   "falaFim": 70.721,
+   "end": 71.121
   },
   {
-   "start": 61.685,
-   "falaFim": 68.316,
-   "end": 68.716
+   "start": 71.121,
+   "falaFim": 77.753,
+   "end": 78.153
   },
   {
-   "start": 68.716,
-   "falaFim": 76.714,
-   "end": 77.714
+   "start": 78.153,
+   "falaFim": 86.151,
+   "end": 87.151
   }
  ]
 }
