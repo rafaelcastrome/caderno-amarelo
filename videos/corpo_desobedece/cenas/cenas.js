@@ -104,7 +104,7 @@ window.CENAS = function (WB) {
   W(7, 0.0, 0.08, 'pontas juntas', 540, 450, 70, INK.gray, { parent: t2 });
   // duas mãos de frente, dedos na horizontal, pontas se encostando no meio (x = 540)
   const CX = 540, m = x => 1080 - x;
-  const DEDOS = { polegar: [600, 72, 300, -1], indicador: [712, 62, 268, -1], MEIO: [776, 64, 255, 0], anelar: [840, 62, 266, 1], mindinho: [900, 54, 300, 1] };
+  const DEDOS = { polegar: [645, 66, 318, -1], indicador: [712, 66, 318, -1], MEIO: [777, 64, 312, 0], anelar: [840, 62, 318, 1], mindinho: [899, 56, 326, 1] };
   const SKIN2 = '#e9b98c';
   const palma = lado => {
     const X = x => (lado < 0 ? x : m(x));
