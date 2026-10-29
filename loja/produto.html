@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Produto · Caderno Amarelo</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📒</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/loja.css">
+</head>
+<body style="padding-bottom:72px">
+
+<header class="topo">
+  <div class="wrap">
+    <a class="logo" href="index.html"><span class="logo-icone">📒</span>Caderno Amarelo</a>
+    <nav><a href="index.html#produtos">← Produtos</a></nav>
+  </div>
+</header>
+
+<main class="produto">
+  <div class="wrap">
+    <div class="produto-capa"><img id="capa" src="" alt=""></div>
+    <div>
+      <span class="etiqueta">PDF · na hora</span>
+      <h1 id="nome"></h1>
+      <p class="subtitulo" id="subtitulo"></p>
+      <p id="descricao"></p>
+
+      <div class="caixa-compra">
+        <div id="preco"></div>
+        <div class="formato" id="formato"></div>
+        <button class="btn btn-grande" data-comprar>Quero agora →</button>
+        <div class="garantias"><span>⚡ Download na hora</span><span>🔒 Pix pelo Mercado Pago</span><span>✉️ Link também no e-mail</span></div>
+      </div>
+
+      <h2>O que vem no kit</h2>
+      <ul class="lista-check" id="inclui"></ul>
+
+      <div id="bloco-conteudo">
+        <h2>Os truques</h2>
+        <ol class="lista-num" id="conteudo"></ol>
+      </div>
+
+      <h2>Dúvidas</h2>
+      <div class="faq" id="faq">
+        <details><summary>Paguei e fechei a página. E agora?</summary><p>Volta nesta página no mesmo celular que o download aparece, ou procura o e-mail que a gente te mandou. Se não achar, chama no Instagram @Cardeno_Amarelo.</p></details>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="barra-compra"><div id="preco-barra"></div><button class="btn" data-comprar>Quero →</button></div>
+
+<div class="modal-fundo" id="checkout" role="dialog" aria-modal="true">
+  <div class="modal"><button class="fechar" data-fechar aria-label="Fechar">×</button><div id="checkout-corpo"></div></div>
+</div>
+
+<footer class="rodape">
+  <div class="wrap">
+    <span>© Caderno Amarelo · <a href="https://instagram.com/cardeno_amarelo">@Cardeno_Amarelo</a></span>
+    <span>Pagamento processado pelo Mercado Pago</span>
+  </div>
+</footer>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/loja.js"></script>
+<script>Loja.iniciarProduto();</script>
+</body>
+</html>

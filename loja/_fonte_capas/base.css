@@ -1,0 +1,7 @@
+@font-face{font-family:Caveat;src:url('Caveat-Bold.ttf')}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:800px;height:1000px;font-family:Caveat;color:#1f1f24;position:relative;overflow:hidden;background-color:#fbf5df;
+background-image:linear-gradient(rgba(70,130,200,.26) 2px,transparent 2px),linear-gradient(90deg,rgba(70,130,200,.26) 2px,transparent 2px),linear-gradient(rgba(70,130,200,.15) 1px,transparent 1px),linear-gradient(90deg,rgba(70,130,200,.15) 1px,transparent 1px);background-size:160px 160px,160px 160px,40px 40px,40px 40px}
+body::before{content:'';position:absolute;left:64px;top:0;bottom:0;width:3px;background:rgba(214,40,40,.35)}
+.u{background:linear-gradient(transparent 60%,#ffd23f 60%)}.red{color:#d62828}
+.tag{position:absolute;background:#ffd23f;font-size:34px;padding:2px 20px;border-radius:10px;transform:rotate(-3deg)}

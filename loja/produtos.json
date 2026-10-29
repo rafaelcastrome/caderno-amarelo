@@ -1,0 +1,67 @@
+[
+  {
+    "slug": "kit-mentalista",
+    "nome": "Kit Mentalista",
+    "subtitulo": "10 truques pra \"ler a mente\" dos teus amigos",
+    "preco": 5.9,
+    "preco_antigo": null,
+    "selo": "Mais vendido",
+    "capa": "assets/img/capa-kit-mentalista.png",
+    "ativo": true,
+    "destaque": true,
+    "descricao": "Vira o mágico da turma. São 10 truques de matemática e de psicologia que funcionam sozinhos: só precisa de papel, calculadora ou um baralho. Cada truque vem com as falas pra apresentar, o segredo e dicas pra ninguém descobrir.",
+    "inclui": [
+      "PDF com 10 truques desenhados no estilo do caderno",
+      "As falas prontas pra apresentar cada truque",
+      "O segredo explicado passo a passo",
+      "Dicas de mágico pra ninguém descobrir"
+    ],
+    "conteudo": [
+      "Elefante cinza na Dinamarca",
+      "O número 1089 (com previsão no papel)",
+      "O misterioso 37",
+      "Adivinhar o aniversário",
+      "O dígito sumido",
+      "Raio-X nos dados",
+      "Qual mão tá a moeda?",
+      "As 21 cartas",
+      "Martelo vermelho",
+      "Pensa num número de 1 a 4"
+    ],
+    "formato": "PDF · acesso na hora",
+    "faq": [
+      [
+        "Como eu recebo?",
+        "Assim que o Pix cai, o botão de download aparece na tela e você também recebe o link no e-mail."
+      ],
+      [
+        "Precisa de algum material?",
+        "Não. Os truques usam papel, calculadora do celular ou um baralho comum."
+      ],
+      [
+        "Serve pra qualquer idade?",
+        "Sim. Os truques são simples de aprender e funcionam com qualquer pessoa."
+      ]
+    ]
+  },
+  {
+    "slug": "desafios-do-caderno",
+    "nome": "Desafios do Caderno Amarelo",
+    "subtitulo": "30 testes que enganam o teu cérebro, pra imprimir",
+    "preco": 5.9,
+    "preco_antigo": null,
+    "selo": "Em breve",
+    "capa": "assets/img/capa-desafios.png",
+    "ativo": false,
+    "destaque": false,
+    "descricao": "Ilusões, pegadinhas e testes de olho e de mão pra fazer em família, com os amigos ou na sala de aula. A explicação de cada desafio vem de cabeça pra baixo, pra ninguém roubar.",
+    "inclui": [
+      "PDF pra imprimir em A4",
+      "30 desafios com explicação",
+      "Espaço pra marcar o tempo de cada um"
+    ],
+    "conteudo": [],
+    "formato": "PDF · A4 · pra imprimir",
+    "faq": []
+  }
+]
