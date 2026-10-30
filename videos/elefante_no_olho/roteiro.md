@@ -10,7 +10,7 @@ O desenho que a pessoa encara é o "negativo": página preta, elefante branco, b
 | # | Fala | Na tela |
 |---|------|---------|
 | 1 | Esse elefante cinza da Dinamarca... foi visto um milhão de vezes. Hoje... ele vai aparecer dentro do teu olho! | Desde o 1º frame: o negativo (fundo preto, elefante branco, bandeira azul-piscina), "ELE VOLTOU" |
-| 2 | Olha só pro pontinho no olho dele. E não pisca! Isso... fica aí. Não mexe o olho, hein! Segura... quase... | Ponto vermelho no olho do elefante, "NÃO PISCA!", contagem 20 → 1 |
+| 2 | Olha só pro pontinho no olho dele. E não pisca! Isso... fica aí. Não mexe o olho, hein! Segura... quase... | Pontinho preto no olho do elefante (nada vermelho na tela), "NÃO PISCA!", contagem 20 → 1 |
 | 3 | Agora! Olha pra folha... Tá vendo? Um elefante cinza... com a bandeira da Dinamarca! | Folha vazia de uma vez, só o pontinho |
 | 4 | Pisca rapidinho... Voltou, né? | "PISCA!" pequeno no canto |
 | 5 | Agora olha pra parede, lá longe... Ele ficou gigante! | "olha pra PAREDE" |
