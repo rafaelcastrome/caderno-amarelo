@@ -27,7 +27,8 @@ Deno.serve(async (req) => {
         external_reference: pedido.id,
         total_amount: valor,
         description: prod.nome,
-        payer: { email },
+        // Modo teste do Mercado Pago: first_name "APRO" faz o Pix de teste ser aprovado (secret MP_MODO_TESTE=1).
+        payer: Deno.env.get('MP_MODO_TESTE') ? { email, first_name: 'APRO' } : { email },
         transactions: {
           payments: [{ amount: valor, payment_method: { id: 'pix', type: 'bank_transfer' }, expiration_time: 'PT30M' }],
         },
