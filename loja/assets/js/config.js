@@ -6,5 +6,5 @@ window.LOJA_CONFIG = {
   supabaseAnonKey: 'sb_publishable_QET5McYJZgr4K12y_PJd_Q_eCa4vHC9',
   instagram: 'https://instagram.com/cardeno_amarelo',
   tiktok: 'https://www.tiktok.com/@cardeno_amarelo',
-  contato: 'contato@cadernoamarelo.com.br'
+  contato: 'rafaelcastrome@gmail.com'
 };
