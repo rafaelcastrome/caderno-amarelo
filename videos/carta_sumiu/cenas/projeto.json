@@ -1,0 +1,53 @@
+{
+  "titulo": "Eu vou tirar a tua carta do vídeo",
+  "marca": {
+    "handle": "cardeno_amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": false,
+  "voz": {
+    "gemini": "Charon",
+    "modelo": "gemini-2.5-flash-preview-tts"
+  },
+  "audio": "Narração Gemini Charon numa tomada só (1 requisição), cortada nos silêncios reais (cortar_take.py) e montada com as pausas abaixo.",
+  "fontes": [
+    {
+      "fato": "Truque das cartas que somem (Princess Card Trick): as 5 cartas finais são todas diferentes das 6 iniciais, então a carta de qualquer pessoa some",
+      "fonte": "Truque clássico de mágica (Henry Hardin, 1905)"
+    }
+  ],
+  "cenas": [
+    {
+      "fala": "Escolhe uma dessas cartas aí. Só com o olho, tá? Não fala pra ninguém!",
+      "pausa": 0.6
+    },
+    {
+      "fala": "Escolheu? Agora repete o nome dela na cabeça... três vezes.",
+      "pausa": 3.2
+    },
+    {
+      "fala": "Isso... Agora olha bem aqui no meu olho. Tô lendo tua mente...",
+      "pausa": 1.6
+    },
+    {
+      "fala": "Pronto! Já sei qual é.",
+      "pausa": 0.5
+    },
+    {
+      "fala": "E agora eu vou tirar ela do vídeo. Três... dois... um!",
+      "pausa": 0.5
+    },
+    {
+      "fala": "Sumiu, né? Pode procurar... não tá aqui!",
+      "pausa": 2.2
+    },
+    {
+      "fala": "Quer aprender vinte truques de mentalista pra fazer com os amigos? Comenta MENTE aqui embaixo... que eu te mando!",
+      "pausa": 0.6
+    },
+    {
+      "fala": "Duvida? Volta o vídeo... e escolhe outra carta.",
+      "pausa": 1.6
+    }
+  ]
+}
