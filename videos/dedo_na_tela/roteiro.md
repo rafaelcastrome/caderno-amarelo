@@ -1,16 +1,16 @@
-# "Põe o dedo na tela" (Parte 2 do elefante, versão 1)
+# "Põe o dedo na tela" (adivinhação pela grade)
 
 Pilar: curiosidades no papel. Formato whiteboard. Duração estimada: ~60 s. Voz: Gemini Charon.
 
 ## A sacada
-Grade de 12 desenhos. A pessoa põe o dedo em qualquer um e anda pelas casas (cima, baixo, lado, nunca diagonal; pode voltar). A cada rodada o narrador apaga desenhos onde ela "não tá", e no fim o dedo de todo mundo está no elefante. Funciona com 100% de quem segue as regras (testado por simulação com todos os pontos de partida, ver abaixo). O segredo (paridade de xadrez) não é revelado.
+Mesma dinâmica do vídeo de 1 milhão (a pessoa segue passos e no fim "como ele sabia?!"), com outro desenho no final. Grade de 12 desenhos: a pessoa põe o dedo em qualquer um e anda pelas casas (cima, baixo, lado, nunca diagonal; pode voltar). A cada rodada o narrador apaga desenhos onde ela "não tá", e no fim o dedo de todo mundo está na girafa. O segredo (paridade de tabuleiro de xadrez) não é revelado.
 
 ## A grade (3 linhas × 4 colunas)
 | | | | |
 |---|---|---|---|
 | PIZZA | BOLA | PEIXE | PATO |
 | CASA | UVA | SAPO | CHAVE |
-| SOL | ELEFANTE | LIVRO | VACA |
+| SOL | GIRAFA | LIVRO | VACA |
 
 ## Falas
 | # | Fala | Na tela |
@@ -24,8 +24,8 @@ Grade de 12 desenhos. A pessoa põe o dedo em qualquer um e anda pelas casas (ci
 | 7 | Sai da chave! | Apaga CHAVE |
 | 8 | Anda mais três. | "+3", contagem |
 | 9 | Tchau, sapo... tchau, vaca. | Apaga os dois |
-| 10 | Última! Anda uma casa... e... tu tá no elefante! | Sobra só o ELEFANTE, de cachecol e bandeira da Dinamarca, "EU DE NOVO!" |
+| 10 | Última! Anda uma casa... e... tu tá na girafa! | Sobra só a GIRAFA, olhando lá de cima pro dedo, "ACHEI!" |
 | 11 | Acertei? Comenta: sim... ou não. Duvida? Volta... e começa em outro desenho! | "ACERTEI?", @Cardeno_Amarelo, "VOLTA e começa em OUTRO" (emenda no início) |
 
 ## Verificação
-Simulação de todos os 12 pontos de partida e todos os caminhos possíveis: depois da 1ª andada todos estão em BOLA/CASA/ELEFANTE/PATO/SAPO/VACA; nenhuma casa apagada estava ocupada em nenhuma rodada; nenhuma casa ficou isolada; no fim, 100% no ELEFANTE.
+Simulação de todos os 12 pontos de partida e todos os caminhos possíveis: depois da 1ª andada todos estão em BOLA/CASA/GIRAFA/PATO/SAPO/VACA; nenhuma casa apagada estava ocupada em nenhuma rodada; nenhuma casa ficou isolada; no fim, 100% na GIRAFA.
