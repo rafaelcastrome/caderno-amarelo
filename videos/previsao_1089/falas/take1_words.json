@@ -1,0 +1,723 @@
+[
+ {
+  "text": " Abre",
+  "timestamp": [
+   0.4,
+   0.54
+  ]
+ },
+ {
+  "text": " a",
+  "timestamp": [
+   0.54,
+   0.66
+  ]
+ },
+ {
+  "text": " calculadora",
+  "timestamp": [
+   0.66,
+   1.12
+  ]
+ },
+ {
+  "text": " do",
+  "timestamp": [
+   1.12,
+   1.46
+  ]
+ },
+ {
+  "text": " celular.",
+  "timestamp": [
+   1.46,
+   2
+  ]
+ },
+ {
+  "text": " Eu",
+  "timestamp": [
+   2.16,
+   2.34
+  ]
+ },
+ {
+  "text": " já",
+  "timestamp": [
+   2.34,
+   2.58
+  ]
+ },
+ {
+  "text": " escrevi",
+  "timestamp": [
+   2.58,
+   2.88
+  ]
+ },
+ {
+  "text": " o",
+  "timestamp": [
+   2.88,
+   2.96
+  ]
+ },
+ {
+  "text": " teu",
+  "timestamp": [
+   2.96,
+   3.44
+  ]
+ },
+ {
+  "text": " resultado",
+  "timestamp": [
+   3.44,
+   4.1
+  ]
+ },
+ {
+  "text": " nesse",
+  "timestamp": [
+   4.1,
+   4.42
+  ]
+ },
+ {
+  "text": " envelope",
+  "timestamp": [
+   4.42,
+   4.78
+  ]
+ },
+ {
+  "text": " aqui.",
+  "timestamp": [
+   4.78,
+   5.42
+  ]
+ },
+ {
+  "text": " Digita",
+  "timestamp": [
+   5.64,
+   5.88
+  ]
+ },
+ {
+  "text": " um",
+  "timestamp": [
+   5.88,
+   6.08
+  ]
+ },
+ {
+  "text": " número",
+  "timestamp": [
+   6.08,
+   6.3
+  ]
+ },
+ {
+  "text": " de",
+  "timestamp": [
+   6.3,
+   6.52
+  ]
+ },
+ {
+  "text": " três",
+  "timestamp": [
+   6.52,
+   6.72
+  ]
+ },
+ {
+  "text": " algarismos",
+  "timestamp": [
+   6.72,
+   7.42
+  ]
+ },
+ {
+  "text": " com",
+  "timestamp": [
+   7.42,
+   7.54
+  ]
+ },
+ {
+  "text": " o",
+  "timestamp": [
+   7.54,
+   7.8
+  ]
+ },
+ {
+  "text": " primeiro",
+  "timestamp": [
+   7.8,
+   8.08
+  ]
+ },
+ {
+  "text": " bem",
+  "timestamp": [
+   8.08,
+   8.34
+  ]
+ },
+ {
+  "text": " maior",
+  "timestamp": [
+   8.34,
+   8.5
+  ]
+ },
+ {
+  "text": " que",
+  "timestamp": [
+   8.5,
+   8.6
+  ]
+ },
+ {
+  "text": " o",
+  "timestamp": [
+   8.6,
+   8.86
+  ]
+ },
+ {
+  "text": " último,",
+  "timestamp": [
+   8.86,
+   9.1
+  ]
+ },
+ {
+  "text": " tipo",
+  "timestamp": [
+   9.32,
+   9.94
+  ]
+ },
+ {
+  "text": " 852.",
+  "timestamp": [
+   9.94,
+   10.74
+  ]
+ },
+ {
+  "text": " Agora",
+  "timestamp": [
+   11.12,
+   11.44
+  ]
+ },
+ {
+  "text": " peguei",
+  "timestamp": [
+   11.44,
+   11.72
+  ]
+ },
+ {
+  "text": " esse",
+  "timestamp": [
+   11.72,
+   11.96
+  ]
+ },
+ {
+  "text": " número",
+  "timestamp": [
+   11.96,
+   12.18
+  ]
+ },
+ {
+  "text": " de",
+  "timestamp": [
+   12.18,
+   12.4
+  ]
+ },
+ {
+  "text": " trás",
+  "timestamp": [
+   12.4,
+   12.62
+  ]
+ },
+ {
+  "text": " para",
+  "timestamp": [
+   12.62,
+   12.96
+  ]
+ },
+ {
+  "text": " frente",
+  "timestamp": [
+   12.96,
+   13.48
+  ]
+ },
+ {
+  "text": " e",
+  "timestamp": [
+   13.48,
+   13.68
+  ]
+ },
+ {
+  "text": " faz",
+  "timestamp": [
+   13.68,
+   13.86
+  ]
+ },
+ {
+  "text": " o",
+  "timestamp": [
+   13.86,
+   14.16
+  ]
+ },
+ {
+  "text": " maior",
+  "timestamp": [
+   14.16,
+   14.48
+  ]
+ },
+ {
+  "text": " menos",
+  "timestamp": [
+   14.48,
+   14.68
+  ]
+ },
+ {
+  "text": " o",
+  "timestamp": [
+   14.68,
+   14.86
+  ]
+ },
+ {
+  "text": " menor.",
+  "timestamp": [
+   14.86,
+   15.36
+  ]
+ },
+ {
+  "text": " Deu",
+  "timestamp": [
+   15.6,
+   15.9
+  ]
+ },
+ {
+  "text": " outro",
+  "timestamp": [
+   15.9,
+   16.22
+  ]
+ },
+ {
+  "text": " número,",
+  "timestamp": [
+   16.22,
+   16.36
+  ]
+ },
+ {
+  "text": " né?",
+  "timestamp": [
+   16.38,
+   16.82
+  ]
+ },
+ {
+  "text": " Inverte",
+  "timestamp": [
+   17.02,
+   17.6
+  ]
+ },
+ {
+  "text": " esse",
+  "timestamp": [
+   17.6,
+   17.96
+  ]
+ },
+ {
+  "text": " também",
+  "timestamp": [
+   17.96,
+   18.4
+  ]
+ },
+ {
+  "text": " e",
+  "timestamp": [
+   18.4,
+   18.64
+  ]
+ },
+ {
+  "text": " soma",
+  "timestamp": [
+   18.64,
+   18.86
+  ]
+ },
+ {
+  "text": " os",
+  "timestamp": [
+   18.86,
+   19
+  ]
+ },
+ {
+  "text": " dois.",
+  "timestamp": [
+   19,
+   19.62
+  ]
+ },
+ {
+  "text": " Cada",
+  "timestamp": [
+   19.8,
+   20
+  ]
+ },
+ {
+  "text": " um",
+  "timestamp": [
+   20,
+   20.28
+  ]
+ },
+ {
+  "text": " começou",
+  "timestamp": [
+   20.28,
+   20.46
+  ]
+ },
+ {
+  "text": " com",
+  "timestamp": [
+   20.46,
+   20.54
+  ]
+ },
+ {
+  "text": " um",
+  "timestamp": [
+   20.54,
+   20.76
+  ]
+ },
+ {
+  "text": " número",
+  "timestamp": [
+   20.76,
+   21.1
+  ]
+ },
+ {
+  "text": " diferente,",
+  "timestamp": [
+   21.1,
+   21.32
+  ]
+ },
+ {
+  "text": " né?",
+  "timestamp": [
+   21.4,
+   21.82
+  ]
+ },
+ {
+  "text": " Então",
+  "timestamp": [
+   22.16,
+   22.4
+  ]
+ },
+ {
+  "text": " guarda",
+  "timestamp": [
+   22.4,
+   22.56
+  ]
+ },
+ {
+  "text": " o",
+  "timestamp": [
+   22.56,
+   22.6
+  ]
+ },
+ {
+  "text": " teu",
+  "timestamp": [
+   22.6,
+   23
+  ]
+ },
+ {
+  "text": " resultado.",
+  "timestamp": [
+   23,
+   23.46
+  ]
+ },
+ {
+  "text": " Agora",
+  "timestamp": [
+   23.88,
+   24.18
+  ]
+ },
+ {
+  "text": " olha",
+  "timestamp": [
+   24.18,
+   24.32
+  ]
+ },
+ {
+  "text": " o",
+  "timestamp": [
+   24.32,
+   24.4
+  ]
+ },
+ {
+  "text": " que",
+  "timestamp": [
+   24.4,
+   24.58
+  ]
+ },
+ {
+  "text": " estava",
+  "timestamp": [
+   24.58,
+   24.76
+  ]
+ },
+ {
+  "text": " no",
+  "timestamp": [
+   24.76,
+   25.1
+  ]
+ },
+ {
+  "text": " envelope.",
+  "timestamp": [
+   25.1,
+   25.54
+  ]
+ },
+ {
+  "text": " 1089.",
+  "timestamp": [
+   25.8,
+   26.76
+  ]
+ },
+ {
+  "text": " Acertei?",
+  "timestamp": [
+   26.96,
+   27.78
+  ]
+ },
+ {
+  "text": " Quer",
+  "timestamp": [
+   27.98,
+   28.32
+  ]
+ },
+ {
+  "text": " aprender",
+  "timestamp": [
+   28.32,
+   28.62
+  ]
+ },
+ {
+  "text": " 20",
+  "timestamp": [
+   28.62,
+   28.86
+  ]
+ },
+ {
+  "text": " truques",
+  "timestamp": [
+   28.86,
+   29.16
+  ]
+ },
+ {
+  "text": " de",
+  "timestamp": [
+   29.16,
+   29.36
+  ]
+ },
+ {
+  "text": " mentalista?",
+  "timestamp": [
+   29.36,
+   29.72
+  ]
+ },
+ {
+  "text": " Está",
+  "timestamp": [
+   30.14,
+   30.26
+  ]
+ },
+ {
+  "text": " no",
+  "timestamp": [
+   30.26,
+   30.48
+  ]
+ },
+ {
+  "text": " link",
+  "timestamp": [
+   30.48,
+   30.66
+  ]
+ },
+ {
+  "text": " da",
+  "timestamp": [
+   30.66,
+   30.78
+  ]
+ },
+ {
+  "text": " B",
+  "timestamp": [
+   30.78,
+   30.8
+  ]
+ },
+ {
+  "text": ".O.",
+  "timestamp": [
+   30.8,
+   30.88
+  ]
+ },
+ {
+  "text": " ou",
+  "timestamp": [
+   31.28,
+   31.48
+  ]
+ },
+ {
+  "text": " comentamente",
+  "timestamp": [
+   31.48,
+   32.16
+  ]
+ },
+ {
+  "text": " que",
+  "timestamp": [
+   32.16,
+   32.26
+  ]
+ },
+ {
+  "text": " eu",
+  "timestamp": [
+   32.26,
+   32.34
+  ]
+ },
+ {
+  "text": " te",
+  "timestamp": [
+   32.34,
+   32.46
+  ]
+ },
+ {
+  "text": " mando.",
+  "timestamp": [
+   32.46,
+   32.96
+  ]
+ },
+ {
+  "text": " Duvida?",
+  "timestamp": [
+   33.12,
+   33.74
+  ]
+ },
+ {
+  "text": " Volta",
+  "timestamp": [
+   33.88,
+   34.32
+  ]
+ },
+ {
+  "text": " e",
+  "timestamp": [
+   34.32,
+   34.5
+  ]
+ },
+ {
+  "text": " tenta",
+  "timestamp": [
+   34.5,
+   34.76
+  ]
+ },
+ {
+  "text": " com",
+  "timestamp": [
+   34.76,
+   34.78
+  ]
+ },
+ {
+  "text": " outro",
+  "timestamp": [
+   35.04,
+   35.4
+  ]
+ },
+ {
+  "text": " número.",
+  "timestamp": [
+   35.4,
+   37.24
+  ]
+ }
+]
