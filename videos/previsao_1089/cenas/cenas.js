@@ -119,19 +119,20 @@ window.CENAS = function (WB) {
   W(2, P(2, 'Tipo'), 0.99, 'tipo: 852', L + 40, 640, 58, INK.gray, { anchor: 'start' });
   countdown(fim(2) + 0.1, sc(2).end - 0.1, 870, 640, 110, WB.overlay);
 
-  W(3, P(3, 'Agora'), P(3, 'frente') + 0.06, '2. de trás pra frente', L, 790, 74, INK.black, { anchor: 'start' });
-  W(3, P(3, 'e faz'), 0.99, 'MAIOR − menor', L + 40, 890, 80, INK.blue, { anchor: 'start' });
+  W(3, P(3, 'Agora'), P(3, 'oito') - 0.01, '2. escreve AO CONTRÁRIO', L, 790, 74, INK.black, { anchor: 'start' });
+  W(3, P(3, 'oito'), P(3, 'E faz') - 0.01, 'tipo: 852 vira 258', L + 40, 875, 62, INK.gray, { anchor: 'start' });
+  W(3, P(3, 'E faz'), 0.99, 'MAIOR − menor', L + 40, 975, 80, INK.blue, { anchor: 'start' });
   rest(3, T(3, 1.0), sc(4).start);
-  countdown(fim(3) + 0.1, sc(3).end - 0.1, 870, 890, 110, WB.overlay);
+  countdown(fim(3) + 0.1, sc(3).end - 0.1, 870, 975, 110, WB.overlay);
 
-  W(4, P(4, 'Inverte'), P(4, 'também') + 0.08, '3. inverte o resultado', L, 1040, 74, INK.black, { anchor: 'start' });
-  W(4, P(4, 'e soma'), 0.99, 'e SOMA os dois', L + 40, 1140, 80, INK.green, { anchor: 'start' });
+  W(4, P(4, 'Escreve'), P(4, 'também') + 0.08, '3. resultado AO CONTRÁRIO', L, 1115, 74, INK.black, { anchor: 'start' });
+  W(4, P(4, 'e soma'), 0.99, 'e SOMA com o resultado', L + 40, 1205, 72, INK.green, { anchor: 'start' });
   rest(4, T(4, 1.0), sc(5).start);
-  countdown(fim(4) + 0.1, sc(4).end - 0.1, 870, 1140, 110, WB.overlay);
+  countdown(fim(4) + 0.1, sc(4).end - 0.1, 900, 1300, 110, WB.overlay);
 
-  W(5, 0.0, P(5, 'né?') + 0.04, 'cada um, um número DIFERENTE...', 540, 1300, 62, INK.purple);
-  W(5, P(5, 'Então'), 0.99, 'guarda o teu resultado', 540, 1400, 70, INK.black);
-  const cad = [C.underline(310, 770, 1425, INK.red)];
+  W(5, 0.0, P(5, 'né?') + 0.04, 'cada um, um número DIFERENTE...', 540, 1350, 62, INK.purple);
+  W(5, P(5, 'Então'), 0.99, 'guarda o teu resultado', 540, 1450, 70, INK.black);
+  const cad = [C.underline(310, 770, 1475, INK.red)];
   D(5, 0.99, 1.0 + (sc(5).end - fim(5)) / (fim(5) - sc(5).start) * 0.9, cad);
 
   // =====================================================================

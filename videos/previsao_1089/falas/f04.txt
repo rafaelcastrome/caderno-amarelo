@@ -1,0 +1,1 @@
+Deu outro número, né? Escreve esse ao contrário também... e soma ele com o resultado.

@@ -9,7 +9,7 @@
     "gemini": "Charon",
     "modelo": "gemini-2.5-flash-preview-tts"
   },
-  "audio": "Narração Gemini Charon numa tomada só (1 requisição), cortada com cortar_take.py --tempos e montada com as pausas abaixo.",
+  "audio": "Narração Gemini Charon numa tomada só (1 requisição), cortada com cortar_take.py --tempos e montada com as pausas abaixo. As falas 3 e 4 foram regravadas sozinhas (2026-10-30) pra explicar melhor o \"ao contrário\".",
   "fontes": [
     {
       "fato": "Número de 3 algarismos com o primeiro maior que o último (diferença de pelo menos 2): maior menos o invertido, somado ao próprio invertido, dá sempre 1089",
@@ -26,11 +26,11 @@
       "pausa": 2.2
     },
     {
-      "fala": "Agora pega esse número de trás pra frente... e faz o maior menos o menor.",
+      "fala": "Agora escreve ele ao contrário... oito, cinco, dois vira dois, cinco, oito. E faz o maior menos o menor.",
       "pausa": 4.0
     },
     {
-      "fala": "Deu outro número, né? Inverte esse também... e soma os dois.",
+      "fala": "Deu outro número, né? Escreve esse ao contrário também... e soma ele com o resultado.",
       "pausa": 4.0
     },
     {
