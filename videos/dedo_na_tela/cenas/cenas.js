@@ -6,7 +6,11 @@
 window.CENAS = function (WB) {
   const { INK, C, clamp, lerp, ease } = WB;
   const S = WB.scenes;
-  const fr = (c, t) => (t - S[c - 1].start) / (S[c - 1].end - S[c - 1].start);
+  // v2: as cenas 2 e 3 foram regravadas ("a casa onde tu tá não conta"); os tempos escritos para as
+  // cenas 4+ são da narração v1 e M() leva cada um para a cena certa na narração nova.
+  const V1 = [0, 4.633, 11.842, 17.426, 20.685, 26.504, 30.33, 32.971, 34.48, 38.523, 40.996, 44.591, 46.923];
+  const M = t => { if (t < V1[3]) return t; let i = 3; while (i + 1 < V1.length && t >= V1[i + 1]) i++; return t - V1[i] + S[i].start; };
+  const fr = (c, t) => ((c >= 4 ? M(t) : t) - S[c - 1].start) / (S[c - 1].end - S[c - 1].start);
   const D = (c, t0, t1, st) => WB.draw(c, fr(c, t0), fr(c, t1), st);
   const W = (c, t0, t1, txt, x, y, size, cor, o = {}) => WB.write(c, fr(c, t0), fr(c, t1), txt, x, y, size, cor, { anchor: 'middle', ...o });
   const rest = (c, t0, t1) => WB.restHand(c, fr(c, t0), fr(c, t1));
@@ -15,7 +19,7 @@ window.CENAS = function (WB) {
   const fill = (tag, attrs, parent) => WB.mk(tag, { stroke: 'none', ...attrs }, parent);
   const circ = (x, y, r) => WB.circlePath(r1(x), r1(y), r);
 
-  function countdown(t0, t1, x, y, parent) {
+  function countdown(t0, t1, x, y, parent, mapear = true) {
     const n = Math.ceil(t1 - t0);
     const g = WB.group(parent);
     const nums = [];
@@ -25,6 +29,7 @@ window.CENAS = function (WB) {
       gk.setAttribute('opacity', 0);
       nums.push(gk);
     }
+    if (mapear) { t0 = M(t0); t1 = M(t1); }
     WB.effect(t => {
       const v = (t >= t0 && t < t1) ? Math.ceil(t1 - t) : 0;
       nums.forEach((gk, i) => gk.setAttribute('opacity', i + 1 === v ? 1 : 0));
@@ -34,7 +39,8 @@ window.CENAS = function (WB) {
   const aviso = (c, t0, t1, tSome, txt, y, size, cor) => {
     const g = WB.group();
     W(c, t0, t1, txt, 540, y, size, cor, { parent: g });
-    WB.effect(t => g.setAttribute('opacity', (1 - clamp((t - tSome) / 0.3)).toFixed(3)));
+    const ts = c >= 4 ? M(tSome) : tSome;
+    WB.effect(t => g.setAttribute('opacity', (1 - clamp((t - ts) / 0.3)).toFixed(3)));
   };
 
   // =====================================================================
@@ -92,36 +98,42 @@ window.CENAS = function (WB) {
     const k = CELL[nome];
     const hatch = [sp(WB.zigzagHatch(k.x0 + 22, k.y0 + 22, k.x0 + CW - 22, k.y0 + CH - 22, 34), INK.gray, 6, pg1)];
     D(c, t, t + 0.32, hatch);
-    WB.effect(tt => k.g.setAttribute('opacity', (1 - 0.85 * clamp((tt - t - 0.05) / 0.3)).toFixed(3)));
+    const tm = M(t);
+    WB.effect(tt => k.g.setAttribute('opacity', (1 - 0.85 * clamp((tt - tm - 0.05) / 0.3)).toFixed(3)));
   };
 
   // cena 1: gancho
   W(1, 0.15, 1.3, 'PÕE O DEDO!', 540, 320, 108, INK.red, { parent: pg1 });
   rest(1, 1.4, 4.5);
   // cena 2: a regra
-  aviso(2, 5.5, 6.7, 11.7, 'conta as LETRAS', 1310, 76, INK.blue);
-  aviso(2, 7.25, 8.2, 11.7, 'e anda isso de casas', 1400, 64, INK.gray);
+  aviso(2, 5.2, 6.4, 12.2, 'conta as LETRAS', 1310, 76, INK.blue);
+  aviso(2, 7.15, 8.1, 12.2, 'e PULA isso de casas', 1400, 64, INK.gray);
   const setas = WB.group();
-  D(2, 8.65, 10.3, [C.arrow(330, 1520, 330, 1450, INK.green, 6, setas), C.arrow(430, 1450, 430, 1520, INK.green, 6, setas),
+  D(2, 8.9, 10.7, [C.arrow(330, 1520, 330, 1450, INK.green, 6, setas), C.arrow(430, 1450, 430, 1520, INK.green, 6, setas),
     C.arrow(570, 1485, 500, 1485, INK.green, 6, setas), C.arrow(610, 1485, 680, 1485, INK.green, 6, setas)]);
-  D(2, 10.7, 10.95, [C.arrow(760, 1520, 820, 1460, INK.gray, 6, setas)]);
-  D(2, 11.0, 11.3, [sp(WB.roughLine(752, 1452, 828, 1528, 3), INK.red, 10, setas), sp(WB.roughLine(828, 1452, 752, 1528, 3), INK.red, 10, setas)]);
-  WB.effect(t => setas.setAttribute('opacity', (1 - clamp((t - 11.7) / 0.3)).toFixed(3)));
-  rest(2, 11.35, 11.8);
-  // cena 3: exemplo no SOL (some antes da contagem acabar)
+  D(2, 11.1, 11.4, [C.arrow(760, 1520, 820, 1460, INK.gray, 6, setas)]);
+  D(2, 11.45, 11.8, [sp(WB.roughLine(752, 1452, 828, 1528, 3), INK.red, 10, setas), sp(WB.roughLine(828, 1452, 752, 1528, 3), INK.red, 10, setas)]);
+  WB.effect(t => setas.setAttribute('opacity', (1 - clamp((t - 12.2) / 0.3)).toFixed(3)));
+  rest(2, 11.85, 12.3);
+  // cena 3: exemplo no SOL, contando 1, 2, 3 nas casas pra onde pula (some antes da contagem acabar)
   const ex = WB.group();
   const exL = [sp(WB.loopEllipse(CELL.SOL.cx, CELL.SOL.cy, 92, 120), INK.red, 7, ex)];
-  D(3, 12.6, 13.0, exL);
-  W(3, 13.05, 13.6, 'S-O-L = 3', 540, 1330, 76, INK.red, { parent: ex });
+  D(3, 13.3, 13.8, exL);
   const p = (n) => [CELL[n].cx, CELL[n].cy];
   const [sx, sy] = p('SOL'), [cx1, cy1] = p('CASA'), [px, py] = p('PIZZA'), [bx, by] = p('BOLA');
-  const caminho = [C.curvedArrow(sx + 30, sy - 60, sx + 50, (sy + cy1) / 2, cx1 + 30, cy1 + 60, INK.red, 6, ex),
-    C.curvedArrow(cx1 + 30, cy1 - 60, cx1 + 50, (cy1 + py) / 2, px + 30, py + 60, INK.red, 6, ex),
-    C.curvedArrow(px + 60, py - 20, (px + bx) / 2, py - 60, bx - 60, by - 20, INK.red, 6, ex)];
-  D(3, 13.65, 14.6, caminho);
-  WB.effect(t => ex.setAttribute('opacity', (1 - clamp((t - 15.6) / 0.4)).toFixed(3)));
-  rest(3, 14.7, 17.3);
-  countdown(14.4, 17.43, 540, 1560);
+  const hop = [
+    [C.curvedArrow(sx + 30, sy - 60, sx + 50, (sy + cy1) / 2, cx1 + 30, cy1 + 60, INK.red, 6, ex), 14.0, 14.45, '1', cx1 + 62, cy1 + 30],
+    [C.curvedArrow(cx1 + 30, cy1 - 60, cx1 + 50, (cy1 + py) / 2, px + 30, py + 60, INK.red, 6, ex), 14.85, 15.25, '2', px + 62, py + 30],
+    [C.curvedArrow(px + 60, py - 20, (px + bx) / 2, py - 60, bx - 60, by - 20, INK.red, 6, ex), 15.3, 15.7, '3', bx + 55, by - 40],
+  ];
+  hop.forEach(([arr, t0, t1, n, nx, ny]) => {
+    D(3, t0, t0 + 0.25, arr);
+    W(3, t0 + 0.27, t1, n, nx, ny, 84, INK.red, { parent: ex });
+  });
+  W(3, 16.1, 17.2, 'onde tu tá NÃO conta!', 540, 1330, 76, INK.red, { parent: ex });
+  WB.effect(t => ex.setAttribute('opacity', (1 - clamp((t - 20.4) / 0.4)).toFixed(3)));
+  rest(3, 17.3, 20.7);
+  countdown(17.8, 20.81, 540, 1560, undefined, false);
   // cena 4
   apaga(4, 19.0, 'PIZZA'); apaga(4, 19.95, 'PEIXE');
   rest(4, 20.35, 20.65);
@@ -183,11 +195,13 @@ window.CENAS = function (WB) {
     const ic = WB.notebookIcon(-total / 2, -SZ / 2, SZ, wm, 4);
     ic.bg.setAttribute('fill-opacity', 1); WB.showNow([ic.outline, ic.rest]);
     WB.showNow(WB.textStrokes(handle, -total / 2 + SZ + 12, SZ * 0.28, fs, INK.black, wm).strokes);
-    const SPOTS = [[770, 1700], [250, 150], [310, 1700], [800, 150]];
+    // em cima até ~30 s, embaixo depois: só uma travessia por cima da grade
+    const TOP = [[250, 150], [800, 150]], BOT = [[310, 1700], [770, 1700]];
     const HOLD = 4.2, MOVE = 0.8, CYC = HOLD + MOVE;
     WB.effect(t => {
       const k = Math.floor(t / CYC), u = clamp((t - k * CYC - HOLD) / MOVE);
-      const a = SPOTS[k % 4], b = SPOTS[(k + 1) % 4], e = ease(u);
+      const spot = j => (j * CYC < 30 ? TOP : BOT)[j % 2];
+      const a = spot(k), b = spot(k + 1), e = ease(u);
       const x = lerp(a[0], b[0], e), y = lerp(a[1], b[1], e) + Math.sin(t * 1.7) * 4;
       wm.setAttribute('transform', `translate(${r1(x)} ${r1(y)}) rotate(${r1(Math.sin(t * 1.3) * 1.5)})`);
       wm.setAttribute('opacity', (clamp((t - 0.3) / 0.4) * (1 - clamp((t - CTA0 + 0.2) / 0.4)) * 0.95).toFixed(3));

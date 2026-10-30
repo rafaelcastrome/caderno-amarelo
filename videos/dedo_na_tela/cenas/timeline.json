@@ -1,5 +1,5 @@
 {
- "total": 53.271,
+ "total": 56.659,
  "motor_tts": "gemini Charon (tomada \u00fanica cortada nos sil\u00eancios)",
  "cenas": [
   {
@@ -9,63 +9,63 @@
   },
   {
    "start": 4.633,
-   "falaFim": 11.542,
-   "end": 11.842
+   "falaFim": 12.073,
+   "end": 12.373
   },
   {
-   "start": 11.842,
-   "falaFim": 13.926,
-   "end": 17.426
+   "start": 12.373,
+   "falaFim": 17.813,
+   "end": 20.813
   },
   {
-   "start": 17.426,
-   "falaFim": 20.285,
-   "end": 20.685
+   "start": 20.813,
+   "falaFim": 23.672,
+   "end": 24.072
   },
   {
-   "start": 20.685,
-   "falaFim": 23.504,
-   "end": 26.504
+   "start": 24.072,
+   "falaFim": 26.892,
+   "end": 29.892
   },
   {
-   "start": 26.504,
-   "falaFim": 29.93,
-   "end": 30.33
+   "start": 29.892,
+   "falaFim": 33.318,
+   "end": 33.718
   },
   {
-   "start": 30.33,
-   "falaFim": 30.971,
-   "end": 32.971
+   "start": 33.718,
+   "falaFim": 34.358,
+   "end": 36.358
   },
   {
-   "start": 32.971,
-   "falaFim": 34.08,
-   "end": 34.48
+   "start": 36.358,
+   "falaFim": 37.467,
+   "end": 37.867
   },
   {
-   "start": 34.48,
-   "falaFim": 35.523,
-   "end": 38.523
+   "start": 37.867,
+   "falaFim": 38.911,
+   "end": 41.911
   },
   {
-   "start": 38.523,
-   "falaFim": 40.596,
-   "end": 40.996
+   "start": 41.911,
+   "falaFim": 43.983,
+   "end": 44.383
   },
   {
-   "start": 40.996,
-   "falaFim": 42.591,
-   "end": 44.591
+   "start": 44.383,
+   "falaFim": 45.978,
+   "end": 47.978
   },
   {
-   "start": 44.591,
-   "falaFim": 46.323,
-   "end": 46.923
+   "start": 47.978,
+   "falaFim": 49.711,
+   "end": 50.311
   },
   {
-   "start": 46.923,
-   "falaFim": 52.271,
-   "end": 53.271
+   "start": 50.311,
+   "falaFim": 55.659,
+   "end": 56.659
   }
  ]
 }

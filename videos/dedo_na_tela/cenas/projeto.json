@@ -22,12 +22,12 @@
       "pausa": 0.5
     },
     {
-      "fala": "Agora conta as letras do teu desenho... e anda isso de casas. Pra cima, pra baixo, pro lado... diagonal não vale!",
+      "fala": "Agora conta as letras do teu desenho... e pula isso de casas. Pra cima, pra baixo, pro lado... diagonal não vale!",
       "pausa": 0.3
     },
     {
-      "fala": "Tipo... no sol, anda três.",
-      "pausa": 3.5
+      "fala": "Tipo... no sol: pula uma... duas... três. A casa onde tu tá não conta!",
+      "pausa": 3.0
     },
     {
       "fala": "Pronto? Tu não tá na pizza... nem no peixe.",
