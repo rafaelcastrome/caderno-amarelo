@@ -5,7 +5,7 @@ create table if not exists produtos (
   slug       text primary key,
   nome       text not null,
   preco      numeric(10,2) not null check (preco > 0),
-  arquivo    text not null,              -- caminho no bucket privado "produtos", ex.: kit-mentalista/kit-mentalista-v1.pdf
+  arquivo    text not null,              -- caminho no bucket privado "produtos", ex.: kit-mentalista/kit-mentalista-v2.pdf
   ativo      boolean not null default true,
   criado_em  timestamptz not null default now()
 );
@@ -33,5 +33,5 @@ on conflict (id) do nothing;
 -- Produto inicial. Pra cadastrar outro: subir o PDF no bucket e inserir uma linha aqui
 -- (e um item com o mesmo slug em loja/produtos.json, que é a vitrine).
 insert into produtos (slug, nome, preco, arquivo) values
-  ('kit-mentalista', 'Kit Mentalista', 5.90, 'kit-mentalista/kit-mentalista-v1.pdf')
+  ('kit-mentalista', 'Kit Mentalista', 5.90, 'kit-mentalista/kit-mentalista-v2.pdf')
 on conflict (slug) do update set nome = excluded.nome, preco = excluded.preco, arquivo = excluded.arquivo;

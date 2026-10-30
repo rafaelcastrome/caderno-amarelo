@@ -5,7 +5,7 @@ const { chromium } = require('playwright');
   const p = await b.newPage({ viewport: { width: 560, height: 794 }, deviceScaleFactor: 1.5 });
   await p.goto('file://' + __dirname + '/kit_mentalista.html', { waitUntil: 'networkidle' });
   await p.evaluate(() => document.fonts.ready);
-  await p.pdf({ path: __dirname + '/kit-mentalista-v1.pdf', format: 'A5', printBackground: true, preferCSSPageSize: true });
+  await p.pdf({ path: __dirname + '/kit-mentalista-v2.pdf', format: 'A5', printBackground: true, preferCSSPageSize: true });
   const pags = await p.$$('.pag');
   require('fs').mkdirSync(__dirname + '/previa', { recursive: true });
   for (let i = 0; i < pags.length; i++) await pags[i].screenshot({ path: `${__dirname}/previa/pag${String(i + 1).padStart(2, '0')}.png` });

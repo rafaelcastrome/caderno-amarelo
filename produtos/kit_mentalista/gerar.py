@@ -50,15 +50,15 @@ def capa():
     return f"""<section class="pag">
   <span class="tag">kit em PDF</span>
   <div class="mao" style="font-size:64pt;line-height:.92;margin-top:10mm">Kit<br><span class="u">Mentalista</span></div>
-  <div class="mao" style="font-size:22pt;margin-top:6mm">10 truques pra <span class="red">ler a mente</span><br>dos teus amigos</div>
+  <div class="mao" style="font-size:22pt;margin-top:6mm">20 truques e mágicas pra<br><span class="red">impressionar</span> os teus amigos</div>
   <div style="margin:10mm 0 0 2mm">{CEREBRO}</div>
-  <div class="mao" style="font-size:15pt;color:#1d4ed8;margin-top:4mm">matemática · psicologia · cartas · dados</div>
+  <div class="mao" style="font-size:15pt;color:#1d4ed8;margin-top:4mm">mente · números · cartas · objetos</div>
   {rodape('Caderno Amarelo')}
 </section>"""
 
 
-def boas_vindas():
-    itens = "".join(f"<li>{e(t['titulo'])} <span style='color:#8a8a8a'>· pág. {i + 3}</span></li>" for i, t in enumerate(TRUQUES))
+def boas_vindas(paginas):
+    itens = "".join(f"<li>{e(t['titulo'])} <span style='color:#8a8a8a'>· pág. {paginas[i]}</span></li>" for i, t in enumerate(TRUQUES))
     return f"""<section class="pag">
   <span class="tag">leia antes!</span>
   <h1>As 3 regras do mágico</h1>
@@ -69,12 +69,12 @@ def boas_vindas():
   </ol>
   <p style="margin-top:2mm">Em cada truque você encontra o <b>efeito</b> (o que a plateia vê), as <b>falas</b> pra apresentar, o <b class="red">segredo</b>, uma <b>dica de mágico</b> e o que fazer se der errado.</p>
   <h3 style="font-size:20pt;margin-top:5mm">Os truques</h3>
-  <ol class="falas" style="column-count:1">{itens}</ol>
+  <ol class="falas" style="font-size:9pt;line-height:1.2">{itens}</ol>
   {rodape(2)}
 </section>"""
 
 
-def pagina_truque(i, t):
+def pagina_truque(i, t, n):
     falas = "".join(f"<li>{e(f)}</li>" for f in t["falas"])
     return f"""<section class="pag">
   <span class="tag">truque {i + 1:02d}</span>
@@ -86,25 +86,60 @@ def pagina_truque(i, t):
   <div class="caixa segredo"><b class="mao">O segredo</b>{e(t['segredo'])}</div>
   <div class="caixa dica"><b class="mao">Dica de mágico</b>{e(t['dica'])}</div>
   <p class="saida"><b>Se der errado:</b> {e(t['saida'])}</p>
-  {rodape(i + 3)}
+  {rodape(n)}
 </section>"""
 
 
-def final():
-    n = len(TRUQUES) + 3
+SIMBOLOS = ["▲", "●", "■", "♥", "♣", "☾", "✿", "◆", "☂", "♪"]
+
+
+def tabela_cristal(n):
+    import random
+    rnd = random.Random(7)
+    cel = []
+    for k in range(10, 100):
+        sim = "★" if k % 9 == 0 and k <= 81 else rnd.choice(SIMBOLOS)
+        cel.append(f"<div><span style='font-size:8pt;color:#55555c'>{k}</span> <span style='color:#1d4ed8'>{sim}</span></div>")
+    grade = "".join(cel)
+    return f"""<section class="pag">
+  <span class="tag">bola de cristal</span>
+  <h1>Acha o teu número</h1>
+  <p>Procura o resultado da tua conta e decora o símbolo dele. Depois, vira a página.</p>
+  <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:1.2mm 2mm;margin-top:3mm;font-size:11pt;background:rgba(255,250,240,.9);border:.5mm solid #1f1f24;border-radius:3mm;padding:3mm">{grade}</div>
+  {rodape(n)}
+</section>"""
+
+
+def revelacao_cristal(n):
+    return f"""<section class="pag" style="text-align:center">
+  <div class="mao" style="font-size:24pt;margin-top:22mm">A bola de cristal diz que o teu símbolo é...</div>
+  <div style="font-size:150pt;line-height:1;margin-top:10mm;color:#1d4ed8">★</div>
+  <div class="mao" style="font-size:22pt;margin-top:8mm">Acertei? 🔮</div>
+  {rodape(n)}
+</section>"""
+
+
+def final(n):
     return f"""<section class="pag">
   <span class="tag">e agora?</span>
   <div class="mao" style="font-size:44pt;line-height:.95;margin-top:10mm">Agora o mágico<br>é <span class="u">você</span>!</div>
   <p style="font-size:12pt;margin-top:8mm">Escolhe teu truque favorito e testa hoje com alguém. Grava a reação da pessoa e marca a gente no Instagram:</p>
   <div class="mao" style="font-size:30pt;margin-top:4mm">@Cardeno_Amarelo</div>
-  <p style="margin-top:8mm">Ideia pra começar: <b>Pensa num número de 1 a 4</b> pra aquecer, depois <b>Elefante cinza na Dinamarca</b>, e fecha com o <b>1089</b> com a previsão no papel.</p>
+  <p style="margin-top:8mm">Ideia de apresentação: <b>Pensa num número de 1 a 4</b> pra aquecer, depois <b>Elefante cinza na Dinamarca</b>, <b>Os clipes que se abraçam</b> e fecha com o <b>1089</b> com a previsão no papel.</p>
   <p class="saida" style="margin-top:10mm">Este kit é pra uso pessoal. Por favor, não compartilhe o arquivo: assim o Caderno Amarelo continua fazendo conteúdo de graça pra todo mundo. Valeu! 💛</p>
   {rodape(n)}
 </section>"""
 
 
 def main():
-    paginas = [capa(), boas_vindas()] + [pagina_truque(i, t) for i, t in enumerate(TRUQUES)] + [final()]
+    corpo, n, inicio = [], 3, []
+    for i, t in enumerate(TRUQUES):
+        inicio.append(n)
+        corpo.append(pagina_truque(i, t, n)); n += 1
+        if t["titulo"].startswith("A bola de cristal"):
+            corpo.append(tabela_cristal(n)); n += 1
+            corpo.append(revelacao_cristal(n)); n += 1
+    paginas = [capa(), boas_vindas(inicio)] + corpo + [final(n)]
     doc = f"""<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
 <style>{CSS}</style></head><body>{''.join(paginas)}</body></html>"""

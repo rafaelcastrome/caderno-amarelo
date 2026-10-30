@@ -2,23 +2,23 @@
   {
     "slug": "kit-mentalista",
     "nome": "Kit Mentalista",
-    "subtitulo": "10 truques pra \"ler a mente\" dos teus amigos",
+    "subtitulo": "20 truques e mágicas pra impressionar os teus amigos",
     "preco": 5.9,
     "preco_antigo": null,
     "selo": "Novo",
     "capa": "assets/img/capa-kit-mentalista.png",
     "ativo": true,
     "destaque": true,
-    "descricao": "Vira o mágico da turma. São 10 truques de matemática e de psicologia que funcionam sozinhos: só precisa de papel, calculadora ou um baralho. Cada truque vem com as falas pra apresentar, o segredo e dicas pra ninguém descobrir.",
+    "descricao": "Vira o mágico da turma. São 20 truques: de \"ler a mente\", com números, com baralho e com objetos que você tem em casa (nota, clipes, copo d'água). Cada um vem com as falas pra apresentar, o segredo e dicas pra ninguém descobrir.",
     "inclui": [
-      "PDF com 10 truques desenhados no estilo do caderno",
+      "PDF com 20 truques desenhados no estilo do caderno",
       "As falas prontas pra apresentar cada truque",
       "O segredo explicado passo a passo",
-      "Dicas de mágico pra ninguém descobrir"
+      "Dicas de mágico e o que fazer se der errado"
     ],
     "conteudo": [
       "Elefante cinza na Dinamarca",
-      "O número 1089 (com previsão no papel)",
+      "O número 1089",
       "O misterioso 37",
       "Adivinhar o aniversário",
       "O dígito sumido",
@@ -26,7 +26,17 @@
       "Qual mão tá a moeda?",
       "As 21 cartas",
       "Martelo vermelho",
-      "Pensa num número de 1 a 4"
+      "Pensa num número de 1 a 4",
+      "A calculadora que obedece",
+      "Número do calçado e idade",
+      "A carta espiã",
+      "O quadrado do calendário",
+      "A bola de cristal do papel",
+      "Os clipes que se abraçam",
+      "O lápis de borracha",
+      "A pimenta medrosa",
+      "O copo que não derrama",
+      "Os 11 dedos"
     ],
     "formato": "PDF · acesso na hora",
     "faq": [
@@ -36,7 +46,7 @@
       ],
       [
         "Precisa de algum material?",
-        "Não. Os truques usam papel, calculadora do celular ou um baralho comum."
+        "A maioria usa só papel, a calculadora do celular ou um baralho. As mágicas com objetos usam coisas de casa: nota de dinheiro, clipes, copo, pimenta."
       ],
       [
         "Serve pra qualquer idade?",
