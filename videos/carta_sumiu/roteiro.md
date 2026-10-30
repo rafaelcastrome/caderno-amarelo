@@ -13,5 +13,5 @@ Princess Card Trick (clássico de mágica, Henry Hardin, 1905). Aparecem 6 carta
 3. Olho com espiral hipnótica girando, "tô lendo tua mente...", "JÁ SEI!".
 4. "Vou tirar ela do vídeo. Três... dois... um!" e as 5 cartas pulam na folha.
 5. "SUMIU!" + lupa procurando entre as cartas.
-6. CTA Kit Mentalista: "20 TRUQUES de mentalista? comenta MENTE".
+6. CTA Kit Mentalista (lançado em 30/10): "20 TRUQUES de mentalista? tá no LINK da BIO, ou comenta MENTE" (fala 7 regravada sozinha).
 7. Loop: "Duvida? Volta o vídeo e escolhe outra" emenda no quadro 0.

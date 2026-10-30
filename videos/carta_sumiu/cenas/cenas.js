@@ -205,12 +205,13 @@ window.CENAS = function (WB) {
   W(7, 0.04, P(7, 'vinte') + 0.02, 'Quer aprender', 540, 330, 84, INK.black);
   W(7, P(7, 'vinte'), P(7, 'mentalista') + 0.04, '20 TRUQUES', 540, 480, 140, INK.purple);
   W(7, P(7, 'mentalista') + 0.05, P(7, 'Comenta') - 0.02, 'de mentalista?', 540, 590, 84, INK.black);
-  const bal = [sp(WB.roundRectPath(200, 650, 680, 270, 50), INK.red, 10),
-    sp('M 760 920 L 830 1000 L 690 920', INK.red, 10)];
-  D(7, P(7, 'Comenta'), P(7, 'Comenta') + 0.08, bal);
-  W(7, P(7, 'Comenta') + 0.08, P(7, 'MENTE'), 'comenta', 540, 730, 64, INK.gray);
-  W(7, P(7, 'MENTE'), P(7, 'aqui') + 0.06, 'MENTE', 540, 880, 170, INK.red);
-  W(7, P(7, 'que eu'), 0.98, 'que eu te mando!', 540, 1080, 80, INK.green);
+  const bio = W(7, P(7, 'Tá no'), P(7, 'bio') + 0.05, 'tá no LINK da BIO', 540, 760, 116, INK.red);
+  D(7, P(7, 'bio') + 0.05, P(7, 'ou') - 0.01, [C.underline(540 - bio.width / 2, 540 + bio.width / 2, 795, INK.red)]);
+  const bal = [sp(WB.roundRectPath(240, 860, 600, 230, 46), INK.purple, 9),
+    sp('M 720 1090 L 790 1160 L 650 1090', INK.purple, 9)];
+  D(7, P(7, 'ou'), P(7, 'comenta') + 0.04, bal);
+  W(7, P(7, 'comenta') + 0.04, P(7, 'MENTE'), 'ou comenta', 540, 930, 58, INK.gray);
+  W(7, P(7, 'MENTE'), P(7, 'que eu') , 'MENTE', 540, 1055, 130, INK.purple);
   rest(7, T(7, 1.0), sc(8).start);
   W(8, 0.0, P(8, 'Volta') - 0.02, 'DUVIDA?', 540, 1290, 120, INK.orange);
   const v = W(8, P(8, 'Volta'), P(8, 'vídeo') + 0.08, 'VOLTA o vídeo', 600, 1430, 90, INK.blue);
@@ -237,7 +238,7 @@ window.CENAS = function (WB) {
     WB.showNow(WB.textStrokes(handle, -total / 2 + SZ + 12, SZ * 0.28, fs, INK.black, wm).strokes);
     const SPOTS = [[770, 1690], [270, 200], [310, 1690]];
     const HOLD = 4.2, MOVE = 0.8, CYC = HOLD + MOVE;
-    const PARK = [310, 1690], CARTAS = [[0, sc(2).end], [sc(5).end - 1, sc(6).end]];
+    const PARK = [310, 1690], CARTAS = [[0, sc(2).end], [sc(5).end - 1, sc(6).end], [sc(7).start, 1e9]];
     WB.effect(t => {
       const k = Math.floor(t / CYC), u = clamp((t - k * CYC - HOLD) / MOVE);
       const a = SPOTS[k % 3], b = SPOTS[(k + 1) % 3], e = ease(u);

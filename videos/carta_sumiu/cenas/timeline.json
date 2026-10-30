@@ -1,5 +1,5 @@
 {
- "total": 42.831,
+ "total": 41.609,
  "motor_tts": "gemini Charon (tomada \u00fanica cortada nos sil\u00eancios)",
  "cenas": [
   {
@@ -34,13 +34,13 @@
   },
   {
    "start": 30.846,
-   "falaFim": 37.373,
-   "end": 37.973
+   "falaFim": 36.152,
+   "end": 36.752
   },
   {
-   "start": 37.973,
-   "falaFim": 41.231,
-   "end": 42.831
+   "start": 36.752,
+   "falaFim": 40.009,
+   "end": 41.609
   }
  ]
 }
