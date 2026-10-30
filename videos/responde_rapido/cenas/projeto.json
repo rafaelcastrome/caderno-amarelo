@@ -1,0 +1,89 @@
+{
+  "titulo": "Responde rápido, sem pensar",
+  "marca": {
+    "handle": "cardeno_amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": false,
+  "voz": {
+    "gemini": "Charon",
+    "modelo": "gemini-2.5-flash-preview-tts"
+  },
+  "audio": "Narração Gemini Charon numa tomada só (1 requisição), cortada com cortar_take.py --tempos e montada com as pausas abaixo.",
+  "fontes": [
+    {
+      "fato": "7 é o número de 1 a 10 mais escolhido quando se pede um número \"aleatório\"",
+      "fonte": "Pesquisas de escolha de números aleatórios (ex.: levantamento de Alex Bellos com ~44 mil pessoas, 2014; 7 foi o favorito)"
+    },
+    {
+      "fato": "Vermelho, martelo e cenoura (depois de contas rápidas) são as respostas mais comuns de \"pensa rápido\"",
+      "fonte": "Truques clássicos de mentalismo de associação rápida; funcionam com a maioria, não com todos (apresentado como \"a maioria\")"
+    }
+  ],
+  "cenas": [
+    {
+      "fala": "Responde rápido... sem pensar! Eu vou acertar as quatro.",
+      "pausa": 0.4
+    },
+    {
+      "fala": "Um número de um a dez!",
+      "pausa": 2.0
+    },
+    {
+      "fala": "Pensou no sete, né?",
+      "pausa": 0.3
+    },
+    {
+      "fala": "Agora uma cor!",
+      "pausa": 2.0
+    },
+    {
+      "fala": "Vermelho, né?",
+      "pausa": 0.3
+    },
+    {
+      "fala": "Uma ferramenta!",
+      "pausa": 2.0
+    },
+    {
+      "fala": "Martelo!",
+      "pausa": 0.5
+    },
+    {
+      "fala": "Agora faz as contas rápido. Dois mais dois?",
+      "pausa": 0.6
+    },
+    {
+      "fala": "Quatro mais quatro?",
+      "pausa": 0.6
+    },
+    {
+      "fala": "Oito mais oito?",
+      "pausa": 0.6
+    },
+    {
+      "fala": "Dezesseis mais dezesseis?",
+      "pausa": 0.6
+    },
+    {
+      "fala": "Rápido, um legume!",
+      "pausa": 1.6
+    },
+    {
+      "fala": "Cenoura!",
+      "pausa": 0.5
+    },
+    {
+      "fala": "Quantas eu acertei? Comenta aí... foi quatro de quatro?",
+      "pausa": 0.5
+    },
+    {
+      "fala": "Quer aprender vinte truques de mentalista? Tá no link da bio... ou comenta MENTE que eu te mando!",
+      "pausa": 0.5
+    },
+    {
+      "fala": "Volta... e faz com um amigo.",
+      "pausa": 1.6
+    }
+  ]
+}
