@@ -47,7 +47,7 @@ supabase functions deploy status-pedido
 supabase functions deploy webhook-mercadopago --no-verify-jwt
 ```
 
-No Mercado Pago, cadastrar o webhook (evento "Pagamentos") apontando para
+No Mercado Pago (aplicação com Checkout Transparente + API de Orders), cadastrar o webhook com o evento "Order (Mercado Pago)" apontando para
 `https://<projeto>.supabase.co/functions/v1/webhook-mercadopago`.
 
 ## Testar localmente

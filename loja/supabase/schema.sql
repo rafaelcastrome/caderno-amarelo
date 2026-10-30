@@ -16,7 +16,7 @@ create table if not exists pedidos (
   email         text not null,
   valor         numeric(10,2) not null,
   status        text not null default 'pendente' check (status in ('pendente','pago','cancelado','reembolsado')),
-  mp_pagamento  text unique,
+  mp_order      text unique,          -- id da order no Mercado Pago (API de Orders)
   criado_em     timestamptz not null default now(),
   pago_em       timestamptz,
   email_enviado boolean not null default false

@@ -17,22 +17,25 @@ Deno.serve(async (req) => {
       .select('id').single();
     if (error) throw error;
 
-    const pg = await mp('/v1/payments', {
+    const valor = Number(prod.preco).toFixed(2); // a API de Orders recebe valores como texto
+    const ord = await mp('/v1/orders', {
       method: 'POST',
       headers: { 'X-Idempotency-Key': pedido.id },
       body: JSON.stringify({
-        transaction_amount: Number(prod.preco),
-        description: prod.nome,
-        payment_method_id: 'pix',
-        payer: { email },
+        type: 'online',
+        processing_mode: 'automatic',
         external_reference: pedido.id,
-        notification_url: `${Deno.env.get('SUPABASE_URL')}/functions/v1/webhook-mercadopago`,
-        date_of_expiration: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
+        total_amount: valor,
+        description: prod.nome,
+        payer: { email },
+        transactions: {
+          payments: [{ amount: valor, payment_method: { id: 'pix', type: 'bank_transfer' }, expiration_time: 'PT30M' }],
+        },
       }),
     });
 
-    await db.from('pedidos').update({ mp_pagamento: String(pg.id) }).eq('id', pedido.id);
-    const t = pg.point_of_interaction?.transaction_data ?? {};
+    await db.from('pedidos').update({ mp_order: String(ord.id) }).eq('id', pedido.id);
+    const t = ord.transactions?.payments?.[0]?.payment_method ?? {};
     return json({ pedido: pedido.id, qr_base64: t.qr_code_base64, copia_cola: t.qr_code, valor: prod.preco });
   } catch (e) {
     console.error(e);

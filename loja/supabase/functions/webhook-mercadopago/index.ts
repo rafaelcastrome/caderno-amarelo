@@ -1,6 +1,6 @@
-// Recebe o aviso do Mercado Pago e confere o pagamento direto na API dele (nunca confia só no aviso).
+// Recebe o aviso do Mercado Pago (API de Orders) e confere a order direto na API dele (nunca confia só no aviso).
 // Deploy com --no-verify-jwt, porque quem chama é o Mercado Pago.
-import { json, sincronizarPagamento } from '../_comum/comum.ts';
+import { json, sincronizarOrder } from '../_comum/comum.ts';
 
 async function assinaturaValida(req: Request, dataId: string) {
   const segredo = Deno.env.get('MP_WEBHOOK_SECRET');
@@ -19,9 +19,9 @@ Deno.serve(async (req) => {
     const corpo = await req.json().catch(() => ({}));
     const tipo = corpo.type ?? url.searchParams.get('type') ?? url.searchParams.get('topic');
     const dataId = String(corpo.data?.id ?? url.searchParams.get('data.id') ?? url.searchParams.get('id') ?? '');
-    if (tipo !== 'payment' || !dataId) return json({ ok: true });
+    if (tipo !== 'order' || !dataId) return json({ ok: true }); // evento "Order (Mercado Pago)"
     if (!(await assinaturaValida(req, dataId))) return json({ erro: 'assinatura' }, 401);
-    await sincronizarPagamento(dataId);
+    await sincronizarOrder(dataId);
     return json({ ok: true });
   } catch (e) {
     console.error(e);

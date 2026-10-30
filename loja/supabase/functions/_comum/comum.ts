@@ -29,25 +29,27 @@ export async function mp(caminho: string, init: RequestInit = {}) {
   return dados;
 }
 
-// Confere o pagamento direto no Mercado Pago e marca o pedido como pago.
+// Confere a order direto no Mercado Pago (API de Orders) e marca o pedido como pago.
 // Serve tanto pro webhook quanto pra consulta de status (caso o webhook atrase).
-export async function sincronizarPagamento(mpId: string) {
-  const pg = await mp(`/v1/payments/${mpId}`);
-  const pedidoId = pg.external_reference as string;
+export async function sincronizarOrder(orderId: string) {
+  const ord = await mp(`/v1/orders/${orderId}`);
+  const pedidoId = ord.external_reference as string;
   if (!pedidoId) return null;
   const { data: pedido } = await db.from('pedidos').select('*').eq('id', pedidoId).single();
   if (!pedido) return null;
 
-  if (pg.status === 'approved' && pedido.status !== 'pago') {
-    if (Number(pg.transaction_amount) < Number(pedido.valor)) return pedido; // valor menor que o cobrado: ignora
+  if (ord.status === 'processed' && pedido.status !== 'pago') {
+    if (Number(ord.total_amount) < Number(pedido.valor)) return pedido; // valor menor que o cobrado: ignora
     const { data } = await db.from('pedidos')
       .update({ status: 'pago', pago_em: new Date().toISOString() })
       .eq('id', pedidoId).select('*').single();
     await enviarEmail(data);
     return data;
   }
-  if (pg.status === 'refunded' || pg.status === 'charged_back') {
+  if (ord.status === 'refunded' || ord.status === 'charged_back') {
     await db.from('pedidos').update({ status: 'reembolsado' }).eq('id', pedidoId);
+  } else if (ord.status === 'canceled' || ord.status === 'expired') {
+    await db.from('pedidos').update({ status: 'cancelado' }).eq('id', pedidoId).eq('status', 'pendente');
   }
   return pedido;
 }
