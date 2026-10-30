@@ -1,0 +1,77 @@
+{
+  "titulo": "Teu olho vai pintar essa fruta",
+  "marca": {
+    "handle": "cardeno_amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": false,
+  "voz": {
+    "gemini": "Charon",
+    "modelo": "gemini-2.5-flash-preview-tts"
+  },
+  "audio": "Narração Gemini Charon numa tomada só, cortada em falas nos silêncios reais (cortar_take.py) e montada com as pausas abaixo.",
+  "fontes": [
+    {
+      "fato": "Pós-imagem negativa: depois de encarar ciano/magenta/branco, a folha branca mostra vermelho/verde/escuro",
+      "fonte": "Illusions Index, Negative Afterimages; teoria do processo oponente (Hering)"
+    },
+    {
+      "fato": "Pós-imagem parece maior numa superfície mais distante",
+      "fonte": "Lei de Emmert (1881)"
+    }
+  ],
+  "cenas": [
+    {
+      "fala": "Essa melancia tá toda errada... e o teu olho vai pintar ela. Sozinho!",
+      "pausa": 0.4
+    },
+    {
+      "fala": "Olha só pro pontinho preto no meio. E não pisca!",
+      "pausa": 3.0
+    },
+    {
+      "fala": "Isso... fica aí. Não mexe o olho, hein!",
+      "pausa": 4.0
+    },
+    {
+      "fala": "Segura...",
+      "pausa": 3.0
+    },
+    {
+      "fala": "Quase...",
+      "pausa": 1.6
+    },
+    {
+      "fala": "Agora! Olha pra folha... Tá vendo? Vermelha... casca verde... semente preta!",
+      "pausa": 0.8
+    },
+    {
+      "fala": "Pisca rapidinho!",
+      "pausa": 1.2
+    },
+    {
+      "fala": "Voltou, né?",
+      "pausa": 0.5
+    },
+    {
+      "fala": "Agora olha pra parede, lá longe...",
+      "pausa": 1.6
+    },
+    {
+      "fala": "Ela ficou gigante!",
+      "pausa": 0.5
+    },
+    {
+      "fala": "Só que esse vermelho... nunca esteve na tela.",
+      "pausa": 0.3
+    },
+    {
+      "fala": "Teu olho cansou do azul... aí, na folha branca, ele mostra o contrário. Pintou sozinho!",
+      "pausa": 0.4
+    },
+    {
+      "fala": "Viu? Comenta: vi... ou não vi. Não viu? Volta... e dessa vez, não pisca!",
+      "pausa": 1.0
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "titulo": "Põe o dedo na tela",
+  "marca": {
+    "handle": "cardeno_amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": false,
+  "voz": {
+    "gemini": "Charon",
+    "modelo": "gemini-2.5-flash-preview-tts"
+  },
+  "audio": "Narração Gemini Charon numa tomada só, cortada em falas nos silêncios reais (cortar_take.py) e montada com as pausas abaixo.",
+  "fontes": [
+    {
+      "fato": "Força por paridade (tabuleiro de xadrez); verificado por simulação de todos os inícios",
+      "fonte": "simulação própria (roteiro.md)"
+    }
+  ],
+  "cenas": [
+    {
+      "fala": "Põe o dedo na tela. Em qualquer desenho! Eu vou adivinhar onde ele vai parar...",
+      "pausa": 0.5
+    },
+    {
+      "fala": "Agora conta as letras do teu desenho... e anda isso de casas. Pra cima, pra baixo, pro lado... diagonal não vale!",
+      "pausa": 0.3
+    },
+    {
+      "fala": "Tipo... no sol, anda três.",
+      "pausa": 3.5
+    },
+    {
+      "fala": "Pronto? Tu não tá na pizza... nem no peixe.",
+      "pausa": 0.4
+    },
+    {
+      "fala": "Casa apagada não vale, hein! Anda mais três casas.",
+      "pausa": 3.0
+    },
+    {
+      "fala": "Tu não tá na bola... nem no pato... nem na casa.",
+      "pausa": 0.4
+    },
+    {
+      "fala": "Anda uma.",
+      "pausa": 2.0
+    },
+    {
+      "fala": "Sai da chave!",
+      "pausa": 0.4
+    },
+    {
+      "fala": "Anda mais três.",
+      "pausa": 3.0
+    },
+    {
+      "fala": "Tchau, sapo... tchau, vaca.",
+      "pausa": 0.4
+    },
+    {
+      "fala": "Última! Anda uma casa...",
+      "pausa": 2.0
+    },
+    {
+      "fala": "E... tu tá na girafa!",
+      "pausa": 0.6
+    },
+    {
+      "fala": "Acertei? Comenta: sim... ou não. Duvida? Volta... e começa em outro desenho!",
+      "pausa": 1.0
+    }
+  ]
+}
