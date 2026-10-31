@@ -1,7 +1,7 @@
 -- Lote 2: preço cobrado e arquivo no bucket "produtos".
 insert into produtos (slug, nome, preco, arquivo) values
   ('etiquetas-de-presente', 'Etiquetas de Presente de Natal', 3.90, 'lote2/etiquetas-de-presente.pdf'),
-  ('cartoes-de-natal-colorir', 'Cartões de Natal pra Colorir', 4.90, 'lote2/cartoes-de-natal-colorir.pdf'),
+  ('cartoes-de-natal-colorir', 'Cartões de Natal', 4.90, 'lote2/cartoes-de-natal-colorir.pdf'),
   ('detetive-do-caderno', 'Detetive do Caderno: o Mistério do Pudim', 5.90, 'lote2/detetive-do-caderno.pdf'),
   ('escape-room-em-casa', 'Escape Room em Casa', 5.90, 'lote2/escape-room-em-casa.pdf'),
   ('verdade-ou-desafio', 'Verdade ou Desafio Fofo', 5.90, 'lote2/verdade-ou-desafio.pdf'),

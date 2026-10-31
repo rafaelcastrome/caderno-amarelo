@@ -4,6 +4,7 @@ from base import documento, pagina, capa, salvar
 from icones import ICONES, NOMES, svg
 
 TODOS = list(ICONES)
+PAST = ['#ffe1e1', '#def3dc', '#fff2bf', '#dcefff', '#efe2fb', '#ffe8d2']
 
 def instrucoes(titulo, itens, nome, extra=''):
     lis = ''.join(f'<li>{i}</li>' for i in itens)
@@ -16,8 +17,8 @@ def memoria():
     nome = 'Jogo da Memória de Natal'
     css = CSS_PASSOS + '''.grade{display:grid;grid-template-columns:repeat(3,58mm);grid-auto-rows:58mm;justify-content:center;margin-top:4mm}
 .carta{border:1.5px dashed #999;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:22px}
-.verso{background:#fbf5df;background-image:linear-gradient(#cfdbee 1px,transparent 1px),linear-gradient(90deg,#cfdbee 1px,transparent 1px);background-size:6mm 6mm}
-.verso span{font-size:40px;transform:rotate(-8deg)}'''
+.verso{background:#e63946;background-image:radial-gradient(#fff 1.4mm,transparent 1.6mm),radial-gradient(#ffd23f 1mm,transparent 1.2mm);background-size:12mm 12mm;background-position:0 0,6mm 6mm;color:#fff}
+.verso span{font-size:40px;transform:rotate(-8deg);background:#e63946;padding:1mm 3mm;border-radius:3mm;border:2px solid #fff}'''
     pags = [capa('jogo pra imprimir', 'Jogo da<br><span class="r">Memória</span><br>de Natal',
                  '18 pares de desenhos fofos pra recortar e colorir', ''.join(svg(n, 90) for n in ['noel', 'rena', 'boneco_neve', 'arvore']))]
     pags.append(instrucoes('Como montar e jogar', [
@@ -29,7 +30,7 @@ def memoria():
         'Ganha quem juntar mais pares no final.'], nome))
     cartas = [n for n in TODOS for _ in range(2)]
     for i in range(0, 36, 12):
-        celulas = ''.join(f'<div class="carta">{svg(n, 140)}<div>{NOMES[n]}</div></div>' for n in cartas[i:i + 12])
+        celulas = ''.join(f'<div class="carta" style="background:{PAST[TODOS.index(n) % 6]}">{svg(n, 140)}<div>{NOMES[n]}</div></div>' for n in cartas[i:i + 12])
         pags.append(pagina(f'<div class="grade">{celulas}</div>', nome=nome))
     versos = ''.join('<div class="carta verso"><span>Caderno<br>Amarelo</span></div>' for _ in range(12))
     pags.append(pagina(f'<div class="sub" style="text-align:center">Verso das cartas (opcional)</div><div class="grade">{versos}</div>', nome=nome))
@@ -40,8 +41,8 @@ def bingo():
     nome = 'Bingo de Natal em Família'
     css = CSS_PASSOS + '''.cartela{border:2.5px solid #1d1d1d;border-radius:5mm;padding:4mm 5mm;height:126mm;margin-bottom:6mm}
 .cartela h3{display:flex;justify-content:space-between;font-size:34px;margin-bottom:2mm}
-.cg{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);height:102mm;border:1.5px solid #1d1d1d}
-.cg div{border:1px solid #1d1d1d;display:flex;align-items:center;justify-content:center}
+.bcg{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);height:102mm;border:1.5px solid #1d1d1d}
+.bcg div{border:1px solid #1d1d1d;display:flex;align-items:center;justify-content:center}
 .fichas{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:6mm}
 .fichas div{border:1.5px dashed #999;height:58mm;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:22px}'''
     rnd = random.Random(2512)
@@ -64,7 +65,7 @@ def bingo():
         bloco = ''
         for j, c in enumerate(cartelas[i:i + 2]):
             cel = ''.join(f'<div>{svg(n, 76)}</div>' for n in c)
-            bloco += f'<div class="cartela"><h3><span>BINGO DE <span class="r">NATAL</span></span><span style="font-size:22px;color:#777">cartela {i + j + 1}</span></h3><div class="cg">{cel}</div></div>'
+            bloco += f'<div class="cartela"><h3><span>BINGO DE <span class="r">NATAL</span></span><span style="font-size:22px;color:#777">cartela {i + j + 1}</span></h3><div class="bcg">{cel}</div></div>'
         pags.append(pagina(bloco, nome=nome))
     fichas = ''.join(f'<div>{svg(n, 110)}<div>{NOMES[n]}</div></div>' for n in TODOS[:16])
     pags.append(pagina(f'<div class="tit">Fichas de <span class="m">sorteio</span></div><div class="fichas">{fichas}</div>', nome=nome))
@@ -97,6 +98,14 @@ def enfeites():
 
 # ---------- Livro de colorir ----------
 def colorir():
+    import icones
+    icones.PB = True
+    try:
+        return _colorir()
+    finally:
+        icones.PB = False
+
+def _colorir():
     nome = 'Natal Fofo pra Colorir'
     css = '''.cc{display:flex;flex-direction:column;align-items:center;height:100%}
 .cc .tt{font-size:54px;margin-bottom:4mm}
@@ -138,7 +147,7 @@ def colorir():
         cel = ''.join(f'<div style="display:flex;align-items:center;justify-content:center">{svg(TODOS[(i * 5 + k * 3) % 18], 120)}</div>' for i in range(20))
         pags.append(pagina(f'<div class="cc"><div class="tt">{"Papel de presente pra colorir" if k == 0 else "Estampa de Natal"}</div>'
                            f'<div class="moldura" style="display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(5,1fr)">{cel}</div></div>', nome=nome))
-    return salvar('natal-fofo-colorir', documento(nome, pags, css))
+    return salvar('natal-fofo-colorir', documento(nome, pags, css, pb=True))
 
 if __name__ == '__main__':
     for f in (memoria, bingo, enfeites, colorir):

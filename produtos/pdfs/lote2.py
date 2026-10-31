@@ -54,7 +54,7 @@ def cartoes_natal():
             'Feliz Natal, vovó!', 'Feliz Natal, vovô!', 'Pra melhor família', 'Obrigado por esse ano!', 'Natal quentinho', 'Paz, amor e panetone']
     pags = [capa('pra dar de presente', 'Cartões<br>de <span class="r">Natal</span>', '12 cartões pra colorir, dobrar e escrever',
                  ''.join(svg(n, 90) for n in ['guirlanda', 'noel', 'arvore', 'caneca']))]
-    pags.append(instrucoes('Como fazer', ['Imprime as folhas (papel mais grosso fica melhor).', 'Colore a frente do cartão.',
+    pags.append(instrucoes('Como fazer', ['Imprime as folhas (papel mais grosso fica melhor).', 'Os cartões já vêm pintados. Se quiser, capricha com glitter ou canetinha.',
                                           'Recorta pela linha tracejada de fora.', 'Dobra ao meio na linha do centro, com o desenho pra fora.',
                                           'Escreve a tua mensagem por dentro e entrega!'], nome))
     for i in range(0, 12, 2):
@@ -121,7 +121,7 @@ def detetive():
 def escape():
     nome = 'Escape Room em Casa'
     css = CSS_PASSOS + '''.enig{border:3px solid #1d1d1d;border-radius:6mm;padding:7mm;margin-top:6mm;font-size:30px;line-height:1.35}
-.enig .simb{font-size:50px;float:right}table.alf{border-collapse:collapse;margin-top:3mm;width:100%}table.alf td{border:1px solid #bbb;text-align:center;font-size:24px;width:7.6%}.cod{font-size:54px;letter-spacing:4px;text-align:center;margin:6mm 0}
+.enig .simb{font-size:50px;float:right}.simb.s1{color:#e0a800}.simb.s2{color:#e63946}.simb.s3{color:#2e9e5b}.simb.s4{color:#2a78c4}table.alf{border-collapse:collapse;margin-top:3mm;width:100%}table.alf td{border:1px solid #bbb;text-align:center;font-size:24px;width:7.6%}.cod{font-size:54px;letter-spacing:4px;text-align:center;margin:6mm 0}
 .cadeado{display:flex;gap:8mm;justify-content:center;margin-top:10mm}.cadeado div{width:32mm;height:40mm;border:3px solid #1d1d1d;border-radius:5mm;display:flex;align-items:flex-start;justify-content:center;font-size:44px;padding-top:2mm}'''
     pags = [capa('jogo de fuga', 'Escape Room<br><span class="r">em Casa</span>', '5 enigmas em sequência pra sair do quarto trancado',
                  ''.join(svg(n, 90) for n in ['estrela', 'vela', 'sino', 'presente']))]
@@ -132,23 +132,23 @@ def escape():
         'Dica pra quem organiza: imprime cada enigma separado e esconde pela casa. Quem achar, resolve.',
         'Quer mais emoção? Marca 20 minutos no cronômetro!',
         'As respostas estão na última página.'], nome))
-    pags.append(pagina('<div class="tit">Enigma 1 · <span class="m">a mensagem secreta</span></div><div class="enig"><span class="simb">★</span>'
+    pags.append(pagina('<div class="tit">Enigma 1 · <span class="m">a mensagem secreta</span></div><div class="enig"><span class="simb s1">★</span>'
                        'Alguém deixou essa mensagem na parede. Cada letra virou um número: A = 1, B = 2, C = 3 e assim por diante.'
                        '<div class="cod">19 · 5 · 20 · 5</div>A palavra é o número do ★.<br><br>'
                        + ''.join('<table class="alf"><tr>' + ''.join(f'<td>{chr(65 + i)}</td>' for i in r) + '</tr><tr>' + ''.join(f'<td>{i + 1}</td>' for i in r) + '</tr></table>' for r in (range(13), range(13, 26))) + '</div>', nome=nome))
-    pags.append(pagina('<div class="tit">Enigma 2 · <span class="m">a sequência</span></div><div class="enig"><span class="simb">●</span>'
+    pags.append(pagina('<div class="tit">Enigma 2 · <span class="m">a sequência</span></div><div class="enig"><span class="simb s2">●</span>'
                        'Na gaveta tem um papel com uma sequência que nunca acaba:<div class="cod">1 · 1 · 2 · 3 · 5 · 8 · 13 · ?</div>'
                        'Descobre o próximo número. Depois soma os algarismos dele (exemplo: 13 vira 1 + 3 = 4).<br>O resultado é o número do ●.</div>', nome=nome))
-    pags.append(pagina('<div class="tit">Enigma 3 · <span class="m">o espelho</span></div><div class="enig"><span class="simb">▲</span>'
+    pags.append(pagina('<div class="tit">Enigma 3 · <span class="m">o espelho</span></div><div class="enig"><span class="simb s3">▲</span>'
                        'No espelho do banheiro tem uma frase escrita de trás pra frente:<div class="cod">evon é oremún o</div>'
                        'Lê do jeito certo. O número que ela fala é o do ▲.</div>', nome=nome))
-    pags.append(pagina('<div class="tit">Enigma 4 · <span class="m">o relógio</span></div><div class="enig"><span class="simb">■</span>'
+    pags.append(pagina('<div class="tit">Enigma 4 · <span class="m">o relógio</span></div><div class="enig"><span class="simb s4">■</span>'
                        'O relógio da parede marca <b>10 horas da manhã</b>. Um bilhete diz:<br><br>'
                        '"O número que tu procura é a hora que o ponteiro pequeno vai marcar daqui a 16 horas."<br><br>Esse é o número do ■.</div>'
                        f'<div style="display:flex;justify-content:center;margin-top:8mm">{svg("estrela", 1) if False else ""}</div>', nome=nome))
     pags.append(pagina('<div class="tit">Enigma 5 · <span class="m">o cadeado</span></div><div class="enig">'
                        'Na porta, o cadeado mostra os símbolos nessa ordem. Coloca o número de cada um e tu tá livre!'
-                       '<div class="cadeado"><div>▲</div><div>★</div><div>■</div><div>●</div></div>'
+                       '<div class="cadeado"><div style="color:#2e9e5b;background:#def3dc">▲</div><div style="color:#e0a800;background:#fff2bf">★</div><div style="color:#2a78c4;background:#dcefff">■</div><div style="color:#e63946;background:#ffe1e1">●</div></div>'
                        '<br>Pra conferir sem espiar: os 4 números somados dão <b>21</b>.</div>', nome=nome))
     pags.append(pagina('<div class="tit">🔒 <span class="m">Respostas</span></div><div class="enig" style="font-size:28px">'
                        '★ 19-5-20-5 = S-E-T-E → <b>7</b><br>● o próximo é 21 (cada número é a soma dos dois anteriores) → 2 + 1 = <b>3</b><br>'
@@ -267,6 +267,7 @@ table.gr td.h{border:none;font-weight:700}.frota{font-size:22px;text-align:cente
 def labirintos():
     nome = 'Labirintos Impossíveis'
     niveis = [('Fácil', 8, 10, 12), ('Médio', 14, 12, 18), ('Difícil', 20, 10, 26), ('Insano', 28, 8, 36)]
+    COR_NIVEL = {'Fácil': ('#2e9e5b', '#effaf0'), 'Médio': ('#2a78c4', '#eaf4ff'), 'Difícil': ('#e76f51', '#fff1e8'), 'Insano': ('#7b2cbf', '#f4eaff')}
     pags = [capa('pra quebrar a cabeça', 'Labirintos<br><span class="r">Impossíveis</span>', '40 labirintos do fácil ao insano, com respostas',
                  ''.join(svg(n, 90) for n in ['estrela', 'floco', 'presente', 'rena']))]
     sols, n = [], 0
@@ -274,11 +275,11 @@ def labirintos():
         for k in range(qtd):
             n += 1
             ab, cam = G.labirinto(tam, int(tam * 1.25), 1000 + n)
-            sols.append((n, tam, int(tam * 1.25), ab, cam))
+            sols.append((n, tam, int(tam * 1.25), ab, cam, nivel))
             larg = 120 if tam <= 14 else 170
-            pags.append(pagina(f'<div class="tit">Labirinto {n} · <span class="m">{nivel}</span></div><div style="margin-top:4mm">{G.svg_labirinto(tam, int(tam * 1.25), ab, larg_mm=larg)}</div>', nome=nome))
+            pags.append(pagina(f'<div class="tit">Labirinto {n} · <span class="m">{nivel}</span></div><div style="margin-top:4mm">{G.svg_labirinto(tam, int(tam * 1.25), ab, larg_mm=larg, cor=COR_NIVEL[nivel][0], fundo=COR_NIVEL[nivel][1])}</div>', nome=nome))
     for i in range(0, len(sols), 4):
-        cel = ''.join(f'<div style="text-align:center;font-size:22px">#{n}{G.svg_labirinto(c, l, ab, cam, larg_mm=70)}</div>' for n, c, l, ab, cam in sols[i:i + 4])
+        cel = ''.join(f'<div style="text-align:center;font-size:22px">#{n}{G.svg_labirinto(c, l, ab, cam, larg_mm=70, cor=COR_NIVEL[nv][0], fundo=COR_NIVEL[nv][1])}</div>' for n, c, l, ab, cam, nv in sols[i:i + 4])
         pags.append(pagina(f'<div class="tit" style="font-size:34px">Respostas</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:3mm">{cel}</div>', nome=nome))
     return salvar('labirintos', documento(nome, pags, ''))
 

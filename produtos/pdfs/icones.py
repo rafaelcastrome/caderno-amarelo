@@ -122,5 +122,50 @@ NOMES = {
 
 ESTILO_SVG = '<style>.ic path,.ic rect,.ic circle,.ic ellipse{fill:none;stroke:#1d1d1d;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}.ic .p{fill:#1d1d1d;stroke:none}.ic .b{fill:#f4a6a6;stroke:none}.ic .v{fill:#fff}</style>'
 
+# ---------- Versão colorida (padrão). Só o livro de colorir usa a versão em preto e branco (PB = True) ----------
+PB = False
+VM, VR, VE, VD, AM, MA, AZ, BR, RS, LA = '#e63946', '#c1121f', '#2e9e5b', '#1f7a4a', '#ffd23f', '#9c5a2f', '#4cc9f0', '#ffffff', '#ff8fa3', '#f4a261'
+# índice do elemento (path, rect, circle, ellipse, na ordem do desenho) -> cor de preenchimento, ou 's:...' pra mudar o traço
+CORES = {
+ 'arvore': {0: VE, 1: MA, 2: AM, 3: VM, 4: AM, 5: AZ},
+ 'estrela': {0: AM},
+ 'presente': {0: VM, 1: VR, 3: AM},
+ 'sino': {0: AM, 1: LA, 3: VM},
+ 'bengala': {1: BR, 2: 's:stroke:#e63946;stroke-width:5.5'},
+ 'boneco_neve': {0: '#f2fbff', 1: '#f2fbff', 2: '#3a3a4a', 3: VM, 4: VM, 6: '#f77f00', 7: VM, 8: AZ},
+ 'bola': {0: VM, 1: AM, 3: 's:stroke:#ffd23f;stroke-width:4.5'},
+ 'meia': {0: VM, 1: BR},
+ 'biscoito': {0: '#e0a96d', 1: 's:stroke:#fff;stroke-width:3.4', 2: VM, 3: VE},
+ 'rena': {0: '#b5835a', 2: '#b5835a', 3: VM},
+ 'gorro': {0: VM, 2: BR, 3: BR},
+ 'floco': {0: 's:stroke:#3a86c8', 1: 's:stroke:#3a86c8', 2: '#cdeefd'},
+ 'vela': {0: VM, 1: '#ffb703', 2: BR},
+ 'luva': {0: AZ, 1: BR, 2: 's:stroke:#fff;stroke-width:3.4'},
+ 'caneca': {0: '#ff6b6b', 3: '#6f3b1d'},
+ 'guirlanda': {0: VE, 1: BR, 3: VM, 4: AM, 5: AZ, 6: VM, 7: VM},
+ 'noel': {0: VM, 1: BR, 2: BR, 3: BR, 4: '#f1f1f1', 5: '#ffb3a7'},
+ 'pirulito': {0: RS, 1: 's:stroke:#fff;stroke-width:4', 2: 's:stroke:#d9a066;stroke-width:5', 3: 's:stroke:#e63946;stroke-width:3.6'},
+}
+_ELEM = __import__('re').compile(r'<(path|rect|circle|ellipse)\b([^>]*?)/>')
+
+def _colorir(nome):
+    cores = CORES.get(nome, {})
+    cont = [-1]
+    def troca(m):
+        cont[0] += 1
+        c = cores.get(cont[0])
+        if not c:
+            return m.group(0)
+        attrs = m.group(2)
+        css = c[2:] if c.startswith('s:') else 'fill:' + c
+        if 'style="' in attrs:
+            attrs = attrs.replace('style="', 'style="' + css + ';')
+        else:
+            attrs += f' style="{css}"'
+        # a cor do .p/.b/.v (classe) perde pro estilo em linha, então tudo certo
+        return f'<{m.group(1)}{attrs}/>'
+    return _ELEM.sub(troca, ICONES[nome])
+
 def svg(nome, tam=100, extra=''):
-    return f'<svg class="ic" viewBox="0 0 100 100" width="{tam}" height="{tam}" {extra}>{ESTILO_SVG}{ICONES[nome]}</svg>'
+    corpo = ICONES[nome] if PB else _colorir(nome)
+    return f'<svg class="ic" viewBox="0 0 100 100" width="{tam}" height="{tam}" {extra}>{ESTILO_SVG}{corpo}</svg>'

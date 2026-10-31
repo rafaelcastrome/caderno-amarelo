@@ -14,7 +14,7 @@ const fs = require('fs'), path = require('path');
     await p.evaluate(() => document.fonts.ready);
     await p.pdf({ path: path.join(__dirname, 'pdf', slug + '.pdf'), preferCSSPageSize: true, printBackground: true });
     const pags = await p.$$('.pag');
-    for (let i = 0; i < Math.min(4, pags.length); i++) await pags[i].screenshot({ path: path.join(__dirname, 'previa', `${slug}-${i + 1}.png`) });
+    for (let i = 0; i < Math.min(+(process.env.PAGS || 6), pags.length); i++) await pags[i].screenshot({ path: path.join(__dirname, 'previa', `${slug}-${i + 1}.png`) });
     const estouros = await p.$$eval('.pag', ps => ps.map((pg, i) => [...pg.querySelectorAll(':scope > *:not(.rodape)')].some(c => c.getBoundingClientRect().bottom > pg.getBoundingClientRect().bottom - 20) ? i + 1 : null).filter(Boolean));
     console.log(slug, 'paginas', pags.length, 'estouros', JSON.stringify(estouros));
     await p.close();

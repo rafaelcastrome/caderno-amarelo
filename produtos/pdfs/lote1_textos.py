@@ -80,7 +80,7 @@ def amigo_secreto():
 .lista{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:125mm;margin-top:4mm}
 .lista>div{border:1.5px dashed #999;padding:6mm;font-size:26px;line-height:1.35}
 .lista .l{border-bottom:1.5px solid #bbb;height:11mm}
-.carta{border:3px solid #1d1d1d;border-radius:8mm;height:228mm;margin-top:6mm;padding:10mm;font-size:32px;line-height:1.9;
+.cartinha{border:3px solid #1d1d1d;border-radius:8mm;height:228mm;margin-top:6mm;padding:10mm;font-size:32px;line-height:1.9;
 background-image:repeating-linear-gradient(transparent 0 15mm,#cfdbee 15mm 15.5mm);background-position:0 26mm}'''
     pags = [capa('pra família e amigos', 'Kit <span class="r">Amigo</span><br>Secreto', 'Sorteio, lista de desejos, cartinha e regras divertidas',
                  ''.join(svg(n, 90) for n in ['presente', 'gorro', 'meia', 'estrela']))]
@@ -96,7 +96,7 @@ background-image:repeating-linear-gradient(transparent 0 15mm,#cfdbee 15mm 15.5m
     um = ('<div><b>Lista de desejos de:</b> ____________<br>Meu tamanho de roupa: ______<br>Minha cor favorita: ______<br>Eu gosto de:'
           + '<div class="l"></div>' * 3 + 'Eu NÃO quero ganhar:<div class="l"></div></div>')
     pags.append(pagina(f'<div class="tit">Lista de <span class="m">desejos</span></div><div class="lista">{um * 4}</div>', nome=nome))
-    pags.append(pagina('<div class="tit">Cartinha pro meu <span class="m">amigo secreto</span></div><div class="carta">Querido(a) ____________________,<br><br><br><br><br><br><br>Com carinho, teu amigo secreto 🎁</div>', nome=nome))
+    pags.append(pagina('<div class="tit">Cartinha pro meu <span class="m">amigo secreto</span></div><div class="cartinha">Querido(a) ____________________,<br><br><br><br><br><br><br>Com carinho, teu amigo secreto 🎁</div>', nome=nome))
     dicas = [('Dica 1', 'Meu amigo secreto gosta muito de...'), ('Dica 2', 'Meu amigo secreto sempre fala...'),
              ('Dica 3', 'Meu amigo secreto não vive sem...'), ('Dica 4', 'Uma vez meu amigo secreto...'),
              ('Dica 5', 'Se meu amigo secreto fosse um bicho, seria...'), ('Dica 6', 'A comida favorita dele(a) é...'),
@@ -268,22 +268,30 @@ def casinha():
         dobra.append(f'M{x} {yT} L{x} {yB}')
     # decoração (pra colorir)
     cx = f0 + W / 2
-    dec = f'''<rect x="{cx - 9}" y="{yB - 26}" width="18" height="26" rx="9"/><circle cx="{cx + 5}" cy="{yB - 12}" r="1.2" class="p"/>
-<circle cx="{cx}" cy="{yB - 32}" r="5"/><circle cx="{cx}" cy="{yB - 32}" r="2.6"/>
-<rect x="{f0 + 6}" y="{yT + 10}" width="13" height="13"/><path d="M{f0 + 12.5} {yT + 10} v13 M{f0 + 6} {yT + 16.5} h13"/>
-<rect x="{f1 - 19}" y="{yT + 10}" width="13" height="13"/><path d="M{f1 - 12.5} {yT + 10} v13 M{f1 - 19} {yT + 16.5} h13"/>
-<circle cx="{cx}" cy="{yT - 10}" r="4"/>'''
+    VID = 'fill="#bfe6ff"'
+    dec = f'''<rect x="{cx - 9}" y="{yB - 26}" width="18" height="26" rx="9" fill="#9c5a2f"/><circle cx="{cx + 5}" cy="{yB - 12}" r="1.4" fill="#ffd23f"/>
+<circle cx="{cx}" cy="{yB - 32}" r="5" fill="#2e9e5b"/><circle cx="{cx}" cy="{yB - 32}" r="2.6" fill="#fff"/><circle cx="{cx - 3.4}" cy="{yB - 35}" r="1" fill="#e63946" stroke="none"/><circle cx="{cx + 3.4}" cy="{yB - 35}" r="1" fill="#ffd23f" stroke="none"/>
+<rect x="{f0 + 6}" y="{yT + 10}" width="13" height="13" {VID}/><path d="M{f0 + 12.5} {yT + 10} v13 M{f0 + 6} {yT + 16.5} h13"/>
+<rect x="{f1 - 19}" y="{yT + 10}" width="13" height="13" {VID}/><path d="M{f1 - 12.5} {yT + 10} v13 M{f1 - 19} {yT + 16.5} h13"/>
+<circle cx="{cx}" cy="{yT - 10}" r="4" fill="#ffd23f"/>'''
     for xa in (s0, b1):
-        dec += f'<rect x="{xa + D / 2 - 10}" y="{yT + 12}" width="20" height="16"/><path d="M{xa + D / 2} {yT + 12} v16 M{xa + D / 2 - 10} {yT + 20} h20"/>'
-    dec += f'<rect x="{b0 + W / 2 - 8}" y="{yT + 14}" width="16" height="16"/><path d="M{b0 + W / 2} {yT + 14} v16"/>'
+        dec += f'<rect x="{xa + D / 2 - 10}" y="{yT + 12}" width="20" height="16" {VID}/><path d="M{xa + D / 2} {yT + 12} v16 M{xa + D / 2 - 10} {yT + 20} h20"/>'
+    dec += f'<rect x="{b0 + W / 2 - 8}" y="{yT + 14}" width="16" height="16" {VID}/><path d="M{b0 + W / 2} {yT + 14} v16"/>'
     for xa in (s0, t0):  # telhas
         for k in range(1, 5):
             y = yT - R * k / 5
-            dec += f'<path d="M{xa} {y:.2f} ' + ' '.join(f'q{D / 10:.2f} 4 {D / 5:.2f} 0' for _ in range(5)) + '"/>'
+            dec += f'<path d="M{xa} {y:.2f} ' + ' '.join(f'q{D / 10:.2f} 4 {D / 5:.2f} 0' for _ in range(5)) + '" stroke="#fff" stroke-width=".7"/>'
+    for xa in (s0, t0):  # neve no topo do telhado
+        dec += f'<path d="M{xa} {yT - R:.2f} h{D} v6 ' + ' '.join(f'q-{D / 12:.2f} 5 -{D / 6:.2f} 0' for _ in range(6)) + ' z" fill="#fff"/>'
     dec += f'<text x="{f0 + W / 2}" y="{yB + D / 2}" text-anchor="middle" style="font:7px Caveat">chão</text>'
     vb_w, vb_h = xs[4] + 12, yB + D + 10
+    fundo = (f'<rect x="{f0}" y="{yT}" width="{W}" height="{H}" fill="#fff0d2"/><rect x="{xs[1]}" y="{yT}" width="{D}" height="{H}" fill="#f6d8a8"/>'
+             f'<rect x="{xs[2]}" y="{yT}" width="{W}" height="{H}" fill="#fff0d2"/><rect x="{xs[3]}" y="{yT}" width="{D}" height="{H}" fill="#f6d8a8"/>'
+             f'<rect x="{s0}" y="{yT - R:.2f}" width="{D}" height="{R:.2f}" fill="#d62828"/><rect x="{t0}" y="{yT - R:.2f}" width="{D}" height="{R:.2f}" fill="#d62828"/>'
+             f'<rect x="{f0}" y="{yB}" width="{W}" height="{D}" fill="#d8efd0"/>')
     desenho = f'''<svg viewBox="0 0 {vb_w:.1f} {vb_h:.1f}" style="width:{vb_h:.1f}mm;height:{vb_w:.1f}mm;display:block;margin:0 auto">
 <g transform="translate({vb_h:.1f} 0) rotate(90)">
+{fundo}
 <g fill="none" stroke="#1d1d1d" stroke-width=".6" stroke-linejoin="round">{''.join(f'<path d="{d}"/>' for d in corte)}</g>
 <g fill="none" stroke="#1d1d1d" stroke-width=".4" stroke-dasharray="2 1.5">{''.join(f'<path d="{d}"/>' for d in dobra)}</g>
 <g fill="none" stroke="#1d1d1d" stroke-width=".45" stroke-linecap="round">{dec}</g></g></svg>'''
@@ -292,7 +300,7 @@ def casinha():
                  ''.join(svg(n, 90) for n in ['noel', 'gorro', 'presente', 'arvore']))]
     pags.append(instrucoes('Como montar', [
         'Imprime em tamanho real (100%, sem "ajustar à página"), de preferência em papel 180 g ou mais.',
-        'Colore a casinha antes de recortar: porta, janelas, telhado e a guirlanda da porta.',
+        'A casinha já vem pintada, com porta, janelas, telhado de neve e guirlanda. Se quiser, capricha nos detalhes com canetinha.',
         'Recorta pela linha contínua. A linha tracejada é pra dobrar, não pra cortar.',
         'Dobra todas as linhas tracejadas pra dentro, bem marcadinhas (passar a unha ajuda).',
         'Cola a aba da ponta na parede da frente, formando a caixa. Depois cola o chão nas abas.',
@@ -319,12 +327,15 @@ def arvore_3d(nome):
         fenda = f'M{cx} 6 V{alt / 2 + 3}' if fenda_cima else f'M{cx} {alt} V{alt / 2 - 3}'
         enfeites = ''.join(f'<circle cx="{cx + dx}" cy="{y}" r="3.2"/>' for dx, y in [(-10, 46), (12, 54), (-18, 80), (6, 88), (22, 92), (-4, 28)])
         estrela = f'<path d="M{cx} -6 L{cx + 3} 0 L{cx + 9} 1 L{cx + 4.5} 5 L{cx + 6} 11 L{cx} 8 L{cx - 6} 11 L{cx - 4.5} 5 L{cx - 9} 1 L{cx - 3} 0 Z" transform="translate(0 4) scale(1)"/>'
-        return (f'<path d="{d}" stroke-width=".6"/><path d="{fenda}" stroke-width="1.2"/>'
-                f'<g stroke-width=".45">{enfeites}<path d="M{cx - 22} 70 Q{cx} 76 {cx + 22} 70 M{cx - 14} 40 Q{cx} 46 {cx + 14} 40"/></g>')
+        cores = ['#e63946', '#ffd23f', '#4cc9f0', '#e63946', '#ffd23f', '#ff8fa3']
+        enfeites = ''.join(f'<circle cx="{cx + dx}" cy="{y}" r="3.2" fill="{cores[i % 6]}"/>' for i, (dx, y) in enumerate([(-10, 46), (12, 54), (-18, 80), (6, 88), (22, 92), (-4, 28)]))
+        return (f'<path d="{d}" stroke-width=".6" fill="#3aa76d"/><rect x="{cx - 8}" y="100" width="16" height="{alt - 100}" fill="#9c5a2f" stroke="none"/><path d="{fenda}" stroke-width="1.2"/>'
+                f'<g stroke-width=".45"><path d="M{cx - 22} 70 Q{cx} 76 {cx + 22} 70 M{cx - 14} 40 Q{cx} 46 {cx + 14} 40" stroke="#ffd23f" stroke-width="1.2"/>{enfeites}'
+                f'<path d="M{cx} -2 L{cx + 3} 4 L{cx + 9} 5 L{cx + 4.5} 9 L{cx + 6} 15 L{cx} 12 L{cx - 6} 15 L{cx - 4.5} 9 L{cx - 9} 5 L{cx - 3} 4 Z" fill="#ffd23f"/></g>')
     svg_ = (f'<svg viewBox="0 -4 {2 * larg + 20} {alt + 8}" style="width:{2 * larg + 20}mm;height:{alt + 8}mm;display:block;margin:6mm auto 0">'
             f'<g fill="none" stroke="#1d1d1d" stroke-linejoin="round">{arvore(4, True)}{arvore(larg + 16, False)}</g></svg>')
     return pagina('<div class="tit">Árvore 3D de <span class="m">encaixar</span></div>'
-                  '<div class="sub">Colore as duas, recorta pela linha de fora e corta as fendas (linha grossa no meio). '
+                  '<div class="sub">As duas já vêm pintadinhas. Recorta pela linha de fora e corta as fendas (linha grossa no meio). '
                   'Encaixa uma na outra em cruz: a fenda de cima entra na fenda de baixo.</div>' + svg_, nome=nome)
 
 def bonequinhos(nome):
@@ -333,7 +344,7 @@ def bonequinhos(nome):
     for i in range(0, 12, 6):
         cel = ''.join(f'<div class="tenda"><div>{svg(n, 150)}{NOMES[n]}</div><div>{svg(n, 150)}{NOMES[n]}</div></div>' for n in figs[i:i + 6])
         pags.append(pagina('<div class="tit">Bonequinhos <span class="m">de pé</span></div>'
-                           '<div class="sub">Colore, recorta o retângulo e dobra no tracejado: vira uma tendinha que fica em pé na frente da casinha.</div>'
+                           '<div class="sub">Já vêm pintados! Recorta o retângulo e dobra no tracejado: vira uma tendinha que fica em pé na frente da casinha.</div>'
                            f'<div class="tendas">{cel}</div>', nome=nome))
     return pags
 

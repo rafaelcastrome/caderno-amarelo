@@ -24,9 +24,9 @@ PRODUTOS = [
          inclui=['24 cartões de desafio pra recortar', 'Quadro do advento pra pintar os dias', '8 cartões em branco pra inventar desafios', 'Instruções de como montar'],
          titulo_conteudo='', conteudo=[], categoria='Natal', pasta='natal', lote=1),
     dict(slug='enfeites-de-papel', nome='Enfeites de Papel pra Pendurar', preco=4.90, icones=['bola', 'floco', 'sino'],
-         tag='recorta e monta', linha1='Enfeites', linha2='de Papel', frase='pra colorir, recortar e pendurar',
-         subtitulo='18 enfeites redondos pra colorir, recortar e pendurar na árvore',
-         descricao='Uma atividade gostosa pra fazer em família antes do Natal: colore, recorta, faz o furinho e pendura. Também dá pra usar como marcador de lugar na mesa da ceia.',
+         tag='recorta e monta', linha1='Enfeites', linha2='de Papel', frase='já pintados, é só recortar e pendurar',
+         subtitulo='18 enfeites redondos já coloridos, pra recortar e pendurar na árvore',
+         descricao='Uma atividade gostosa pra fazer em família antes do Natal: recorta, faz o furinho e pendura. Já vêm pintados, sem trabalho nenhum. Também dá pra usar como marcador de lugar na mesa da ceia.',
          inclui=['18 enfeites prontos pra recortar', 'Marcação do furinho pra fitinha', 'Dica pra fazer dupla face', 'Instruções passo a passo'],
          titulo_conteudo='', conteudo=[], categoria='Natal', pasta='natal', lote=1),
     dict(slug='bingo-de-natal', nome='Bingo de Natal em Família', preco=5.90, icones=['presente', 'sino', 'estrela'],
@@ -54,15 +54,15 @@ PRODUTOS = [
          inclui=['12 pistas prontas', '8 pistas em branco pra criar', 'Cartões de "Achou!"', 'Passo a passo de como montar'],
          titulo_conteudo='', conteudo=[], categoria='Natal', pasta='natal', lote=1),
     dict(slug='casinha-papai-noel-3d', nome='Vilinha do Papai Noel pra Montar', preco=5.90, icones=['noel', 'arvore', 'rena'],
-         tag='recorta e monta', linha1='Vilinha do', linha2='Papai Noel', frase='casinha 3D, árvore e bonequinhos',
+         tag='recorta e monta', linha1='Vilinha do', linha2='Papai Noel', frase='casinha 3D, árvore e bonequinhos pintados',
          subtitulo='Casinha 3D, árvore de encaixar e 12 bonequinhos de pé pra montar a cena',
-         descricao='Monta uma vilinha de Natal de papel: a casinha do Papai Noel com porta, janelas e telhado de telhas, uma árvore 3D de encaixar e 12 bonequinhos que ficam em pé (Noel, rena, boneco de neve, biscoito e mais). Tudo pra colorir antes de recortar.',
+         descricao='Monta uma vilinha de Natal de papel: a casinha do Papai Noel com porta, janelas e telhado de telhas, uma árvore 3D de encaixar e 12 bonequinhos que ficam em pé (Noel, rena, boneco de neve, biscoito e mais). Tudo já vem pintado: é só recortar, dobrar e montar.',
          inclui=['Molde da casinha 3D em tamanho real', 'Árvore 3D de encaixar', '12 bonequinhos de pé', 'Linhas de corte e de dobra marcadas', 'Passo a passo de montagem'],
          titulo_conteudo='', conteudo=[], categoria='Natal', pasta='natal', lote=1),
     dict(slug='jogo-da-memoria-natal', nome='Jogo da Memória de Natal', preco=4.90, icones=['noel', 'rena', 'boneco_neve'],
          tag='jogo pra imprimir', linha1='Jogo da', linha2='Memória', frase='18 pares de desenhos fofos',
-         subtitulo='18 pares de desenhos de Natal pra recortar e jogar',
-         descricao='36 cartas com desenhos fofos de Natal pra colorir, recortar e jogar com as crianças. Tem também uma página de verso pra deixar as cartas iguais por trás.',
+         subtitulo='18 pares de desenhos de Natal já coloridos, pra recortar e jogar',
+         descricao='36 cartas com desenhos fofos de Natal, já pintadas, pra recortar e jogar com as crianças. Tem também uma página de verso pra deixar as cartas iguais por trás.',
          inclui=['36 cartas (18 pares)', 'Página de verso opcional', 'Regras do jogo'],
          titulo_conteudo='', conteudo=[], categoria='Natal', pasta='natal', lote=1),
     dict(slug='retrospectiva-do-ano', nome='Retrospectiva do Meu Ano', preco=4.90, icones=['estrela', 'vela', 'caneca'],
@@ -79,13 +79,13 @@ N2 = dict(categoria='Natal', pasta='lote2', lote=2, titulo_conteudo='', conteudo
 PRODUTOS += [
     dict(slug='etiquetas-de-presente', nome='Etiquetas de Presente de Natal', preco=3.90, icones=['presente', 'gorro', 'sino'],
          tag='pra embrulhar', linha1='Etiquetas', linha2='de Presente', frase='48 etiquetas fofas "De / Para"',
-         subtitulo='48 etiquetas fofas de "De / Para" pra colorir e amarrar no presente',
-         descricao='Etiquetas no formato de tag, com furinho pra fitinha, desenhos de Natal com carinha e frases como "Não abre antes!". Colore, recorta e deixa os presentes mais bonitos.',
+         subtitulo='48 etiquetas coloridas de "De / Para" pra amarrar no presente',
+         descricao='Etiquetas no formato de tag, com furinho pra fitinha, desenhos de Natal com carinha e frases como "Não abre antes!". Já vêm pintadas: recorta e deixa os presentes mais bonitos.',
          inclui=['48 etiquetas em 3 folhas', 'Campos De e Para', '6 frases diferentes', 'Marcação do furinho'], **N2),
-    dict(slug='cartoes-de-natal-colorir', nome='Cartões de Natal pra Colorir', preco=4.90, icones=['guirlanda', 'noel', 'arvore'],
-         tag='pra dar de presente', linha1='Cartões', linha2='de Natal', frase='12 cartões pra colorir e dobrar',
-         subtitulo='12 cartões dobráveis pra colorir, escrever e entregar',
-         descricao='Cartões de Natal que a criança (ou tu mesmo) colore e entrega pra família, professores e amigos. Cada um tem um desenho grande e uma mensagem, e o lado de dentro fica livre pra escrever.',
+    dict(slug='cartoes-de-natal-colorir', nome='Cartões de Natal', preco=4.90, icones=['guirlanda', 'noel', 'arvore'],
+         tag='pra dar de presente', linha1='Cartões', linha2='de Natal', frase='12 cartões coloridos pra dobrar',
+         subtitulo='12 cartões dobráveis já pintados, pra escrever e entregar',
+         descricao='Cartões de Natal já coloridos que tu escreve e entrega pra família, professores e amigos. Cada um tem um desenho grande e uma mensagem, e o lado de dentro fica livre pra escrever.',
          inclui=['12 cartões, 2 por folha', 'Mensagens como "Feliz Natal, vovó!"', 'Linha de dobra marcada', 'Instruções de montagem'], **N2),
     dict(slug='detetive-do-caderno', nome='Detetive do Caderno: o Mistério do Pudim', preco=5.90, icones=['caneca', 'estrela', 'luva'],
          tag='jogo de mistério', linha1='Detetive', linha2='do Caderno', frase='o Mistério do Pudim Sumido',
@@ -129,6 +129,52 @@ PRODUTOS += [
          inclui=['20 enigmas de lógica', '30 sudokus em 3 níveis', 'Respostas de tudo'], **J),
 ]
 
+FAQ_PAPEL = ['Que papel eu uso?', 'Papel sulfite comum (75 g) funciona. Pra ficar mais firme, use 120 g ou mais. Tudo já vem colorido, é só imprimir em impressora colorida.']
+L3 = dict(categoria='Natal', pasta='lote3', lote=3, titulo_conteudo='', conteudo=[])
+J3 = dict(categoria='Jogos', pasta='lote3', lote=3, titulo_conteudo='', conteudo=[])
+PRODUTOS += [
+    dict(slug='bandeirinhas-de-natal', nome='Bandeirinhas de Natal', preco=4.90, icones=['estrela', 'sino', 'arvore'], prev=(3, 5, 7),
+         tag='pra pendurar', linha1='Bandeirinhas', linha2='de Natal', frase='FELIZ NATAL e BOAS FESTAS, já pintadas',
+         subtitulo='36 bandeirinhas coloridas pra montar um varal de Natal',
+         descricao='Um varal de Natal prontinho: as letras de FELIZ NATAL e BOAS FESTAS e 16 bandeirinhas de desenho (Papai Noel, rena, sino, presente e mais). Já vêm coloridas, é só recortar, dobrar a faixinha e passar o barbante.',
+         inclui=['36 bandeirinhas coloridas', 'Letras de FELIZ NATAL e BOAS FESTAS', '16 bandeirinhas de desenho', 'Faixinha pra dobrar e passar o barbante', 'Passo a passo'], **L3),
+    dict(slug='papel-de-presente-natal', nome='Papel de Presente de Natal', preco=4.90, icones=['presente', 'bola', 'bengala'], prev=(3, 6, 7),
+         tag='pronto pra imprimir', linha1='Papel de', linha2='Presente', frase='6 estampas de Natal em folha A4',
+         subtitulo='6 estampas de papel de embrulho já coloridas, pra imprimir em A4',
+         descricao='Embrulha com estilo sem sair de casa: 6 estampas de Natal em folha inteira (vermelha, verde, kraft, azul, listrada de bengala e xadrez). Serve pra embrulhar presentes pequenos, forrar caixas e fazer cartões.',
+         inclui=['6 estampas em folha A4 inteira', 'Já vêm coloridas', 'Dicas de uso: caixa, cartão e caderno', 'Imprime quantas vezes quiser'], faq_extra=[FAQ_PAPEL], **L3),
+    dict(slug='marcadores-de-pagina-natal', nome='Marcadores de Página de Natal', preco=3.90, icones=['caneca', 'vela', 'meia'], prev=(3, 4, 5),
+         tag='pra quem gosta de ler', linha1='Marcadores', linha2='de Página', frase='24 marcadores com frases fofas',
+         subtitulo='24 marcadores de livro coloridos, com frases de Natal',
+         descricao='Marcadores de página de Natal já pintados, cada um com um desenho e uma frase diferente. Dá pra usar, dar de lembrancinha ou colocar dentro do cartão de Natal.',
+         inclui=['24 marcadores diferentes', 'Bolinha pro furo da fitinha', '24 frases divertidas', 'Já vêm coloridos'], **L3),
+    dict(slug='kit-ceia-de-natal', nome='Kit Ceia de Natal', preco=5.90, icones=['guirlanda', 'vela', 'caneca'], prev=(3, 4, 7),
+         tag='pra ceia perfeita', linha1='Kit Ceia', linha2='de Natal', frase='convite, cardápio, lugares e plaquinhas',
+         subtitulo='Convites, cardápio, marcadores de lugar, plaquinhas dos pratos e listas',
+         descricao='Organiza a ceia de Natal sem estresse e deixa a mesa linda: convites pra preencher, cardápio, 16 marcadores de lugar, 36 plaquinhas pros pratos (com campo de vegano e sem glúten), quadro de quem leva o quê e lista de compras. Tudo já colorido.',
+         inclui=['2 convites pra preencher', 'Cardápio da ceia', '16 marcadores de lugar', '36 plaquinhas de pratos (26 prontas + em branco)', 'Quem leva o quê e lista de compras'], **L3),
+    dict(slug='vales-de-natal', nome='Vales de Natal', preco=3.90, icones=['presente', 'meia', 'estrela'], prev=(3, 4, 5),
+         tag='de presente pra quem tu ama', linha1='Vales de', linha2='Natal', frase='30 vales de carinho',
+         subtitulo='30 vales coloridos de carinho: um abraço, um filme, um café na cama',
+         descricao='O presente mais fofo e mais baratinho: vales coloridos pra dar de Natal, como "vale um abraço apertado" e "vale um café da manhã na cama". Tem 24 vales prontos e 6 em branco pra inventar.',
+         inclui=['24 vales prontos', '6 vales em branco', 'Campo de validade', 'Já vêm coloridos'], **L3),
+    dict(slug='domino-de-natal', nome='Dominó de Natal', preco=4.90, icones=['noel', 'rena', 'arvore'], prev=(3, 4),
+         tag='jogo pra imprimir', linha1='Dominó', linha2='de Natal', frase='28 peças pintadas',
+         subtitulo='Dominó com 28 peças de desenhos de Natal, pra toda a família',
+         descricao='O jogo clássico com figuras de Natal em vez de bolinhas: árvore, Papai Noel, rena, presente, boneco de neve, sino e estrela. Já vem colorido, é só recortar e jogar. Bom pra crianças pequenas que ainda não sabem contar.',
+         inclui=['28 peças coloridas', 'Regras do jogo', 'Pra 2 a 4 jogadores'], faq_extra=[FAQ_JOGO], **J3),
+    dict(slug='trilha-de-natal', nome='Trilha de Natal: Jogo de Tabuleiro', preco=5.90, icones=['noel', 'rena', 'presente'], prev=(3, 4, 5),
+         tag='jogo de tabuleiro', linha1='Trilha de', linha2='Natal', frase='tabuleiro, dado, peões e cartas',
+         subtitulo='Jogo de tabuleiro colorido de 42 casas, com dado, peões e cartas surpresa',
+         descricao='Um jogo de tabuleiro completo pra imprimir: tabuleiro com 42 casas e armadilhas (o Grinch!), dado pra montar, 6 peões de pé e 16 cartas surpresa engraçadas. Dá pra jogar em até 6 pessoas, ótimo pra ceia.',
+         inclui=['Tabuleiro de 42 casas', '6 peões de pé', 'Dado pra montar', '16 cartas surpresa', 'Regras'], faq_extra=[FAQ_JOGO], **J3),
+    dict(slug='adesivos-de-natal', nome='Adesivos de Natal', preco=4.90, icones=['estrela', 'boneco_neve', 'bengala'], prev=(3, 4, 6),
+         tag='pra imprimir em papel adesivo', linha1='Adesivos', linha2='de Natal', frase='4 folhas de adesivos coloridos',
+         subtitulo='Adesivos redondos e etiquetas de frase, pra imprimir e colar',
+         descricao='Imprime em papel adesivo (ou usa cola) e enfeita cartões, presentes, cadernos e agendas: 96 adesivos redondos em 3 tamanhos e 20 etiquetas de frase como "Ho ho ho!" e "Não abre antes!". Tudo já colorido.',
+         inclui=['12 adesivos grandes', '30 adesivos médios', '54 adesivos pequenos', '20 etiquetas de frase'], faq_extra=[FAQ_PAPEL], **L3),
+]
+
 def marca_dagua(im):
     """Prévia da loja: resolução baixa e marca d'água em diagonal, pra não servir de cópia pra imprimir."""
     im.thumbnail((480, 680))
@@ -166,7 +212,7 @@ def gerar():
     entradas = []
     for p in PRODUTOS:
         previas = []
-        for i in (2, 3, 4):
+        for i in p.get('prev', (2, 3, 4)):
             orig = os.path.join(AQUI, 'previa', f'{p["slug"]}-{i}.png')
             if not os.path.exists(orig):
                 continue
@@ -177,7 +223,7 @@ def gerar():
             'slug': p['slug'], 'nome': p['nome'], 'subtitulo': p['subtitulo'], 'preco': p['preco'], 'preco_antigo': None,
             'selo': None, 'categoria': p['categoria'], 'capa': f'assets/img/capa-{p["slug"]}.png', 'ativo': True, 'destaque': False,
             'descricao': p['descricao'], 'inclui': p['inclui'], 'titulo_conteudo': p['titulo_conteudo'], 'conteudo': p['conteudo'],
-            'previas': previas, 'formato': 'PDF pra imprimir · acesso na hora', 'faq': [FAQ_RECEBER, FAQ_IMPRIMIR] + ([FAQ_JOGO] if p['categoria'] == 'Jogos' else [])})
+            'previas': previas, 'formato': 'PDF pra imprimir · acesso na hora', 'faq': [FAQ_RECEBER, FAQ_IMPRIMIR] + ([FAQ_JOGO] if p['categoria'] == 'Jogos' and 'faq_extra' not in p else []) + p.get('faq_extra', [])})
     # junta no produtos.json sem mexer nos produtos que já existem
     caminho = os.path.join(LOJA, 'produtos.json')
     atuais = json.load(open(caminho, encoding='utf-8'))

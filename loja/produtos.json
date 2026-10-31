@@ -96,7 +96,7 @@
   {
     "slug": "enfeites-de-papel",
     "nome": "Enfeites de Papel pra Pendurar",
-    "subtitulo": "18 enfeites redondos pra colorir, recortar e pendurar na árvore",
+    "subtitulo": "18 enfeites redondos já coloridos, pra recortar e pendurar na árvore",
     "preco": 4.9,
     "preco_antigo": null,
     "selo": null,
@@ -104,7 +104,7 @@
     "capa": "assets/img/capa-enfeites-de-papel.png",
     "ativo": true,
     "destaque": false,
-    "descricao": "Uma atividade gostosa pra fazer em família antes do Natal: colore, recorta, faz o furinho e pendura. Também dá pra usar como marcador de lugar na mesa da ceia.",
+    "descricao": "Uma atividade gostosa pra fazer em família antes do Natal: recorta, faz o furinho e pendura. Já vêm pintados, sem trabalho nenhum. Também dá pra usar como marcador de lugar na mesa da ceia.",
     "inclui": [
       "18 enfeites prontos pra recortar",
       "Marcação do furinho pra fitinha",
@@ -290,7 +290,7 @@
     "capa": "assets/img/capa-casinha-papai-noel-3d.png",
     "ativo": true,
     "destaque": false,
-    "descricao": "Monta uma vilinha de Natal de papel: a casinha do Papai Noel com porta, janelas e telhado de telhas, uma árvore 3D de encaixar e 12 bonequinhos que ficam em pé (Noel, rena, boneco de neve, biscoito e mais). Tudo pra colorir antes de recortar.",
+    "descricao": "Monta uma vilinha de Natal de papel: a casinha do Papai Noel com porta, janelas e telhado de telhas, uma árvore 3D de encaixar e 12 bonequinhos que ficam em pé (Noel, rena, boneco de neve, biscoito e mais). Tudo já vem pintado: é só recortar, dobrar e montar.",
     "inclui": [
       "Molde da casinha 3D em tamanho real",
       "Árvore 3D de encaixar",
@@ -320,7 +320,7 @@
   {
     "slug": "jogo-da-memoria-natal",
     "nome": "Jogo da Memória de Natal",
-    "subtitulo": "18 pares de desenhos de Natal pra recortar e jogar",
+    "subtitulo": "18 pares de desenhos de Natal já coloridos, pra recortar e jogar",
     "preco": 4.9,
     "preco_antigo": null,
     "selo": null,
@@ -328,7 +328,7 @@
     "capa": "assets/img/capa-jogo-da-memoria-natal.png",
     "ativo": true,
     "destaque": false,
-    "descricao": "36 cartas com desenhos fofos de Natal pra colorir, recortar e jogar com as crianças. Tem também uma página de verso pra deixar as cartas iguais por trás.",
+    "descricao": "36 cartas com desenhos fofos de Natal, já pintadas, pra recortar e jogar com as crianças. Tem também uma página de verso pra deixar as cartas iguais por trás.",
     "inclui": [
       "36 cartas (18 pares)",
       "Página de verso opcional",
@@ -393,7 +393,7 @@
   {
     "slug": "etiquetas-de-presente",
     "nome": "Etiquetas de Presente de Natal",
-    "subtitulo": "48 etiquetas fofas de \"De / Para\" pra colorir e amarrar no presente",
+    "subtitulo": "48 etiquetas coloridas de \"De / Para\" pra amarrar no presente",
     "preco": 3.9,
     "preco_antigo": null,
     "selo": null,
@@ -401,7 +401,7 @@
     "capa": "assets/img/capa-etiquetas-de-presente.png",
     "ativo": true,
     "destaque": false,
-    "descricao": "Etiquetas no formato de tag, com furinho pra fitinha, desenhos de Natal com carinha e frases como \"Não abre antes!\". Colore, recorta e deixa os presentes mais bonitos.",
+    "descricao": "Etiquetas no formato de tag, com furinho pra fitinha, desenhos de Natal com carinha e frases como \"Não abre antes!\". Já vêm pintadas: recorta e deixa os presentes mais bonitos.",
     "inclui": [
       "48 etiquetas em 3 folhas",
       "Campos De e Para",
@@ -429,8 +429,8 @@
   },
   {
     "slug": "cartoes-de-natal-colorir",
-    "nome": "Cartões de Natal pra Colorir",
-    "subtitulo": "12 cartões dobráveis pra colorir, escrever e entregar",
+    "nome": "Cartões de Natal",
+    "subtitulo": "12 cartões dobráveis já pintados, pra escrever e entregar",
     "preco": 4.9,
     "preco_antigo": null,
     "selo": null,
@@ -438,7 +438,7 @@
     "capa": "assets/img/capa-cartoes-de-natal-colorir.png",
     "ativo": true,
     "destaque": false,
-    "descricao": "Cartões de Natal que a criança (ou tu mesmo) colore e entrega pra família, professores e amigos. Cada um tem um desenho grande e uma mensagem, e o lado de dentro fica livre pra escrever.",
+    "descricao": "Cartões de Natal já coloridos que tu escreve e entrega pra família, professores e amigos. Cada um tem um desenho grande e uma mensagem, e o lado de dentro fica livre pra escrever.",
     "inclui": [
       "12 cartões, 2 por folha",
       "Mensagens como \"Feliz Natal, vovó!\"",
@@ -783,6 +783,319 @@
       [
         "Quantas pessoas jogam?",
         "Depende do jogo, mas todos funcionam em família ou com amigos. As regras estão no começo do PDF."
+      ]
+    ]
+  },
+  {
+    "slug": "bandeirinhas-de-natal",
+    "nome": "Bandeirinhas de Natal",
+    "subtitulo": "36 bandeirinhas coloridas pra montar um varal de Natal",
+    "preco": 4.9,
+    "preco_antigo": null,
+    "selo": null,
+    "categoria": "Natal",
+    "capa": "assets/img/capa-bandeirinhas-de-natal.png",
+    "ativo": true,
+    "destaque": false,
+    "descricao": "Um varal de Natal prontinho: as letras de FELIZ NATAL e BOAS FESTAS e 16 bandeirinhas de desenho (Papai Noel, rena, sino, presente e mais). Já vêm coloridas, é só recortar, dobrar a faixinha e passar o barbante.",
+    "inclui": [
+      "36 bandeirinhas coloridas",
+      "Letras de FELIZ NATAL e BOAS FESTAS",
+      "16 bandeirinhas de desenho",
+      "Faixinha pra dobrar e passar o barbante",
+      "Passo a passo"
+    ],
+    "titulo_conteudo": "",
+    "conteudo": [],
+    "previas": [
+      "assets/img/previas/bandeirinhas-de-natal-2.jpg",
+      "assets/img/previas/bandeirinhas-de-natal-4.jpg",
+      "assets/img/previas/bandeirinhas-de-natal-6.jpg"
+    ],
+    "formato": "PDF pra imprimir · acesso na hora",
+    "faq": [
+      [
+        "Como eu recebo?",
+        "Assim que o Pix cai, o botão de download aparece na tela e você também recebe o link no e-mail."
+      ],
+      [
+        "Precisa imprimir?",
+        "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
+      ]
+    ]
+  },
+  {
+    "slug": "papel-de-presente-natal",
+    "nome": "Papel de Presente de Natal",
+    "subtitulo": "6 estampas de papel de embrulho já coloridas, pra imprimir em A4",
+    "preco": 4.9,
+    "preco_antigo": null,
+    "selo": null,
+    "categoria": "Natal",
+    "capa": "assets/img/capa-papel-de-presente-natal.png",
+    "ativo": true,
+    "destaque": false,
+    "descricao": "Embrulha com estilo sem sair de casa: 6 estampas de Natal em folha inteira (vermelha, verde, kraft, azul, listrada de bengala e xadrez). Serve pra embrulhar presentes pequenos, forrar caixas e fazer cartões.",
+    "inclui": [
+      "6 estampas em folha A4 inteira",
+      "Já vêm coloridas",
+      "Dicas de uso: caixa, cartão e caderno",
+      "Imprime quantas vezes quiser"
+    ],
+    "titulo_conteudo": "",
+    "conteudo": [],
+    "previas": [
+      "assets/img/previas/papel-de-presente-natal-2.jpg",
+      "assets/img/previas/papel-de-presente-natal-5.jpg",
+      "assets/img/previas/papel-de-presente-natal-6.jpg"
+    ],
+    "formato": "PDF pra imprimir · acesso na hora",
+    "faq": [
+      [
+        "Como eu recebo?",
+        "Assim que o Pix cai, o botão de download aparece na tela e você também recebe o link no e-mail."
+      ],
+      [
+        "Precisa imprimir?",
+        "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
+      ],
+      [
+        "Que papel eu uso?",
+        "Papel sulfite comum (75 g) funciona. Pra ficar mais firme, use 120 g ou mais. Tudo já vem colorido, é só imprimir em impressora colorida."
+      ]
+    ]
+  },
+  {
+    "slug": "marcadores-de-pagina-natal",
+    "nome": "Marcadores de Página de Natal",
+    "subtitulo": "24 marcadores de livro coloridos, com frases de Natal",
+    "preco": 3.9,
+    "preco_antigo": null,
+    "selo": null,
+    "categoria": "Natal",
+    "capa": "assets/img/capa-marcadores-de-pagina-natal.png",
+    "ativo": true,
+    "destaque": false,
+    "descricao": "Marcadores de página de Natal já pintados, cada um com um desenho e uma frase diferente. Dá pra usar, dar de lembrancinha ou colocar dentro do cartão de Natal.",
+    "inclui": [
+      "24 marcadores diferentes",
+      "Bolinha pro furo da fitinha",
+      "24 frases divertidas",
+      "Já vêm coloridos"
+    ],
+    "titulo_conteudo": "",
+    "conteudo": [],
+    "previas": [
+      "assets/img/previas/marcadores-de-pagina-natal-2.jpg",
+      "assets/img/previas/marcadores-de-pagina-natal-3.jpg",
+      "assets/img/previas/marcadores-de-pagina-natal-4.jpg"
+    ],
+    "formato": "PDF pra imprimir · acesso na hora",
+    "faq": [
+      [
+        "Como eu recebo?",
+        "Assim que o Pix cai, o botão de download aparece na tela e você também recebe o link no e-mail."
+      ],
+      [
+        "Precisa imprimir?",
+        "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
+      ]
+    ]
+  },
+  {
+    "slug": "kit-ceia-de-natal",
+    "nome": "Kit Ceia de Natal",
+    "subtitulo": "Convites, cardápio, marcadores de lugar, plaquinhas dos pratos e listas",
+    "preco": 5.9,
+    "preco_antigo": null,
+    "selo": null,
+    "categoria": "Natal",
+    "capa": "assets/img/capa-kit-ceia-de-natal.png",
+    "ativo": true,
+    "destaque": false,
+    "descricao": "Organiza a ceia de Natal sem estresse e deixa a mesa linda: convites pra preencher, cardápio, 16 marcadores de lugar, 36 plaquinhas pros pratos (com campo de vegano e sem glúten), quadro de quem leva o quê e lista de compras. Tudo já colorido.",
+    "inclui": [
+      "2 convites pra preencher",
+      "Cardápio da ceia",
+      "16 marcadores de lugar",
+      "36 plaquinhas de pratos (26 prontas + em branco)",
+      "Quem leva o quê e lista de compras"
+    ],
+    "titulo_conteudo": "",
+    "conteudo": [],
+    "previas": [
+      "assets/img/previas/kit-ceia-de-natal-2.jpg",
+      "assets/img/previas/kit-ceia-de-natal-3.jpg",
+      "assets/img/previas/kit-ceia-de-natal-6.jpg"
+    ],
+    "formato": "PDF pra imprimir · acesso na hora",
+    "faq": [
+      [
+        "Como eu recebo?",
+        "Assim que o Pix cai, o botão de download aparece na tela e você também recebe o link no e-mail."
+      ],
+      [
+        "Precisa imprimir?",
+        "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
+      ]
+    ]
+  },
+  {
+    "slug": "vales-de-natal",
+    "nome": "Vales de Natal",
+    "subtitulo": "30 vales coloridos de carinho: um abraço, um filme, um café na cama",
+    "preco": 3.9,
+    "preco_antigo": null,
+    "selo": null,
+    "categoria": "Natal",
+    "capa": "assets/img/capa-vales-de-natal.png",
+    "ativo": true,
+    "destaque": false,
+    "descricao": "O presente mais fofo e mais baratinho: vales coloridos pra dar de Natal, como \"vale um abraço apertado\" e \"vale um café da manhã na cama\". Tem 24 vales prontos e 6 em branco pra inventar.",
+    "inclui": [
+      "24 vales prontos",
+      "6 vales em branco",
+      "Campo de validade",
+      "Já vêm coloridos"
+    ],
+    "titulo_conteudo": "",
+    "conteudo": [],
+    "previas": [
+      "assets/img/previas/vales-de-natal-2.jpg",
+      "assets/img/previas/vales-de-natal-3.jpg",
+      "assets/img/previas/vales-de-natal-4.jpg"
+    ],
+    "formato": "PDF pra imprimir · acesso na hora",
+    "faq": [
+      [
+        "Como eu recebo?",
+        "Assim que o Pix cai, o botão de download aparece na tela e você também recebe o link no e-mail."
+      ],
+      [
+        "Precisa imprimir?",
+        "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
+      ]
+    ]
+  },
+  {
+    "slug": "domino-de-natal",
+    "nome": "Dominó de Natal",
+    "subtitulo": "Dominó com 28 peças de desenhos de Natal, pra toda a família",
+    "preco": 4.9,
+    "preco_antigo": null,
+    "selo": null,
+    "categoria": "Jogos",
+    "capa": "assets/img/capa-domino-de-natal.png",
+    "ativo": true,
+    "destaque": false,
+    "descricao": "O jogo clássico com figuras de Natal em vez de bolinhas: árvore, Papai Noel, rena, presente, boneco de neve, sino e estrela. Já vem colorido, é só recortar e jogar. Bom pra crianças pequenas que ainda não sabem contar.",
+    "inclui": [
+      "28 peças coloridas",
+      "Regras do jogo",
+      "Pra 2 a 4 jogadores"
+    ],
+    "titulo_conteudo": "",
+    "conteudo": [],
+    "previas": [
+      "assets/img/previas/domino-de-natal-2.jpg",
+      "assets/img/previas/domino-de-natal-3.jpg"
+    ],
+    "formato": "PDF pra imprimir · acesso na hora",
+    "faq": [
+      [
+        "Como eu recebo?",
+        "Assim que o Pix cai, o botão de download aparece na tela e você também recebe o link no e-mail."
+      ],
+      [
+        "Precisa imprimir?",
+        "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
+      ],
+      [
+        "Quantas pessoas jogam?",
+        "Depende do jogo, mas todos funcionam em família ou com amigos. As regras estão no começo do PDF."
+      ]
+    ]
+  },
+  {
+    "slug": "trilha-de-natal",
+    "nome": "Trilha de Natal: Jogo de Tabuleiro",
+    "subtitulo": "Jogo de tabuleiro colorido de 42 casas, com dado, peões e cartas surpresa",
+    "preco": 5.9,
+    "preco_antigo": null,
+    "selo": null,
+    "categoria": "Jogos",
+    "capa": "assets/img/capa-trilha-de-natal.png",
+    "ativo": true,
+    "destaque": false,
+    "descricao": "Um jogo de tabuleiro completo pra imprimir: tabuleiro com 42 casas e armadilhas (o Grinch!), dado pra montar, 6 peões de pé e 16 cartas surpresa engraçadas. Dá pra jogar em até 6 pessoas, ótimo pra ceia.",
+    "inclui": [
+      "Tabuleiro de 42 casas",
+      "6 peões de pé",
+      "Dado pra montar",
+      "16 cartas surpresa",
+      "Regras"
+    ],
+    "titulo_conteudo": "",
+    "conteudo": [],
+    "previas": [
+      "assets/img/previas/trilha-de-natal-2.jpg",
+      "assets/img/previas/trilha-de-natal-3.jpg",
+      "assets/img/previas/trilha-de-natal-4.jpg"
+    ],
+    "formato": "PDF pra imprimir · acesso na hora",
+    "faq": [
+      [
+        "Como eu recebo?",
+        "Assim que o Pix cai, o botão de download aparece na tela e você também recebe o link no e-mail."
+      ],
+      [
+        "Precisa imprimir?",
+        "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
+      ],
+      [
+        "Quantas pessoas jogam?",
+        "Depende do jogo, mas todos funcionam em família ou com amigos. As regras estão no começo do PDF."
+      ]
+    ]
+  },
+  {
+    "slug": "adesivos-de-natal",
+    "nome": "Adesivos de Natal",
+    "subtitulo": "Adesivos redondos e etiquetas de frase, pra imprimir e colar",
+    "preco": 4.9,
+    "preco_antigo": null,
+    "selo": null,
+    "categoria": "Natal",
+    "capa": "assets/img/capa-adesivos-de-natal.png",
+    "ativo": true,
+    "destaque": false,
+    "descricao": "Imprime em papel adesivo (ou usa cola) e enfeita cartões, presentes, cadernos e agendas: 96 adesivos redondos em 3 tamanhos e 20 etiquetas de frase como \"Ho ho ho!\" e \"Não abre antes!\". Tudo já colorido.",
+    "inclui": [
+      "12 adesivos grandes",
+      "30 adesivos médios",
+      "54 adesivos pequenos",
+      "20 etiquetas de frase"
+    ],
+    "titulo_conteudo": "",
+    "conteudo": [],
+    "previas": [
+      "assets/img/previas/adesivos-de-natal-2.jpg",
+      "assets/img/previas/adesivos-de-natal-3.jpg",
+      "assets/img/previas/adesivos-de-natal-5.jpg"
+    ],
+    "formato": "PDF pra imprimir · acesso na hora",
+    "faq": [
+      [
+        "Como eu recebo?",
+        "Assim que o Pix cai, o botão de download aparece na tela e você também recebe o link no e-mail."
+      ],
+      [
+        "Precisa imprimir?",
+        "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
+      ],
+      [
+        "Que papel eu uso?",
+        "Papel sulfite comum (75 g) funciona. Pra ficar mais firme, use 120 g ou mais. Tudo já vem colorido, é só imprimir em impressora colorida."
       ]
     ]
   },

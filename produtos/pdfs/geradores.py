@@ -29,7 +29,7 @@ def labirinto(cols, lins, semente):
     while cur: caminho.append(cur); cur = ant[cur]
     return aberto, caminho[::-1]
 
-def svg_labirinto(cols, lins, aberto, caminho=None, larg_mm=170):
+def svg_labirinto(cols, lins, aberto, caminho=None, larg_mm=170, cor='#1d1d1d', fundo='none'):
     t = 10
     W, H = cols * t, lins * t
     linhas = []
@@ -47,9 +47,10 @@ def svg_labirinto(cols, lins, aberto, caminho=None, larg_mm=170):
     esp = max(1.2, t * .14)
     alt_mm = larg_mm * H / W
     return (f'<svg viewBox="-6 -12 {W + 12} {H + 24}" style="width:{larg_mm}mm;height:{alt_mm + larg_mm * 24 / W:.1f}mm;display:block;margin:0 auto">'
-            f'<path d="{" ".join(linhas)}" stroke="#1d1d1d" stroke-width="{esp}" stroke-linecap="round" fill="none"/>{sol}'
-            f'<text x="{t / 2}" y="-3" text-anchor="middle" style="font:{t * .8}px Caveat">entra</text>'
-            f'<text x="{W - t / 2}" y="{H + 10}" text-anchor="middle" style="font:{t * .8}px Caveat">sai</text></svg>')
+            f'<rect x="0" y="0" width="{W}" height="{H}" fill="{fundo}"/>'
+            f'<path d="{" ".join(linhas)}" stroke="{cor}" stroke-width="{esp}" stroke-linecap="round" fill="none"/>{sol}'
+            f'<text x="{t / 2}" y="-3" text-anchor="middle" fill="#2e9e5b" style="font:{t * .8}px Caveat">entra</text>'
+            f'<text x="{W - t / 2}" y="{H + 10}" text-anchor="middle" fill="#e63946" style="font:{t * .8}px Caveat">sai</text></svg>')
 
 def _resolver(g, limite=2):
     """Conta soluções (até o limite) por backtracking. g é lista de 81 ints, 0 = vazio."""
@@ -91,5 +92,6 @@ def svg_sudoku(g, tam_mm=80, sol=None):
         elif sol: cel += f'<text x="{c * 10 + 5}" y="{l * 10 + 7.6}" text-anchor="middle" fill="#d62828" style="font:6.5px Nunito,Arial">{sol[i]}</text>'
     finas = ''.join(f'M0 {k * 10}h90M{k * 10} 0v90' for k in range(1, 9) if k % 3)
     grossas = ''.join(f'M0 {k * 30}h90M{k * 30} 0v90' for k in range(1, 3))
-    return (f'<svg viewBox="-1 -1 92 92" style="width:{tam_mm}mm;height:{tam_mm}mm;display:block;margin:1mm auto 0"><rect x="0" y="0" width="90" height="90" fill="none" stroke="#1d1d1d" stroke-width="1.2"/>'
+    caixas = ''.join(f'<rect x="{c * 30}" y="{l * 30}" width="30" height="30" fill="{"#fff2bf" if (c + l) % 2 == 0 else "#dcefff"}"/>' for l in range(3) for c in range(3))
+    return (f'<svg viewBox="-1 -1 92 92" style="width:{tam_mm}mm;height:{tam_mm}mm;display:block;margin:1mm auto 0">{caixas}<rect x="0" y="0" width="90" height="90" fill="none" stroke="#1d1d1d" stroke-width="1.2"/>'
             f'<path d="{finas}" stroke="#999" stroke-width=".35"/><path d="{grossas}" stroke="#1d1d1d" stroke-width="1"/>{cel}</svg>')

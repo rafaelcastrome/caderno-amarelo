@@ -45,7 +45,9 @@ node ../../loja/_fonte_capas/render.js               # PNG das capas
 
 Depois: subir cada PDF de `produtos/pdfs/pdf/` no bucket `produtos` na pasta do lote (`natal/` no lote 1, `lote2/` no lote 2; o caminho exato está no SQL) e rodar `supabase/lote-natal-1.sql` ou `supabase/lote-<n>.sql`.
 
-O lote 2 é gerado por `python3 lote2.py` (labirintos e sudokus vêm de `geradores.py`).
+O lote 2 é gerado por `python3 lote2.py` (labirintos e sudokus vêm de `geradores.py`) e o lote 3 por `python3 lote3.py` (SQL em `supabase/lote-3.sql`, PDFs na pasta `lote3/` do bucket). Pra gerar as prévias dos produtos novos use `PAGS=8 node render.js`.
+
+**Regra de cor (Rafael, 31/out):** só os livros de colorir (estilo bobbie goods) ficam em preto e branco, e isso é feito com `pb=True` em `documento()` e `icones.PB = True` (ver `colorir()` em `lote1_icones.py`). Todo o resto (recortes, enfeites, jogos, cartas, casinha 3D) já vem pintado: os ícones coloridos estão em `icones.py` (`CORES`) e o resto do visual colorido em `COR` no `base.py`.
 
 ## Back-end (Supabase)
 
