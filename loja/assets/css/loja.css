@@ -249,7 +249,7 @@ body.saindo { opacity: 0; transform: translateY(-6px); }
 .passos .passo.revela:nth-child(2) { transition-delay: .12s; } .passos .passo.revela:nth-child(3) { transition-delay: .24s; }
 
 /* relacionados e prévias na página do produto */
-.previas a { display: block; transition: transform .2s; } .previas a:hover { transform: translateY(-3px) rotate(-1deg); }
+.previas a { display: block; cursor: zoom-in; transition: transform .2s; } .previas a:hover { transform: translateY(-3px) rotate(-1deg); }
 .lightbox { position: fixed; inset: 0; z-index: 60; background: rgba(31, 31, 36, .85); display: none; align-items: center; justify-content: center; padding: 20px; }
 .lightbox.aberto { display: flex; animation: aparece .2s ease; }
 .lightbox img { max-height: 88vh; max-width: 92vw; border-radius: 10px; border: 2px solid var(--papel); }

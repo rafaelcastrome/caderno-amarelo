@@ -42,9 +42,9 @@
     if (calmo) return;
     document.addEventListener('click', e => {
       const a = e.target.closest('a[href]');
-      if (!a || a.target === '_blank' || e.metaKey || e.ctrlKey) return;
+      if (!a || e.defaultPrevented || a.target === '_blank' || e.metaKey || e.ctrlKey || a.hasAttribute('data-i')) return;
       const url = new URL(a.href, location.href);
-      if (url.origin !== location.origin || url.pathname === location.pathname) return;
+      if (url.origin !== location.origin || url.pathname === location.pathname || !/(\.html|\/)$/.test(url.pathname)) return;
       e.preventDefault();
       document.body.classList.add('saindo');
       setTimeout(() => { location.href = url.href; }, 220);

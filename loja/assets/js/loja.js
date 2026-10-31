@@ -149,7 +149,7 @@
     $('#formato').textContent = p.formato;
     $('#inclui').innerHTML = p.inclui.map(i => `<li>${esc(i)}</li>`).join('');
     if (p.previas && p.previas.length) {
-      $('#previas').innerHTML = p.previas.map((s, i) => `<a href="${esc(s)}" data-i="${i}"><img src="${esc(s)}" alt="Página ${i + 1} de dentro do ${esc(p.nome)}" loading="lazy"></a>`).join('');
+      $('#previas').innerHTML = p.previas.map((s, i) => `<a role="button" tabindex="0" data-i="${i}"><img src="${esc(s)}" alt="Página ${i + 1} de dentro do ${esc(p.nome)}" loading="lazy"></a>`).join('');
       lightbox(p.previas);
     } else $('#bloco-previas').remove();
     const rel = produtos.filter(x => x.ativo && x.slug !== p.slug).sort((a, b) => (b.categoria === p.categoria) - (a.categoria === p.categoria)).slice(0, 8);
