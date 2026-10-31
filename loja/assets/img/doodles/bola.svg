@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="ic" viewBox="0 0 100 100"><style>.ic path,.ic rect,.ic circle,.ic ellipse{fill:none;stroke:#1d1d1d;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}.ic .p{fill:#1d1d1d;stroke:none}.ic .b{fill:#f4a6a6;stroke:none}.ic .v{fill:#fff}</style><circle cx="50" cy="56" r="32"/>
+<rect x="42" y="16" width="16" height="10" rx="2"/>
+<path d="M46 16 Q50 6 54 16"/>
+<path d="M20 46 Q35 40 50 46 Q65 52 80 46 M20 68 Q35 62 50 68 Q65 74 80 68"/>
+<circle cx="44.0" cy="56" r="2.6" class="p"/><circle cx="56.0" cy="56" r="2.6" class="p"/><path d="M46 60 Q50 63.6 54 60"/><ellipse cx="40.0" cy="60" rx="3.2" ry="2" class="b"/><ellipse cx="60.0" cy="60" rx="3.2" ry="2" class="b"/></svg>

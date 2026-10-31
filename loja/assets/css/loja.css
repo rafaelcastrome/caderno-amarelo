@@ -169,3 +169,110 @@ section.bloco { padding: 48px 0; }
 /* prévias do produto */
 .previas{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:8px}
 .previas img{width:100%;display:block;border:2px solid #1f1f24;border-radius:8px;background:#fff}
+
+/* ===== reformulação: efeitos e vitrine por seções ===== */
+body { transition: opacity .25s ease, transform .25s ease; }
+body.entrando { opacity: 0; transform: translateY(8px); }
+body.saindo { opacity: 0; transform: translateY(-6px); }
+
+/* fundo com desenhos do caderno flutuando */
+.fundo-animado { position: fixed; inset: -10% 0 -40% 0; pointer-events: none; z-index: 0; will-change: transform; }
+.fundo-animado img { position: absolute; opacity: .13; animation: flutua linear infinite alternate; }
+@keyframes flutua {
+  0% { transform: translate(0, 0) rotate(calc(var(--giro) * -1)); }
+  50% { transform: translate(18px, -26px) rotate(var(--giro)); }
+  100% { transform: translate(-14px, 12px) rotate(calc(var(--giro) * .5)); }
+}
+.topo, main, section, footer, .letreiro { position: relative; z-index: 1; }
+.topo { z-index: 10; }
+.topo nav a { margin-left: 16px; }
+
+/* hero */
+.hero { padding: 56px 0 56px; overflow: hidden; }
+.hero .wrap { grid-template-columns: 1.05fr .95fr; }
+.hero-acoes { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.link-sutil { font-weight: 800; text-decoration: none; border-bottom: 2px solid var(--amarelo); }
+.troca { display: inline-block; color: var(--vermelho); transition: opacity .25s, transform .25s; }
+.troca.sai { opacity: 0; transform: translateY(-14px) rotate(-3deg); }
+.sublinhado { position: relative; white-space: nowrap; }
+.sublinhado svg { position: absolute; left: -2%; bottom: -10px; width: 104%; height: 22px; overflow: visible; }
+.sublinhado path { fill: none; stroke: var(--amarelo); stroke-width: 9; stroke-linecap: round; stroke-dasharray: 340; stroke-dashoffset: 340; animation: risca 1.1s .5s ease forwards; }
+@keyframes risca { to { stroke-dashoffset: 0; } }
+.hero-texto > * { animation: sobe .7s ease both; }
+.hero-texto > *:nth-child(2) { animation-delay: .08s; } .hero-texto > *:nth-child(3) { animation-delay: .16s; }
+.hero-texto > *:nth-child(4) { animation-delay: .24s; } .hero-texto > *:nth-child(5) { animation-delay: .32s; }
+@keyframes sobe { from { opacity: 0; transform: translateY(18px); } }
+
+/* leque de capas que vai girando */
+.leque { position: relative; height: 470px; }
+.leque-capa { position: absolute; left: 50%; top: 50%; width: 290px; aspect-ratio: 4/5; margin: -181px 0 0 -145px; border: 2px solid var(--tinta); border-radius: 14px; overflow: hidden; background: var(--papel-claro); box-shadow: var(--sombra);
+  --x: calc((var(--i) - 0) * 46px); transform: translateX(var(--x)) rotate(calc(var(--i) * 6deg - 4deg)) scale(calc(1 - var(--i) * .06));
+  z-index: calc(10 - var(--i)); opacity: calc(1 - var(--i) * .12); transition: transform .8s cubic-bezier(.2,.8,.2,1), opacity .8s, z-index 0s .3s; animation: boia 5s ease-in-out infinite alternate; }
+.leque-capa img { width: 100%; height: 100%; object-fit: cover; }
+@keyframes boia { to { margin-top: -191px; } }
+
+/* letreiro correndo */
+.letreiro { background: var(--tinta); color: var(--papel); border-block: 2px solid var(--tinta); overflow: hidden; transform: rotate(-1.2deg); margin: 0 -10px 30px; }
+.letreiro-trilho { display: flex; gap: 42px; width: max-content; padding: 12px 0; animation: corre 32s linear infinite; font-family: var(--mao); font-size: 26px; }
+@keyframes corre { to { transform: translateX(-50%); } }
+
+/* destaque de Natal */
+.natal-destaque { padding: 40px 0 30px; background: linear-gradient(180deg, transparent, rgba(214, 40, 40, .06) 30%, rgba(214, 40, 40, .06) 70%, transparent); }
+.natal-cabeca { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 8px; }
+.etiqueta-vermelha { background: var(--vermelho); color: #fff; }
+.contagem { display: flex; gap: 10px; margin-bottom: 28px; }
+.contagem div { background: var(--papel-claro); border: 2px solid var(--tinta); border-radius: 12px; box-shadow: 3px 3px 0 var(--tinta); width: 70px; text-align: center; padding: 8px 0 6px; }
+.contagem b { display: block; font-family: var(--mao); font-size: 38px; line-height: 1; }
+.contagem small { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--tinta-suave); letter-spacing: .05em; }
+
+/* seções em trilho com rolagem lateral */
+.secao-cat { padding: 34px 0 18px; }
+.trilho-wrap { position: relative; max-width: 1180px; margin: 0 auto; }
+.trilho { display: flex; gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 6px max(20px, calc((100vw - 1080px) / 2 + 20px)) 26px; scrollbar-width: none; scroll-padding-inline: 20px; }
+.trilho-wrap .trilho { padding-inline: 50px; }
+.trilho::-webkit-scrollbar { display: none; }
+.trilho-item { flex: 0 0 250px; scroll-snap-align: start; display: flex; }
+.trilho-item .card { width: 100%; }
+.seta { position: absolute; top: 42%; width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--tinta); background: var(--amarelo); box-shadow: 3px 3px 0 var(--tinta); font-size: 28px; line-height: 1; cursor: pointer; z-index: 3; display: grid; place-items: center; padding-bottom: 4px; }
+.seta.esq { left: 4px; } .seta.dir { right: 4px; }
+@media (hover: none), (max-width: 760px) { .seta { display: none; } .trilho-wrap .trilho { padding-inline: 20px; } .trilho-item { flex-basis: 74%; } }
+
+/* cards com mais vida */
+.card { transition: transform .25s ease, box-shadow .25s ease; will-change: transform; }
+.card:hover { box-shadow: 8px 8px 0 var(--tinta); }
+.card-capa img { transition: transform .5s ease; }
+.card:hover .card-capa img { transform: scale(1.05); }
+
+/* aparecer ao rolar */
+.revela { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
+.revela.visivel { opacity: 1; transform: none; }
+.passos .passo.revela:nth-child(2) { transition-delay: .12s; } .passos .passo.revela:nth-child(3) { transition-delay: .24s; }
+
+/* relacionados e prévias na página do produto */
+.previas a { display: block; transition: transform .2s; } .previas a:hover { transform: translateY(-3px) rotate(-1deg); }
+.lightbox { position: fixed; inset: 0; z-index: 60; background: rgba(31, 31, 36, .85); display: none; align-items: center; justify-content: center; padding: 20px; }
+.lightbox.aberto { display: flex; animation: aparece .2s ease; }
+.lightbox img { max-height: 88vh; max-width: 92vw; border-radius: 10px; border: 2px solid var(--papel); }
+.lightbox button { position: absolute; background: var(--amarelo); border: 2px solid var(--tinta); border-radius: 50%; width: 46px; height: 46px; font-size: 26px; cursor: pointer; }
+.lightbox .lb-fechar { top: 16px; right: 16px; } .lightbox .lb-ant { left: 12px; } .lightbox .lb-prox { right: 12px; }
+@keyframes aparece { from { opacity: 0; } }
+.relacionados { padding: 10px 0 40px; }
+.modal-fundo.aberto .modal { animation: sobe .3s ease; }
+
+@media (max-width: 760px) {
+  .hero .wrap { grid-template-columns: 1fr; gap: 10px; }
+  .logo { font-size: 24px; white-space: nowrap; gap: 8px; }
+  .logo-icone { width: 32px; height: 32px; font-size: 17px; }
+  .topo nav a { margin-left: 12px; font-size: 14px; }
+  .hero { padding: 26px 0 30px; }
+  .leque { height: 330px; order: -1; }
+  .leque-capa { width: 200px; margin: -125px 0 0 -100px; --x: calc(var(--i) * 30px); }
+  @keyframes boia { to { margin-top: -133px; } }
+  .contagem div { width: 60px; }
+  .letreiro-trilho { font-size: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .revela { opacity: 1; transform: none; }
+  .sublinhado path { stroke-dashoffset: 0; }
+}

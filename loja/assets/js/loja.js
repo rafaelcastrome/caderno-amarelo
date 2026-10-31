@@ -45,40 +45,92 @@
   }
 
   // ---------- página inicial ----------
+  const SECOES = {
+    'Natal': ['Especial de Natal', 'Jogos pra ceia, coisas pra montar e colorir em família.'],
+    'Jogos': ['Jogos pra imprimir', 'Pra jogar com amigos e família. Só precisa de papel e lápis.'],
+    'Mente e mágica': ['Truques de mente', 'Os truques que bombam nos nossos vídeos, explicados passo a passo.'],
+  };
+  const ancora = c => 'cat-' + c.normalize('NFD').replace(/[^\w]+/g, '-').toLowerCase();
+
+  function trilhoHTML(lista) {
+    return lista.map(p => `<div class="trilho-item">${cardHTML(p)}</div>`).join('');
+  }
+
+  function ligarSetas(sec) {
+    const tr = sec.querySelector('.trilho');
+    sec.querySelectorAll('[data-seta]').forEach(b => b.addEventListener('click', () => {
+      tr.scrollBy({ left: Number(b.dataset.seta) * tr.clientWidth * 0.85, behavior: 'smooth' });
+    }));
+  }
+
+  function contagem() {
+    const alvo = () => { const h = new Date(); return new Date(h.getFullYear(), 11, 25); };
+    const dois = n => String(n).padStart(2, '0');
+    const tick = () => {
+      let s = Math.max(0, Math.floor((alvo() - new Date()) / 1000));
+      $('#cd-d').textContent = dois(Math.floor(s / 86400)); s %= 86400;
+      $('#cd-h').textContent = dois(Math.floor(s / 3600)); s %= 3600;
+      $('#cd-m').textContent = dois(Math.floor(s / 60)); $('#cd-s').textContent = dois(s % 60);
+    };
+    tick(); setInterval(tick, 1000);
+  }
+
+  function leque(produtos) {
+    const el = $('#leque');
+    const capas = produtos.slice(0, 5);
+    el.innerHTML = capas.map((p, i) => `<a class="leque-capa" href="produto.html?p=${encodeURIComponent(p.slug)}" style="--i:${i}" tabindex="-1"><img src="${esc(p.capa)}" alt=""></a>`).join('');
+    if (window.Efeitos && Efeitos.calmo) return;
+    let k = 0;
+    setInterval(() => {
+      k = (k + 1) % capas.length;
+      el.querySelectorAll('.leque-capa').forEach((c, i) => c.style.setProperty('--i', (i - k + capas.length) % capas.length));
+    }, 2800);
+  }
+
+  function palavraQueTroca() {
+    const el = $('#troca');
+    const palavras = ['jogar', 'colorir', 'montar', 'imprimir', 'impressionar'];
+    if (!el || (window.Efeitos && Efeitos.calmo)) return;
+    let i = 0;
+    setInterval(() => {
+      el.classList.add('sai');
+      setTimeout(() => { i = (i + 1) % palavras.length; el.textContent = palavras[i]; el.classList.remove('sai'); }, 260);
+    }, 2200);
+  }
+
   async function iniciarHome() {
     const produtos = await carregarProdutos();
     const ativos = produtos.filter(p => p.ativo);
-    // abas por categoria, na ordem em que aparecem no produtos.json
-    const cats = [...new Set(ativos.map(p => p.categoria).filter(Boolean))];
-    let atual = 'Todos';
-    const desenhar = () => {
-      const lista = atual === 'Todos' ? produtos : produtos.filter(p => p.categoria === atual);
-      $('#grade').innerHTML = lista.map(cardHTML).join('');
-      document.querySelectorAll('#abas button').forEach(b => b.setAttribute('aria-selected', b.dataset.cat === atual));
-    };
-    if (cats.length > 1) {
-      $('#abas').innerHTML = ['Todos', ...cats].map(c => `<button type="button" role="tab" data-cat="${esc(c)}">${esc(c)}</button>`).join('');
+    const cats = [...new Set(ativos.map(p => p.categoria || 'Outros'))];
+    const hoje = new Date(), dias = Math.ceil((new Date(hoje.getFullYear(), 11, 25) - hoje) / 864e5);
+    const temporadaNatal = cats.includes('Natal') && dias >= 0 && dias <= 60;
+
+    if (temporadaNatal) {
+      $('#natal').hidden = false;
+      $('#natal .trilho').innerHTML = trilhoHTML(ativos.filter(p => p.categoria === 'Natal'));
+      $('#natal .trilho-wrap').insertAdjacentHTML('beforeend', '<button class="seta esq" data-seta="-1" aria-label="Anterior">‹</button><button class="seta dir" data-seta="1" aria-label="Próximo">›</button>');
+      ligarSetas($('#natal')); contagem();
     }
-    document.addEventListener('click', e => {
-      const b = e.target.closest('[data-cat]');
-      if (!b) return;
-      atual = b.dataset.cat; desenhar();
-      if (!b.closest('#abas')) $('#produtos .titulo-secao').scrollIntoView({ behavior: 'smooth' });
-    });
-    desenhar();
-    // faixa de Natal: aparece de novembro até 25 de dezembro
-    const hoje = new Date(), natal = new Date(hoje.getFullYear(), 11, 25);
-    const dias = Math.ceil((natal - hoje) / 864e5);
-    if (cats.includes('Natal') && dias >= 0 && dias <= 60) {
-      $('#faixa-natal').hidden = false;
-      $('#dias-natal').textContent = dias === 0 ? 'É hoje! Feliz Natal 🎄' : `Faltam ${dias} dia${dias > 1 ? 's' : ''} pro Natal.`;
-    }
-    const dest = produtos.find(p => p.destaque && p.ativo);
-    if (dest) {
-      $('#hero-capa').src = dest.capa;
-      $('#hero-cta').href = `produto.html?p=${dest.slug}`;
-      $('#hero-cta').textContent = `Quero o ${dest.nome} por ${brl(dest.preco)} →`;
-    }
+    const outras = cats.filter(c => !(temporadaNatal && c === 'Natal'));
+    $('#outras-secoes').innerHTML = outras.map(c => {
+      const [tit, sub] = SECOES[c] || [c, ''];
+      return `<section class="secao-cat revela" id="${ancora(c)}"><div class="wrap"><h2 class="titulo-secao">${esc(tit)}</h2><p class="sub-secao">${esc(sub)}</p></div>
+        <div class="trilho-wrap"><div class="trilho">${trilhoHTML(produtos.filter(p => (p.categoria || 'Outros') === c))}</div>
+        <button class="seta esq" data-seta="-1" aria-label="Anterior">‹</button><button class="seta dir" data-seta="1" aria-label="Próximo">›</button></div></section>`;
+    }).join('');
+    document.querySelectorAll('.secao-cat').forEach(ligarSetas);
+
+    // menu do topo com as categorias
+    const links = (temporadaNatal ? ['Natal'] : []).concat(outras)
+      .map(c => `<a href="#${c === 'Natal' && temporadaNatal ? 'natal' : ancora(c)}">${esc(c === 'Mente e mágica' ? 'Mente' : c)}</a>`).join('');
+    $('#menu-cats').insertAdjacentHTML('afterbegin', links);
+
+    const vitrine = temporadaNatal ? ativos.filter(p => p.categoria === 'Natal') : ativos;
+    leque(vitrine);
+    if (temporadaNatal) { $('#hero-cta').href = '#natal'; $('#hero-cta').textContent = 'Ver o especial de Natal →'; }
+    palavraQueTroca();
+    if (CFG.contato) $('#contato').innerHTML = `<a href="mailto:${esc(CFG.contato)}">${esc(CFG.contato)}</a>`;
+    if (window.Efeitos) Efeitos.revelar();
   }
 
   // ---------- página do produto ----------
@@ -96,14 +148,39 @@
     $('#preco-barra').innerHTML = precoHTML(p);
     $('#formato').textContent = p.formato;
     $('#inclui').innerHTML = p.inclui.map(i => `<li>${esc(i)}</li>`).join('');
-    if (p.previas && p.previas.length) $('#previas').innerHTML = p.previas.map((s, i) => `<a href="${esc(s)}" target="_blank" rel="noopener"><img src="${esc(s)}" alt="Página ${i + 1} de dentro do ${esc(p.nome)}" loading="lazy"></a>`).join('');
-    else $('#bloco-previas').remove();
+    if (p.previas && p.previas.length) {
+      $('#previas').innerHTML = p.previas.map((s, i) => `<a href="${esc(s)}" data-i="${i}"><img src="${esc(s)}" alt="Página ${i + 1} de dentro do ${esc(p.nome)}" loading="lazy"></a>`).join('');
+      lightbox(p.previas);
+    } else $('#bloco-previas').remove();
+    const rel = produtos.filter(x => x.ativo && x.slug !== p.slug).sort((a, b) => (b.categoria === p.categoria) - (a.categoria === p.categoria)).slice(0, 8);
+    if (rel.length) { $('#relacionados').hidden = false; $('#trilho-rel').innerHTML = rel.map(x => `<div class="trilho-item">${cardHTML(x)}</div>`).join(''); }
+    if (window.Efeitos) Efeitos.revelar();
     if (p.titulo_conteudo) $('#titulo-conteudo').textContent = p.titulo_conteudo;
     if (p.conteudo.length) $('#conteudo').innerHTML = p.conteudo.map(i => `<li>${esc(i)}</li>`).join('');
     else $('#bloco-conteudo').remove();
     $('#faq').innerHTML = p.faq.map(([q, r]) => `<details><summary>${esc(q)}</summary><p>${esc(r)}</p></details>`).join('') + $('#faq').innerHTML;
     document.querySelectorAll('[data-comprar]').forEach(b => b.addEventListener('click', () => abrirCheckout(p)));
     retomarPedido(p);
+  }
+
+  // prévias abrem grandes por cima da página, com setas pra passar
+  function lightbox(fotos) {
+    const lb = $('#lightbox'), img = lb.querySelector('img');
+    let i = 0;
+    const mostra = n => { i = (n + fotos.length) % fotos.length; img.src = fotos[i]; };
+    $('#previas').addEventListener('click', e => {
+      const a = e.target.closest('a[data-i]'); if (!a) return;
+      e.preventDefault(); mostra(Number(a.dataset.i)); lb.classList.add('aberto');
+    });
+    lb.querySelector('.lb-ant').onclick = () => mostra(i - 1);
+    lb.querySelector('.lb-prox').onclick = () => mostra(i + 1);
+    lb.addEventListener('click', e => { if (e.target === lb || e.target.closest('.lb-fechar')) lb.classList.remove('aberto'); });
+    document.addEventListener('keydown', e => {
+      if (!lb.classList.contains('aberto')) return;
+      if (e.key === 'Escape') lb.classList.remove('aberto');
+      if (e.key === 'ArrowLeft') mostra(i - 1);
+      if (e.key === 'ArrowRight') mostra(i + 1);
+    });
   }
 
   // ---------- checkout Pix ----------
