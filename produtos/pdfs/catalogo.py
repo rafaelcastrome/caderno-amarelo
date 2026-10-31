@@ -1,7 +1,7 @@
 """Dados de vitrine do lote 1 de Natal. Gera capas, prévias, entradas do loja/produtos.json e o SQL dos preços.
 Uso: python3 catalogo.py  (depois de gerar os PDFs com lote1_*.py e node render.js)"""
 import json, os, shutil, subprocess
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 from icones import svg
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
@@ -129,6 +129,23 @@ PRODUTOS += [
          inclui=['20 enigmas de lógica', '30 sudokus em 3 níveis', 'Respostas de tudo'], **J),
 ]
 
+def marca_dagua(im):
+    """Prévia da loja: resolução baixa e marca d'água em diagonal, pra não servir de cópia pra imprimir."""
+    im.thumbnail((480, 680))
+    camada = Image.new('RGBA', (im.width * 2, im.height * 2), (0, 0, 0, 0))
+    d = ImageDraw.Draw(camada)
+    fonte = ImageFont.truetype(os.path.join(AQUI, 'Caveat-Bold.ttf'), 34)
+    texto = 'AMOSTRA · @Cardeno_Amarelo · '
+    for y in range(0, camada.height, 70):
+        d.text(((y // 70) % 2 * -120, y), texto * 6, font=fonte, fill=(214, 40, 40, 70))
+    camada = camada.rotate(30, resample=Image.BICUBIC)
+    camada = camada.crop((im.width // 2, im.height // 2, im.width // 2 + im.width, im.height // 2 + im.height))
+    faixa = ImageDraw.Draw(camada)
+    faixa.rectangle((0, im.height - 44, im.width, im.height), fill=(255, 210, 63, 235))
+    f2 = ImageFont.truetype(os.path.join(AQUI, 'Caveat-Bold.ttf'), 30)
+    faixa.text((im.width / 2, im.height - 22), 'amostra · o PDF completo vem sem marca', font=f2, fill=(29, 29, 29, 255), anchor='mm')
+    return Image.alpha_composite(im.convert('RGBA'), camada).convert('RGB')
+
 def capa_html(p):
     ics = ''.join(svg(n, 170) for n in p['icones'])
     return f'''<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"></head><body>
@@ -153,7 +170,7 @@ def gerar():
             orig = os.path.join(AQUI, 'previa', f'{p["slug"]}-{i}.png')
             if not os.path.exists(orig):
                 continue
-            im = Image.open(orig).convert('RGB'); im.thumbnail((600, 850))
+            im = marca_dagua(Image.open(orig).convert('RGB'))
             nomef = f'{p["slug"]}-{i - 1}.jpg'; im.save(os.path.join(dest, nomef), quality=78)
             previas.append(f'assets/img/previas/{nomef}')
         entradas.append({
