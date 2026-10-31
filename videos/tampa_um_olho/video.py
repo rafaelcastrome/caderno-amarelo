@@ -109,13 +109,14 @@ def lapis_faces(tip, eixo, giro):
 def lapis_estado(t):
     u = t - P_INI
     if u < 3.2: z = 50 - 40 * ease(u / 3.2)
-    elif u < 4.0: z = 10 + 0.8 * math.sin((u - 3.2) * 7)
-    elif u < 6.5: z = 10 - 7.6 * ease((u - 4.0) / 2.5)
-    elif u < 7.2: z = 2.4 + 0.1 * math.sin((u - 6.5) * 30)
-    else: z = 2.4 + 60 * ease((u - 7.2) / 0.9)
+    elif u < 3.9: z = 10 + 0.8 * math.sin((u - 3.2) * 7)
+    elif u < 6.3: z = 10 - 9.72 * (min(1, (u - 3.9) / 2.4) ** 1.8)
+    elif u < 7.3: z = 0.28 + 0.03 * math.sin((u - 6.3) * 28)
+    else: z = 0.28 + 60 * ease((u - 7.3) / 0.8)
     # reto: ponta no meio da tela apontando pra câmera, corpo subindo e indo pra trás
-    eixo = norm(np.array([0.0, 0.85, 1.0]))
-    tip = np.array([0.0, -0.45 * z / 10, z])
+    f = min(1.0, max(0.0, (z - 0.5) / 6))
+    eixo = norm(np.array([0.0, 0.85 * f + 0.6 * (1 - f), 1.0]))
+    tip = np.array([0.0, -(0.05 + 0.5 * (1 - f)) * z, z])
     return tip, eixo, 0.52 + u * 0.9
 
 
@@ -310,6 +311,8 @@ def frame(fr):
         celular(d, 540, 1520, s)
     elif t < P_FIM:
         zl = desenha_lapis(art, t)
+        if zl < 1.4:
+            art = art.filter(ImageFilter.GaussianBlur((1.4 - zl) * 8))
     elif t < B_FIM:
         desenha_bolinhas(art, t)
     elif t < FINAL:
