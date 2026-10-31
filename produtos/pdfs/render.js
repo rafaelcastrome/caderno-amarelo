@@ -1,4 +1,4 @@
-// Gera os PDFs de produtos/natal/html/*.html em produtos/natal/pdf/ e uma prévia PNG das 3 primeiras páginas.
+// Gera os PDFs de produtos/pdfs/html/*.html em produtos/pdfs/pdf/ e uma prévia PNG das 3 primeiras páginas.
 // Uso: node render.js [slug ...]  (sem argumentos, gera todos)
 const { chromium } = require('playwright');
 const fs = require('fs'), path = require('path');

@@ -231,7 +231,7 @@ def retrospectiva():
 
 # ---------- Casinha do Papai Noel 3D ----------
 def casinha():
-    nome = 'Casinha do Papai Noel pra Montar'
+    nome = 'Vilinha do Papai Noel pra Montar'
     W, D, H, G = 66, 55, 55, 27.5          # frente, lado, altura da parede, altura do telhado (mm)
     R = math.hypot(W / 2, G)                # comprimento da água do telhado
     x0, yT = 8, 52
@@ -288,7 +288,7 @@ def casinha():
 <g fill="none" stroke="#1d1d1d" stroke-width=".4" stroke-dasharray="2 1.5">{''.join(f'<path d="{d}"/>' for d in dobra)}</g>
 <g fill="none" stroke="#1d1d1d" stroke-width=".45" stroke-linecap="round">{dec}</g></g></svg>'''
     desenho = desenho.replace('viewBox="0 0 %.1f %.1f"' % (vb_w, vb_h), 'viewBox="0 0 %.1f %.1f"' % (vb_h, vb_w))
-    pags = [capa('recorta e monta', 'Casinha do<br><span class="r">Papai Noel</span>', 'Uma casinha 3D de papel pra colorir e montar',
+    pags = [capa('recorta e monta', 'Vilinha do<br><span class="r">Papai Noel</span>', 'Casinha 3D, árvore de encaixar e 12 bonequinhos de pé',
                  ''.join(svg(n, 90) for n in ['noel', 'gorro', 'presente', 'arvore']))]
     pags.append(instrucoes('Como montar', [
         'Imprime em tamanho real (100%, sem "ajustar à página"), de preferência em papel 180 g ou mais.',
@@ -297,9 +297,45 @@ def casinha():
         'Dobra todas as linhas tracejadas pra dentro, bem marcadinhas (passar a unha ajuda).',
         'Cola a aba da ponta na parede da frente, formando a caixa. Depois cola o chão nas abas.',
         'Desce as duas partes do telhado, cola nas abas das paredes de frente e de trás e une as duas lá em cima.',
-        'Pronto! Coloca perto da árvore ou usa como porta-bombom.'], nome))
+        'Depois monta a árvore 3D e os bonequinhos de pé e arma a cena da vilinha!'], nome))
     pags.append(pagina(f'<div class="sub" style="text-align:center;margin-bottom:3mm">— linha contínua: corta · - - - tracejada: dobra</div>{desenho}', nome=nome))
-    return salvar('casinha-papai-noel-3d', documento(nome, pags, CSS_PASSOS))
+    pags.append(arvore_3d(nome))
+    pags += bonequinhos(nome)
+    return salvar('casinha-papai-noel-3d', documento(nome, pags, CSS_PASSOS + CSS_VILA))
+
+CSS_VILA = '''.tendas{display:grid;grid-template-columns:repeat(3,1fr);gap:5mm;margin-top:4mm}
+.tenda{border:1.5px solid #1d1d1d;height:106mm;display:flex;flex-direction:column}
+.tenda>div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:22px}
+.tenda>div:first-child{transform:rotate(180deg);border-top:1.5px dashed #1d1d1d}'''
+
+def arvore_3d(nome):
+    # duas árvores iguais que se encaixam em cruz: uma com fenda de cima, outra com fenda de baixo
+    alt, larg = 120, 84
+    def arvore(x0, fenda_cima):
+        cx = x0 + larg / 2
+        pts = [(cx, 6), (cx - 20, 34), (cx - 12, 34), (cx - 30, 62), (cx - 20, 62), (cx - larg / 2, 100), (cx - 8, 100), (cx - 8, alt),
+               (cx + 8, alt), (cx + 8, 100), (cx + larg / 2, 100), (cx + 20, 62), (cx + 30, 62), (cx + 12, 34), (cx + 20, 34)]
+        d = 'M' + ' L'.join(f'{x:.1f} {y:.1f}' for x, y in pts) + ' Z'
+        fenda = f'M{cx} 6 V{alt / 2 + 3}' if fenda_cima else f'M{cx} {alt} V{alt / 2 - 3}'
+        enfeites = ''.join(f'<circle cx="{cx + dx}" cy="{y}" r="3.2"/>' for dx, y in [(-10, 46), (12, 54), (-18, 80), (6, 88), (22, 92), (-4, 28)])
+        estrela = f'<path d="M{cx} -6 L{cx + 3} 0 L{cx + 9} 1 L{cx + 4.5} 5 L{cx + 6} 11 L{cx} 8 L{cx - 6} 11 L{cx - 4.5} 5 L{cx - 9} 1 L{cx - 3} 0 Z" transform="translate(0 4) scale(1)"/>'
+        return (f'<path d="{d}" stroke-width=".6"/><path d="{fenda}" stroke-width="1.2"/>'
+                f'<g stroke-width=".45">{enfeites}<path d="M{cx - 22} 70 Q{cx} 76 {cx + 22} 70 M{cx - 14} 40 Q{cx} 46 {cx + 14} 40"/></g>')
+    svg_ = (f'<svg viewBox="0 -4 {2 * larg + 20} {alt + 8}" style="width:{2 * larg + 20}mm;height:{alt + 8}mm;display:block;margin:6mm auto 0">'
+            f'<g fill="none" stroke="#1d1d1d" stroke-linejoin="round">{arvore(4, True)}{arvore(larg + 16, False)}</g></svg>')
+    return pagina('<div class="tit">Árvore 3D de <span class="m">encaixar</span></div>'
+                  '<div class="sub">Colore as duas, recorta pela linha de fora e corta as fendas (linha grossa no meio). '
+                  'Encaixa uma na outra em cruz: a fenda de cima entra na fenda de baixo.</div>' + svg_, nome=nome)
+
+def bonequinhos(nome):
+    figs = ['noel', 'rena', 'boneco_neve', 'biscoito', 'presente', 'arvore', 'sino', 'meia', 'caneca', 'estrela', 'vela', 'guirlanda']
+    pags = []
+    for i in range(0, 12, 6):
+        cel = ''.join(f'<div class="tenda"><div>{svg(n, 150)}{NOMES[n]}</div><div>{svg(n, 150)}{NOMES[n]}</div></div>' for n in figs[i:i + 6])
+        pags.append(pagina('<div class="tit">Bonequinhos <span class="m">de pé</span></div>'
+                           '<div class="sub">Colore, recorta o retângulo e dobra no tracejado: vira uma tendinha que fica em pé na frente da casinha.</div>'
+                           f'<div class="tendas">{cel}</div>', nome=nome))
+    return pags
 
 if __name__ == '__main__':
     for f in (advento, amigo_secreto, quiz, caca, retrospectiva, casinha):

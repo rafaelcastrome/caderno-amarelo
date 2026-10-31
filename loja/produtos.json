@@ -281,8 +281,8 @@
   },
   {
     "slug": "casinha-papai-noel-3d",
-    "nome": "Casinha do Papai Noel pra Montar",
-    "subtitulo": "Casinha 3D de papel pra colorir, recortar e montar",
+    "nome": "Vilinha do Papai Noel pra Montar",
+    "subtitulo": "Casinha 3D, árvore de encaixar e 12 bonequinhos de pé pra montar a cena",
     "preco": 5.9,
     "preco_antigo": null,
     "selo": null,
@@ -290,9 +290,11 @@
     "capa": "assets/img/capa-casinha-papai-noel-3d.png",
     "ativo": true,
     "destaque": false,
-    "descricao": "Uma casinha de papel com porta, janelas, guirlanda e telhado de telhas, pra colorir e montar. Fica linda perto da árvore ou como porta-bombom.",
+    "descricao": "Monta uma vilinha de Natal de papel: a casinha do Papai Noel com porta, janelas e telhado de telhas, uma árvore 3D de encaixar e 12 bonequinhos que ficam em pé (Noel, rena, boneco de neve, biscoito e mais). Tudo pra colorir antes de recortar.",
     "inclui": [
-      "Molde da casinha em tamanho real",
+      "Molde da casinha 3D em tamanho real",
+      "Árvore 3D de encaixar",
+      "12 bonequinhos de pé",
       "Linhas de corte e de dobra marcadas",
       "Passo a passo de montagem"
     ],
@@ -300,7 +302,8 @@
     "conteudo": [],
     "previas": [
       "assets/img/previas/casinha-papai-noel-3d-1.jpg",
-      "assets/img/previas/casinha-papai-noel-3d-2.jpg"
+      "assets/img/previas/casinha-papai-noel-3d-2.jpg",
+      "assets/img/previas/casinha-papai-noel-3d-3.jpg"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -384,6 +387,402 @@
       [
         "Precisa imprimir?",
         "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
+      ]
+    ]
+  },
+  {
+    "slug": "etiquetas-de-presente",
+    "nome": "Etiquetas de Presente de Natal",
+    "subtitulo": "48 etiquetas fofas de \"De / Para\" pra colorir e amarrar no presente",
+    "preco": 3.9,
+    "preco_antigo": null,
+    "selo": null,
+    "categoria": "Natal",
+    "capa": "assets/img/capa-etiquetas-de-presente.png",
+    "ativo": true,
+    "destaque": false,
+    "descricao": "Etiquetas no formato de tag, com furinho pra fitinha, desenhos de Natal com carinha e frases como \"Não abre antes!\". Colore, recorta e deixa os presentes mais bonitos.",
+    "inclui": [
+      "48 etiquetas em 3 folhas",
+      "Campos De e Para",
+      "6 frases diferentes",
+      "Marcação do furinho"
+    ],
+    "titulo_conteudo": "",
+    "conteudo": [],
+    "previas": [
+      "assets/img/previas/etiquetas-de-presente-1.jpg",
+      "assets/img/previas/etiquetas-de-presente-2.jpg",
+      "assets/img/previas/etiquetas-de-presente-3.jpg"
+    ],
+    "formato": "PDF pra imprimir · acesso na hora",
+    "faq": [
+      [
+        "Como eu recebo?",
+        "Assim que o Pix cai, o botão de download aparece na tela e você também recebe o link no e-mail."
+      ],
+      [
+        "Precisa imprimir?",
+        "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
+      ]
+    ]
+  },
+  {
+    "slug": "cartoes-de-natal-colorir",
+    "nome": "Cartões de Natal pra Colorir",
+    "subtitulo": "12 cartões dobráveis pra colorir, escrever e entregar",
+    "preco": 4.9,
+    "preco_antigo": null,
+    "selo": null,
+    "categoria": "Natal",
+    "capa": "assets/img/capa-cartoes-de-natal-colorir.png",
+    "ativo": true,
+    "destaque": false,
+    "descricao": "Cartões de Natal que a criança (ou tu mesmo) colore e entrega pra família, professores e amigos. Cada um tem um desenho grande e uma mensagem, e o lado de dentro fica livre pra escrever.",
+    "inclui": [
+      "12 cartões, 2 por folha",
+      "Mensagens como \"Feliz Natal, vovó!\"",
+      "Linha de dobra marcada",
+      "Instruções de montagem"
+    ],
+    "titulo_conteudo": "",
+    "conteudo": [],
+    "previas": [
+      "assets/img/previas/cartoes-de-natal-colorir-1.jpg",
+      "assets/img/previas/cartoes-de-natal-colorir-2.jpg",
+      "assets/img/previas/cartoes-de-natal-colorir-3.jpg"
+    ],
+    "formato": "PDF pra imprimir · acesso na hora",
+    "faq": [
+      [
+        "Como eu recebo?",
+        "Assim que o Pix cai, o botão de download aparece na tela e você também recebe o link no e-mail."
+      ],
+      [
+        "Precisa imprimir?",
+        "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
+      ]
+    ]
+  },
+  {
+    "slug": "detetive-do-caderno",
+    "nome": "Detetive do Caderno: o Mistério do Pudim",
+    "subtitulo": "Um mistério pra resolver em grupo: 6 suspeitos, 8 pistas e 1 culpado",
+    "preco": 5.9,
+    "preco_antigo": null,
+    "selo": null,
+    "categoria": "Jogos",
+    "capa": "assets/img/capa-detetive-do-caderno.png",
+    "ativo": true,
+    "destaque": false,
+    "descricao": "O pudim da vovó sumiu da geladeira e seis pessoas estavam na casa. Vocês leem a história, revelam as pistas uma a uma e eliminam suspeitos até achar o culpado. A solução vem explicada no final.",
+    "inclui": [
+      "História do mistério",
+      "Fichas dos 6 suspeitos",
+      "8 cartas de pista",
+      "Solução explicada passo a passo"
+    ],
+    "titulo_conteudo": "",
+    "conteudo": [],
+    "previas": [
+      "assets/img/previas/detetive-do-caderno-1.jpg",
+      "assets/img/previas/detetive-do-caderno-2.jpg",
+      "assets/img/previas/detetive-do-caderno-3.jpg"
+    ],
+    "formato": "PDF pra imprimir · acesso na hora",
+    "faq": [
+      [
+        "Como eu recebo?",
+        "Assim que o Pix cai, o botão de download aparece na tela e você também recebe o link no e-mail."
+      ],
+      [
+        "Precisa imprimir?",
+        "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
+      ],
+      [
+        "Quantas pessoas jogam?",
+        "Depende do jogo, mas todos funcionam em família ou com amigos. As regras estão no começo do PDF."
+      ]
+    ]
+  },
+  {
+    "slug": "escape-room-em-casa",
+    "nome": "Escape Room em Casa",
+    "subtitulo": "5 enigmas em sequência pra abrir o cadeado e escapar",
+    "preco": 5.9,
+    "preco_antigo": null,
+    "selo": null,
+    "categoria": "Jogos",
+    "capa": "assets/img/capa-escape-room-em-casa.png",
+    "ativo": true,
+    "destaque": false,
+    "descricao": "Vocês estão trancados no Quarto do Caderno. Cada enigma (mensagem secreta, sequência, espelho e relógio) revela um número do cadeado. Dá pra esconder os enigmas pela casa e jogar contra o relógio.",
+    "inclui": [
+      "4 enigmas + o cadeado final",
+      "Dicas pra quem organiza",
+      "Respostas no final"
+    ],
+    "titulo_conteudo": "",
+    "conteudo": [],
+    "previas": [
+      "assets/img/previas/escape-room-em-casa-1.jpg",
+      "assets/img/previas/escape-room-em-casa-2.jpg",
+      "assets/img/previas/escape-room-em-casa-3.jpg"
+    ],
+    "formato": "PDF pra imprimir · acesso na hora",
+    "faq": [
+      [
+        "Como eu recebo?",
+        "Assim que o Pix cai, o botão de download aparece na tela e você também recebe o link no e-mail."
+      ],
+      [
+        "Precisa imprimir?",
+        "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
+      ],
+      [
+        "Quantas pessoas jogam?",
+        "Depende do jogo, mas todos funcionam em família ou com amigos. As regras estão no começo do PDF."
+      ]
+    ]
+  },
+  {
+    "slug": "verdade-ou-desafio",
+    "nome": "Verdade ou Desafio Fofo",
+    "subtitulo": "50 verdades e 50 desafios leves, pra rir com os amigos e a família",
+    "preco": 5.9,
+    "preco_antigo": null,
+    "selo": null,
+    "categoria": "Jogos",
+    "capa": "assets/img/capa-verdade-ou-desafio.png",
+    "ativo": true,
+    "destaque": false,
+    "descricao": "Perguntas e desafios divertidos, sem nada pesado ou constrangedor: imitar bicho, falar com sotaque, contar o maior mico. Bom pra festa do pijama, viagem e reunião de família.",
+    "inclui": [
+      "50 cartas de verdade",
+      "50 cartas de desafio",
+      "Regras do jogo"
+    ],
+    "titulo_conteudo": "",
+    "conteudo": [],
+    "previas": [
+      "assets/img/previas/verdade-ou-desafio-1.jpg",
+      "assets/img/previas/verdade-ou-desafio-2.jpg",
+      "assets/img/previas/verdade-ou-desafio-3.jpg"
+    ],
+    "formato": "PDF pra imprimir · acesso na hora",
+    "faq": [
+      [
+        "Como eu recebo?",
+        "Assim que o Pix cai, o botão de download aparece na tela e você também recebe o link no e-mail."
+      ],
+      [
+        "Precisa imprimir?",
+        "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
+      ],
+      [
+        "Quantas pessoas jogam?",
+        "Depende do jogo, mas todos funcionam em família ou com amigos. As regras estão no começo do PDF."
+      ]
+    ]
+  },
+  {
+    "slug": "quem-sou-eu",
+    "nome": "Quem Sou Eu?",
+    "subtitulo": "120 cartas em 5 categorias pra adivinhar fazendo perguntas de sim ou não",
+    "preco": 5.9,
+    "preco_antigo": null,
+    "selo": null,
+    "categoria": "Jogos",
+    "capa": "assets/img/capa-quem-sou-eu.png",
+    "ativo": true,
+    "destaque": false,
+    "descricao": "Cada um segura uma carta na testa sem ver e tem que descobrir o que é fazendo perguntas de sim ou não. São 120 cartas de bichos, profissões, comidas, objetos e lugares.",
+    "inclui": [
+      "120 cartas pra recortar",
+      "5 categorias",
+      "Regras do jogo"
+    ],
+    "titulo_conteudo": "",
+    "conteudo": [],
+    "previas": [
+      "assets/img/previas/quem-sou-eu-1.jpg",
+      "assets/img/previas/quem-sou-eu-2.jpg",
+      "assets/img/previas/quem-sou-eu-3.jpg"
+    ],
+    "formato": "PDF pra imprimir · acesso na hora",
+    "faq": [
+      [
+        "Como eu recebo?",
+        "Assim que o Pix cai, o botão de download aparece na tela e você também recebe o link no e-mail."
+      ],
+      [
+        "Precisa imprimir?",
+        "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
+      ],
+      [
+        "Quantas pessoas jogam?",
+        "Depende do jogo, mas todos funcionam em família ou com amigos. As regras estão no começo do PDF."
+      ]
+    ]
+  },
+  {
+    "slug": "stop-adedonha",
+    "nome": "Stop / Adedonha",
+    "subtitulo": "Folhas prontas de Stop em 4 temas e letras pra sortear",
+    "preco": 3.9,
+    "preco_antigo": null,
+    "selo": null,
+    "categoria": "Jogos",
+    "capa": "assets/img/capa-stop-adedonha.png",
+    "ativo": true,
+    "destaque": false,
+    "descricao": "O clássico jogo de papel com folhas prontas em 4 temas: Clássico, Natal, Escola e Galera. Imprime quantas quiser e vem com as letras pra sortear.",
+    "inclui": [
+      "4 folhas temáticas",
+      "15 rodadas por folha",
+      "Letras pra sortear",
+      "Regras e pontuação"
+    ],
+    "titulo_conteudo": "",
+    "conteudo": [],
+    "previas": [
+      "assets/img/previas/stop-adedonha-1.jpg",
+      "assets/img/previas/stop-adedonha-2.jpg",
+      "assets/img/previas/stop-adedonha-3.jpg"
+    ],
+    "formato": "PDF pra imprimir · acesso na hora",
+    "faq": [
+      [
+        "Como eu recebo?",
+        "Assim que o Pix cai, o botão de download aparece na tela e você também recebe o link no e-mail."
+      ],
+      [
+        "Precisa imprimir?",
+        "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
+      ],
+      [
+        "Quantas pessoas jogam?",
+        "Depende do jogo, mas todos funcionam em família ou com amigos. As regras estão no começo do PDF."
+      ]
+    ]
+  },
+  {
+    "slug": "batalha-naval",
+    "nome": "Batalha Naval de Papel",
+    "subtitulo": "Folhas prontas de Batalha Naval pra jogar em dupla",
+    "preco": 3.9,
+    "preco_antigo": null,
+    "selo": null,
+    "categoria": "Jogos",
+    "capa": "assets/img/capa-batalha-naval.png",
+    "ativo": true,
+    "destaque": false,
+    "descricao": "Cada folha tem o teu mar e o mar do inimigo, duas partidas por folha. É só imprimir, pegar um lápis e começar a afundar navios.",
+    "inclui": [
+      "10 folhas (20 partidas)",
+      "Lista da frota",
+      "Regras do jogo"
+    ],
+    "titulo_conteudo": "",
+    "conteudo": [],
+    "previas": [
+      "assets/img/previas/batalha-naval-1.jpg",
+      "assets/img/previas/batalha-naval-2.jpg",
+      "assets/img/previas/batalha-naval-3.jpg"
+    ],
+    "formato": "PDF pra imprimir · acesso na hora",
+    "faq": [
+      [
+        "Como eu recebo?",
+        "Assim que o Pix cai, o botão de download aparece na tela e você também recebe o link no e-mail."
+      ],
+      [
+        "Precisa imprimir?",
+        "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
+      ],
+      [
+        "Quantas pessoas jogam?",
+        "Depende do jogo, mas todos funcionam em família ou com amigos. As regras estão no começo do PDF."
+      ]
+    ]
+  },
+  {
+    "slug": "labirintos",
+    "nome": "Labirintos Impossíveis",
+    "subtitulo": "40 labirintos do fácil ao insano, com as respostas no final",
+    "preco": 4.9,
+    "preco_antigo": null,
+    "selo": null,
+    "categoria": "Jogos",
+    "capa": "assets/img/capa-labirintos.png",
+    "ativo": true,
+    "destaque": false,
+    "descricao": "Labirintos em 4 níveis: fácil, médio, difícil e insano. Bom pra criança, pra adulto que acha que é fácil e pra viagem longa. As respostas vêm desenhadas no final.",
+    "inclui": [
+      "40 labirintos em 4 níveis",
+      "Respostas desenhadas",
+      "1 labirinto por página"
+    ],
+    "titulo_conteudo": "",
+    "conteudo": [],
+    "previas": [
+      "assets/img/previas/labirintos-1.jpg",
+      "assets/img/previas/labirintos-2.jpg",
+      "assets/img/previas/labirintos-3.jpg"
+    ],
+    "formato": "PDF pra imprimir · acesso na hora",
+    "faq": [
+      [
+        "Como eu recebo?",
+        "Assim que o Pix cai, o botão de download aparece na tela e você também recebe o link no e-mail."
+      ],
+      [
+        "Precisa imprimir?",
+        "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
+      ],
+      [
+        "Quantas pessoas jogam?",
+        "Depende do jogo, mas todos funcionam em família ou com amigos. As regras estão no começo do PDF."
+      ]
+    ]
+  },
+  {
+    "slug": "enigmas-e-sudokus",
+    "nome": "Enigmas e Sudokus",
+    "subtitulo": "20 enigmas de lógica e 30 sudokus do fácil ao difícil, com respostas",
+    "preco": 4.9,
+    "preco_antigo": null,
+    "selo": null,
+    "categoria": "Jogos",
+    "capa": "assets/img/capa-enigmas-e-sudokus.png",
+    "ativo": true,
+    "destaque": false,
+    "descricao": "Charadas e enigmas de lógica pra desafiar a família (\"quantos meses têm 28 dias?\") e 30 sudokus em 3 níveis. Todas as respostas no final.",
+    "inclui": [
+      "20 enigmas de lógica",
+      "30 sudokus em 3 níveis",
+      "Respostas de tudo"
+    ],
+    "titulo_conteudo": "",
+    "conteudo": [],
+    "previas": [
+      "assets/img/previas/enigmas-e-sudokus-1.jpg",
+      "assets/img/previas/enigmas-e-sudokus-2.jpg",
+      "assets/img/previas/enigmas-e-sudokus-3.jpg"
+    ],
+    "formato": "PDF pra imprimir · acesso na hora",
+    "faq": [
+      [
+        "Como eu recebo?",
+        "Assim que o Pix cai, o botão de download aparece na tela e você também recebe o link no e-mail."
+      ],
+      [
+        "Precisa imprimir?",
+        "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
+      ],
+      [
+        "Quantas pessoas jogam?",
+        "Depende do jogo, mas todos funcionam em família ou com amigos. As regras estão no começo do PDF."
       ]
     ]
   },

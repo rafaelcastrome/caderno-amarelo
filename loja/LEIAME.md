@@ -33,17 +33,19 @@ Campos opcionais no JSON: `categoria` (vira aba na página inicial), `previas` (
 
 ### Lotes gerados por código (ex.: Natal)
 
-Os produtos de `produtos/natal/` são gerados por script:
+Os produtos de `produtos/pdfs/` são gerados por script:
 
 ```bash
-cd produtos/natal
+cd produtos/pdfs
 python3 lote1_icones.py && python3 lote1_textos.py   # HTML dos PDFs
 node render.js                                       # PDFs em pdf/ e prévias
 python3 catalogo.py                                  # capas, prévias, produtos.json e supabase/lote-natal-1.sql
 node ../../loja/_fonte_capas/render.js               # PNG das capas
 ```
 
-Depois: subir `produtos/natal/pdf/<slug>.pdf` no bucket `produtos` como `natal/<slug>.pdf` e rodar `supabase/lote-natal-1.sql`.
+Depois: subir cada PDF de `produtos/pdfs/pdf/` no bucket `produtos` na pasta do lote (`natal/` no lote 1, `lote2/` no lote 2; o caminho exato está no SQL) e rodar `supabase/lote-natal-1.sql` ou `supabase/lote-<n>.sql`.
+
+O lote 2 é gerado por `python3 lote2.py` (labirintos e sudokus vêm de `geradores.py`).
 
 ## Back-end (Supabase)
 
