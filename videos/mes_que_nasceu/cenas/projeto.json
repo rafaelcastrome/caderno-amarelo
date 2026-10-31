@@ -9,7 +9,7 @@
     "gemini": "Charon",
     "modelo": "gemini-2.5-flash-preview-tts"
   },
-  "audio": "Gemini Charon em duas tomadas, cortadas nos silêncios, pausas internas encurtadas e 1,3x mais rápida (v2).",
+  "audio": "v3: Gemini Charon em duas tomadas, cortadas nos silêncios, pausas internas encurtadas e 1,3x mais rápida.",
   "fontes": [
     {
       "fato": "Datas do calendário (carnaval, dia das mães, festa junina, férias de julho, primavera em 22/23 de setembro, dia das crianças 12/10, black friday, natal)",
@@ -18,60 +18,60 @@
   ],
   "cenas": [
     {
-      "fala": "Acha o mês que tu nasceu... e me diz se eu acertei tua vida!",
+      "fala": "Acha teu mês... e marca quem é assim!",
+      "pausa": 0.15
+    },
+    {
+      "fala": "Janeiro... promete que vai mudar... e não muda nunca.",
+      "pausa": 0.12
+    },
+    {
+      "fala": "Fevereiro... até hoje tá de ressaca do carnaval.",
+      "pausa": 0.12
+    },
+    {
+      "fala": "Março... o ano dele só começa depois do carnaval.",
+      "pausa": 0.12
+    },
+    {
+      "fala": "Abril... mente até quando fala a verdade.",
+      "pausa": 0.12
+    },
+    {
+      "fala": "Maio... o bolo é da mãe... e a festa também.",
+      "pausa": 0.12
+    },
+    {
+      "fala": "Junho... vai na festa junina só pra comer.",
+      "pausa": 0.12
+    },
+    {
+      "fala": "Julho... nunca ganhou parabéns na escola.",
+      "pausa": 0.12
+    },
+    {
+      "fala": "Agosto... o mês do desgosto... e o desgosto é tu!",
+      "pausa": 0.12
+    },
+    {
+      "fala": "Setembro... chegou a primavera... e o espirro.",
+      "pausa": 0.12
+    },
+    {
+      "fala": "Outubro... dia das crianças... e ainda quer presente.",
+      "pausa": 0.12
+    },
+    {
+      "fala": "Novembro... espera a black friday... e não compra nada.",
+      "pausa": 0.12
+    },
+    {
+      "fala": "Dezembro... um presente só... pro natal e pro aniversário!",
       "pausa": 0.2
     },
     {
-      "fala": "Janeiro... todo ano tu promete que vai mudar. Todo ano!",
-      "pausa": 0.15
-    },
-    {
-      "fala": "Fevereiro... nasceu no carnaval e até hoje não para quieto.",
-      "pausa": 0.15
-    },
-    {
-      "fala": "Março... diz que tá de dieta... com um pão de queijo na mão.",
-      "pausa": 0.15
-    },
-    {
-      "fala": "Abril... nasceu no mês da mentira... e ninguém acredita em ti.",
-      "pausa": 0.15
-    },
-    {
-      "fala": "Maio... teu aniversário cai perto do dia das mães... e o bolo é dela.",
-      "pausa": 0.15
-    },
-    {
-      "fala": "Junho... vai na festa junina só pela comida.",
-      "pausa": 0.15
-    },
-    {
-      "fala": "Julho... nasceu nas férias... nunca ganhou parabéns na escola.",
-      "pausa": 0.15
-    },
-    {
-      "fala": "Agosto... chega atrasado em tudo... até no próprio aniversário.",
-      "pausa": 0.15
-    },
-    {
-      "fala": "Setembro... chegou a primavera... e a tua alergia junto!",
-      "pausa": 0.15
-    },
-    {
-      "fala": "Outubro... é dia das crianças... e tu ainda quer presente.",
-      "pausa": 0.15
-    },
-    {
-      "fala": "Novembro... espera a black friday o ano inteiro... e não compra nada.",
-      "pausa": 0.15
-    },
-    {
-      "fala": "Dezembro... teu presente de aniversário e de natal... é o mesmo!",
-      "pausa": 0.25
-    },
-    {
-      "fala": "Comenta o teu mês aí... e marca aquele amigo que é igualzinho!",
-      "pausa": 1.5
+      "fala": "Comenta teu mês aí!",
+      "pausa": 1.6
     }
   ]
 }

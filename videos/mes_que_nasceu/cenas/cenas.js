@@ -1,4 +1,4 @@
-// "Tua vida pelo mês que tu nasceu" (~61 s, Gemini Charon).
+// "Tua vida pelo mês que tu nasceu" v3 (~32 s, Gemini Charon 1,4x, piadas ligadas a cada mês).
 // Grade 3 x 4 com os 12 meses já escrita no 1º quadro (gancho: a pessoa procura o mês dela na hora).
 // Cada cena de mês destaca a casa, desenha a piada e escreve a legendinha. No fim a grade fica cheia
 // (dá print / pausa) e o CTA pede pra comentar o mês. A marca d'água passeia pelo rodapé.
@@ -19,8 +19,8 @@ window.CENAS = function (WB) {
   const GX = 40, GY = 285, CW = 333, CH = 305;
   const MESES = ['JANEIRO', 'FEVEREIRO', 'MARÇO', 'ABRIL', 'MAIO', 'JUNHO', 'JULHO', 'AGOSTO', 'SETEMBRO', 'OUTUBRO', 'NOVEMBRO', 'DEZEMBRO'];
   const COR = [INK.blue, INK.purple, INK.green, INK.orange, INK.red, INK.orange, INK.blue, INK.purple, INK.green, INK.orange, INK.red, INK.blue];
-  const LEG = ['metas: 0 de 10', 'não para quieto', 'dieta... amanhã', 'ninguém acredita', 'o bolo é da mãe', 'só pela comida',
-    'parabéns? férias!', 'sempre atrasado', 'ATCHIM!', 'quero presente!', 'carrinho vazio', 'presente 2 em 1'];
+  const LEG = ['promete e não muda', 'ressaca eterna', 'ano começa depois', 'mentiroso nato', 'o bolo é da mãe', 'só pra comer',
+    'sem parabéns', 'o desgosto é tu', 'ATCHIM!', 'quero presente!', 'carrinho vazio', '1 presente só'];
 
   // desenhos centrados em (x, y), cabem em ~±80 x ±70
   const ICON = [
@@ -34,9 +34,11 @@ window.CENAS = function (WB) {
       [`M ${x - 70} ${y - 60} l 10 8 M ${x + 62} ${y - 70} l -8 10 M ${x - 62} ${y + 10} l 12 -4 M ${x + 65} ${y} l 8 10`, INK.red, 6],
       [`M ${x - 45} ${y - 75} l 6 -8 M ${x + 72} ${y + 38} l -10 4 M ${x - 75} ${y + 45} l 8 8`, INK.blue, 6],
       [circ(x + 50, y - 20, 5), INK.green, 6], [circ(x - 50, y - 25, 5), INK.orange, 6], [circ(x + 20, y - 78, 5), INK.purple, 6]],
-    // MARÇO: pão de queijo mordido
-    (x, y) => [[`M ${x + 40} ${y - 42} Q ${x + 18} ${y - 55} ${x - 10} ${y - 52} Q ${x - 70} ${y - 45} ${x - 68} ${y + 5} Q ${x - 62} ${y + 55} ${x - 5} ${y + 55} Q ${x + 55} ${y + 55} ${x + 65} ${y + 5} Q ${x + 45} ${y + 8} ${x + 42} ${y - 12} Q ${x + 25} ${y - 25} ${x + 40} ${y - 42}`, YEL, 7],
-      [`M ${x - 40} ${y - 15} l 6 4 M ${x - 15} ${y + 20} l 7 -3 M ${x + 20} ${y + 30} l 5 5 M ${x - 30} ${y + 30} l 6 3 M ${x + 5} ${y - 25} l 6 4`, BROWN, 5]],
+    // MARÇO: calendário com JAN e FEV riscados e seta pra MAR
+    (x, y) => [[WB.roughRect(x - 70, y - 60, x + 70, y + 65), INK.black, 6], [`M ${x - 70} ${y - 30} L ${x + 70} ${y - 30}`, INK.red, 6],
+      [`M ${x - 40} ${y - 75} L ${x - 40} ${y - 48} M ${x + 40} ${y - 75} L ${x + 40} ${y - 48}`, INK.gray, 6],
+      [`M ${x - 60} ${y - 2} L ${x - 8} ${y + 2} M ${x + 8} ${y - 2} L ${x + 60} ${y + 2}`, INK.red, 6],
+      [`M ${x - 60} ${y + 42} L ${x - 15} ${y + 42} M ${x - 28} ${y + 32} L ${x - 15} ${y + 42} L ${x - 28} ${y + 52}`, INK.green, 5]],
     // ABRIL: cara de nariz comprido
     (x, y) => [[circ(x - 25, y, 50), INK.black, 6], [circ(x - 40, y - 15, 6), INK.black, 6], [circ(x - 12, y - 15, 6), INK.black, 6],
       [`M ${x + 15} ${y - 2} L ${x + 85} ${y - 8} L ${x + 18} ${y + 12}`, INK.orange, 7],
@@ -57,10 +59,11 @@ window.CENAS = function (WB) {
       [`M ${x - 80} ${y - 5} L ${x} ${y - 60} L ${x + 80} ${y - 5}`, INK.red, 7], [`M ${x} ${y - 60} L ${x} ${y - 85} L ${x + 25} ${y - 78} L ${x} ${y - 72}`, INK.blue, 5],
       [`M ${x - 22} ${y + 65} L ${x - 22} ${y + 15} L ${x + 22} ${y + 15} L ${x + 22} ${y + 65}`, BROWN, 6],
       [`M ${x - 12} ${y + 40} L ${x - 12} ${y + 60} L ${x + 12} ${y + 60} L ${x + 12} ${y + 40} Z M ${x - 7} ${y + 40} Q ${x} ${y + 25} ${x + 7} ${y + 40}`, INK.gray, 5]],
-    // AGOSTO: relógio correndo
-    (x, y) => [[circ(x + 10, y, 55), INK.black, 7], [`M ${x + 10} ${y} L ${x + 10} ${y - 35} M ${x + 10} ${y} L ${x + 35} ${y + 12}`, INK.red, 7],
-      [`M ${x - 80} ${y - 25} L ${x - 55} ${y - 25} M ${x - 85} ${y} L ${x - 55} ${y} M ${x - 80} ${y + 25} L ${x - 55} ${y + 25}`, INK.gray, 5],
-      [`M ${x - 15} ${y + 55} L ${x - 30} ${y + 72} M ${x + 35} ${y + 55} L ${x + 50} ${y + 72}`, INK.black, 6]],
+    // AGOSTO: nuvem de chuva em cima de uma carinha triste
+    (x, y) => [[WB.cloudPath(x, y - 50, 62, 26), INK.gray, 6],
+      [`M ${x - 35} ${y - 15} l -6 16 M ${x - 5} ${y - 15} l -6 16 M ${x + 25} ${y - 15} l -6 16`, INK.blue, 5],
+      [circ(x, y + 40, 30), INK.black, 6], [circ(x - 11, y + 32, 4), INK.black, 6], [circ(x + 11, y + 32, 4), INK.black, 6],
+      [`M ${x - 13} ${y + 56} Q ${x} ${y + 46} ${x + 13} ${y + 56}`, INK.black, 5]],
     // SETEMBRO: flor + espirro
     (x, y) => [[`M ${x - 25} ${y + 70} Q ${x - 30} ${y + 30} ${x - 25} ${y - 5}`, INK.green, 6], [`M ${x - 27} ${y + 40} Q ${x - 55} ${y + 25} ${x - 60} ${y + 45} Q ${x - 45} ${y + 50} ${x - 27} ${y + 40}`, INK.green, 5],
       [circ(x - 25, y - 30, 12), YEL, 7],
@@ -80,7 +83,7 @@ window.CENAS = function (WB) {
       [`M ${x + 40} ${y - 40} L ${x + 85} ${y - 70}`, INK.gray, 4]],
   ];
   // textos extras dentro do desenho (escritos junto com ele)
-  const EXTRA = { 10: (x, y, g) => WB.textStrokes('-90%', x + 48, y - 51, 26, INK.red, g, 'middle').strokes };
+  const EXTRA = { 2: (x, y, g) => [WB.textStrokes('JAN', x - 34, y - 8, 28, INK.gray, g, 'middle').strokes, WB.textStrokes('FEV', x + 34, y - 8, 28, INK.gray, g, 'middle').strokes, WB.textStrokes('MAR', x + 30, y + 52, 36, INK.green, g, 'middle').strokes], 10: (x, y, g) => WB.textStrokes('-90%', x + 48, y - 51, 26, INK.red, g, 'middle').strokes };
 
   const cells = MESES.map((m, i) => {
     const r = Math.floor(i / 3), c = i % 3;
@@ -108,15 +111,15 @@ window.CENAS = function (WB) {
     const cy = k.y0 + 165;
     const tr = ICON[i](k.cx, cy).map(([d, cor, w]) => sp(d, cor, w, k.g));
     if (EXTRA[i]) tr.push(EXTRA[i](k.cx, cy, k.g));
-    WB.draw(cena, 0.14, 0.7, tr);
+    WB.draw(cena, 0.06, 0.6, tr);
     const txt = LEG[i];
     const size = Math.min(46, Math.floor(46 * 290 / WB.measure(txt, 46)));
-    WB.write(cena, 0.72, 0.94, txt, k.cx, k.y0 + 282, size, INK.black, { anchor: 'middle', parent: k.g });
+    WB.write(cena, 0.62, 0.93, txt, k.cx, k.y0 + 282, size, INK.black, { anchor: 'middle', parent: k.g });
   });
 
   // cena 14: CTA no rodapé + grade cheia parada (dá pra pausar e achar o mês)
   WB.write(14, 0.04, 0.4, 'COMENTA TEU MÊS!', 540, 1625, 92, INK.red, { anchor: 'middle' });
-  WB.write(14, 0.42, 0.78, 'e marca o amigo igualzinho', 540, 1720, 60, INK.black, { anchor: 'middle' });
+  WB.write(14, 0.42, 0.78, 'e marca quem é assim', 540, 1720, 60, INK.black, { anchor: 'middle' });
   WB.restHand(14, 0.8, 1);
 
   // ---------------- marca d'água que passeia pelo rodapé ----------------
