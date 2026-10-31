@@ -1,0 +1,76 @@
+{
+ "total": 60.879,
+ "motor_tts": "gemini Charon (tomada \u00fanica cortada nos sil\u00eancios)",
+ "cenas": [
+  {
+   "start": 0.0,
+   "falaFim": 3.68,
+   "end": 4.08
+  },
+  {
+   "start": 4.08,
+   "falaFim": 8.2,
+   "end": 8.55
+  },
+  {
+   "start": 8.55,
+   "falaFim": 12.302,
+   "end": 12.652
+  },
+  {
+   "start": 12.652,
+   "falaFim": 16.341,
+   "end": 16.691
+  },
+  {
+   "start": 16.691,
+   "falaFim": 20.837,
+   "end": 21.187
+  },
+  {
+   "start": 21.187,
+   "falaFim": 25.576,
+   "end": 25.926
+  },
+  {
+   "start": 25.926,
+   "falaFim": 29.101,
+   "end": 29.451
+  },
+  {
+   "start": 29.451,
+   "falaFim": 33.662,
+   "end": 34.012
+  },
+  {
+   "start": 34.012,
+   "falaFim": 38.059,
+   "end": 38.409
+  },
+  {
+   "start": 38.409,
+   "falaFim": 42.373,
+   "end": 42.723
+  },
+  {
+   "start": 42.723,
+   "falaFim": 46.668,
+   "end": 47.018
+  },
+  {
+   "start": 47.018,
+   "falaFim": 51.411,
+   "end": 51.761
+  },
+  {
+   "start": 51.761,
+   "falaFim": 55.941,
+   "end": 56.441
+  },
+  {
+   "start": 56.441,
+   "falaFim": 59.679,
+   "end": 60.879
+  }
+ ]
+}
