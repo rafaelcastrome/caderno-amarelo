@@ -29,6 +29,22 @@ Loja estática (HTML/CSS/JS, sem build) com pagamento Pix pelo Mercado Pago e en
 
 Pra deixar um produto "em breve", use `"ativo": false` no JSON.
 
+Campos opcionais no JSON: `categoria` (vira aba na página inicial), `previas` (imagens de páginas de dentro, em `assets/img/previas/`) e `titulo_conteudo` (título da lista `conteudo`).
+
+### Lotes gerados por código (ex.: Natal)
+
+Os produtos de `produtos/natal/` são gerados por script:
+
+```bash
+cd produtos/natal
+python3 lote1_icones.py && python3 lote1_textos.py   # HTML dos PDFs
+node render.js                                       # PDFs em pdf/ e prévias
+python3 catalogo.py                                  # capas, prévias, produtos.json e supabase/lote-natal-1.sql
+node ../../loja/_fonte_capas/render.js               # PNG das capas
+```
+
+Depois: subir `produtos/natal/pdf/<slug>.pdf` no bucket `produtos` como `natal/<slug>.pdf` e rodar `supabase/lote-natal-1.sql`.
+
 ## Back-end (Supabase)
 
 Secrets das funções (nunca no código nem no chat):

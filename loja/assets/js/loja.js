@@ -47,7 +47,32 @@
   // ---------- página inicial ----------
   async function iniciarHome() {
     const produtos = await carregarProdutos();
-    $('#grade').innerHTML = produtos.map(cardHTML).join('');
+    const ativos = produtos.filter(p => p.ativo);
+    // abas por categoria, na ordem em que aparecem no produtos.json
+    const cats = [...new Set(ativos.map(p => p.categoria).filter(Boolean))];
+    let atual = 'Todos';
+    const desenhar = () => {
+      const lista = atual === 'Todos' ? produtos : produtos.filter(p => p.categoria === atual);
+      $('#grade').innerHTML = lista.map(cardHTML).join('');
+      document.querySelectorAll('#abas button').forEach(b => b.setAttribute('aria-selected', b.dataset.cat === atual));
+    };
+    if (cats.length > 1) {
+      $('#abas').innerHTML = ['Todos', ...cats].map(c => `<button type="button" role="tab" data-cat="${esc(c)}">${esc(c)}</button>`).join('');
+    }
+    document.addEventListener('click', e => {
+      const b = e.target.closest('[data-cat]');
+      if (!b) return;
+      atual = b.dataset.cat; desenhar();
+      if (!b.closest('#abas')) $('#produtos .titulo-secao').scrollIntoView({ behavior: 'smooth' });
+    });
+    desenhar();
+    // faixa de Natal: aparece de novembro até 25 de dezembro
+    const hoje = new Date(), natal = new Date(hoje.getFullYear(), 11, 25);
+    const dias = Math.ceil((natal - hoje) / 864e5);
+    if (cats.includes('Natal') && dias >= 0 && dias <= 60) {
+      $('#faixa-natal').hidden = false;
+      $('#dias-natal').textContent = dias === 0 ? 'É hoje! Feliz Natal 🎄' : `Faltam ${dias} dia${dias > 1 ? 's' : ''} pro Natal.`;
+    }
     const dest = produtos.find(p => p.destaque && p.ativo);
     if (dest) {
       $('#hero-capa').src = dest.capa;
@@ -71,6 +96,9 @@
     $('#preco-barra').innerHTML = precoHTML(p);
     $('#formato').textContent = p.formato;
     $('#inclui').innerHTML = p.inclui.map(i => `<li>${esc(i)}</li>`).join('');
+    if (p.previas && p.previas.length) $('#previas').innerHTML = p.previas.map((s, i) => `<a href="${esc(s)}" target="_blank" rel="noopener"><img src="${esc(s)}" alt="Página ${i + 1} de dentro do ${esc(p.nome)}" loading="lazy"></a>`).join('');
+    else $('#bloco-previas').remove();
+    if (p.titulo_conteudo) $('#titulo-conteudo').textContent = p.titulo_conteudo;
     if (p.conteudo.length) $('#conteudo').innerHTML = p.conteudo.map(i => `<li>${esc(i)}</li>`).join('');
     else $('#bloco-conteudo').remove();
     $('#faq').innerHTML = p.faq.map(([q, r]) => `<details><summary>${esc(q)}</summary><p>${esc(r)}</p></details>`).join('') + $('#faq').innerHTML;
