@@ -14,14 +14,14 @@ PEN = (40, 70, 150); PAPER = (251, 245, 223); YEL = (245, 197, 24)
 
 # (arquivo, início, fim, pausa depois) — cortes no meio dos silêncios
 CLIPS = [('take1', 0.00, 2.95, 0.2),   # 0 Eu já sei a fruta... duvida? Bora!
-         ('take1', 3.00, 5.55, 0.7),    # 1 Pensa num número de um a dez... pensou?
+         ('take3', 0.15, 2.85, 0.8),    # 1 Pensa num número de um a cinco... pensou?
          ('take1', 5.60, 7.30, 0.8),    # 2 Multiplica por dois!
          ('take1', 8.00, 11.30, 0.9),   # 3 Agora soma vinte e dois!
          ('take1', 16.00, 17.45, 0.8),  # 4 Divide por dois!
          ('take1', 22.85, 25.45, 1.0),  # 5 Agora tira o número que tu pensou
-         ('take1', 30.45, 32.65, 0.05), # 6 O número que sobrou... vira uma letra!
-         ('take2', 0.00, 2.90, 1.2),    # 7 A é um, B é dois... conta aí!
-         ('take2', 4.40, 7.80, 1.1),    # 8 Achou a letra? Agora pensa numa fruta...
+         ('take3', 2.95, 5.75, 0.1),    # 6 O número que sobrou... procura ele nessa tabela!
+         ('take3', 5.75, 7.00, 2.0),    # 7 Qual letra deu?
+         ('take3', 7.50, 10.80, 1.3),   # 8 Achou? Agora pensa numa fruta...
          ('take2', 9.50, 10.28, 0.5),   # 9 Pensou?
          ('take2', 10.28, 11.30, 0.4),  # 10 Kiwi, né?
          ('take2', 12.95, 16.70, 0.3),  # 11 Olha ali no cantinho...
@@ -192,6 +192,18 @@ def card(im):
 PASSOS = {2: ('× 2', BLUE), 3: ('+ 22', GREEN), 4: ('÷ 2', BLUE), 5: ('− o teu', RED)}
 
 
+def tabela(im, t, a):
+    x0, y0 = CARD[0] + 40, CARD[1] + 45; cw, ch = 152, 132
+    d = ImageDraw.Draw(im)
+    for i in range(26):
+        k = (t - a - i * 0.03) / 0.15
+        if k <= 0: continue
+        r, c = divmod(i, 5); x, y = x0 + c * cw, y0 + r * ch
+        d.rounded_rectangle([x + 6, y + 6, x + cw - 6, y + ch - 6], 18, outline=(190, 190, 190), width=3)
+        L = T(chr(65 + i), 84, INK); im.paste(L, (x + 14, y + 8), L)
+        N = T(str(i + 1), 64, BLUE); im.paste(N, (x + cw - N.width - 2, y + ch - N.height + 2), N)
+
+
 def conteudo(im, t, ev):
     """o que vai dentro do cartão"""
     cy = (CARD[1] + CARD[3]) // 2 - 20
@@ -200,7 +212,7 @@ def conteudo(im, t, ev):
         pop(im, '?', 520, RED, cy, t, 0.0)
         return
     if cur == 1:
-        pop(im, '1 a 10', 260, INK, cy - 60, t, ev[1][0])
+        pop(im, '1 a 5', 300, INK, cy - 60, t, ev[1][0])
         escrito(im, 'pensa num número', 100, BLUE, cy + 120, t, ev[1][0] + 0.3)
         return
     if cur in PASSOS:
@@ -209,16 +221,8 @@ def conteudo(im, t, ev):
         pop(im, s, 300 if cur != 5 else 210, cor, cy, t, ev[cur][0])
         if cur == 5: escrito(im, 'número do começo', 96, INK, cy + 140, t, ev[cur][0] + 0.4)
         return
-    if cur in (6, 7):
-        pop(im, 'número = letra', 150, INK, cy - 190, t, ev[6][0])
-        escrito(im, '1 = A', 140, BLUE, cy - 60, t, ev[7][0])
-        escrito(im, '2 = B', 140, BLUE, cy + 70, t, ev[7][0] + 0.6)
-        escrito(im, '3 = C ...', 140, BLUE, cy + 200, t, ev[7][0] + 1.2)
-        return
-    if cur in (8, 9):
-        pop(im, 'uma FRUTA', 170, GREEN, cy - 140, t, ev[8][0] + 0.9)
-        escrito(im, 'com essa letra', 110, INK, cy + 10, t, ev[8][0] + 1.3)
-        if cur == 9: pop(im, 'pensou?', 140, RED, cy + 190, t, ev[9][0])
+    if 6 <= cur <= 9:
+        tabela(im, t, ev[6][0])
         return
     if cur == 10:
         k = ease((t - ev[10][0]) / 0.3)
@@ -241,9 +245,12 @@ def cabecalho(im, t, ev):
     elif cur <= 5:
         escrito(im, 'Faz de cabeça,', 124, INK, 90, t, None)
         escrito(im, 'bem rápido!', 124, RED, 225, t, None)
+    elif cur <= 7:
+        escrito(im, 'Acha o teu número', 118, INK, 90, t, None)
+        escrito(im, 'e vê a LETRA!', 124, RED, 225, t, None)
     elif cur <= 9:
-        escrito(im, 'Agora vira', 124, INK, 90, t, None)
-        escrito(im, 'uma LETRA!', 124, RED, 225, t, None)
+        escrito(im, 'Uma FRUTA com', 124, GREEN, 90, t, None)
+        escrito(im, 'essa letra!' if cur == 8 else 'Pensou?', 124, RED, 225, t, None)
     elif cur == 10:
         escrito(im, 'Acertei?', 150, RED, 120, t, ev[10][0])
     else:
