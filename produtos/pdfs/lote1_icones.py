@@ -97,56 +97,63 @@ def enfeites():
     return salvar('enfeites-de-papel', documento(nome, pags, css))
 
 # ---------- Livro de colorir ----------
-def colorir():
-    import icones
-    icones.PB = True
-    try:
-        return _colorir()
-    finally:
-        icones.PB = False
+CENAS_COLORIR = [
+    ('cena_carta', 'Querido Papai Noel...', 'Carta pro Papai Noel'),
+    ('cena_embrulhos', 'Hora de embrulhar', 'Embrulhando presentes'),
+    ('cena_casinha_biscoito', 'A casinha mais doce', 'Casinha de biscoito'),
+    ('cena_biscoitos', 'Noite de biscoitos', 'Noite de biscoitos'),
+    ('cena_arvore', 'A estrela vai lá em cima!', 'Montando a árvore'),
+    ('cena_oficina', 'Ajudando na oficina', 'Oficina do Noel'),
+    ('cena_guerra_neve', 'Guerra de bolinha de neve', 'Guerra de bolinha de neve'),
+    ('cena_treno', 'Ladeira abaixo!', 'Trenó ladeira abaixo'),
+    ('cena_lago', 'Patinando no lago', 'Patinação no lago'),
+    ('cena_cantoria', 'Cantando na porta do vizinho', 'Cantoria na porta'),
+    ('cena_sofa', 'Chocolate quente e cobertor', 'Chocolate quente no sofá'),
+    ('cena_ceia', 'A ceia tá servida!', 'A ceia'),
+    ('cena_noite', 'Será que ele já chegou?', 'Esperando o Papai Noel'),
+    ('cena_manha', 'Manhã de Natal!', 'Manhã de Natal'),
+    ('cena_piscina', 'Natal brasileiro é na piscina', 'Natal na piscina'),
+    ('cena_praia', 'Boneco de areia de gorrinho', 'Natal na praia'),
+]
 
-def _colorir():
+
+def _cena(nome_func):
+    import cenas_natal, cenas_natal2, cenas_natal3, cenas_natal4
+    for m in (cenas_natal, cenas_natal2, cenas_natal3, cenas_natal4):
+        if hasattr(m, nome_func):
+            return getattr(m, nome_func)()
+    raise KeyError(nome_func)
+
+
+def _dupla(tam_px, gorro='noel'):
+    """Bolinho e Farofa lado a lado (sem moldura), pra capa e páginas especiais."""
+    from cenas import Cena
+    c = Cena()
+    c.bolinho(150, 140, 1, gorro=gorro, cachecol=True, braco_e=(-50, 60), braco_d=(60, 30))
+    c.farofa(340, 330, 1, olhando=-1, gorro=True)
+    return c.svg(moldura=False, vb='0 0 440 350', estilo=f'width:{tam_px}px')
+
+
+def colorir():
+    """Livro de colorir: 16 cenas detalhadas do Bolinho e da Farofa (preto e branco, traço grosso)."""
     nome = 'Natal Fofo pra Colorir'
-    css = '''.cc{display:flex;flex-direction:column;align-items:center;height:100%}
-.cc .tt{font-size:54px;margin-bottom:4mm}
-.moldura{flex:1;width:100%;border:3px solid #1d1d1d;border-radius:8mm;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.mini{position:absolute}'''
-    frases = {
-        'arvore': 'Eu brilho mais que as luzinhas', 'estrela': 'Lá do alto eu vejo tudo', 'presente': 'Será que é meia de novo?',
-        'sino': 'Blém, blém, cadê o panetone?', 'bengala': 'Docinho listradinho', 'boneco_neve': 'Gelado por fora, quentinho por dentro',
-        'bola': 'Não me derruba da árvore!', 'meia': 'Cabe muito presente aqui', 'biscoito': 'Não me come, por favor',
-        'rena': 'Prontinha pra voar', 'gorro': 'O gorro oficial do Noel', 'floco': 'Nenhum floco é igual ao outro',
-        'vela': 'Luzinha da ceia', 'luva': 'Mãozinha quentinha', 'caneca': 'Chocolate quente, por favor',
-        'guirlanda': 'Bem-vindo, pode entrar!', 'noel': 'Ho ho ho!', 'pirulito': 'Doce de Natal',
-    }
-    rnd = random.Random(7)
-    pags = [capa('livro de colorir', 'Natal<br><span class="r">Fofo</span>', '20 desenhos grandes pra colorir com calma',
-                 ''.join(svg(n, 90) for n in ['caneca', 'biscoito', 'meia', 'noel']))]
-    for n in TODOS:
-        minis = ''
-        outros = [o for o in TODOS if o != n]
-        pos = [(6, 6), (78, 6), (6, 78), (78, 80), (4, 42), (82, 44)]
-        for (x, y), o in zip(pos, rnd.sample(outros, len(pos))):
-            minis += f'<div class="mini" style="left:{x}%;top:{y}%">{svg(o, 95)}</div>'
-        pontos = []
-        while len(pontos) < 22:
-            x, y = rnd.uniform(3, 95), rnd.uniform(3, 72)
-            if 20 < x < 78 and 14 < y < 76:  # deixa o desenho principal livre
-                continue
-            pontos.append((x, y))
-        neve = ''.join(f'<div class="mini" style="left:{x:.1f}%;top:{y:.1f}%;width:{d}px;height:{d}px;border:2px solid #1d1d1d;border-radius:50%"></div>'
-                       for (x, y), d in zip(pontos, [rnd.choice([9, 12, 16]) for _ in pontos]))
-        cenario = ('<svg class="mini" style="left:0;top:0;width:100%;height:100%" viewBox="0 0 100 100" preserveAspectRatio="none">'
-                   '<g fill="none" stroke="#1d1d1d" stroke-width=".45" vector-effect="non-scaling-stroke">'
-                   '<path d="M0 84 Q20 76 40 83 T80 81 T100 80" vector-effect="non-scaling-stroke" style="stroke-width:2.4px"/>'
-                   '<path d="M0 92 Q25 87 50 92 T100 90" vector-effect="non-scaling-stroke" style="stroke-width:2px"/>'
-                   '</g></svg>' + neve)
-        pags.append(pagina(f'<div class="cc"><div class="tt">{frases[n]}</div><div class="moldura">{cenario}{minis}<div style="position:relative">{svg(n, 470)}</div></div></div>', nome=nome))
-    # 2 páginas de padrão (estampa) pra colorir
-    for k in range(2):
-        cel = ''.join(f'<div style="display:flex;align-items:center;justify-content:center">{svg(TODOS[(i * 5 + k * 3) % 18], 120)}</div>' for i in range(20))
-        pags.append(pagina(f'<div class="cc"><div class="tt">{"Papel de presente pra colorir" if k == 0 else "Estampa de Natal"}</div>'
-                           f'<div class="moldura" style="display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(5,1fr)">{cel}</div></div>', nome=nome))
+    css = '''.cc{display:flex;flex-direction:column;height:100%}
+.cc .tt{font-size:50px;text-align:center;line-height:1;margin:-4mm 0 3mm}
+.cc .arte{flex:1;min-height:0}
+.apres{text-align:center;font-size:30px;line-height:1.25}
+.apres h2{font-size:58px;margin:4mm 0 2mm}
+.apres p{margin:2mm 10mm}
+.livre{border:3px solid #1d1d1d;border-radius:8mm;height:232mm;margin-top:4mm;position:relative}'''
+    pags = [capa('livro de colorir', 'Natal<br>Fofo', '16 cenas cheias de detalhe pra colorir com calma', _dupla(330))]
+    pags.append(pagina(f'''<div class="apres"><h2>Oi! A gente é o Bolinho e a Farofa</h2>{_dupla(520, gorro=True)}
+<p>O <b>Bolinho</b> é um cachorrinho de orelha caída que ama biscoito e Natal. A <b>Farofa</b> é a gatinha listrada que vive se escondendo
+em tudo que é lugar: dentro da árvore, da caixa, do presente...</p>
+<p>Em cada página tem uma historinha do nosso Natal. Pinta do teu jeito, com lápis de cor, giz ou canetinha.
+Dica: procura a Farofa em todas as cenas!</p></div>''', nome=nome))
+    for func, titulo, _ in CENAS_COLORIR:
+        pags.append(pagina(f'<div class="cc"><div class="tt">{titulo}</div><div class="arte">{_cena(func).svg()}</div></div>', nome=nome))
+    pags.append(pagina(f'''<div class="cc"><div class="tt">Agora desenha o teu Natal!</div>
+<div class="livre"><div style="position:absolute;right:8mm;bottom:6mm">{_dupla(260)}</div></div></div>''', nome=nome))
     return salvar('natal-fofo-colorir', documento(nome, pags, css, pb=True))
 
 if __name__ == '__main__':

@@ -12,11 +12,11 @@ FAQ_RECEBER = ['Como eu recebo?', 'Assim que o Pix cai, o botão de download apa
 
 PRODUTOS = [
     dict(slug='natal-fofo-colorir', nome='Natal Fofo pra Colorir', preco=6.90, icones=['caneca', 'biscoito', 'noel'],
-         tag='livro de colorir', linha1='Natal', linha2='Fofo', frase='20 desenhos fofos de traço grosso',
-         subtitulo='20 desenhos fofos de Natal com traço grosso, pra colorir com calma',
-         descricao='Papai Noel, rena, boneco de neve, biscoito, caneca de chocolate quente e muito mais, todos com carinha. Traço grosso, desenhos grandes e cenário de neve, no estilo aconchegante que tá todo mundo colorindo.',
-         inclui=['21 páginas A4 pra imprimir', '18 personagens de Natal em página inteira', '2 estampas de papel de presente pra colorir', 'Imprime quantas vezes quiser'],
-         titulo_conteudo='Os desenhos', conteudo=['Árvore', 'Estrela', 'Presente', 'Sino', 'Bengala doce', 'Boneco de neve', 'Bolinha', 'Meia', 'Biscoito', 'Rena', 'Gorro', 'Floco de neve', 'Vela', 'Luva', 'Chocolate quente', 'Guirlanda', 'Papai Noel', 'Pirulito', '2 estampas'], categoria='Natal', pasta='natal', lote=1),
+         tag='livro de colorir', linha1='Natal', linha2='Fofo', frase='16 cenas cheias de detalhe pra colorir',
+         subtitulo='16 cenas de Natal cheias de detalhe, cada uma com uma historinha, pra colorir com calma',
+         descricao='O Bolinho, um cachorrinho de orelha caída, e a Farofa, uma gatinha listrada, vivem o Natal inteiro em 16 cenas cheias de detalhe: fazem biscoito, montam a árvore, escrevem pro Papai Noel, patinam no lago e ainda curtem o Natal brasileiro na piscina e na praia. Traço grosso, no estilo aconchegante que tá todo mundo colorindo, e a Farofa escondida em todas as páginas.',
+         inclui=['19 páginas A4 pra imprimir', '16 cenas detalhadas em página inteira', 'Página pra desenhar o teu próprio Natal', 'Imprime quantas vezes quiser'],
+         dupla=True, prev=(6, 7, 17), titulo_conteudo='As cenas', conteudo=['Carta pro Papai Noel', 'Embrulhando presentes', 'Casinha de biscoito', 'Noite de biscoitos', 'Montando a árvore', 'Oficina do Noel', 'Guerra de bolinha de neve', 'Trenó ladeira abaixo', 'Patinação no lago', 'Cantoria na porta', 'Chocolate quente no sofá', 'A ceia', 'Esperando o Papai Noel', 'Manhã de Natal', 'Natal na piscina', 'Natal na praia'], categoria='Natal', pasta='natal', lote=1),
     dict(slug='calendario-advento-desafios', nome='Calendário do Advento de Desafios', preco=5.90, icones=['vela', 'estrela', 'presente'],
          tag='24 dias até o Natal', linha1='Calendário', linha2='do Advento', frase='um desafio por dia, de 1 a 24 de dezembro',
          subtitulo='24 desafios divertidos pra família, um por dia até o Natal',
@@ -193,12 +193,16 @@ def marca_dagua(im):
     return Image.alpha_composite(im.convert('RGBA'), camada).convert('RGB')
 
 def capa_html(p):
-    ics = ''.join(svg(n, 170) for n in p['icones'])
+    if p.get('dupla'):
+        from lote1_icones import _dupla
+        ics = _dupla(380)
+    else:
+        ics = ''.join(svg(n, 170) for n in p['icones'])
     return f'''<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"></head><body>
 <div class="tag" style="top:70px;left:110px">{p['tag']}</div>
 <div style="position:absolute;top:150px;left:100px;right:40px;font-size:112px;line-height:.95">{p['linha1']}<br><span class="u red">{p['linha2']}</span></div>
 <div style="position:absolute;top:410px;left:104px;right:50px;font-size:44px">{p['frase']}</div>
-<div style="position:absolute;top:560px;left:100px;right:60px;display:flex;justify-content:space-around">{ics}</div>
+<div style="position:absolute;top:{470 if p.get('dupla') else 560}px;left:100px;right:60px;display:flex;justify-content:space-around">{ics}</div>
 <div style="position:absolute;top:790px;left:104px;font-size:36px;background:#ffd23f;padding:0 16px;border-radius:8px;transform:rotate(-2deg)">{'🎄 Natal' if p['categoria'] == 'Natal' else '🎲 ' + p['categoria']}</div>
 <div style="position:absolute;bottom:50px;right:50px;font-size:34px;color:#8a8a8a">@Cardeno_Amarelo</div>
 </body></html>'''

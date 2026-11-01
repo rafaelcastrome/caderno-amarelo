@@ -51,7 +51,7 @@ class Cena:
     def texto_vazado(self, x, y, s, tam=60, rot=0):
         """Letra só de contorno, pra pintar por dentro."""
         tr = f' transform="rotate({rot} {x} {y})"' if rot else ''
-        self.add(f'<text x="{x}" y="{y}" font-family="Caveat" font-size="{tam}" text-anchor="middle" fill="#fff" stroke="#1d1d1d" stroke-width="3" paint-order="stroke"{tr}>{s}</text>')
+        self.add(f'<text x="{x}" y="{y}" font-family="Caveat" font-size="{tam}" text-anchor="middle" fill="#fff" stroke="#1d1d1d" stroke-width="4.5" paint-order="stroke"{tr}>{s}</text>')
 
     def grupo(self, tx, ty, s=1, rot=0):
         self.add(f'<g transform="translate({tx} {ty}) rotate({rot}) scale({s})">')
@@ -59,9 +59,12 @@ class Cena:
     def fim(self):
         self.add('</g>')
 
-    def svg(self):
-        return (f'<svg viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg" stroke-linecap="round" stroke-linejoin="round" '
-                f'style="width:100%;height:100%"><defs><clipPath id="moldura"><rect x="8" y="8" width="{W - 16}" height="{H - 16}" rx="44"/></clipPath></defs>'
+    def svg(self, moldura=True, vb=None, estilo='width:100%;height:100%'):
+        vb = vb or f'0 0 {W} {H}'
+        cab = (f'<svg viewBox="{vb}" xmlns="http://www.w3.org/2000/svg" stroke-linecap="round" stroke-linejoin="round" style="{estilo}">')
+        if not moldura:
+            return cab + ''.join(self.el) + '</svg>'
+        return (cab + f'<defs><clipPath id="moldura"><rect x="8" y="8" width="{W - 16}" height="{H - 16}" rx="44"/></clipPath></defs>'
                 f'<g clip-path="url(#moldura)">{"".join(self.el)}</g>'
                 f'<rect x="8" y="8" width="{W - 16}" height="{H - 16}" rx="44" fill="none" stroke="#1d1d1d" stroke-width="9"/></svg>')
 
@@ -116,7 +119,7 @@ class Cena:
         self.linha(d, 4)
 
     # ---------- personagens ----------
-    def bolinho(self, x, y, s=1, braco_e=(-60, 40), braco_d=(60, 40), gorro=True, cachecol=False, olhos='abertos', boca='sorriso', so_bracos=False, segura=None):
+    def bolinho(self, x, y, s=1, braco_e=(-60, 40), braco_d=(60, 40), gorro=True, cachecol=False, olhos='abertos', boca='sorriso', so_bracos=False, segura=None, roupa='estrela', pes=True):
         """Bolinho, o cachorrinho. (x, y) = centro da cabeça. braços: ponta da mão relativa ao ombro."""
         self.grupo(x, y, s)
         if so_bracos:
@@ -125,13 +128,28 @@ class Cena:
             return
         # corpo (moletom)
         self.path('M-52 48C-78 110-74 160-62 172L62 172C74 160 78 110 52 48Z')
-        self.linha('M-64 140L64 140', F)                         # barra do moletom
-        self.linha('M-60 152l8 0M-40 152l8 0M-20 152l8 0M0 152l8 0M20 152l8 0M40 152l8 0', 3)
-        self.estrela(0, 105, 20, fill='#fff', w=F)                  # estampa
+        if roupa == 'pelado':                                       # verão: barriguinha e short
+            self.path('M-30 80C-40 120-30 140 0 140C30 140 40 120 30 80C20 70-20 70-30 80Z', w=F)
+            self.path('M-66 138L66 138L64 172L-64 172Z', w=F)
+            self.linha('M0 140l0 32M-56 150l8 0M-40 160l8 0M44 150l8 0M30 160l8 0', 3)
+        else:
+            self.linha('M-64 140L64 140', F)                         # barra do moletom
+            self.linha('M-60 152l8 0M-40 152l8 0M-20 152l8 0M0 152l8 0M20 152l8 0M40 152l8 0', 3)
+            if roupa == 'estrela':
+                self.estrela(0, 105, 20, fill='#fff', w=F)
+            elif roupa == 'coracao':
+                self.coracao(0, 102, 18, w=F)
+            elif roupa == 'listras':
+                self.linha('M-64 92L64 92M-68 118L68 118', F)
+            elif roupa == 'pijama':
+                for (px, py) in ((-30, 80), (20, 92), (-10, 120), (34, 124), (-44, 112), (6, 70)):
+                    self.circ(px, py, 5, w=2.5)
+                self.linha('M0 56l0 80', 3)
         # pés
-        self.elip(-32, 178, 30, 16)
-        self.elip(32, 178, 30, 16)
-        self.linha('M-44 172l0 8M-34 172l0 9M44 172l0 8M34 172l0 9', 3)
+        if pes:
+            self.elip(-32, 178, 30, 16)
+            self.elip(32, 178, 30, 16)
+            self.linha('M-44 172l0 8M-34 172l0 9M44 172l0 8M34 172l0 9', 3)
         self._bracos(braco_e, braco_d)
         # cabeça
         self.elip(0, 0, 78, 66)
@@ -142,7 +160,12 @@ class Cena:
         self.path('M56-40C108-40 118 50 100 84C90 102 64 96 60 66C56 36 50-6 56-40Z')
         self.linha('M-84 14q-8 28 0 54M84 14q8 28 0 54', 3)
         # gorro de tricô
-        if gorro:
+        if gorro == 'noel':
+            self.path('M-74-22C-70-90 10-120 70-96C100-80 112-50 104-20L90-22C88-50 70-70 60-60C70-50 74-34 74-22Z')
+            self.ret(-82, -36, 164, 30, 15)
+            self.circ(104, -10, 18)
+            self.linha('M-60-30q4 6 10 0M-30-30q4 6 10 0M0-30q4 6 10 0M30-30q4 6 10 0M60-30q4 6 10 0', 2.5)
+        elif gorro:
             self.path('M-74-22C-78-80-40-110 0-110C40-110 78-80 74-22Z')
             self.ret(-80, -34, 160, 26, 13)
             self.linha('M-56-34l0 26M-32-34l0 26M-8-34l0 26M16-34l0 26M40-34l0 26M64-34l0 26', 3)
@@ -174,7 +197,7 @@ class Cena:
             self.tubo(f'M{sx} 70Q{sx + bx * .3} {70 + by * .2} {sx + bx} {70 + by}', 24)
             self.circ(sx + bx, 70 + by, 15)
 
-    def farofa(self, x, y, s=1, olhando=1, rabo=1):
+    def farofa(self, x, y, s=1, olhando=1, rabo=1, gorro=False, laco=False):
         """Farofa, a gatinha listrada sentada. (x, y) = base no chão."""
         self.grupo(x, y, s)
         # rabo
@@ -195,5 +218,30 @@ class Cena:
         self.path(f'M{-6 + ex} 12l12 0l-6 7z', '#1d1d1d', 2)
         self.linha(f'M{ex} 19q-6 8-12 4M{ex} 19q6 8 12 4', 3)
         self.linha('M-30 14l-26-4M-30 20l-24 6M30 14l26-4M30 20l24 6', 2.5)
+        if gorro:
+            self.path('M-34-30C-30-70 20-84 44-60C54-48 56-34 50-24L40-30C38-44 28-50 20-44C26-40 30-34 30-30Z')
+            self.ret(-40, -40, 80, 20, 10)
+            self.circ(52, -20, 11)
+        if laco:
+            self.path('M24 30L4 20L4 44ZM24 30L44 20L44 44Z', w=F)
+            self.circ(24, 32, 6, w=3)
         self.fim()
+        self.fim()
+
+    def farofa_dormindo(self, x, y, s=1):
+        """Farofa enroladinha dormindo. (x, y) = base."""
+        self.grupo(x, y, s)
+        self.path('M-80 0C-90-50-40-80 10-76C60-72 90-40 80 0Z')
+        self.linha('M-40-70l6 16M-10-76l2 18M20-74l-2 18M50-62l-6 14', F)
+        self.tubo('M78-6C70 14 10 16-30 8', 16)
+        self.grupo(-50, -30)
+        self.path('M-36-10L-34-52L-12-34ZM30-10L30-50L8-34Z')
+        self.elip(0, 0, 42, 34)
+        self.linha('M-24 2q8 6 14 0M10 2q8 6 14 0', 3.5)
+        self.path('M-6 10l12 0l-6 6z', '#1d1d1d', 2)
+        self.linha('M-26 14l-22-2M26 14l22-2', 2.5)
+        self.fim()
+        self.texto(30, -100, 'z', 40)
+        self.texto(60, -130, 'z', 30)
+        self.texto(84, -152, 'z', 24)
         self.fim()
