@@ -133,6 +133,36 @@
       share: 'Pensa num número de 1 a 10 e faz a conta… duvido tu descobrir como funciona 🐘'
     },
 
+    fruta: {
+      titulo: 'Como eu sabia do <span class="marca-texto">kiwi</span>? 🥝',
+      lead: 'Tu escolheu o número que quis e mesmo assim caiu no kiwi. E ele tava desenhado no cantinho da folha desde o começo. Olha a conta:',
+      testaTitulo: 'Testa com qualquer número',
+      testaTexto: 'Toca num número de 1 a 5 e vê a conta acontecer:',
+      max: 5,
+      conta: function (n) {
+        return [
+          n + ' × 2 = <span class="v">' + (2 * n) + '</span>',
+          (2 * n) + ' + 22 = <span class="v">' + (2 * n + 22) + '</span>',
+          (2 * n + 22) + ' ÷ 2 = <span class="v">' + (n + 11) + '</span>',
+          (n + 11) + ' − ' + n + ' = <span class="v">11</span> → letra <span class="v">K</span> → <span class="v">kiwi</span> 🥝'
+        ];
+      },
+      porque: [
+        'Dobrar e depois dividir por 2 desfaz a conta. Sobra o teu número mais a <b>metade do 22</b>, que é 11.',
+        'Aí eu mando tirar o número que tu pensou. Ele some, e sobra <b>sempre 11</b>, qualquer que seja o número.',
+        'A 11ª letra é o <b>K</b>. Fruta com K? Quase todo mundo só lembra do <b>kiwi</b>.',
+        'E o kiwi tava rabiscado no canto da folha o vídeo inteiro, parecendo um solzinho. Tu viu e nem percebeu 👀'
+      ],
+      bonusTitulo: 'Bônus: o número mágico',
+      bonus: [
+        'Pede pro teu amigo escolher o algarismo favorito dele, de 1 a 9.',
+        'Manda ele pegar a calculadora e digitar 12345679 (sem o 8!).',
+        'Agora multiplicar por 9 e depois pelo algarismo que ele escolheu.'
+      ],
+      bonusFim: 'Vai aparecer o número favorito dele <b>repetido 9 vezes</b> (escolheu 7? dá 777777777) 🤯 Fala que a calculadora leu a mente dele.',
+      share: 'Pensa num número de 1 a 5 e faz a conta… duvido tu não cair no kiwi 🥝'
+    },
+
     bandeira: {
       titulo: 'Por que teu cérebro <span class="marca-texto">pintou</span> a bandeira? 🇧🇷',
       lead: 'A bandeira verde e amarela que tu viu nunca esteve na tela. Quem pintou foi o teu olho. Aqui tem uma ilusão secreta, mais forte que a do vídeo:',
@@ -248,7 +278,7 @@
       timers.push(setTimeout(function () { d.classList.add('on'); }, 150 + i * 650));
     });
   }
-  for (var n = 1; n <= 10; n++) {
+  for (var n = 1; n <= (T.max || 10); n++) {
     var b = document.createElement('button'); b.type = 'button'; b.textContent = n; b.setAttribute('aria-pressed', 'false');
     b.onclick = (function (k) { return function () { mostra(k); }; })(n);
     $('grade').appendChild(b);
