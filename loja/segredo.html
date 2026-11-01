@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>O segredo do truque · Caderno Amarelo</title>
+<meta name="description" content="Como o Caderno Amarelo adivinhou o que tu tava pensando. O segredo do truque, só pra seguidores.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="O segredo do truque 🔒">
+<meta property="og:description" content="Como eu sabia que tu tava pensando num elefante cinza na Dinamarca?">
+<meta name="theme-color" content="#ffd23f">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔮</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/loja.css">
+<style>
+  /* Página que o robô manda na DM pra quem comentou nos vídeos de truque (ex.: elefante).
+     Um truque por chave em ?t=  (TRUQUES no script). */
+  [hidden] { display: none !important; }
+  .sg { max-width: 560px; margin: 0 auto; padding: 22px 16px 40px; }
+  .sg-topo { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+  .sg-topo .logo { font-weight: 900; text-decoration: none; }
+  .sg-tag { font-family: var(--mao); font-size: 1.5rem; }
+  .sg h1 { font-family: var(--mao); font-size: clamp(2.5rem, 10.5vw, 3.4rem); line-height: 1.02; margin: 4px 0 10px; text-align: center; }
+  .sg h1 .marca-texto { padding: 0 6px; }
+  .sg > p.lead { color: var(--tinta-suave); font-size: 1.05rem; text-align: center; }
+  .sg h2 { font-family: var(--mao); font-size: 2rem; line-height: 1.1; margin-bottom: 8px; }
+  .folha { background: #fff; border: 3px solid var(--tinta); border-radius: 22px; box-shadow: 5px 6px 0 rgba(0,0,0,.16);
+           padding: 18px 16px; margin: 22px 0; position: relative; }
+  .folha::before { content: ''; position: absolute; top: -12px; left: 50%; width: 90px; height: 24px; margin-left: -45px;
+           background: rgba(255, 210, 63, .75); transform: rotate(-3deg); }
+  .folha p { margin-bottom: 8px; } .folha p:last-child { margin-bottom: 0; }
+  .num-grade { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 12px 0; }
+  .num-grade button { font-family: var(--mao); font-size: 1.9rem; padding: 6px 0; border: 2px solid var(--tinta); border-radius: 12px;
+           background: var(--papel-claro); cursor: pointer; box-shadow: 2px 2px 0 var(--tinta); color: var(--tinta); }
+  .num-grade button[aria-pressed="true"] { background: var(--amarelo); }
+  .conta { font-family: var(--mao); font-size: 2.1rem; line-height: 1.25; text-align: center; min-height: 6.4em; }
+  .conta .v { color: var(--vermelho); }
+  .conta .linha-conta { opacity: 0; transform: translateY(6px); transition: opacity .3s, transform .3s; }
+  .conta .linha-conta.on { opacity: 1; transform: none; }
+  .passos { counter-reset: p; list-style: none; }
+  .passos li { counter-increment: p; position: relative; padding-left: 40px; margin-bottom: 10px; }
+  .passos li::before { content: counter(p); position: absolute; left: 0; top: -2px; width: 28px; height: 28px; border-radius: 50%;
+           background: var(--amarelo); border: 2px solid var(--tinta); font-weight: 900; display: grid; place-items: center; font-size: .9rem; }
+  .acoes { display: flex; flex-direction: column; gap: 12px; align-items: center; margin-top: 8px; }
+  .acoes .btn { min-width: 240px; }
+  .btn-claro { background: #fff; }
+  .rodape-sg { margin-top: 26px; font-size: .9rem; color: var(--tinta-suave); text-align: center; }
+  .rodape-sg a { font-weight: 800; }
+  @media (prefers-reduced-motion: reduce) { .conta .linha-conta { transition: none; } }
+</style>
+</head>
+<body>
+<main class="sg">
+  <div class="sg-topo">
+    <a class="logo" href="index.html">📒 Caderno Amarelo</a>
+    <span class="sg-tag">🔓 só pra seguidor</span>
+  </div>
+
+  <h1 id="titulo"></h1>
+  <p class="lead" id="lead"></p>
+
+  <section class="folha" id="testa">
+    <h2 id="testa-titulo"></h2>
+    <p id="testa-texto"></p>
+    <div class="num-grade" id="grade"></div>
+    <div class="conta" id="conta" aria-live="polite"></div>
+  </section>
+
+  <section class="folha">
+    <h2>Por que funciona</h2>
+    <ol class="passos" id="porque"></ol>
+  </section>
+
+  <section class="folha" id="bonus">
+    <h2 id="bonus-titulo"></h2>
+    <ol class="passos" id="bonus-passos"></ol>
+    <p id="bonus-fim"></p>
+  </section>
+
+  <div class="acoes">
+    <button class="btn" id="compartilhar" type="button">Fazer o truque num amigo 📲</button>
+    <a class="btn btn-claro" href="produto.html?p=kit-mentalista">Quero mais 20 truques assim 🧠</a>
+  </div>
+
+  <p class="rodape-sg">Feito pelo <a id="ig" href="https://instagram.com/cardeno_amarelo">@Cardeno_Amarelo</a>. Não conta o segredo nos comentários, hein 🤫</p>
+</main>
+
+<script src="assets/js/config.js"></script>
+<script>
+(function () {
+  var TRUQUES = {
+    elefante: {
+      titulo: 'Como eu sabia do <span class="marca-texto">elefante</span>? 🐘',
+      lead: 'Tu pensou num número qualquer e mesmo assim caiu no elefante cinza na Dinamarca. Não é mágica, é matemática. Olha só:',
+      testaTitulo: 'Testa com qualquer número',
+      testaTexto: 'Toca num número de 1 a 10 e vê a conta acontecer:',
+      conta: function (n) {
+        var x = n * 9, d = String(x).split('').map(Number), s = d.reduce(function (a, b) { return a + b; }, 0);
+        return [
+          n + ' × 9 = <span class="v">' + x + '</span>',
+          (d.length > 1 ? d.join(' + ') + ' = ' : 'fica ') + '<span class="v">' + s + '</span>',
+          s + ' − 5 = <span class="v">' + (s - 5) + '</span> → letra <span class="v">D</span>',
+          'D… <span class="v">Dinamarca</span> 🇩🇰 → E… <span class="v">elefante</span> 🐘'
+        ];
+      },
+      porque: [
+        'Todo número de 1 a 10 vezes 9 dá 9, 18, 27, 36, 45, 54, 63, 72, 81 ou 90. Somando os dígitos, <b>sempre dá 9</b>. Então não importa o número que tu pensou.',
+        '9 menos 5 dá <b>4</b>, e a 4ª letra é o <b>D</b>.',
+        'País com D? Quase todo mundo lembra da <b>Dinamarca</b> (os outros são Dominica e Djibuti, que quase ninguém lembra).',
+        'A letra seguinte é o <b>E</b>. Bicho com E? O primeiro que vem na cabeça é o <b>elefante</b>, e elefante é <b>cinza</b>.',
+        'O truque usa uma conta que sempre dá igual e depois a resposta que <b>a maioria</b> das pessoas dá. Por isso funciona com quase todo mundo.'
+      ],
+      bonusTitulo: 'Bônus: o truque do número 5',
+      bonus: [
+        'Pede pro teu amigo pensar num número (qualquer um, pode ser grande).',
+        'Manda ele dobrar o número.',
+        'Agora somar 10.',
+        'Dividir por 2.',
+        'E tirar o número que ele pensou no começo.'
+      ],
+      bonusFim: 'Aí tu fala, bem misterioso: <b>"deu 5"</b>. Sempre dá 5, com qualquer número 😎',
+      share: 'Pensa num número de 1 a 10 e faz a conta… duvido tu descobrir como funciona 🐘'
+    }
+  };
+
+  var $ = function (id) { return document.getElementById(id); };
+  var chave = (new URLSearchParams(location.search).get('t') || 'elefante').toLowerCase();
+  var T = TRUQUES[chave] || TRUQUES.elefante;
+  try { if (window.LOJA_CONFIG && LOJA_CONFIG.instagram) $('ig').href = LOJA_CONFIG.instagram; } catch (e) {}
+
+  $('titulo').innerHTML = T.titulo; $('lead').textContent = T.lead;
+  $('testa-titulo').textContent = T.testaTitulo; $('testa-texto').textContent = T.testaTexto;
+  T.porque.forEach(function (t) { var li = document.createElement('li'); li.innerHTML = t; $('porque').appendChild(li); });
+  $('bonus-titulo').textContent = T.bonusTitulo;
+  T.bonus.forEach(function (t) { var li = document.createElement('li'); li.textContent = t; $('bonus-passos').appendChild(li); });
+  $('bonus-fim').innerHTML = T.bonusFim;
+
+  var timers = [];
+  function mostra(n) {
+    timers.forEach(clearTimeout); timers = [];
+    [].forEach.call($('grade').children, function (b) { b.setAttribute('aria-pressed', String(+b.textContent === n)); });
+    var conta = $('conta'); conta.innerHTML = '';
+    T.conta(n).forEach(function (l, i) {
+      var d = document.createElement('div'); d.className = 'linha-conta'; d.innerHTML = l; conta.appendChild(d);
+      timers.push(setTimeout(function () { d.classList.add('on'); }, 150 + i * 650));
+    });
+  }
+  for (var n = 1; n <= 10; n++) {
+    var b = document.createElement('button'); b.type = 'button'; b.textContent = n; b.setAttribute('aria-pressed', 'false');
+    b.onclick = (function (k) { return function () { mostra(k); }; })(n);
+    $('grade').appendChild(b);
+  }
+
+  $('compartilhar').onclick = function () {
+    var dados = { title: 'Truque', text: T.share, url: (LOJA_CONFIG && LOJA_CONFIG.instagram) || 'https://instagram.com/cardeno_amarelo' };
+    if (navigator.share) { navigator.share(dados).catch(function () {}); return; }
+    try { navigator.clipboard.writeText(dados.text + ' ' + dados.url); $('compartilhar').textContent = 'Copiado! ✅'; }
+    catch (e) { prompt('Copia:', dados.text + ' ' + dados.url); }
+  };
+})();
+</script>
+</body>
+</html>
