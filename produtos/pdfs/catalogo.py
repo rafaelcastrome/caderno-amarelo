@@ -15,8 +15,8 @@ PRODUTOS = [
          tag='livro de colorir', linha1='Natal', linha2='Fofo', frase='16 cenas cheias de detalhe pra colorir',
          subtitulo='16 cenas de Natal cheias de detalhe, cada uma com uma historinha, pra colorir com calma',
          descricao='O Bolinho, um cachorrinho de orelha caída, e a Farofa, uma gatinha listrada, vivem o Natal inteiro em 16 cenas cheias de detalhe: fazem biscoito, montam a árvore, escrevem pro Papai Noel, patinam no lago e ainda curtem o Natal brasileiro na piscina e na praia. Traço grosso, no estilo aconchegante que tá todo mundo colorindo, e a Farofa escondida em todas as páginas.',
-         inclui=['19 páginas A4 pra imprimir', '16 cenas detalhadas em página inteira', 'Página pra desenhar o teu próprio Natal', 'Imprime quantas vezes quiser'],
-         dupla=True, prev=(6, 7, 17), titulo_conteudo='As cenas', conteudo=['Carta pro Papai Noel', 'Embrulhando presentes', 'Casinha de biscoito', 'Noite de biscoitos', 'Montando a árvore', 'Oficina do Noel', 'Guerra de bolinha de neve', 'Trenó ladeira abaixo', 'Patinação no lago', 'Cantoria na porta', 'Chocolate quente no sofá', 'A ceia', 'Esperando o Papai Noel', 'Manhã de Natal', 'Natal na piscina', 'Natal na praia'], categoria='Natal', pasta='natal', lote=1),
+         inclui=['22 páginas A4 pra imprimir', '16 cenas detalhadas em página inteira', 'Marquinha de furo em todas as folhas pra virar caderno', 'Capa pra pintar e contracapa', 'Passo a passo de montagem, com o papel certo pra miolo e capa', 'Página pra desenhar o teu próprio Natal', 'Imprime quantas vezes quiser'],
+         dupla=True, prev=(7, 8, 18), titulo_conteudo='As cenas', conteudo=['Carta pro Papai Noel', 'Embrulhando presentes', 'Casinha de biscoito', 'Noite de biscoitos', 'Montando a árvore', 'Oficina do Noel', 'Guerra de bolinha de neve', 'Trenó ladeira abaixo', 'Patinação no lago', 'Cantoria na porta', 'Chocolate quente no sofá', 'A ceia', 'Esperando o Papai Noel', 'Manhã de Natal', 'Natal na piscina', 'Natal na praia'], categoria='Natal', pasta='natal', lote=1),
     dict(slug='calendario-advento-desafios', nome='Calendário do Advento de Desafios', preco=5.90, icones=['vela', 'estrela', 'presente'],
          tag='24 dias até o Natal', linha1='Calendário', linha2='do Advento', frase='um desafio por dia, de 1 a 24 de dezembro',
          subtitulo='24 desafios divertidos pra família, um por dia até o Natal',
@@ -191,6 +191,27 @@ def marca_dagua(im):
     f2 = ImageFont.truetype(os.path.join(AQUI, 'Caveat-Bold.ttf'), 30)
     faixa.text((im.width / 2, im.height - 22), 'amostra · o PDF completo vem sem marca', font=f2, fill=(29, 29, 29, 255), anchor='mm')
     return Image.alpha_composite(im.convert('RGBA'), camada).convert('RGB')
+
+def mosaico(slug, paginas, colunas=4, larg=1000):
+    """Mosaico pequeno com todas as páginas do livro (com marca d'água), pra quem compra ver tudo que vem."""
+    ims = [Image.open(os.path.join(AQUI, 'previa', f'{slug}-{i}.png')).convert('RGB') for i in paginas]
+    gap = 10
+    w = (larg - gap * (colunas + 1)) // colunas
+    h = int(w * ims[0].height / ims[0].width)
+    lin = (len(ims) + colunas - 1) // colunas
+    m = Image.new('RGB', (larg, gap + lin * (h + gap)), (243, 239, 226))
+    for k, im in enumerate(ims):
+        m.paste(im.resize((w, h), Image.LANCZOS), (gap + (k % colunas) * (w + gap), gap + (k // colunas) * (h + gap)))
+    camada = Image.new('RGBA', (m.width * 2, m.height * 2), (0, 0, 0, 0))
+    d = ImageDraw.Draw(camada)
+    fonte = ImageFont.truetype(os.path.join(AQUI, 'Caveat-Bold.ttf'), 40)
+    for y in range(0, camada.height, 90):
+        d.text(((y // 90) % 2 * -140, y), 'AMOSTRA · @Cardeno_Amarelo · ' * 8, font=fonte, fill=(214, 40, 40, 60))
+    camada = camada.rotate(30, resample=Image.BICUBIC).crop((m.width // 2, m.height // 2, m.width // 2 + m.width, m.height // 2 + m.height))
+    f2 = ImageFont.truetype(os.path.join(AQUI, 'Caveat-Bold.ttf'), 40)
+    ImageDraw.Draw(camada).rectangle((0, m.height - 56, m.width, m.height), fill=(255, 210, 63, 235))
+    ImageDraw.Draw(camada).text((m.width / 2, m.height - 28), 'todas as páginas · o PDF completo vem sem marca', font=f2, fill=(29, 29, 29, 255), anchor='mm')
+    return Image.alpha_composite(m.convert('RGBA'), camada).convert('RGB')
 
 def capa_html(p):
     if p.get('dupla'):

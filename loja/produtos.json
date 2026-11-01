@@ -12,8 +12,11 @@
     "destaque": false,
     "descricao": "O Bolinho, um cachorrinho de orelha caída, e a Farofa, uma gatinha listrada, vivem o Natal inteiro em 16 cenas cheias de detalhe: fazem biscoito, montam a árvore, escrevem pro Papai Noel, patinam no lago e ainda curtem o Natal brasileiro na piscina e na praia. Traço grosso, no estilo aconchegante que tá todo mundo colorindo, e a Farofa escondida em todas as páginas.",
     "inclui": [
-      "19 páginas A4 pra imprimir",
+      "22 páginas A4 pra imprimir",
       "16 cenas detalhadas em página inteira",
+      "Marquinha de furo em todas as folhas pra virar caderno",
+      "Capa pra pintar e contracapa",
+      "Passo a passo de montagem, com o papel certo pra miolo e capa",
       "Página pra desenhar o teu próprio Natal",
       "Imprime quantas vezes quiser"
     ],
@@ -37,6 +40,7 @@
       "Natal na praia"
     ],
     "previas": [
+      "assets/img/previas/natal-fofo-colorir-todas.jpg",
       "assets/img/previas/natal-fofo-colorir-1.jpg",
       "assets/img/previas/natal-fofo-colorir-2.jpg",
       "assets/img/previas/natal-fofo-colorir-3.jpg"

@@ -48,10 +48,10 @@ class Cena:
         tr = f' transform="rotate({rot} {x} {y})"' if rot else ''
         self.add(f'<text x="{x}" y="{y}" font-family="Caveat" font-size="{tam}" text-anchor="{anchor}" fill="#1d1d1d"{tr}>{s}</text>')
 
-    def texto_vazado(self, x, y, s, tam=60, rot=0):
+    def texto_vazado(self, x, y, s, tam=60, rot=0, w=4.5):
         """Letra só de contorno, pra pintar por dentro."""
         tr = f' transform="rotate({rot} {x} {y})"' if rot else ''
-        self.add(f'<text x="{x}" y="{y}" font-family="Caveat" font-size="{tam}" text-anchor="middle" fill="#fff" stroke="#1d1d1d" stroke-width="4.5" paint-order="stroke"{tr}>{s}</text>')
+        self.add(f'<text x="{x}" y="{y}" font-family="Caveat" font-size="{tam}" text-anchor="middle" fill="#fff" stroke="#1d1d1d" stroke-width="{w}" paint-order="stroke"{tr}>{s}</text>')
 
     def grupo(self, tx, ty, s=1, rot=0):
         self.add(f'<g transform="translate({tx} {ty}) rotate({rot}) scale({s})">')

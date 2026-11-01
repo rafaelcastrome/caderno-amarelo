@@ -2,6 +2,7 @@
 import random
 from base import documento, pagina, capa, salvar
 from icones import ICONES, NOMES, svg
+from cenas_natal import pinheiro, presente
 
 TODOS = list(ICONES)
 PAST = ['#ffe1e1', '#def3dc', '#fff2bf', '#dcefff', '#efe2fb', '#ffe8d2']
@@ -134,17 +135,81 @@ def _dupla(tam_px, gorro='noel'):
     return c.svg(moldura=False, vb='0 0 440 350', estilo=f'width:{tam_px}px')
 
 
+FUROS_CSS = ('.pag{padding-left:24mm}'
+             '.pag::before,.pag::after{content:"";position:absolute;left:8mm;width:6mm;height:6mm;border:1.6px dashed #9a9a9a;border-radius:50%;background:none}'
+             '.pag::before{top:105.5mm}.pag::after{top:185.5mm}')   # 2 furos a 80 mm (furador comum), centralizados na folha
+
+
+def _capa_pra_colorir():
+    from cenas import Cena
+    c = Cena()
+    for (x, y) in ((80, 120), (920, 160), (140, 520), (880, 560), (500, 60), (150, 300), (860, 330)):
+        c.floco(x, y, 22, 3)
+    for (x, y) in ((220, 140), (780, 100), (60, 360), (950, 380), (420, 200), (600, 180)):
+        c.estrela(x, y, 16, 7, w=3)
+    c.texto(500, 290, 'Meu caderno de', 90)
+    c.texto_vazado(500, 460, 'Natal Fofo', 190, w=8)
+    c.path('M-10 1060Q300 980 520 1040Q760 1100 1010 1020L1010 1310L-10 1310Z')
+    pinheiro(c, 120, 1060, 260)
+    pinheiro(c, 880, 1040, 300)
+    c.bolinho(400, 760, 1.25, gorro='noel', cachecol=True, braco_e=(-60, 50), braco_d=(80, 20))
+    c.farofa(660, 1010, 1.15, olhando=-1, gorro=True)
+    presente(c, 180, 1080, 130, 100, 'bolas')
+    presente(c, 760, 1100, 150, 90, 'estrelas')
+    c.ret(200, 1190, 600, 80, 14)
+    c.texto(330, 1244, 'Este caderno é de:', 40)
+    return c.svg()
+
+
+def _contracapa():
+    from cenas import Cena
+    c = Cena()
+    for (x, y) in ((120, 140), (860, 180), (500, 90), (260, 330), (760, 360), (120, 600), (880, 640)):
+        c.floco(x, y, 20, 3)
+    c.farofa_dormindo(500, 760, 1.6)
+    c.path('M260 800L740 800L720 840L280 840Z')
+    c.texto(500, 960, 'Feito com carinho pelo', 50)
+    c.texto(500, 1030, 'Caderno Amarelo', 70)
+    c.texto(500, 1100, '@Cardeno_Amarelo', 44)
+    return c.svg()
+
+
 def colorir():
-    """Livro de colorir: 16 cenas detalhadas do Bolinho e da Farofa (preto e branco, traço grosso)."""
+    """Livro de colorir: 16 cenas detalhadas do Bolinho e da Farofa, com furos pra virar caderno, capa e passo a passo."""
+    from cenas_natal import pinheiro as _p  # noqa: garante import das cenas
     nome = 'Natal Fofo pra Colorir'
-    css = '''.cc{display:flex;flex-direction:column;height:100%}
+    css = FUROS_CSS + '''.cc{display:flex;flex-direction:column;height:100%}
 .cc .tt{font-size:50px;text-align:center;line-height:1;margin:-4mm 0 3mm}
 .cc .arte{flex:1;min-height:0}
 .apres{text-align:center;font-size:30px;line-height:1.25}
 .apres h2{font-size:58px;margin:4mm 0 2mm}
 .apres p{margin:2mm 10mm}
-.livre{border:3px solid #1d1d1d;border-radius:8mm;height:232mm;margin-top:4mm;position:relative}'''
+.livre{border:3px solid #1d1d1d;border-radius:8mm;height:232mm;margin-top:4mm;position:relative}
+.passo{font-size:21px;line-height:1.15}
+.passo h2{font-size:48px;line-height:1;margin:-4mm 0 1mm}
+.passo h3{font-size:27px;margin:2.2mm 0 .3mm;display:flex;align-items:center;gap:3mm}
+.passo h3 b{background:#ffd23f;border-radius:50%;width:10mm;height:10mm;display:inline-flex;align-items:center;justify-content:center;font-size:26px}
+.passo p{margin:0 0 0 13mm}
+.passo .box{border:2.5px solid #1d1d1d;border-radius:4mm;padding:2mm 4mm;margin-top:3mm;background:#fff7d6}'''
     pags = [capa('livro de colorir', 'Natal<br>Fofo', '16 cenas cheias de detalhe pra colorir com calma', _dupla(330))]
+    pags.append(pagina('''<div class="passo"><h2>Como montar o teu caderno</h2>
+<p style="margin:0">Dá pra pintar folha por folha ou montar um caderninho de verdade. É fácil, vai do começo ao fim:</p>
+<h3><b>1</b>O que tu vai precisar</h3>
+<p>Impressora (ou a papelaria do bairro), papel A4 pro miolo, papel mais grosso pra capa, furador de 2 furos e fita, barbante ou argolas pra prender.</p>
+<h3><b>2</b>Papel das páginas de dentro</h3>
+<p>Sulfite A4 de <b>90 a 120 g/m²</b>. O comum (75 g/m²) até funciona, mas canetinha atravessa. Se for usar canetinha ou giz molhado, vai de <b>120 g/m²</b>.</p>
+<h3><b>3</b>Papel da capa</h3>
+<p>Papel de <b>180 a 240 g/m²</b> (tipo color plus, offset grosso, couché fosco ou cartolina fina). Usa a capa colorida (página 1) ou a capa pra pintar (penúltima página) e a contracapa (última).</p>
+<h3><b>4</b>Na hora de imprimir</h3>
+<p>Escolhe tamanho <b>A4</b> e escala <b>100% / tamanho real</b> (não marca "ajustar à página"), senão os furos saem do lugar. Imprime <b>só de um lado</b> da folha, pra tinta da canetinha não estragar o desenho de trás. O miolo pode ser em preto e branco.</p>
+<h3><b>5</b>Furar</h3>
+<p>As bolinhas tracejadas na beirada esquerda mostram onde furar. Com furador de 2 furos (8 cm entre um furo e outro), fura poucas folhas por vez, sempre na marca.</p>
+<h3><b>6</b>Montar na ordem</h3>
+<p>Capa, página de apresentação, as 16 cenas, a página pra desenhar e, por último, a contracapa. Bate as folhas na mesa pra alinhar.</p>
+<h3><b>7</b>Prender</h3>
+<p>Passa uma fita ou barbante pelos furos e dá um laço, ou usa colchete bailarina ou argolas. Quer mais caprichado? Leva na papelaria e pede <b>encadernação com espiral</b> (aí nem precisa furar).</p>
+<div class="box">Dica: põe uma folha de rascunho embaixo quando for usar canetinha. E não esquece: a Farofa tá escondida em todas as cenas!</div>
+</div>''', nome=nome))
     pags.append(pagina(f'''<div class="apres"><h2>Oi! A gente é o Bolinho e a Farofa</h2>{_dupla(520, gorro=True)}
 <p>O <b>Bolinho</b> é um cachorrinho de orelha caída que ama biscoito e Natal. A <b>Farofa</b> é a gatinha listrada que vive se escondendo
 em tudo que é lugar: dentro da árvore, da caixa, do presente...</p>
@@ -154,6 +219,8 @@ Dica: procura a Farofa em todas as cenas!</p></div>''', nome=nome))
         pags.append(pagina(f'<div class="cc"><div class="tt">{titulo}</div><div class="arte">{_cena(func).svg()}</div></div>', nome=nome))
     pags.append(pagina(f'''<div class="cc"><div class="tt">Agora desenha o teu Natal!</div>
 <div class="livre"><div style="position:absolute;right:8mm;bottom:6mm">{_dupla(260)}</div></div></div>''', nome=nome))
+    pags.append(pagina(f'<div class="cc"><div class="tt">Capa pra pintar</div><div class="arte">{_capa_pra_colorir()}</div></div>', nome=nome))
+    pags.append(pagina(f'<div class="cc"><div class="tt">Contracapa</div><div class="arte">{_contracapa()}</div></div>', nome=nome))
     return salvar('natal-fofo-colorir', documento(nome, pags, css, pb=True))
 
 if __name__ == '__main__':
