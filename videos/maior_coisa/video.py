@@ -16,21 +16,30 @@ F = lambda s: ImageFont.truetype('Caveat-Bold.ttf', s * SS)
 LY = 9.461e15
 
 # ---------------- áudio ----------------
-# (início, fim) de cada fala no falas/take1.wav (cortes no meio dos silêncios)
-FALAS = [(0.0, 2.15), (2.2, 5.05), (5.1, 7.85), (7.9, 10.05), (10.1, 13.25), (13.3, 16.35),
-         (16.4, 19.8), (19.85, 23.2), (23.25, 27.35), (27.4, 31.6), (31.65, 36.3), (36.35, 41.8)]
+# (take, início, fim) de cada fala (cortes no meio dos silêncios)
+FALAS = [(1, 0.0, 2.15), (1, 2.2, 5.05), (1, 5.1, 7.85), (1, 7.9, 10.05), (1, 10.1, 13.25), (1, 13.3, 16.35),
+         (1, 16.4, 19.8), (1, 19.85, 23.2), (1, 23.25, 27.35),
+         (2, 0.0, 8.9), (2, 8.95, 13.3), (2, 13.35, 23.1),          # curiosidades (galáxia, universo, uau)
+         (1, 36.35, 41.8)]
+FIM = len(FALAS) - 1                    # fala do Caderninho
+UAU = FIM - 1                           # fala do espaço esticando
 
 
-def monta_audio():
-    with wave.open('falas/take1.wav') as w:
+def le_take(n):
+    with wave.open(f'falas/take{n}.wav') as w:
         sr = w.getframerate(); pcm = np.frombuffer(w.readframes(w.getnframes()), np.int16)
-    out = subprocess.run(['ffmpeg', '-hide_banner', '-i', 'falas/take1.wav', '-af',
+    out = subprocess.run(['ffmpeg', '-hide_banner', '-i', f'falas/take{n}.wav', '-af',
                           'silencedetect=n=-40dB:d=0.25', '-f', 'null', '-'], capture_output=True, text=True).stderr
     sil = list(zip([float(x) for x in re.findall(r'silence_start: ([\d.]+)', out)],
                    [float(x) for x in re.findall(r'silence_end: ([\d.]+)', out)]))
+    return sr, pcm, sil
+
+
+def monta_audio():
+    takes = {n: le_take(n) for n in (1, 2)}
     clips = []
-    for a, b in FALAS:
-        # tira o silêncio da ponta
+    for tk, a, b in FALAS:
+        sr, pcm, sil = takes[tk]
         for s, e in sil:
             if s <= a + 0.05 < e: a = max(a, e - 0.05)
             if s < b - 0.05 <= e: b = min(b, s + 0.08)
@@ -368,6 +377,9 @@ def frame(args):
     t, starts, cam_T = args
     cam = Cam(starts); cam.T = cam_T
     k, L, c, e = cam.at(t)
+    if t >= starts[UAU]:
+        du = starts[FIM] - starts[UAU]
+        L -= 0.09 * ease((t - starts[UAU] - du * 0.55) / (du * 0.45)) + DRIFT * max(0, t - starts[UAU])
     v = View(L, c)
     noite = min(1, max(0, (1400 - v.px(R_E)) / 900))
     im = PAPEL.copy() if noite <= 0 else (PAPEL_NOITE.copy() if noite >= 1 else Image.blend(PAPEL, PAPEL_NOITE, noite))
@@ -397,24 +409,34 @@ def frame(args):
     if t < starts[1]:
         put(im, 'Qual é a maior coisa', 104, INK, 170)
         put(im, 'que existe?', 104, INK, 290)
-    elif t < starts[11]:
+    elif t < starts[FIM]:
         lv = NIV[k]; tk = cam.T[k] if k else starts[1]
         p = ease((t - tk) / 0.7) if k else 1.0
         put(im, lv[0], 62, azul, 110, bg=bg)
         put(im, '≈ ' + fmt(lv[1] * p, lv[2]) if lv[2] or lv[1] * p >= 1 else '≈ 0', 150, tinta, 175, bg=bg)
         put(im, lv[3], 60, tinta, 345, bg=bg)
         if lv[4]: put(im, lv[4], 56, ORANGE, 420, bg=bg, alpha=min(1, max(0, (t - tk - 0.5) / 0.3)))
+        def aparece(t0): return min(1, max(0, (t - t0) / 0.3))
+        if k == 8:          # Via Láctea
+            d9 = starts[10] - starts[9]
+            put(im, '1 volta do Sol nela = 230 milhões de anos', 54, tinta, 520, bg=bg, alpha=aparece(starts[9] + 1.2))
+            put(im, 'última volta: os dinossauros tavam nascendo', 54, ORANGE, 600, bg=bg, alpha=aparece(starts[9] + d9 * 0.6))
+        if k == 9 and t >= starts[UAU]:
+            du = starts[FIM] - starts[UAU]
+            put(im, 'idade do universo: 13,8 bilhões de anos', 54, tinta, 520, bg=bg, alpha=aparece(starts[UAU] + 0.3))
+            put(im, 'tamanho: 93 bilhões de anos-luz?!', 54, tinta, 596, bg=bg, alpha=aparece(starts[UAU] + du * 0.3))
+            put(im, 'o espaço ESTICOU!', 78, ORANGE, 668, bg=bg, alpha=aparece(starts[UAU] + du * 0.62))
     else:
         # final: Caderninho grande pergunta
-        a = ease((t - starts[11]) / 0.4)
+        a = ease((t - starts[FIM]) / 0.4)
         ov = Image.new('RGBA', im.size, PAPER + (int(215 * a),)); im.paste(ov, (0, 0), ov)
         d = ImageDraw.Draw(im)
         put(im, 'Tu viu o Caderninho?', 100, INK, 230, alpha=a)
         if a > 0.05:
             caderninho(d, W * SS / 2, (1120 + 18 * math.sin(t * 5)) * SS, 420 * SS * a, t)
-        put(im, 'Quantas vezes', 110, RED, 1300, alpha=min(1, max(0, (t - starts[11] - 0.9) / 0.3)))
-        put(im, 'ele apareceu?', 110, RED, 1420, alpha=min(1, max(0, (t - starts[11] - 0.9) / 0.3)))
-        put(im, 'comenta o número', 78, BLUE, 1580, alpha=min(1, max(0, (t - starts[11] - 2.0) / 0.3)))
+        put(im, 'Quantas vezes', 110, RED, 1300, alpha=min(1, max(0, (t - starts[FIM] - 0.9) / 0.3)))
+        put(im, 'ele apareceu?', 110, RED, 1420, alpha=min(1, max(0, (t - starts[FIM] - 0.9) / 0.3)))
+        put(im, 'comenta o número', 78, BLUE, 1580, alpha=min(1, max(0, (t - starts[FIM] - 2.0) / 0.3)))
     # marca d'água que muda de lugar
     wx, wy = WM_POS[int(t // 7) % len(WM_POS)]
     put(im, '@Cardeno_Amarelo', 46, (150, 140, 120) if noite < 0.5 else (120, 130, 170), wy, x=wx * SS, stroke=0)
