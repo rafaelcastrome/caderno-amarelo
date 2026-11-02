@@ -1,0 +1,6 @@
+{
+  "name": "formiga-predio-3d",
+  "private": true,
+  "description": "Cenas 3D (three.js) do vídeo da formiga; renderizadas com o Playwright/Chromium.",
+  "dependencies": { "three": "0.160.0" }
+}
