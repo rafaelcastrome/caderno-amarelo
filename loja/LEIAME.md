@@ -77,3 +77,18 @@ cd loja && python3 -m http.server 8765
 ```
 
 Abrir `http://localhost:8765`. Com `config.js` vazio, o checkout roda em modo demonstração (não cobra nada).
+
+## Jogo "Desafios do Caderno Amarelo" (`desafios.html`)
+
+| Caminho | O que é |
+| --- | --- |
+| `desafios.html` | Página do jogo (componente + estilos) |
+| `assets/js/desafios-dados.js` | Array `DESAFIOS` (`id`, `tipo` imagem/texto, `pergunta`, `respostaCorreta`, `aceitas`, `explicacao`, `isPremium`) |
+| `assets/js/desafios.js` | Estado, checagem da resposta, progressão e paywall Pix |
+| `supabase/jogo-desafios.sql` | Produto `jogo-desafios` pro Pix de verdade (ainda não rodado) |
+
+- Os desafios 1 e 2 são grátis. No "Próximo" do 2, o estado vira `showPaywall = true` e abre o modal.
+- "Desbloquear" chama `gerarPixDesbloqueio()`. Com `JOGO.pixReal = false` (padrão agora) devolve um Pix de demonstração
+  e o pagamento é validado pelo toggle "Simular pagamento validado". Com `true`, chama `criar-pix` e confere em `status-pedido`.
+- Pagamento validado: `isPremium = true` (salvo no aparelho), fecha o modal e libera até o último desafio.
+- No console: `DesafiosJogo.estado`, `DesafiosJogo.checarResposta(DESAFIOS[0], '  BURACO ')`.

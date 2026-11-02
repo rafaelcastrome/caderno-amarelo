@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Desafios do Caderno Amarelo</title>
+<meta name="description" content="10 desafios que enganam o teu cérebro. Duvido tu zerar!">
+<meta property="og:title" content="Desafios do Caderno Amarelo 🧠">
+<meta property="og:description" content="10 desafios que enganam o teu cérebro. Duvido tu zerar!">
+<meta name="theme-color" content="#ffd23f">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/loja.css">
+<style>
+  /* Componente do jogo. Usa as cores e botões de loja.css. */
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .jogo-wrap { max-width: 560px; margin: 0 auto; padding: 22px 16px 48px; transition: filter .3s; }
+  .jogo-wrap > h1 { font-family: var(--mao); font-size: clamp(2.4rem, 10vw, 3.4rem); line-height: 1; text-align: center; }
+  .jogo-wrap > .lead { text-align: center; color: var(--tinta-suave); margin: 6px 0 16px; }
+  body.com-paywall .jogo-wrap { filter: blur(3px); pointer-events: none; user-select: none; }
+
+  .progresso { display: flex; justify-content: center; flex-wrap: wrap; gap: 4px; list-style: none; margin-bottom: 18px; }
+  .progresso li { width: 29px; height: 29px; display: grid; place-items: center; border: 2px solid var(--tinta); border-radius: 50%;
+                  background: var(--papel-claro); font-weight: 900; font-size: 13px; transition: background .3s, transform .3s; }
+  .progresso li.atual { background: var(--amarelo); transform: scale(1.12); }
+  .progresso li.feito { background: var(--tinta); color: var(--amarelo); }
+
+  .desafio { background: #fff; border: 3px solid var(--tinta); border-radius: 22px; box-shadow: 5px 6px 0 rgba(0,0,0,.16);
+             padding: 22px 18px 20px; position: relative; }
+  .desafio::before { content: ''; position: absolute; top: -12px; left: 50%; width: 90px; height: 24px; margin-left: -45px;
+             background: rgba(255, 210, 63, .75); transform: rotate(-3deg); }
+  .desafio.entra { animation: sobe .35s ease; }
+  .desafio h2 { font-family: var(--mao); font-size: 2.3rem; line-height: 1.05; margin-bottom: 6px; }
+  .desafio .pergunta { font-size: 1.12rem; font-weight: 700; margin-bottom: 14px; }
+  .desafio-img { background: var(--papel-claro); border: 2px dashed rgba(31,31,36,.3); border-radius: 14px; padding: 8px; margin-bottom: 14px; }
+  .desafio-img svg { width: 100%; height: auto; display: block; max-height: 230px; }
+
+  #form-resposta { display: flex; gap: 8px; }
+  #resposta { flex: 1; min-width: 0; font: inherit; font-size: 1.1rem; font-weight: 700; padding: 12px 14px; border: 2px solid var(--tinta);
+              border-radius: 12px; background: var(--papel-claro); color: var(--tinta); transition: border-color .2s, background .3s; }
+  #resposta:focus { outline: 3px solid var(--amarelo); outline-offset: 1px; }
+  #resposta.treme { animation: treme .45s cubic-bezier(.36,.07,.19,.97); border-color: var(--vermelho); background: #fff1f1; }
+  .desafio.resolvido #resposta { border-color: var(--verde); background: #ecfdf3; color: var(--verde); }
+  @keyframes treme {
+    10%, 90% { transform: translateX(-2px); } 20%, 80% { transform: translateX(4px); }
+    30%, 50%, 70% { transform: translateX(-8px); } 40%, 60% { transform: translateX(8px); }
+  }
+  .msg-erro { color: var(--vermelho); font-weight: 800; min-height: 1.6em; margin-top: 6px; opacity: 0; transition: opacity .2s; }
+  .msg-erro.visivel { opacity: 1; }
+
+  /* Revela a resposta com transição suave (altura 0 -> auto via grid). */
+  .revela-resposta { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .5s ease, opacity .5s ease, margin .5s; }
+  .revela-dentro { overflow: hidden; }
+  .desafio.resolvido .revela-resposta { grid-template-rows: 1fr; opacity: 1; margin-bottom: 14px; }
+  .revela-dentro { background: #ecfdf3; border: 2px solid var(--verde); border-radius: 14px; padding: 0 14px; }
+  .desafio.resolvido .revela-dentro { padding: 12px 14px; transition: padding .5s; }
+  .revela-dentro .certo { font-family: var(--mao); font-size: 1.9rem; color: var(--verde); line-height: 1; }
+  .revela-dentro .resposta-completa { font-size: 1.1rem; margin: 4px 0; }
+  .revela-dentro .explicacao { color: var(--tinta-suave); }
+
+  .fim h2 { font-size: 2.6rem; }
+  .fim-botoes { display: grid; gap: 10px; }
+
+  /* Paywall por cima do jogo */
+  .pw-fundo { position: fixed; inset: 0; background: rgba(31, 31, 36, .55); display: none; align-items: flex-end; justify-content: center; z-index: 50; padding: 12px; }
+  .pw-fundo.aberto { display: flex; animation: aparece .25s ease; }
+  @media (min-width: 640px) { .pw-fundo { align-items: center; } }
+  .pw-fundo .modal { animation: sobe .3s ease; text-align: left; }
+  .pw-cadeado { font-size: 46px; text-align: center; animation: balanca 1.4s ease-in-out infinite; }
+  @keyframes balanca { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-10deg); } 75% { transform: rotate(10deg); } }
+  .pw-lista { list-style: none; margin: 12px 0 4px; display: grid; gap: 4px; font-weight: 700; }
+  .modal p { margin-top: 4px; }
+  .copia .btn { padding: 10px 14px; font-size: 15px; }
+  .pw-ok { text-align: center; padding: 14px 0; }
+  .pw-ok-icone { font-size: 56px; animation: sobe .4s ease; }
+
+  .toggle { display: flex !important; align-items: center; gap: 12px; margin-top: 18px !important; padding: 12px; border: 2px dashed var(--tinta);
+            border-radius: 12px; background: var(--papel-claro); cursor: pointer; font-weight: 800; }
+  .toggle input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .trilho-toggle { flex: none; width: 48px; height: 28px; border-radius: 999px; background: #d4d4d8; border: 2px solid var(--tinta); position: relative; transition: background .2s; }
+  .trilho-toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 50%; background: #fff; border: 2px solid var(--tinta); transition: transform .2s; }
+  .toggle input:checked + .trilho-toggle { background: var(--verde); }
+  .toggle input:checked + .trilho-toggle::after { transform: translateX(20px); }
+  .toggle input:focus-visible + .trilho-toggle { outline: 3px solid var(--amarelo); outline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    #resposta.treme, .pw-cadeado, .desafio.entra { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="wrap">
+    <a class="logo" href="index.html"><span class="logo-icone">📒</span>Caderno Amarelo</a>
+    <nav><a href="index.html#produtos">Loja →</a></nav>
+  </div>
+</header>
+
+<main class="jogo-wrap">
+  <h1>Desafios do <span class="marca-texto">Caderno Amarelo</span></h1>
+  <p class="lead">Responde e vê se o teu cérebro não te engana.</p>
+  <ol class="progresso" id="progresso" aria-label="Progresso"></ol>
+  <section id="jogo" aria-live="polite"></section>
+</main>
+
+<div class="pw-fundo" id="paywall" role="dialog" aria-modal="true" aria-label="Desbloquear desafios" aria-hidden="true">
+  <div class="modal"><button class="fechar" data-fechar-paywall aria-label="Fechar">×</button><div id="paywall-corpo"></div></div>
+</div>
+
+<footer class="rodape">
+  <div class="wrap">
+    <span>© Caderno Amarelo · <a href="https://instagram.com/cardeno_amarelo">@Cardeno_Amarelo</a></span>
+    <span>Pagamento processado pelo Mercado Pago</span>
+  </div>
+</footer>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/desafios-dados.js"></script>
+<script src="assets/js/desafios.js"></script>
+</body>
+</html>
