@@ -6,7 +6,7 @@ Uso: python3 video.py              -> vídeo completo
 import math, re, subprocess, sys, wave
 import numpy as np
 from multiprocessing import Pool
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 W, H, FPS, SS = 1080, 1920, 30, 2
 TEMPO = 1.08
@@ -170,218 +170,132 @@ def circle(d, v, cx, cy, r, fill, outline=INK, w=4, n=None):
     d.line(pts[:61], fill=outline, width=w * SS)
 
 
-rng = np.random.default_rng(3)
-GRAO = [(0.5e-3 * (1 + 0.13 * math.sin(3 * a + 1) + 0.07 * math.sin(7 * a + 2) + 0.05 * math.cos(11 * a)), a)
-        for a in np.linspace(0, 2 * math.pi, 40, endpoint=False)]
-GRAO_PINTAS = [(rng.uniform(-0.35, 0.35), rng.uniform(-0.3, 0.3), rng.uniform(0.02, 0.05)) for _ in range(14)]
+# ---------- figuras realistas (sprites.py gera sprites/*.png) ----------
+def _spr(n): return Image.open(f'sprites/{n}.png').convert('RGBA')
+SP = {n: _spr(n) for n in ['grao', 'formiga', 'pessoa', 'cristo', 'everest', 'terra', 'sol', 'via', 'universo']}
+K_TERRA, K_SOL = 1300 / 1480, 1200 / 1800
+GW = 1e-3 / 0.86
+# retângulos no mundo: (x0, x1, y0, y1)
+RET = {
+    'grao': (G_X - GW / 2, G_X + GW / 2, -0.07 * GW * 600 / 700, GW * 600 / 700 * 0.93),
+    'formiga': (A_X - 3e-3, A_X + 3e-3, 0, 3e-3),
+    'pessoa': (P_X - 0.5, P_X + 0.5, 0, 1.8),
+    'cristo': (C_X - 15, C_X + 15, 0, 39),
+    'everest': (E_X - 9000, E_X + 9000, -1400, 9600),
+    'terra': (EARTH[0] - R_E / K_TERRA, EARTH[0] + R_E / K_TERRA, EARTH[1] - R_E / K_TERRA, EARTH[1] + R_E / K_TERRA),
+    'sol': (SUN[0] - R_S / K_SOL, SUN[0] + R_S / K_SOL, SUN[1] - R_S / K_SOL, SUN[1] + R_S / K_SOL),
+    'via': (MW[0] - MW_R, MW[0] + MW_R, MW[1] - MW_R, MW[1] + MW_R),
+    'universo': (MW[0] - UNI_R, MW[0] + UNI_R, MW[1] - UNI_R, MW[1] + UNI_R),
+}
+# cume do Everest achado no próprio desenho
+_a = np.asarray(SP['everest'])[..., 3]; _ys, _xs = np.nonzero(_a > 200); _i = np.argmin(_ys)
+_r = RET['everest']
+CUME = (_r[0] + (_xs[_i] + 0.5) / _a.shape[1] * (_r[1] - _r[0]), _r[3] - _ys[_i] / _a.shape[0] * (_r[3] - _r[2]))
 
 
-def d_grao(d, v):
-    if not onscreen(v, G_X, 0.42e-3, 1e-3): return
-    pts = [v.p(G_X + r * math.cos(a), 0.42e-3 + 0.85 * r * math.sin(a)) for r, a in GRAO]
-    poly(d, pts, (226, 196, 128))
-    if v.px(1e-3) > 60:
-        for x, y, r in GRAO_PINTAS:
-            a, b = v.p(G_X + x * 1e-3 - r * 1e-3, 0.42e-3 + y * 1e-3 + r * 1e-3); c, e = v.p(G_X + x * 1e-3 + r * 1e-3, 0.42e-3 + y * 1e-3 - r * 1e-3)
-            d.ellipse([a, b, c, e], fill=(190, 156, 92))
-        a, b = v.p(G_X - 0.25e-3, 0.72e-3); c, e = v.p(G_X - 0.05e-3, 0.62e-3)
-        d.ellipse([a, b, c, e], fill=(250, 235, 190))
+def raw(v, x, y):
+    return W * SS / 2 + (x - v.c[0]) * v.s, CAM_Y * SS - (y - v.c[1]) * v.s
 
 
-def d_formiga(d, v, t):
-    u = 1e-3; x0 = A_X
-    if not onscreen(v, x0, 1e-3, 5e-3) or v.px(5e-3) > 1400: return
-    w = max(2, min(4, int(v.px(5e-3) / 120)))
-    def ell(cx, cy, rx, ry, fill):
-        n = 28; pts = [v.p(x0 + (cx + rx * math.cos(2 * math.pi * i / n)) * u, (cy + ry * math.sin(2 * math.pi * i / n)) * u) for i in range(n)]
-        poly(d, pts, fill, INK, w)
-    # pernas
-    for i, bx in enumerate([-0.5, 0.0, 0.45]):
-        ph = math.sin(t * 9 + i * 2) * 0.12
-        for s in (-1, 1):
-            d.line([v.p(x0 + bx * u, 1.25 * u), v.p(x0 + (bx + s * 0.55 + ph) * u, 1.6 * u), v.p(x0 + (bx + s * 0.9 + ph) * u, 0)], fill=INK, width=w * SS, joint='curve')
-    ell(-1.35, 1.35, 1.0, 0.7, (120, 50, 30))     # abdômen
-    ell(0.0, 1.35, 0.55, 0.38, (140, 60, 35))     # tórax
-    ell(1.25, 1.55, 0.6, 0.5, (140, 60, 35))      # cabeça
-    d.line([v.p(x0 + 1.5 * u, 1.95 * u), v.p(x0 + 2.0 * u, 2.6 * u), v.p(x0 + 2.45 * u, 2.4 * u)], fill=INK, width=w * SS, joint='curve')
-    ex, ey = v.p(x0 + 1.5 * u, 1.65 * u); r = max(1, v.px(0.12e-3)) * SS
-    d.ellipse([ex - r, ey - r, ex + r, ey + r], fill=(255, 255, 255))
+def cola(im, v, nome, alpha=1.0, rect=None):
+    spr = SP[nome]; x0, x1, y0, y1 = rect or RET[nome]
+    L, T_ = raw(v, x0, y1); R, B = raw(v, x1, y0)
+    if R - L < 2 or R < 0 or L > W * SS or B < 0 or T_ > H * SS: return
+    vx0, vy0, vx1, vy1 = max(0, L), max(0, T_), min(W * SS, R), min(H * SS, B)
+    if vx1 - vx0 < 1 or vy1 - vy0 < 1: return
+    sw, sh = spr.size
+    box = ((vx0 - L) / (R - L) * sw, (vy0 - T_) / (B - T_) * sh, (vx1 - L) / (R - L) * sw, (vy1 - T_) / (B - T_) * sh)
+    out = spr.resize((max(1, int(round(vx1 - vx0))), max(1, int(round(vy1 - vy0)))), Image.BILINEAR if (R - L) > sw else Image.LANCZOS, box=box)
+    if alpha < 1: out.putalpha(out.getchannel('A').point(lambda p: int(p * alpha)))
+    im.paste(out, (int(round(vx0)), int(round(vy0))), out)
 
 
-def d_pessoa(d, v, t):
-    x0 = P_X
-    if not onscreen(v, x0, 0.85, 1.7): return
-    w = max(2, min(4, int(v.px(1.7) / 150)))
-    def R(x1, y1, x2, y2, fill):
-        poly(d, [v.p(x0 + x1, y1), v.p(x0 + x2, y1), v.p(x0 + x2, y2), v.p(x0 + x1, y2)], fill, INK, w)
-    R(-0.15, 0.0, -0.04, 0.82, (60, 60, 80)); R(0.04, 0.0, 0.15, 0.82, (60, 60, 80))      # pernas
-    R(-0.2, 0.75, 0.2, 1.0, (40, 60, 120))                                               # bermuda
-    R(-0.22, 0.98, 0.22, 1.42, (30, 160, 150))                                            # camiseta
-    R(-0.3, 1.0, -0.21, 1.38, (240, 200, 160)); R(0.21, 1.0, 0.3, 1.38, (240, 200, 160))   # braços
-    n = 30; pts = [v.p(x0 + 0.14 * math.cos(2 * math.pi * i / n), 1.56 + 0.15 * math.sin(2 * math.pi * i / n)) for i in range(n)]
-    poly(d, pts, (240, 200, 160), INK, w)
-    pts = [v.p(x0 + 0.15 * math.cos(math.pi * i / 14), 1.6 + 0.13 * math.sin(math.pi * i / 14)) for i in range(15)]
-    poly(d, pts, (70, 45, 30), INK, w)
-    if v.px(1.7) > 120:
-        for ex in (-0.05, 0.05):
-            a, b = v.p(x0 + ex - 0.015, 1.57); c, e = v.p(x0 + ex + 0.015, 1.54); d.ellipse([a, b, c, e], fill=INK)
-        d.arc([*v.p(x0 - 0.06, 1.53), *v.p(x0 + 0.06, 1.45)], 20, 160, fill=INK, width=w * SS // 2 + 1)
+def _sombra():
+    s = Image.new('L', (400, 120), 0); ImageDraw.Draw(s).ellipse([20, 30, 380, 90], fill=150)
+    s = s.filter(ImageFilter.GaussianBlur(14)); out = Image.new('RGBA', s.size, (40, 30, 20, 0)); out.putalpha(s); return out
+SP['sombra'] = _sombra()
 
 
-def d_cristo(d, v):
-    x0 = C_X
-    if not onscreen(v, x0, 19, 38): return
-    w = max(2, min(4, int(v.px(38) / 150)))
-    pedra, sombra = (215, 212, 200), (175, 172, 160)
-    poly(d, [v.p(x0 - 6, 0), v.p(x0 + 6, 0), v.p(x0 + 4.5, 8), v.p(x0 - 4.5, 8)], sombra, INK, w)   # pedestal
-    poly(d, [v.p(x0 - 4.2, 8), v.p(x0 + 4.2, 8), v.p(x0 + 2.6, 29), v.p(x0 - 2.6, 29)], pedra, INK, w)  # manto
-    poly(d, [v.p(x0 - 14, 27.6), v.p(x0 + 14, 27.6), v.p(x0 + 14, 30.4), v.p(x0 - 14, 30.4)], pedra, INK, w)  # braços
-    poly(d, [v.p(x0 - 2.8, 26.5), v.p(x0 + 2.8, 26.5), v.p(x0 + 2.8, 31), v.p(x0 - 2.8, 31)], pedra, None)
-    n = 28; pts = [v.p(x0 + 1.9 * math.cos(2 * math.pi * i / n), 33.2 + 2.3 * math.sin(2 * math.pi * i / n)) for i in range(n)]
-    poly(d, pts, pedra, INK, w)
-    if v.px(38) > 150:
-        d.line([v.p(x0, 26), v.p(x0, 9)], fill=sombra, width=w * SS)
+def sombra(im, v, x, w):
+    cola(im, v, 'sombra', rect=(x - w * 0.6, x + w * 0.6, -w * 0.1, w * 0.1))
 
 
-EV = [(-7000, 0), (-5200, 2600), (-4300, 2200), (-2600, 5200), (-1500, 4700), (0, 8849), (900, 7600),
-      (1700, 7900), (3600, 4300), (4700, 4800), (7000, 0)]
-NEVE = [(-2600, 5200), (-1500, 4700), (0, 8849), (900, 7600), (1700, 7900), (2600, 6100), (1500, 6600),
-        (800, 6200), (-300, 7100), (-1200, 5900), (-2100, 5600)]
+def _chao():
+    a = np.random.default_rng(1).random((H * SS // 8, W * SS // 8)).astype(np.float32)
+    n = np.asarray(Image.fromarray(a).resize((W * SS, H * SS), Image.BICUBIC))
+    f = np.random.default_rng(2).random((H * SS, W * SS)).astype(np.float32)
+    base = np.array([214, 188, 140], np.float32)
+    c = base[None, None] * (0.86 + 0.18 * n[..., None] + 0.08 * f[..., None])
+    grad = np.linspace(1.0, 0.82, H * SS)[:, None, None]
+    return Image.fromarray(np.clip(c * grad, 0, 255).astype(np.uint8))
+CHAO = _chao()
 
 
-def d_everest(d, v):
-    if not onscreen(v, E_X, 4400, 9000): return
-    if v.px(15000) > 40000: return
-    w = max(2, min(4, int(v.px(15000) / 200)))
-    poly(d, [v.p(E_X + x, y) for x, y in EV], (140, 135, 150), INK, w)
-    poly(d, [v.p(E_X + x, y) for x, y in NEVE], (250, 252, 255), INK, max(1, w - 1))
-    if v.px(15000) > 200:
-        d.line([v.p(E_X - 3000, 1200), v.p(E_X - 1200, 3900)], fill=(110, 105, 120), width=w * SS)
-        d.line([v.p(E_X + 2500, 1500), v.p(E_X + 1200, 5200)], fill=(110, 105, 120), width=w * SS)
-
-
-CONT = []
-for (ca, cr, sz, sd) in [(math.pi / 2, 0.55, 0.42, 1), (2.6, 0.45, 0.3, 2), (5.2, 0.5, 0.33, 3), (0.4, 0.62, 0.22, 4)]:
-    r2 = np.random.default_rng(sd)
-    ph = r2.uniform(0, 6, 3)
-    pts = []
-    for a in np.linspace(0, 2 * math.pi, 30, endpoint=False):
-        rr = sz * (1 + 0.25 * math.sin(3 * a + ph[0]) + 0.15 * math.sin(5 * a + ph[1]) + 0.1 * math.sin(8 * a + ph[2]))
-        pts.append((cr * math.cos(ca) + rr * math.cos(a), cr * math.sin(ca) + 0.8 * rr * math.sin(a)))
-    CONT.append(pts)
-
-
-def d_terra(d, v):
-    Rpx = v.px(R_E)
-    if not onscreen(v, *EARTH, R_E): return
-    if Rpx > 4000:     # chão
-        circle(d, v, *EARTH, R_E, (222, 200, 150), INK, 4); return
-    circle(d, v, *EARTH, R_E, (80, 150, 225), INK, 4 if Rpx > 30 else 3)
-    if Rpx > 25:
-        for pts in CONT:
-            poly(d, [v.p(EARTH[0] + x * R_E, EARTH[1] + y * R_E) for x, y in pts], (90, 175, 85), INK, 3 if Rpx > 150 else 2)
-        if Rpx > 120:
-            for (x, y, l) in [(-0.6, 0.2, 0.35), (0.1, -0.5, 0.4), (0.3, 0.75, 0.3)]:
-                d.line([v.p(EARTH[0] + x * R_E, EARTH[1] + y * R_E), v.p(EARTH[0] + (x + l) * R_E, EARTH[1] + (y + 0.05) * R_E)], fill=(255, 255, 255), width=5 * SS)
-
-
-SOL_SP = [(rng.uniform(-0.5, 0.5), rng.uniform(-0.5, 0.5), rng.uniform(0.03, 0.07)) for _ in range(7)]
-
-
-def d_sol(d, v, t):
-    Rpx = v.px(R_S)
-    if not onscreen(v, *SUN, R_S * 1.2): return
-    if Rpx < 4:
-        x, y = v.p(*SUN); r = 5 * SS
-        d.ellipse([x - 2.4 * r, y - 2.4 * r, x + 2.4 * r, y + 2.4 * r], fill=(255, 225, 120))
-        d.ellipse([x - r, y - r, x + r, y + r], fill=(250, 170, 20)); return
-    if Rpx > 15000:
-        circle(d, v, *SUN, R_S, (255, 196, 40), INK, 4); return
-    n = max(40, min(720, int(Rpx / 2)))
-    pts = []
-    for i in range(n):
-        a = 2 * math.pi * i / n
-        rr = R_S * (1 + 0.025 * math.sin(14 * a + t * 3) + 0.015 * math.sin(23 * a - t * 2))
-        pts.append(v.p(SUN[0] + rr * math.cos(a), SUN[1] + rr * math.sin(a)))
-    poly(d, pts, (255, 196, 40), INK, 4)
-    if Rpx > 40:
-        circle(d, v, SUN[0], SUN[1], R_S * 0.72, (255, 160, 30), None, 0)
-        for x, y, r in SOL_SP:
-            circle(d, v, SUN[0] + x * R_S, SUN[1] + y * R_S, r * R_S, (190, 90, 20), None, 0)
-
+def noite_papel():
+    im = Image.new('RGB', (W * SS, H * SS), NOITE); d = ImageDraw.Draw(im)
+    for x in range(30, W, 54): d.line([(x * SS, 0), (x * SS, H * SS)], fill=(30, 38, 70), width=SS)
+    for y in range(30, H, 54): d.line([(0, y * SS), (W * SS, y * SS)], fill=(30, 38, 70), width=SS)
+    d.rectangle([88 * SS, 0, 90 * SS, H * SS], fill=(90, 50, 70))
+    r = np.random.default_rng(5)
+    for _ in range(260):
+        x, y, s = r.uniform(0, W * SS), r.uniform(0, H * SS), r.uniform(1, 3.2)
+        d.ellipse([x - s, y - s, x + s, y + s], fill=(200, 205, 230))
+    return im
+NOITE = (13, 17, 38)
+PAPEL_NOITE = noite_papel()
 
 ORB = [(5.8e10, (150, 140, 130)), (1.08e11, (230, 190, 110)), (1.5e11, (80, 150, 225)), (2.28e11, (210, 90, 50)),
        (7.78e11, (210, 160, 110)), (1.43e12, (230, 200, 120)), (2.87e12, (130, 210, 220)), (4.5e12, (70, 100, 210))]
 SQ = 0.42
+PLAN = []
+for _r, _c in ORB:
+    import sprites as _s
+    PLAN.append(_s.esfera(_c, 40))
 
 
-def d_sistema(d, v, t):
+def d_sistema(im, v, t):
+    d = ImageDraw.Draw(im)
     for i, (r, cor) in enumerate(ORB):
         rp = v.px(r)
         if rp < 3 or rp > 20000: continue
         n = max(40, min(400, int(rp / 2)))
         pts = [v.p(SUN[0] + r * math.cos(2 * math.pi * k / n), SUN[1] + SQ * r * math.sin(2 * math.pi * k / n)) for k in range(n)]
-        d.line(pts + [pts[0]], fill=(120, 140, 180), width=2 * SS)
+        d.line(pts + [pts[0]], fill=(110, 130, 190), width=2 * SS)
+    for i, (r, cor) in enumerate(ORB):
+        rp = v.px(r)
+        if rp < 3 or rp > 20000: continue
         a = t * (1.6 / math.sqrt((i + 1))) + i * 1.7
         x, y = v.p(SUN[0] + r * math.cos(a), SUN[1] + SQ * r * math.sin(a))
-        rr = (5 + (3 if i in (4, 5) else 0)) * SS
-        d.ellipse([x - rr, y - rr, x + rr, y + rr], fill=cor, outline=INK, width=SS * 2)
+        rr = int((7 + (4 if i in (4, 5) else 0)) * SS)
+        p = PLAN[i].resize((2 * rr, 2 * rr), Image.LANCZOS); im.paste(p, (int(x - rr), int(y - rr)), p)
+        if i == 5:
+            d.ellipse([x - rr * 1.8, y - rr * 0.5, x + rr * 1.8, y + rr * 0.5], outline=(220, 200, 150), width=SS * 2)
 
 
-# Via Láctea: dois braços espirais
-r3 = np.random.default_rng(9)
-MWP = []
-for k in range(1700):
-    arm = k % 2; u = r3.uniform(0.08, 1.0) ** 0.8
-    th = arm * math.pi + 4.2 * math.log(u / 0.08 + 1e-9) / 2.0 + r3.normal(0, 0.28)
-    rr = u * (1 + r3.normal(0, 0.06))
-    col = [(120, 110, 220), (90, 140, 230), (190, 120, 210), (255, 255, 255)][r3.integers(0, 4)]
-    MWP.append((rr * math.cos(th), rr * math.sin(th), col, r3.uniform(0.6, 1.4)))
-
-
-def d_via(d, v, t):
-    Rpx = v.px(MW_R)
-    if Rpx < 1: return
-    rot = t * 0.06
-    cr, sr = math.cos(rot), math.sin(rot)
-    if Rpx < 1500:
-        circle(d, v, *MW, MW_R * 1.05, (232, 228, 245) if Rpx > 30 else (200, 190, 240), None, 0)
-    for x, y, col, sz in MWP:
-        X = MW[0] + MW_R * (x * cr - y * sr); Y = MW[1] + MW_R * 0.75 * (x * sr + y * cr)
-        sx, sy = v.p(X, Y)
-        if -20 < sx < W * SS + 20 and -20 < sy < H * SS + 20:
-            r = max(1.0, min(4.0, sz * Rpx / 220)) * SS
-            d.ellipse([sx - r, sy - r, sx + r, sy + r], fill=col)
-    if Rpx > 8:
-        circle(d, v, *MW, MW_R * 0.13, (255, 230, 150), None, 0)
-        circle(d, v, *MW, MW_R * 0.07, (255, 250, 220), None, 0)
-
-
-r4 = np.random.default_rng(21)
-NOS = []
-while len(NOS) < 420:
-    x, y = r4.uniform(-1, 1, 2)
-    if x * x + y * y < 0.97: NOS.append((x, y))
-NOS = np.array(NOS)
-LIG = []
-for i in range(len(NOS)):
-    dd = np.hypot(*(NOS - NOS[i]).T); idx = np.argsort(dd)[1:4]
-    for j in idx:
-        if dd[j] < 0.16 and i < j: LIG.append((i, j))
-
-
-def d_universo(d, v):
-    Rpx = v.px(UNI_R)
-    if Rpx < 30 or Rpx > 3000: return
-    f = min(1, max(0, (3000 - Rpx) / 1800))
-    mix = lambda c: tuple(int(p + (q - p) * f) for p, q in zip(PAPER, c))
-    circle(d, v, *MW, UNI_R, mix((30, 28, 70)), INK, 5)
-    for i, j in LIG:
-        d.line([v.p(MW[0] + NOS[i][0] * UNI_R, MW[1] + NOS[i][1] * UNI_R), v.p(MW[0] + NOS[j][0] * UNI_R, MW[1] + NOS[j][1] * UNI_R)],
-               fill=mix((120, 110, 200)), width=2 * SS)
-    for k, (x, y) in enumerate(NOS):
-        sx, sy = v.p(MW[0] + x * UNI_R, MW[1] + y * UNI_R); r = (2.5 if k % 3 else 4) * SS
-        d.ellipse([sx - r, sy - r, sx + r, sy + r], fill=(255, 200, 90) if k % 3 else (255, 240, 200))
+def desenha_mundo(im, v, t):
+    Rt = v.px(R_E)
+    cola(im, v, 'universo', alpha=min(1, max(0, (3000 - v.px(UNI_R)) / 1500)))
+    if v.px(MW_R) < 5000: cola(im, v, 'via')
+    d_sistema(im, v, t)
+    # Sol: nunca menor que um pontinho brilhante
+    if v.px(R_S) < 9:
+        x, y = raw(v, *SUN); r = 9 * SS * 3
+        cola(im, v, 'sol', rect=(SUN[0] - r / v.s, SUN[0] + r / v.s, SUN[1] - r / v.s, SUN[1] + r / v.s))
+    elif v.px(R_S) < 2500:
+        cola(im, v, 'sol')
+    if Rt > 2500:
+        _, gy = raw(v, 0, 0)
+        if gy < H * SS:
+            gy = max(0, int(gy)); im.paste(CHAO.crop((0, 0, W * SS, H * SS - gy)), (0, gy))
+            ImageDraw.Draw(im).line([(0, gy), (W * SS, gy)], fill=(120, 100, 70), width=2 * SS)
+    else:
+        cola(im, v, 'terra')
+    # objetos do chão
+    if Rt > 2500:
+        for nome, x, w in [('everest', E_X, 15000), ('cristo', C_X, 12), ('pessoa', P_X, 0.45), ('formiga', A_X, 4.6e-3), ('grao', G_X, 1e-3)]:
+            pw = v.px(w)
+            if pw < 0.6 or pw > (1500 if nome != 'everest' else 2400): continue
+            sombra(im, v, x, w); cola(im, v, nome)
 
 
 def dash_circle(d, x, y, r, a=1.0):
@@ -415,30 +329,30 @@ def caderninho(d, x, y, h, t, aceno=True):
 
 # onde ele aparece: (nível, ponto no mundo, altura px, bandeirinha)
 ESCONDIDO = [(0, (G_X - 0.78e-3, 0.0), 30, False),
-             (3, (C_X - 13.2, 30.4), 30, False),
-             (4, (E_X, 8849), 30, True),
+             (3, (C_X - 14.0, 30.6), 30, False),
+             (4, CUME, 30, True),
              (5, (EARTH[0] + 1.25 * R_E, EARTH[1] + 0.9 * R_E), 30, False)]
 
 
 # ---------------- texto ----------------
 _cache = {}
-def T(s, size, fill, stroke=6):
-    k = (s, size, fill, stroke)
+def T(s, size, fill, stroke=6, bg=PAPER):
+    k = (s, size, fill, stroke, bg)
     if k not in _cache:
         f = F(size); l, tp, r, b = f.getbbox(s)
         im = Image.new('RGBA', (r - l + 30 * SS, b - tp + 30 * SS), (0, 0, 0, 0))
-        ImageDraw.Draw(im).text((15 * SS - l, 15 * SS - tp), s, font=f, fill=fill, stroke_width=stroke * SS, stroke_fill=PAPER)
+        ImageDraw.Draw(im).text((15 * SS - l, 15 * SS - tp), s, font=f, fill=fill, stroke_width=stroke * SS, stroke_fill=bg)
         _cache[k] = im
     return _cache[k]
 
 
-def put(im, s, size, fill, y, x=None, alpha=1.0, esc=1.0, stroke=6):
-    img = T(s, size, fill, stroke)
+def put(im, s, size, fill, y, x=None, alpha=1.0, esc=1.0, stroke=6, bg=PAPER):
+    img = T(s, size, fill, stroke, bg)
     if esc != 1.0: img = img.resize((max(1, int(img.width * esc)), max(1, int(img.height * esc))), Image.LANCZOS)
     if alpha < 1:
         img = img.copy(); img.putalpha(img.getchannel('A').point(lambda p: int(p * alpha)))
     x = (W * SS - img.width) // 2 if x is None else x
-    im.paste(img, (int(x), int(y * SS - (img.height - T(s, size, fill, stroke).height) / 2)), img)
+    im.paste(img, (int(x), int(y * SS - (img.height - T(s, size, fill, stroke, bg).height) / 2)), img)
 
 
 def fmt(v, casas):
@@ -455,10 +369,13 @@ def frame(args):
     cam = Cam(starts); cam.T = cam_T
     k, L, c, e = cam.at(t)
     v = View(L, c)
-    im = PAPEL.copy(); d = ImageDraw.Draw(im)
-    # do maior pro menor
-    d_universo(d, v); d_via(d, v, t); d_sistema(d, v, t); d_sol(d, v, t); d_terra(d, v)
-    d_everest(d, v); d_cristo(d, v); d_pessoa(d, v, t); d_formiga(d, v, t); d_grao(d, v)
+    noite = min(1, max(0, (1400 - v.px(R_E)) / 900))
+    im = PAPEL.copy() if noite <= 0 else (PAPEL_NOITE.copy() if noite >= 1 else Image.blend(PAPEL, PAPEL_NOITE, noite))
+    desenha_mundo(im, v, t)
+    d = ImageDraw.Draw(im)
+    bg = PAPER if noite < 0.5 else NOITE
+    tinta = INK if noite < 0.5 else (240, 240, 250)
+    azul = BLUE if noite < 0.5 else (140, 180, 255)
     # círculo tracejado no nível anterior quando ele vira pontinho
     if k >= 1 and e >= 1:
         pk = NIV[k - 1]; sz = v.px(pk[5])
@@ -483,10 +400,10 @@ def frame(args):
     elif t < starts[11]:
         lv = NIV[k]; tk = cam.T[k] if k else starts[1]
         p = ease((t - tk) / 0.7) if k else 1.0
-        put(im, lv[0], 62, BLUE, 110)
-        put(im, '≈ ' + fmt(lv[1] * p, lv[2]) if lv[2] or lv[1] * p >= 1 else '≈ 0', 150, INK, 175)
-        put(im, lv[3], 60, INK, 345)
-        if lv[4]: put(im, lv[4], 56, ORANGE, 420, alpha=min(1, max(0, (t - tk - 0.5) / 0.3)))
+        put(im, lv[0], 62, azul, 110, bg=bg)
+        put(im, '≈ ' + fmt(lv[1] * p, lv[2]) if lv[2] or lv[1] * p >= 1 else '≈ 0', 150, tinta, 175, bg=bg)
+        put(im, lv[3], 60, tinta, 345, bg=bg)
+        if lv[4]: put(im, lv[4], 56, ORANGE, 420, bg=bg, alpha=min(1, max(0, (t - tk - 0.5) / 0.3)))
     else:
         # final: Caderninho grande pergunta
         a = ease((t - starts[11]) / 0.4)
@@ -500,7 +417,7 @@ def frame(args):
         put(im, 'comenta o número', 78, BLUE, 1580, alpha=min(1, max(0, (t - starts[11] - 2.0) / 0.3)))
     # marca d'água que muda de lugar
     wx, wy = WM_POS[int(t // 7) % len(WM_POS)]
-    put(im, '@Cardeno_Amarelo', 46, (150, 140, 120), wy, x=wx * SS, stroke=0)
+    put(im, '@Cardeno_Amarelo', 46, (150, 140, 120) if noite < 0.5 else (120, 130, 170), wy, x=wx * SS, stroke=0)
     return np.asarray(im.resize((W, H), Image.LANCZOS)).tobytes()
 
 

@@ -6,4 +6,4 @@ Escala: grão de areia 1 mm, formiga 5 mm, tu 1,7 m, Cristo Redentor 38 m, Evere
 
 Onde o Caderninho aparece (RESPOSTA: 4 vezes, não colocar na legenda): do lado do grão de areia, na mão do Cristo, no topo do Everest com bandeirinha, flutuando do lado da Terra.
 
-Fala: falas/roteiro.txt (um take só, Gemini 2.5 Charon). Vídeo: `python3 video.py` (PIL), 36 s.
+Fala: falas/roteiro.txt (um take só, Gemini 2.5 Charon). Figuras 3D sombreadas: `python3 sprites.py` gera sprites/ (precisa numpy, scipy, global-land-mask). Vídeo: `python3 video.py` (PIL), 36 s. v2 (02/11): figuras realistas a pedido do Rafael, espaço com fundo de caderno noturno.
