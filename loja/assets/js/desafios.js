@@ -33,7 +33,8 @@
   function checarResposta(desafio, tentativa) {
     const t = normalizar(tentativa);
     if (!t) return false;
-    return [desafio.respostaCorreta, ...(desafio.aceitas || [])].some(r => normalizar(r) === t);
+    const junto = x => x.replace(/ /g, '');   // "guarda-sol", "guarda sol" e "guardasol" valem igual
+    return [desafio.respostaCorreta, ...(desafio.aceitas || [])].some(r => { const n = normalizar(r); return n === t || junto(n) === junto(t); });
   }
 
   // ---------- estado ----------
@@ -157,11 +158,15 @@
   }
 
   function renderProgresso() {
-    $('#progresso').innerHTML = DESAFIOS.map((d, i) => {
-      const cls = i < estado.indice || (i === estado.indice && (estado.resolvido || estado.terminou)) ? 'feito'
-        : i === estado.indice ? 'atual' : '';
-      return `<li class="${cls}" title="Desafio ${d.id}">${bloqueado(d) ? '🔒' : d.id}</li>`;
-    }).join('');
+    const feitos = estado.terminou ? DESAFIOS.length : estado.indice + (estado.resolvido ? 1 : 0);
+    const proximoBloqueado = DESAFIOS.findIndex(bloqueado);
+    $('#progresso').innerHTML = `
+      <div class="prog-texto"><span>Desafio <strong>${Math.min(estado.indice + 1, DESAFIOS.length)}</strong> de ${DESAFIOS.length}</span>
+        <span>${proximoBloqueado >= 0 ? '🔒 ' + (DESAFIOS.length - proximoBloqueado) + ' bloqueados' : '🔓 tudo liberado'}</span></div>
+      <div class="prog-barra" role="progressbar" aria-valuemin="0" aria-valuemax="${DESAFIOS.length}" aria-valuenow="${feitos}">
+        <div class="prog-cheio" style="width:${(feitos / DESAFIOS.length * 100).toFixed(1)}%"></div>
+        ${proximoBloqueado > 0 ? `<div class="prog-cadeado" style="left:${(proximoBloqueado / DESAFIOS.length * 100).toFixed(1)}%"></div>` : ''}
+      </div>`;
   }
 
   let ultimoRender = null;
@@ -227,7 +232,7 @@
       </article>`;
     $('#btn-recomecar').addEventListener('click', recomecar);
     $('#btn-compartilhar').addEventListener('click', async () => {
-      const dados = { title: 'Desafios do Caderno Amarelo', text: 'Duvido tu passar dos 10 desafios do Caderno Amarelo!', url: location.href.split('#')[0] };
+      const dados = { title: 'Desafios do Caderno Amarelo', text: `Duvido tu passar dos ${DESAFIOS.length} desafios do Caderno Amarelo!`, url: location.href.split('#')[0] };
       try {
         if (navigator.share) await navigator.share(dados);
         else { await navigator.clipboard.writeText(dados.url); $('#btn-compartilhar').textContent = 'Link copiado!'; }
