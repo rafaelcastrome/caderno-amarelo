@@ -4,7 +4,9 @@
   // ---------- configuração do jogo ----------
   const JOGO = {
     produto: 'jogo-desafios',   // slug na tabela "produtos" do Supabase (ver supabase/jogo-desafios.sql)
-    preco: 3.90,                 // só pra exibir; o valor cobrado vem SEMPRE do banco
+    preco: 6.90,                 // só pra exibir; o valor cobrado vem SEMPRE do banco
+    // Preço "De" riscado. Só preencher com um preço que o jogo realmente teve (regra da loja: sem preço antigo falso).
+    precoAntigo: null,
     // false = Pix de demonstração e pagamento validado pelo toggle (pedido do Rafael, 02/11).
     // true  = chama a função criar-pix de verdade e confere o pagamento em status-pedido.
     pixReal: false,
@@ -257,8 +259,13 @@
     const premium = DESAFIOS.filter(d => d.isPremium).length;
     $('#paywall-corpo').innerHTML = `
       <div class="pw-cadeado" aria-hidden="true">🔒</div>
-      <h3>Mandou bem nos 2 primeiros!</h3>
-      <p>Faltam <strong>${premium} desafios</strong>, cada vez mais difíceis. Desbloqueia todos de uma vez com Pix.</p>
+      <p class="pw-sobre">Mandou bem nos 2 primeiros!</p>
+      <h3>Desbloqueie os ${premium} desafios secretos!</h3>
+      <div class="pw-preco">
+        ${JOGO.precoAntigo ? `<span class="pw-de">De <s>${brl(JOGO.precoAntigo)}</s> por apenas</span>` : '<span class="pw-de">Todos de uma vez por apenas</span>'}
+        <strong>${brl(JOGO.preco)}</strong><span class="pw-pix">no Pix</span>
+        <span class="pw-cada">Dá menos de ${Math.ceil(JOGO.preco / premium * 100)} centavos por desafio</span>
+      </div>
       <ul class="pw-lista">
         <li>✔ ${premium} desafios novos (ilusões, pegadinhas e enigmas)</li>
         <li>✔ Explicação de cada resposta</li>
