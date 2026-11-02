@@ -18,17 +18,22 @@ N_FALAS = 11
 
 
 # ---------------- áudio ----------------
+ARQS = list(range(10)) + [11, 12]        # fala10 antiga ("vive normalmente") saiu; 12 = a formiga falando
+
+
 def carrega_falas():
     clips = []
-    for i in range(N_FALAS):
+    for i in ARQS:
+        fino = f',asetrate={int(SR * 1.3)},aresample={SR},atempo={1 / 1.3:.4f}' if i == 12 else ''   # voz fininha da formiga
         r = subprocess.run(['ffmpeg', '-v', 'error', '-i', f'falas/antonio/fala{i}.mp3', '-af',
-                            f'silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse,atempo={TEMPO}',
+                            f'silenceremove=start_periods=1:start_threshold=-45dB,areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse,atempo={TEMPO}' + fino,
                             '-ac', '1', '-ar', str(SR), '-f', 's16le', '-'], capture_output=True).stdout
         clips.append(np.frombuffer(r, np.int16).astype(np.float32))
     return clips
 
 
 GAP = [0.25, 0.35, 0.3, 0.25, 0.3, 0.3, 0.3, 1.0, 0.3, 0.35, 0.0]   # pausa depois de cada fala
+FALA_FORMIGA = 6.4                                                 # quando a formiga fala (seg. dentro da fase D)
 EXTRA0 = 0.7                                                       # formiga tomba antes da queda
 
 
@@ -39,8 +44,10 @@ def monta(d):
         if i == 8: t += 0.5                                          # chão chegando
         ev[i] = (t, t + d[i]); t += d[i] + GAP[i]
     fase = {'A': (0, ev[1][1] + GAP[1] + EXTRA0), 'B': (ev[1][1] + GAP[1] + EXTRA0, ev[8][0] - 0.5)}
-    fase['C'] = (fase['B'][1], ev[10][1] + 0.35)
-    fase['D'] = (fase['C'][1], fase['C'][1] + 5.6)
+    fase['C'] = (fase['B'][1], ev[10][0] + 0.9)
+    d0 = fase['C'][1]
+    ev[11] = (d0 + FALA_FORMIGA, d0 + FALA_FORMIGA + d[11])
+    fase['D'] = (d0, ev[11][1] + 1.2)
     return ev, fase
 
 
@@ -353,8 +360,8 @@ def fase_c(t, ev, fase):
         x_ant = fx
     else:                                                              # sai andando
         tw = t - (s9 + 0.9)
-        x_ant = fx + tw * 40
-        fl = formiga_lado(tw * 1.8, k)
+        x_ant = fx + tw * 40 + 700 * max(0, t - ev[10][0]) ** 1.5        # e vai direto...
+        fl = formiga_lado(tw * (1.8 if t < ev[10][0] else 3.5), k)
         sombra(im, x_ant + fl.width / 2, GROUND + 6, 200, 18)
         im.paste(fl, (int(x_ant), int(GROUND - 504 * k)), fl)
     # poeirinha e TUC
@@ -372,8 +379,6 @@ def fase_c(t, ev, fase):
         texto(im, 'armadura natural', 96, BLUE, 1650)
         d.line([(ANT_X - 40, GROUND - 330), (x_ant + 150, GROUND - 150)], fill=BLUE, width=6)
         img = T('exoesqueleto', 64, BLUE); im.paste(img, (ANT_X - 220, GROUND - 400), img)
-    if t >= ev[10][0]:
-        texto(im, 'vive normalmente', 104, INK, 1650)
     return im
 
 
@@ -462,16 +467,26 @@ def fase_d(t, ev, fase):
     d.rectangle([0, 1500, W, H], fill=(205, 170, 120)); d.line([(0, 1500), (W, 1500)], fill=INK, width=5)   # mesa / chão
     sombra(im, 420, 1520, 440, 30, 70)
     im.paste(ALMOF, (-300, 1150), ALMOF)
-    # formiga sentada (de lado, olhando o celular)
-    k = 0.7
-    a = esc(SENTADA, k, 'sent')
-    bob = 4 * math.sin(u * 3)
-    im.paste(a, (-170, int(820 + bob)), a)
+    ENTRA = 1.8
+    if u < ENTRA:                                                      # chega andando, direto pro celular
+        k = 0.62; fl = formiga_lado(u * 3.5, k)
+        x = -620 + 560 * min(1, u / (ENTRA - 0.2))
+        sombra(im, x + fl.width / 2, 1500, 220, 16)
+        im.paste(fl, (int(x), int(1500 - 504 * k)), fl)
+    else:                                                              # formiga sentada (de lado, olhando o celular)
+        k = 0.7
+        a = esc(SENTADA, k, 'sent')
+        bob = 4 * math.sin(u * 3) + (10 * math.sin(u * 22) if u > 5.0 else 0)   # treme de rir
+        im.paste(a, (-170, int(820 + bob)), a)
+    u = u - ENTRA
     # celular
     d.rounded_rectangle(PH, 60, fill=(25, 25, 30), outline=(5, 5, 5), width=4)
     d.rounded_rectangle((PH[0] + 8, PH[1] + 8, PH[2] - 8, PH[3] - 8), 54, outline=(80, 80, 90), width=3)
     d.rounded_rectangle(((PH[0] + PH[2]) // 2 - 50, PH[1] + 28, (PH[0] + PH[2]) // 2 + 50, PH[1] + 44), 8, fill=(50, 50, 55))
-    if u < 1.6:
+    if u < 0:
+        scr = Image.new('RGB', (SW, SH), (15, 15, 20)); dd = ImageDraw.Draw(scr)
+        dd.text((SW / 2 - 80, 300), '21:40', font=UI(64, True), fill=(230, 230, 230))
+    elif u < 1.6:
         scr = tela_perfil(False)
     elif u < 2.0:
         scr = tela_perfil(False, (SW0 / 2, 300, (u - 1.6) / 0.4))
@@ -484,8 +499,29 @@ def fase_d(t, ev, fase):
         scr = tela_video(t, ev, fase, u - 3.0)
     im.paste(scr, (SC[0], SC[1]))
     # patinhas por cima da borda do celular
-    for yy in (1040, 1110):
-        d.ellipse([PH[0] - 22, yy - 20, PH[0] + 26, yy + 22], fill=(70, 28, 15))
+    if u >= 0:
+        for yy in (1040, 1110):
+            d.ellipse([PH[0] - 22, yy - 20, PH[0] + 26, yy + 22], fill=(70, 28, 15))
+    if u >= 2.0:                                                       # coraçõezinhos subindo (feliz da vida)
+        for i in range(7):
+            ph = ((u - 2.0) * 0.55 + i / 7) % 1
+            hx = 250 + 90 * math.sin(i * 2.1 + u * 2) + i * 8; hy = 980 - ph * 520; r = 20 + 10 * (i % 3)
+            cor = (230, 60, 90)
+            d.ellipse([hx - r, hy - r, hx, hy]); d.ellipse([hx - r, hy - r, hx, hy], fill=cor); d.ellipse([hx, hy - r, hx + r, hy], fill=cor)
+            d.polygon([(hx - r, hy - r / 2 + 2), (hx + r, hy - r / 2 + 2), (hx, hy + r)], fill=cor)
+    if 3.2 <= u < FALA_FORMIGA - 1.8:
+        img = T('kkkkkk', 96, RED, sw=0); im.paste(img, (40 + int(8 * math.sin(u * 30)), 520), img)
+    if u >= FALA_FORMIGA - 1.8:                                        # balão: a formiga chama a galera
+        s = pop(t, d0 + ENTRA + FALA_FORMIGA - 1.8)
+        if s > 0:
+            bal = Image.new('RGBA', (1000, 400), (0, 0, 0, 0)); bd = ImageDraw.Draw(bal)
+            bd.rounded_rectangle([10, 10, 990, 300], 60, fill=(255, 255, 255), outline=INK, width=7)
+            bd.polygon([(170, 292), (260, 292), (150, 390)], fill=(255, 255, 255), outline=INK)
+            bd.line([(172, 296), (258, 296)], fill=(255, 255, 255), width=10)
+            l1 = T('Segue o Caderno Amarelo', 84, INK, sw=0); l2 = T('@Cardeno_Amarelo', 90, RED, sw=0)
+            bal.paste(l1, (500 - l1.width // 2, 30), l1); bal.paste(l2, (500 - l2.width // 2, 150), l2)
+            if s < 1: bal = esc(bal, s, ('bal', round(s, 2)))
+            im.paste(bal, (540 - bal.width // 2, 150), bal)
     if 2.0 <= u < 3.2:
         s = pop(t, d0 + 2.0)
         img = T('seguiu!', 90, RED)
@@ -521,6 +557,7 @@ def sfx(total, ev, fase):
     d0 = fase['D'][0]
     tc = np.arange(int(0.05 * SR)) / SR
     clk = 6000 * np.sin(2 * math.pi * 1800 * tc) * np.exp(-tc * 120)
+    d0 += 1.8
     add(d0 + 1.6, clk); add(d0 + 2.7, clk)
     # "plim" do seguir
     tp = np.arange(int(0.4 * SR)) / SR
@@ -541,9 +578,9 @@ def main():
     for i, c in enumerate(clips):
         i0 = int(ev[i][0] * SR); full[i0:i0 + len(c)] += c[:len(full) - i0]
     # no fim, o vídeo no celular começa de novo (fala0 baixinha, som de celular) -> loop
-    c0 = clips[0]; tv0 = fase['D'][0] + 3.0 + 0.2
-    i0 = int(tv0 * SR); seg = c0[:int((DUR - tv0) * SR)]
-    seg = np.convolve(seg, np.array([1, -0.9], np.float32), 'same') * 0.45
+    c0 = clips[0]; tv0 = fase['D'][0] + 1.8 + 3.0 + 0.2              # vídeo no celular, baixinho, até a formiga falar
+    i0 = int(tv0 * SR); seg = c0[:max(0, int((ev[11][0] - 0.2 - tv0) * SR))]
+    seg = np.convolve(seg, np.array([1, -0.9], np.float32), 'same') * 0.3
     full[i0:i0 + len(seg)] += seg
     full = full[:int(DUR * SR)]
     full += sfx(DUR, ev, fase)[:len(full)]
