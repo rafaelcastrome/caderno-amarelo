@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>O segredo do truque · Caderno Amarelo</title>
+<meta name="description" content="Como o Caderno Amarelo adivinhou o que tu tava pensando. O segredo do truque, só pra seguidores.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="O segredo do truque 🔒">
+<meta property="og:description" content="Como eu sabia que tu tava pensando num elefante cinza na Dinamarca?">
+<meta name="theme-color" content="#ffd23f">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔮</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/loja.css">
+<style>
+  /* Página que o robô manda na DM pra quem comentou nos vídeos de truque (ex.: elefante).
+     Um truque por chave em ?t=  (TRUQUES no script). */
+  [hidden] { display: none !important; }
+  .sg { max-width: 560px; margin: 0 auto; padding: 22px 16px 40px; }
+  .sg-topo { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+  .sg-topo .logo { font-weight: 900; text-decoration: none; }
+  .sg-tag { font-family: var(--mao); font-size: 1.5rem; }
+  .sg h1 { font-family: var(--mao); font-size: clamp(2.5rem, 10.5vw, 3.4rem); line-height: 1.02; margin: 4px 0 10px; text-align: center; }
+  .sg h1 .marca-texto { padding: 0 6px; }
+  .sg > p.lead { color: var(--tinta-suave); font-size: 1.05rem; text-align: center; }
+  .sg h2 { font-family: var(--mao); font-size: 2rem; line-height: 1.1; margin-bottom: 8px; }
+  .folha { background: #fff; border: 3px solid var(--tinta); border-radius: 22px; box-shadow: 5px 6px 0 rgba(0,0,0,.16);
+           padding: 18px 16px; margin: 22px 0; position: relative; }
+  .folha::before { content: ''; position: absolute; top: -12px; left: 50%; width: 90px; height: 24px; margin-left: -45px;
+           background: rgba(255, 210, 63, .75); transform: rotate(-3deg); }
+  .folha p { margin-bottom: 8px; } .folha p:last-child { margin-bottom: 0; }
+  .num-grade { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 12px 0; }
+  .num-grade button { font-family: var(--mao); font-size: 1.9rem; padding: 6px 0; border: 2px solid var(--tinta); border-radius: 12px;
+           background: var(--papel-claro); cursor: pointer; box-shadow: 2px 2px 0 var(--tinta); color: var(--tinta); }
+  .num-grade button[aria-pressed="true"] { background: var(--amarelo); }
+  .conta { font-family: var(--mao); font-size: 2.1rem; line-height: 1.25; text-align: center; min-height: 6.4em; }
+  .conta .v { color: var(--vermelho); }
+  .conta .linha-conta { opacity: 0; transform: translateY(6px); transition: opacity .3s, transform .3s; }
+  .conta .linha-conta.on { opacity: 1; transform: none; }
+  .passos { counter-reset: p; list-style: none; }
+  .passos li { counter-increment: p; position: relative; padding-left: 40px; margin-bottom: 10px; }
+  .passos li::before { content: counter(p); position: absolute; left: 0; top: -2px; width: 28px; height: 28px; border-radius: 50%;
+           background: var(--amarelo); border: 2px solid var(--tinta); font-weight: 900; display: grid; place-items: center; font-size: .9rem; }
+  .tab { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 12px 0; }
+  .tab button { font-family: var(--mao); font-size: 1.25rem; padding: 12px 0; border: 2px solid var(--tinta); border-radius: 10px;
+           background: #fff; cursor: pointer; color: var(--tinta); }
+  .tab.pintado button.a { background: var(--amarelo); }
+  .tab button[aria-pressed="true"] { outline: 4px solid var(--vermelho); outline-offset: -2px; }
+  .ilusao { position: relative; aspect-ratio: 1; max-width: 340px; margin: 12px auto; border: 2px solid var(--tinta); border-radius: 14px;
+           overflow: hidden; background: #fff; }
+  .ilusao svg { width: 100%; height: 100%; display: block; }
+  .ilusao .ponto { position: absolute; left: 50%; top: 50%; width: 10px; height: 10px; margin: -5px; border-radius: 50%; background: #000; }
+  .ilusao .num { position: absolute; left: 12px; top: 6px; font-family: var(--mao); font-size: 2rem; }
+  .ilusao.branca svg { visibility: hidden; }
+  .acoes { display: flex; flex-direction: column; gap: 12px; align-items: center; margin-top: 8px; }
+  .acoes .btn { min-width: 240px; }
+  .btn-claro { background: #fff; }
+  .rodape-sg { margin-top: 26px; font-size: .9rem; color: var(--tinta-suave); text-align: center; }
+  .rodape-sg a { font-weight: 800; }
+  @media (prefers-reduced-motion: reduce) { .conta .linha-conta { transition: none; } }
+</style>
+</head>
+<body>
+<main class="sg">
+  <div class="sg-topo">
+    <a class="logo" href="index.html">📒 Caderno Amarelo</a>
+    <span class="sg-tag">🔓 só pra seguidor</span>
+  </div>
+
+  <h1 id="titulo"></h1>
+  <p class="lead" id="lead"></p>
+
+  <section class="folha" id="testa">
+    <h2 id="testa-titulo"></h2>
+    <p id="testa-texto"></p>
+    <div id="area"></div>
+  </section>
+
+  <section class="folha">
+    <h2>Por que funciona</h2>
+    <ol class="passos" id="porque"></ol>
+  </section>
+
+  <section class="folha" id="bonus">
+    <h2 id="bonus-titulo"></h2>
+    <ol class="passos" id="bonus-passos"></ol>
+    <p id="bonus-fim"></p>
+  </section>
+
+  <div class="acoes">
+    <button class="btn" id="compartilhar" type="button">Fazer o truque num amigo 📲</button>
+    <a class="btn btn-claro" href="produto.html?p=kit-mentalista">Quero mais 20 truques assim 🧠</a>
+  </div>
+
+  <p class="rodape-sg">Feito pelo <a id="ig" href="https://instagram.com/cardeno_amarelo">@Cardeno_Amarelo</a>. Não conta o segredo nos comentários, hein 🤫</p>
+</main>
+
+<script src="assets/js/config.js"></script>
+<script>
+(function () {
+  var TRUQUES = {
+    elefante: {
+      titulo: 'Como eu sabia do <span class="marca-texto">elefante</span>? 🐘',
+      lead: 'Tu pensou num número qualquer e mesmo assim caiu no elefante cinza na Dinamarca. Não é mágica, é matemática. Olha só:',
+      testaTitulo: 'Testa com qualquer número',
+      testaTexto: 'Toca num número de 1 a 10 e vê a conta acontecer:',
+      conta: function (n) {
+        var x = n * 9, d = String(x).split('').map(Number), s = d.reduce(function (a, b) { return a + b; }, 0);
+        return [
+          n + ' × 9 = <span class="v">' + x + '</span>',
+          (d.length > 1 ? d.join(' + ') + ' = ' : 'fica ') + '<span class="v">' + s + '</span>',
+          s + ' − 5 = <span class="v">' + (s - 5) + '</span> → letra <span class="v">D</span>',
+          'D… <span class="v">Dinamarca</span> 🇩🇰 → E… <span class="v">elefante</span> 🐘'
+        ];
+      },
+      porque: [
+        'Todo número de 1 a 10 vezes 9 dá 9, 18, 27, 36, 45, 54, 63, 72, 81 ou 90. Somando os dígitos, <b>sempre dá 9</b>. Então não importa o número que tu pensou.',
+        '9 menos 5 dá <b>4</b>, e a 4ª letra é o <b>D</b>.',
+        'País com D? Quase todo mundo lembra da <b>Dinamarca</b> (os outros são Dominica e Djibuti, que quase ninguém lembra).',
+        'A letra seguinte é o <b>E</b>. Bicho com E? O primeiro que vem na cabeça é o <b>elefante</b>, e elefante é <b>cinza</b>.',
+        'O truque usa uma conta que sempre dá igual e depois a resposta que <b>a maioria</b> das pessoas dá. Por isso funciona com quase todo mundo.'
+      ],
+      bonusTitulo: 'Bônus: o truque do número 5',
+      bonus: [
+        'Pede pro teu amigo pensar num número (qualquer um, pode ser grande).',
+        'Manda ele dobrar o número.',
+        'Agora somar 10.',
+        'Dividir por 2.',
+        'E tirar o número que ele pensou no começo.'
+      ],
+      bonusFim: 'Aí tu fala, bem misterioso: <b>"deu 5"</b>. Sempre dá 5, com qualquer número 😎',
+      share: 'Pensa num número de 1 a 10 e faz a conta… duvido tu descobrir como funciona 🐘'
+    },
+
+    fruta: {
+      titulo: 'Como eu sabia do <span class="marca-texto">kiwi</span>? 🥝',
+      lead: 'Tu escolheu o número que quis e mesmo assim caiu no kiwi. E ele tava desenhado no cantinho da folha desde o começo. Olha a conta:',
+      testaTitulo: 'Testa com qualquer número',
+      testaTexto: 'Toca num número de 1 a 5 e vê a conta acontecer:',
+      max: 5,
+      conta: function (n) {
+        return [
+          n + ' × 2 = <span class="v">' + (2 * n) + '</span>',
+          (2 * n) + ' + 22 = <span class="v">' + (2 * n + 22) + '</span>',
+          (2 * n + 22) + ' ÷ 2 = <span class="v">' + (n + 11) + '</span>',
+          (n + 11) + ' − ' + n + ' = <span class="v">11</span> → letra <span class="v">K</span> → <span class="v">kiwi</span> 🥝'
+        ];
+      },
+      porque: [
+        'Dobrar e depois dividir por 2 desfaz a conta. Sobra o teu número mais a <b>metade do 22</b>, que é 11.',
+        'Aí eu mando tirar o número que tu pensou. Ele some, e sobra <b>sempre 11</b>, qualquer que seja o número.',
+        'A 11ª letra é o <b>K</b>. Fruta com K? Quase todo mundo só lembra do <b>kiwi</b>.',
+        'E o kiwi tava rabiscado no canto da folha o vídeo inteiro, parecendo um solzinho. Tu viu e nem percebeu 👀'
+      ],
+      bonusTitulo: 'Bônus: o número mágico',
+      bonus: [
+        'Pede pro teu amigo escolher o algarismo favorito dele, de 1 a 9.',
+        'Manda ele pegar a calculadora e digitar 12345679 (sem o 8!).',
+        'Agora multiplicar por 9 e depois pelo algarismo que ele escolheu.'
+      ],
+      bonusFim: 'Vai aparecer o número favorito dele <b>repetido 9 vezes</b> (escolheu 7? dá 777777777) 🤯 Fala que a calculadora leu a mente dele.',
+      share: 'Pensa num número de 1 a 5 e faz a conta… duvido tu não cair no kiwi 🥝'
+    },
+
+    bandeira: {
+      titulo: 'Por que teu cérebro <span class="marca-texto">pintou</span> a bandeira? 🇧🇷',
+      lead: 'A bandeira verde e amarela que tu viu nunca esteve na tela. Quem pintou foi o teu olho. Aqui tem uma ilusão secreta, mais forte que a do vídeo:',
+      testaTitulo: 'Ilusão secreta',
+      testaTexto: 'Deixa o brilho do celular no máximo, toca em começar e olha só pro pontinho preto até a contagem acabar. Não pisca!',
+      testa: function (area) {
+        // desenho em cores invertidas: sol azul, coração ciano, folhas rosa -> depois vira amarelo, vermelho, verde
+        area.innerHTML =
+          '<div class="ilusao" id="ilu"><svg viewBox="0 0 200 200" aria-hidden="true">' +
+          '<rect width="200" height="200" fill="#fff"/>' +
+          '<circle cx="150" cy="48" r="30" fill="#0039e6"/>' +
+          '<g stroke="#0039e6" stroke-width="7" stroke-linecap="round"><path d="M150 6v8M150 82v8M108 48h8M184 48h8M120 18l6 6M174 72l6 6M180 18l-6 6M126 72l-6 6"/></g>' +
+          '<path d="M100 178 C 30 132, 34 78, 70 78 C 88 78, 98 92, 100 100 C 102 92, 112 78, 130 78 C 166 78, 170 132, 100 178 Z" fill="#00e5e5"/>' +
+          '<ellipse cx="40" cy="160" rx="26" ry="11" transform="rotate(-30 40 160)" fill="#e600a0"/>' +
+          '<ellipse cx="164" cy="160" rx="26" ry="11" transform="rotate(30 164 160)" fill="#e600a0"/>' +
+          '</svg><span class="ponto"></span><span class="num" id="ilu-num"></span></div>' +
+          '<div class="acoes"><button class="btn" id="ilu-ok" type="button">Começar (15 segundos)</button></div>' +
+          '<p id="ilu-fim" hidden>Viu o sol <b>amarelo</b>, o coração <b>vermelho</b> e as folhas <b>verdes</b>? Nada disso tá aí, a tela tá branca 😳</p>';
+        var ilu = $('ilu'), num = $('ilu-num'), ok = $('ilu-ok'), t;
+        ok.onclick = function () {
+          clearInterval(t); ilu.classList.remove('branca'); $('ilu-fim').hidden = true; ok.hidden = true;
+          var n = 15; num.textContent = n;
+          t = setInterval(function () {
+            n--; num.textContent = n > 0 ? n : '';
+            if (n > 0) return;
+            clearInterval(t); ilu.classList.add('branca'); $('ilu-fim').hidden = false;
+            setTimeout(function () { ok.textContent = 'De novo'; ok.hidden = false; }, 4000);
+          }, 1000);
+        };
+      },
+      porque: [
+        'No fundo do olho tem células que veem cor. Quando tu encara uma cor por muito tempo, as células dessa cor <b>cansam</b>.',
+        'Aí, quando a tela fica branca, as cansadas respondem menos e as outras "ganham". O cérebro mostra a <b>cor oposta</b>: azul vira amarelo, ciano vira vermelho, rosa vira verde.',
+        'Por isso a bandeira do vídeo era rosa, azul e bege. O teu olho inverteu de volta pro verde e amarelo. Isso se chama <b>pós-imagem</b>.',
+        'Não viu? Brilho no máximo, encara mais tempo (uns 20 segundos) e não mexe o olho nem pisca. Piscar "descansa" as células e estraga tudo.'
+      ],
+      bonusTitulo: 'Bônus: o buraco na mão',
+      bonus: [
+        'Enrola uma folha de papel num tubo (ou usa o rolinho do papel higiênico).',
+        'Põe o tubo no olho direito, como uma luneta, e olha pra longe.',
+        'Encosta a mão esquerda aberta do lado do tubo, mais ou menos no meio dele.',
+        'Mantém os dois olhos abertos e olha longe.'
+      ],
+      bonusFim: 'Vai aparecer um <b>buraco no meio da tua mão</b> 🖐️ É o cérebro juntando o que cada olho vê numa imagem só. Faz num amigo e vê a cara dele.',
+      share: 'Encara a bandeira e não pisca… teu cérebro vai pintar ela sozinho 🇧🇷'
+    },
+
+    dedo: {
+      titulo: 'Como eu sabia da <span class="marca-texto">girafa</span>? 🦒',
+      lead: 'Começou em qualquer desenho e todo mundo terminou na girafa. O segredo é um tabuleiro de xadrez escondido na grade:',
+      testaTitulo: 'O tabuleiro escondido',
+      testaTexto: 'Toca no desenho onde tu começou:',
+      testa: function (area) {
+        var G = ['PIZZA', 'BOLA', 'PEIXE', 'PATO', 'CASA', 'UVA', 'SAPO', 'CHAVE', 'SOL', 'GIRAFA', 'LIVRO', 'VACA'];
+        area.innerHTML = '<div class="tab" id="tab"></div><div class="acoes"><button class="btn btn-claro" id="pinta" type="button">Mostrar o tabuleiro</button></div><p id="tab-txt" aria-live="polite"></p>';
+        G.forEach(function (w, i) {
+          var r = Math.floor(i / 4), c = i % 4, b = document.createElement('button');
+          b.type = 'button'; b.textContent = w; b.className = (r + c) % 2 ? 'a' : 'b'; b.setAttribute('aria-pressed', 'false');
+          b.onclick = function () {
+            [].forEach.call($('tab').children, function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+            $('tab').classList.add('pintado');
+            var n = w.length, par = n % 2 === 0, amarela = (r + c) % 2 === 1;
+            $('tab-txt').innerHTML = '<b>' + w + '</b> tem ' + n + ' letras (' + (par ? 'par' : 'ímpar') + ') e fica numa casa ' +
+              (amarela ? '<b>amarela</b>' : '<b>branca</b>') + '. ' +
+              (par ? 'Andando um número par de casas, tu volta pra mesma cor: continua no <b>amarelo</b>.'
+                   : 'Andando um número ímpar de casas, tu troca de cor: cai no <b>amarelo</b>.') +
+              ' Ou seja: depois da 1ª andada, <b>todo mundo</b> tá numa casa amarela.';
+          };
+          $('tab').appendChild(b);
+        });
+        $('pinta').onclick = function () { $('tab').classList.toggle('pintado'); };
+      },
+      porque: [
+        'Pinta a grade como tabuleiro de xadrez. Cada pulo pro lado, pra cima ou pra baixo <b>troca a cor</b> da casa. Por isso diagonal não vale.',
+        'Eu escolhi os desenhos de propósito: os das casas brancas têm número <b>ímpar</b> de letras e os das amarelas, número <b>par</b>. Aí, depois da 1ª andada, todo mundo cai no amarelo.',
+        'Daí pra frente eu sei a cor de todo mundo: andou 3, tá no branco. Andou 1, volta pro amarelo. Eu só apago casas da <b>outra cor</b>, onde ninguém pode estar.',
+        'No fim, a única casa que sobra é a girafa. Se deu errado contigo, tu provavelmente contou a casa onde tava como "1" (não conta!) ou andou na diagonal.'
+      ],
+      bonusTitulo: 'Bônus: a salsicha voadora',
+      bonus: [
+        'Aponta os dois dedos indicadores um pro outro, na frente do rosto, quase encostando.',
+        'Agora olha pra parede lá longe, através dos dedos (não olha pros dedos).',
+        'Afasta um pouquinho os dedos.'
+      ],
+      bonusFim: 'Vai aparecer uma <b>salsicha flutuando</b> entre os dedos 🌭 É o cérebro juntando a imagem dos dois olhos. Ensina pro teu amigo e ri da cara dele.',
+      share: 'Põe o dedo em qualquer desenho… duvido tu não parar na girafa 🦒'
+    }
+  };
+
+  var $ = function (id) { return document.getElementById(id); };
+  var chave = (new URLSearchParams(location.search).get('t') || 'elefante').toLowerCase();
+  var T = TRUQUES[chave] || TRUQUES.elefante;
+  try { if (window.LOJA_CONFIG && LOJA_CONFIG.instagram) $('ig').href = LOJA_CONFIG.instagram; } catch (e) {}
+
+  $('titulo').innerHTML = T.titulo; $('lead').textContent = T.lead;
+  $('testa-titulo').textContent = T.testaTitulo; $('testa-texto').textContent = T.testaTexto;
+  T.porque.forEach(function (t) { var li = document.createElement('li'); li.innerHTML = t; $('porque').appendChild(li); });
+  $('bonus-titulo').textContent = T.bonusTitulo;
+  T.bonus.forEach(function (t) { var li = document.createElement('li'); li.textContent = t; $('bonus-passos').appendChild(li); });
+  $('bonus-fim').innerHTML = T.bonusFim;
+
+  if (T.testa) T.testa($('area')); else gradeNumeros($('area'));
+
+  function gradeNumeros(area) {
+  area.innerHTML = '<div class="num-grade" id="grade"></div><div class="conta" id="conta" aria-live="polite"></div>';
+  var timers = [];
+  function mostra(n) {
+    timers.forEach(clearTimeout); timers = [];
+    [].forEach.call($('grade').children, function (b) { b.setAttribute('aria-pressed', String(+b.textContent === n)); });
+    var conta = $('conta'); conta.innerHTML = '';
+    T.conta(n).forEach(function (l, i) {
+      var d = document.createElement('div'); d.className = 'linha-conta'; d.innerHTML = l; conta.appendChild(d);
+      timers.push(setTimeout(function () { d.classList.add('on'); }, 150 + i * 650));
+    });
+  }
+  for (var n = 1; n <= (T.max || 10); n++) {
+    var b = document.createElement('button'); b.type = 'button'; b.textContent = n; b.setAttribute('aria-pressed', 'false');
+    b.onclick = (function (k) { return function () { mostra(k); }; })(n);
+    $('grade').appendChild(b);
+  }
+  }
+
+  $('compartilhar').onclick = function () {
+    var dados = { title: 'Truque', text: T.share, url: (LOJA_CONFIG && LOJA_CONFIG.instagram) || 'https://instagram.com/cardeno_amarelo' };
+    if (navigator.share) { navigator.share(dados).catch(function () {}); return; }
+    try { navigator.clipboard.writeText(dados.text + ' ' + dados.url); $('compartilhar').textContent = 'Copiado! ✅'; }
+    catch (e) { prompt('Copia:', dados.text + ' ' + dados.url); }
+  };
+})();
+</script>
+</body>
+</html>
