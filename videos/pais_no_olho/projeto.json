@@ -1,0 +1,44 @@
+{
+  "titulo": "A resposta aparece no teu olho (país pensado + pós-imagem)",
+  "marca": {
+    "handle": "Cardeno_Amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": false,
+  "voz": {
+    "edge": "pt-BR-AntonioNeural",
+    "edgeRate": "+12%"
+  },
+  "pausaPadrao": 0.4,
+  "fontes": [
+    {
+      "fato": "n (1 a 10) x 2 + 20, dividido por 2, menos n = 10 sempre; a 10ª letra é J; o país com J mais lembrado por brasileiros é o Japão",
+      "fonte": "Álgebra: (2n + 20)/2 - n = 10"
+    },
+    {
+      "fato": "Encarar uma imagem com as cores invertidas e depois olhar uma superfície clara faz aparecer a imagem nas cores certas (pós-imagem negativa): preto vira claro, ciano vira vermelho",
+      "fonte": "Illusions Index, 'Negative Afterimages'; Wikipedia, 'Afterimage'",
+      "url": "https://www.illusionsindex.org/i/negative-afterimages"
+    },
+    {
+      "fato": "O Brasil tem a maior população de origem japonesa fora do Japão, cerca de 2 milhões de pessoas",
+      "fonte": "Ministério das Relações Exteriores do Japão / Embaixada do Japão no Brasil (comunidade nikkei ~2 milhões)"
+    }
+  ],
+  "cenas": [
+    { "fala": "Eu vou adivinhar o país que tu vai pensar... e a resposta vai aparecer dentro do teu olho!", "pausa": 0.3 },
+    { "fala": "Pensa num número de um a dez. Pensou?", "pausa": 0.7 },
+    { "fala": "Dobra ele.", "pausa": 1.3 },
+    { "fala": "Soma vinte.", "pausa": 1.3 },
+    { "fala": "Divide por dois.", "pausa": 1.3 },
+    { "fala": "Agora tira o número que tu pensou.", "pausa": 1.3 },
+    { "fala": "Troca por uma letra. Um é A... dois é B... três é C...", "pausa": 1.6 },
+    { "fala": "Pensa num país com essa letra. Rápido!", "pausa": 1.0 },
+    { "fala": "Eu não vou falar qual é. Vou botar ele no teu olho.", "pausa": 0.3 },
+    { "fala": "Olha só pro pontinho preto. Não pisca... não mexe o olho... segura!", "pausa": 8.5 },
+    { "fala": "Agora! Tá vendo uma bolinha vermelha?", "pausa": 1.2 },
+    { "fala": "É o Japão! Acertei?", "pausa": 0.5 },
+    { "fala": "E olha que doido: o Brasil tem a maior comunidade japonesa do mundo fora do Japão!", "pausa": 0.4 },
+    { "fala": "Manda pra um amigo, pra ver se aparece no olho dele também... e me segue, que amanhã tem desafio novo!", "pausa": 2.5 }
+  ]
+}
