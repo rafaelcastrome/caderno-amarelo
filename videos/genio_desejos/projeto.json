@@ -1,0 +1,44 @@
+{
+  "titulo": "Gênio da lâmpada: pausa o vídeo e descobre teus 3 desejos de 2027",
+  "marca": {
+    "handle": "Cardeno_Amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": false,
+  "voz": {
+    "edge": "pt-BR-AntonioNeural",
+    "edgeRate": "+12%"
+  },
+  "pausaPadrao": 0.4,
+  "fontes": [],
+  "cenas": [
+    {
+      "fala": "Eu sou o gênio da lâmpada! E tu acabou de ganhar três desejos... pra dois mil e vinte e sete!",
+      "pausa": 0.3
+    },
+    {
+      "fala": "Mas quem escolhe é a sorte, tá? Os desejos vão passar rapidinho... e tu pausa o vídeo.",
+      "pausa": 0.4
+    },
+    {
+      "fala": "Primeiro desejo... o que tu vai ganhar. Pausa!",
+      "pausa": 4.2
+    },
+    {
+      "fala": "Segundo desejo... o do coração. Pausa!",
+      "pausa": 4.2
+    },
+    {
+      "fala": "Terceiro desejo... pra onde tu vai. Pausa!",
+      "pausa": 4.2
+    },
+    {
+      "fala": "Pausou os três? Agora escreve eles aqui nos comentários... porque desejo que não é escrito, o gênio não realiza!",
+      "pausa": 0.4
+    },
+    {
+      "fala": "E se tirou o desejo dourado... tu é muito sortudo! Manda pro amigo descobrir os desejos dele... e me segue!",
+      "pausa": 2.5
+    }
+  ]
+}
