@@ -121,10 +121,7 @@
     }).join('');
     document.querySelectorAll('.secao-cat').forEach(ligarSetas);
 
-    // menu do topo com as categorias
-    const links = (temporadaNatal ? ['Natal'] : []).concat(outras)
-      .map(c => `<a href="#${c === 'Natal' && temporadaNatal ? 'natal' : ancora(c)}">${esc(c === 'Mente e mágica' ? 'Mente' : c)}</a>`).join('');
-    $('#menu-cats').insertAdjacentHTML('afterbegin', links);
+    // o menu do topo agora é fixo e igual em todas as páginas (assets/js/menu.js)
 
     const vitrine = temporadaNatal ? ativos.filter(p => p.categoria === 'Natal') : ativos;
     leque(vitrine);

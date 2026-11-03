@@ -308,3 +308,47 @@ body.saindo { opacity: 0; transform: translateY(-6px); }
 .como-funciona li::before { content: counter(c); position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; border-radius: 50%; background: var(--amarelo, #ffd23f); border: 2px solid #1f1f24; display: flex; align-items: center; justify-content: center; font-family: var(--mao); font-size: 20px; font-weight: 700; }
 .previas a.instrucao { position: relative; }
 .previas a.instrucao::after { content: 'passo a passo'; position: absolute; left: 50%; bottom: -8px; transform: translateX(-50%) rotate(-2deg); background: #ffd23f; border: 2px solid #1f1f24; border-radius: 6px; padding: 0 8px; font-family: var(--mao); font-size: 16px; white-space: nowrap; }
+
+/* ===== menu padrão (assets/js/menu.js) ===== */
+:root { --menu-baixo-h: 64px; }
+html, body { overflow-x: clip; }
+.topo { position: sticky; top: 0; } /* uma regra antiga (efeitos) tinha tirado o topo fixo */ /* a faixa inclinada (letreiro) passava da tela e deixava a página arrastar pro lado no celular */
+section[id] { scroll-margin-top: 76px; }
+.menu-topo { display: flex; align-items: center; gap: 4px; }
+.topo nav.menu-topo a { margin: 0; display: inline-flex; align-items: center; gap: 6px; padding: 7px 10px; border-radius: 10px; font-size: 15px; text-decoration: none; }
+.menu-topo a:hover, .menu-topo a[aria-current] { background: rgba(255, 210, 63, .55); text-decoration: none; }
+.menu-topo svg, .menu-baixo svg, .menu-gaveta svg, .menu-botao svg { width: 20px; height: 20px; flex: none; }
+.menu-botao { display: none; width: 44px; height: 44px; border: 2px solid var(--tinta); border-radius: 12px; background: var(--amarelo); color: var(--tinta); place-items: center; cursor: pointer; }
+.menu-botao svg { width: 24px; height: 24px; }
+.menu-gaveta { position: absolute; top: 100%; left: 0; right: 0; background: var(--papel-claro); border-bottom: 2px solid var(--tinta); box-shadow: 0 8px 18px rgba(31, 31, 36, .12); padding: 6px 12px 12px; }
+.menu-gaveta[hidden] { display: none; }
+.menu-gaveta a { display: flex; align-items: center; gap: 12px; padding: 13px 10px; font-weight: 800; font-size: 17px; text-decoration: none; border-bottom: 1px dashed rgba(31, 31, 36, .2); }
+.menu-gaveta a:last-child { border-bottom: 0; }
+.menu-gaveta a[aria-current] { background: rgba(255, 210, 63, .55); border-radius: 10px; }
+.menu-baixo { display: none; }
+
+/* celular: barra fixa embaixo com ícones */
+@media (max-width: 760px) {
+  .menu-topo { display: none; }
+  .menu-baixo { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; height: calc(var(--menu-baixo-h) + env(safe-area-inset-bottom)); padding-bottom: env(safe-area-inset-bottom);
+    background: var(--papel-claro); border-top: 2px solid var(--tinta); }
+  .menu-baixo a { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-decoration: none; font-size: 11px; font-weight: 800; color: var(--tinta-suave); }
+  .menu-baixo svg { width: 24px; height: 24px; }
+  .menu-baixo a[aria-current] { color: var(--tinta); }
+  .menu-baixo a[aria-current] svg { background: var(--amarelo); border-radius: 10px; padding: 3px 12px; width: 48px; height: 30px; margin: -3px 0; }
+  body.tem-menu-baixo { padding-bottom: calc(var(--menu-baixo-h) + env(safe-area-inset-bottom)); }
+  body.tem-menu-baixo .barra-compra { bottom: calc(var(--menu-baixo-h) + env(safe-area-inset-bottom)); }
+  body.tem-menu-baixo.pagina-produto { padding-bottom: calc(var(--menu-baixo-h) + 72px + env(safe-area-inset-bottom)); }
+  body.digitando .menu-baixo { display: none; }
+  body.digitando.tem-menu-baixo { padding-bottom: 0; }
+}
+
+/* tela muito pequena: menu de três linhas no topo */
+@media (max-width: 359px) {
+  .menu-baixo { display: none; }
+  .menu-botao { display: grid; }
+  body.tem-menu-baixo { padding-bottom: 0; }
+  body.tem-menu-baixo .barra-compra { bottom: 0; }
+  body.tem-menu-baixo.pagina-produto { padding-bottom: 72px; }
+  .logo { font-size: 21px; }
+}
