@@ -6,39 +6,56 @@
   },
   "marcaDagua": false,
   "voz": {
-    "edge": "pt-BR-AntonioNeural",
-    "edgeRate": "+12%"
+    "gemini": "Algieba",
+    "modelos": "cenas 1-6 gemini-3.1-flash-tts-preview (prompt de emoção), 7-9 gemini-3.8-flash-tts (cota do 3.1 acabou)"
   },
   "pausaPadrao": 0.4,
   "fontes": [],
   "cenas": [
     {
-      "fala": "Eu sou o gênio da lâmpada! E tu acabou de ganhar três desejos... pra dois mil e vinte e sete!",
-      "pausa": 0.3
+      "fala": "Eu sou o gênio da lâmpada! Fiquei mil anos preso aqui dentro... e quem me achou hoje... foi tu!",
+      "pausa": 0.2,
+      "tempo": 1.35
     },
     {
-      "fala": "Mas quem escolhe é a sorte, tá? Os desejos vão passar rapidinho... e tu pausa o vídeo.",
-      "pausa": 0.4
+      "fala": "Por isso, tu ganhou três desejos pra dois mil e vinte e sete. Mas tem uma regra: quem escolhe... é o destino.",
+      "pausa": 0.3,
+      "tempo": 1.35
     },
     {
-      "fala": "Primeiro desejo... o que tu vai ganhar. Pausa!",
-      "pausa": 4.2
+      "fala": "Os desejos vão passar voando na tela. Segura o dedo pra pausar... e o que ficar parado, é teu!",
+      "pausa": 0.4,
+      "tempo": 1.35
     },
     {
-      "fala": "Segundo desejo... o do coração. Pausa!",
-      "pausa": 4.2
+      "fala": "Primeiro desejo: o que vai chegar na tua vida. Valendo!",
+      "pausa": 2.8,
+      "tempo": 1.25
     },
     {
-      "fala": "Terceiro desejo... pra onde tu vai. Pausa!",
-      "pausa": 4.2
+      "fala": "Segundo desejo: o do teu coração. Valendo!",
+      "pausa": 2.8,
+      "tempo": 1.25
     },
     {
-      "fala": "Pausou os três? Agora escreve eles aqui nos comentários... porque desejo que não é escrito, o gênio não realiza!",
-      "pausa": 0.4
+      "fala": "Terceiro e último: a viagem que tu vai fazer. Valendo!",
+      "pausa": 2.8,
+      "tempo": 1.25
     },
     {
-      "fala": "E se tirou o desejo dourado... tu é muito sortudo! Manda pro amigo descobrir os desejos dele... e me segue!",
-      "pausa": 2.5
+      "fala": "Pronto! Os três tão selados. Mas presta atenção: desejo que fica só na cabeça... some.",
+      "pausa": 0.3,
+      "tempo": 1.12
+    },
+    {
+      "fala": "Escreve os teus três aqui nos comentários... e em dois mil e vinte e sete, volta aqui e me conta se realizou!",
+      "pausa": 0.4,
+      "tempo": 1.12
+    },
+    {
+      "fala": "E se caiu o desejo dourado... tu é raro! Manda pro teu amigo descobrir os dele... e me segue!",
+      "pausa": 2.5,
+      "tempo": 1.12
     }
   ]
 }

@@ -23,13 +23,13 @@ window.CENAS = function (WB) {
   WB.showNow(h1.strokes);
   WB.showNow(sp(WB.wavyLine(540 - h1.width / 2, 540 + h1.width / 2, 162, 5, 40), INK.red, 5, hook));
   WB.showNow(WB.textStrokes('e descobre teus 3 desejos de 2027', 540, 240, 62, INK.black, hook, 'middle').strokes);
-  const FIM = st(6);
+  const FIM = st(7);
   WB.effect(t => hook.setAttribute('opacity', (1 - clamp((t - FIM) / 0.4)).toFixed(3)));
 
   // ---------- @ que anda ----------
   const wm = WB.group(WB.overlay);
   WB.showNow(WB.textStrokes('@Cardeno_Amarelo', 0, 0, 46, INK.gray, wm, 'middle').strokes);
-  const fimWm = st(7) + 0.3;
+  const fimWm = st(9) + 0.3;
   WB.effect(t => {
     const x = 540 + 230 * Math.sin(t * 0.42);
     const y = 1700 + 60 * Math.sin(t * 0.61 + 1);
@@ -71,9 +71,8 @@ window.CENAS = function (WB) {
   // rosto: olhos, sobrancelhas, sorriso, bigode
   const face = [
     gp('M 485 485 Q 500 470 515 485 M 565 485 Q 580 470 595 485', INK.black, 7),
-    gp('M 475 455 L 515 462 M 565 462 L 605 455', INK.black, 6),
+    gp('M 475 455 Q 495 440 515 450 M 565 450 Q 585 440 605 455', INK.black, 6),
     gp('M 490 545 Q 540 590 590 545', INK.black, 7),
-    gp('M 540 525 Q 500 505 470 535 M 540 525 Q 580 505 610 535', INK.black, 6),
   ];
   // brilhos
   const sparks = [gp('M 250 520 L 290 520 M 270 500 L 270 540 M 820 430 L 860 430 M 840 410 L 840 450 M 800 640 L 830 640 M 815 625 L 815 655', GOLD, 6)];
@@ -87,9 +86,13 @@ window.CENAS = function (WB) {
   D(1, 0.80, 0.86, arm); WB.fillAfter(armF, arm, 0.12);
   D(1, 0.86, 0.95, sparks);
   const leg1 = WB.group();
-  W(1, 0.95, 1.15, '3 desejos pra 2027!', 540, 1560, 88, INK.purple, { parent: leg1 });
+  W(2, 0.0, 0.35, '3 desejos pra 2027!', 540, 1490, 88, INK.purple, { parent: leg1 });
+  const dest = C.stamp('quem escolhe: o DESTINO', 540, 1600, { size: 62, color: INK.red, rot: -3 });
+  for (const s of [dest.box, dest.text].flat(3)) if (s.el) leg1.appendChild(s.el), s.fillEl && leg1.appendChild(s.fillEl);
+  D(2, 0.62, 0.95, [dest.box, dest.text]);
+  rest(2, tf(2, 0.97), en(2));
   // na cena 2 o gênio vai pro canto de baixo à esquerda (fica de "dono" da roleta)
-  const G2 = st(2) + 0.15;
+  const G2 = st(3) + 0.1;
   const GS = 0.42, GX = -40, GY = 1080;
   WB.effect(t => {
     const u = WB.ease(clamp((t - G2) / 0.7));
@@ -100,15 +103,15 @@ window.CENAS = function (WB) {
 
   // ---------- cena 2: como funciona ----------
   const passos = WB.group();
-  W(2, 0.18, 0.45, 'os desejos passam rápido...', 540, 620, 74, INK.black, { parent: passos });
-  W(2, 0.50, 0.80, 'e tu PAUSA!', 540, 740, 110, INK.red, { parent: passos });
+  W(3, 0.18, 0.45, 'os desejos passam rápido...', 540, 620, 74, INK.black, { parent: passos });
+  W(3, 0.50, 0.80, 'e tu PAUSA!', 540, 740, 110, INK.red, { parent: passos });
   // ícone de pause
-  D(2, 0.82, 0.98, [sp(WB.roundRectPath(450, 840, 70, 200, 14), INK.black, 8, passos), sp(WB.roundRectPath(560, 840, 70, 200, 14), INK.black, 8, passos)]);
+  D(3, 0.82, 0.98, [sp(WB.roundRectPath(450, 840, 70, 200, 14), INK.black, 8, passos), sp(WB.roundRectPath(560, 840, 70, 200, 14), INK.black, 8, passos)]);
   const p1 = fill('rect', { x: 450, y: 840, width: 70, height: 200, rx: 14, fill: INK.black }, passos);
   const p2 = fill('rect', { x: 560, y: 840, width: 70, height: 200, rx: 14, fill: INK.black }, passos);
-  WB.effect(t => { const o = t > tf(2, 0.98) ? 1 : 0; p1.setAttribute('fill-opacity', o); p2.setAttribute('fill-opacity', o); });
-  WB.effect(t => passos.setAttribute('opacity', t < st(3) ? 1 : 0));
-  rest(2, tf(2, 1.0), en(2));
+  WB.effect(t => { const o = t > tf(3, 0.98) ? 1 : 0; p1.setAttribute('fill-opacity', o); p2.setAttribute('fill-opacity', o); });
+  WB.effect(t => passos.setAttribute('opacity', t < st(4) ? 1 : 0));
+  rest(3, tf(3, 1.0), en(3));
 
   // ---------- cenas 3-5: as 3 roletas ----------
   const RODADAS = [
@@ -118,7 +121,7 @@ window.CENAS = function (WB) {
       ouro: ['✨', 'TODOS os desejos em dobro'] },
     { titulo: 'DESEJO 2', sub: 'o do coração', cor: INK.red, itens: [
       ['💘', 'o crush te pede em namoro'], ['💍', 'um amor de verdade'], ['🤝', 'fazer as pazes com alguém'], ['👯', 'um amigo pra vida toda'],
-      ['👨‍👩‍👧', 'a família toda junta'], ['🎤', 'conhecer teu ídolo'], ['😏', 'o ex volta implorando'], ['🐱', 'um gatinho grudento']],
+      ['🏡', 'a família toda junta'], ['🎤', 'conhecer teu ídolo'], ['😏', 'o ex volta implorando'], ['🐱', 'um gatinho grudento']],
       ouro: ['👑', 'amor E dinheiro juntos'] },
     { titulo: 'DESEJO 3', sub: 'pra onde tu vai', cor: INK.blue, itens: [
       ['🏰', 'Disney'], ['🗼', 'Paris'], ['🏖️', 'praia no Nordeste'], ['🗻', 'Japão'],
@@ -126,7 +129,7 @@ window.CENAS = function (WB) {
       ouro: ['🌍', 'volta ao mundo'] },
   ];
   const CARD = { x: 140, y: 470, w: 800, h: 760 };
-  const PASSO = 0.27, OURO_DUR = 0.18;
+  const PASSO = 0.12, OURO_DUR = 0.08;
   let seed = 7;
   const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
 
@@ -147,8 +150,8 @@ window.CENAS = function (WB) {
   }
 
   RODADAS.forEach((r, i) => {
-    const c = 3 + i;
-    if (i === 0) WB.newPage(3, 0.0, 0.05);
+    const c = 4 + i;
+    if (i === 0) WB.newPage(4, 0.0, 0.05);
     const pg = WB.group();
     // moldura do cartão (dourada) + título
     const frame = [sp(WB.roundRectPath(CARD.x, CARD.y, CARD.w, CARD.h, 40), GOLD, 10, pg)];
@@ -190,27 +193,39 @@ window.CENAS = function (WB) {
   });
 
   // ---------- cena 6: escreve nos comentários ----------
-  WB.newPage(6, 0.0, 0.05);
-  WB.effect(t => genie.setAttribute('opacity', t < st(6) ? 1 : 0));
-  W(6, 0.06, 0.24, 'meus desejos de 2027:', 540, 330, 80, INK.purple);
+  WB.newPage(7, 0.0, 0.05);
+  WB.effect(t => genie.setAttribute('opacity', t < st(7) ? 1 : 0));
+  // cena 7: os três desejos selados (3 envelopes com lacre)
+  [0, 1, 2].forEach(j => {
+    const x = 220 + j * 320, y = 560;
+    D(7, 0.06 + j * 0.08, 0.13 + j * 0.08, [sp(WB.roughRect(x - 120, y - 80, x + 120, y + 80), GOLD, 7), sp(`M ${x - 120} ${y - 80} L ${x} ${y + 10} L ${x + 120} ${y - 80}`, GOLD, 6)]);
+    const lac = fill('circle', { cx: x, cy: y + 10, r: 30, fill: INK.red });
+    WB.effect(t => lac.setAttribute('fill-opacity', t > tf(7, 0.15 + j * 0.08) ? 1 : 0));
+  });
+  const sel = C.stamp('SELADOS!', 540, 820, { size: 110, color: INK.red, rot: -6 });
+  D(7, 0.36, 0.52, [sel.box, sel.text]);
+  W(7, 0.60, 0.80, 'desejo só na cabeça...', 540, 1060, 76, INK.black);
+  W(7, 0.85, 1.0, 'SOME!', 540, 1190, 120, INK.purple);
+  WB.newPage(8, 0.0, 0.05);
+  W(8, 0.06, 0.24, 'meus desejos de 2027:', 540, 330, 80, INK.purple);
   [1, 2, 3].forEach((n, j) => {
     const y = 480 + j * 140;
-    W(6, 0.25 + j * 0.06, 0.30 + j * 0.06, `${n}.`, 200, y, 80, INK.black);
-    D(6, 0.30 + j * 0.06, 0.34 + j * 0.06, sp(WB.roughLine(260, y + 10, 880, y + 10, 2), INK.gray, 5));
+    W(8, 0.25 + j * 0.06, 0.30 + j * 0.06, `${n}.`, 200, y, 80, INK.black);
+    D(8, 0.30 + j * 0.06, 0.34 + j * 0.06, sp(WB.roughLine(260, y + 10, 880, y + 10, 2), INK.gray, 5));
   });
   // balão de comentário
   const bub = 'M 300 900 Q 300 840 360 840 L 720 840 Q 780 840 780 900 L 780 1010 Q 780 1070 720 1070 L 470 1070 L 380 1140 L 400 1070 L 360 1070 Q 300 1070 300 1010 Z';
-  D(6, 0.48, 0.62, sp(bub, INK.blue, 8));
-  W(6, 0.62, 0.75, 'comenta!', 540, 985, 90, INK.blue);
-  W(6, 0.76, 0.92, 'senão o gênio não realiza', 540, 1260, 66, INK.red);
-  D(6, 0.93, 1.0, C.check(860, 980, 44, INK.green));
+  D(8, 0.48, 0.62, sp(bub, INK.blue, 8));
+  W(8, 0.62, 0.75, 'comenta!', 540, 985, 90, INK.blue);
+  W(8, 0.76, 0.92, 'em 2027, volta e me conta!', 540, 1260, 66, INK.red);
+  D(8, 0.93, 1.0, C.check(860, 980, 44, INK.green));
 
   // ---------- cena 7: dourado + CTA ----------
-  WB.newPage(7, 0.0, 0.05);
+  WB.newPage(9, 0.0, 0.05);
   emojiText('✨', 540, 440, 150, WB.layer);
-  W(7, 0.05, 0.25, 'tirou o DOURADO?', 540, 560, 96, '#a16207');
-  W(7, 0.25, 0.40, 'sortudo demais!', 540, 660, 70, INK.gray);
-  W(7, 0.42, 0.55, 'manda pro amigo', 540, 800, 80, INK.black);
-  WB.ctaRedes(7, 0.56, 0.82, { y: 860, titulo: 'e me segue!', iconSize: 170 });
-  WB.write(7, 0.82, 0.95, 'volta e tenta de novo', 540, 1500, 62, INK.purple, { anchor: 'middle' });
+  W(9, 0.05, 0.25, 'tirou o DOURADO?', 540, 560, 96, '#a16207');
+  W(9, 0.25, 0.40, 'sortudo demais!', 540, 660, 70, INK.gray);
+  W(9, 0.42, 0.55, 'manda pro amigo', 540, 800, 80, INK.black);
+  WB.ctaRedes(9, 0.56, 0.82, { y: 860, titulo: 'e me segue!', iconSize: 170 });
+  WB.write(9, 0.82, 0.95, 'volta e tenta de novo', 540, 1500, 62, INK.purple, { anchor: 'middle' });
 };

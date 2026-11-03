@@ -1,48 +1,60 @@
 {
-  "total": 46.864,
-  "motor_tts": "edge-tts (pt-BR-AntonioNeural +12%, gravado no PC do Rafael)",
+  "total": 70.609,
+  "motor_tts": "Gemini Algieba (ver projeto.json)",
   "cenas": [
     {
       "cena": 1,
       "start": 0.0,
-      "end": 5.447,
-      "fala": 5.147
+      "end": 7.972,
+      "fala": 7.772
     },
     {
       "cena": 2,
-      "start": 5.447,
-      "end": 10.604,
-      "fala": 4.757
+      "start": 7.972,
+      "end": 16.378,
+      "fala": 8.106
     },
     {
       "cena": 3,
-      "start": 10.604,
-      "end": 17.587,
-      "fala": 2.783
+      "start": 16.378,
+      "end": 24.955,
+      "fala": 8.177
     },
     {
       "cena": 4,
-      "start": 17.587,
-      "end": 24.679,
-      "fala": 2.891
+      "start": 24.955,
+      "end": 32.61,
+      "fala": 4.855
     },
     {
       "cena": 5,
-      "start": 24.679,
-      "end": 31.824,
-      "fala": 2.946
+      "start": 32.61,
+      "end": 41.2,
+      "fala": 5.79
     },
     {
       "cena": 6,
-      "start": 31.824,
-      "end": 38.4,
-      "fala": 6.176
+      "start": 41.2,
+      "end": 49.293,
+      "fala": 5.294
     },
     {
       "cena": 7,
-      "start": 38.4,
-      "end": 46.814,
-      "fala": 5.915
+      "start": 49.293,
+      "end": 55.712,
+      "fala": 6.118
+    },
+    {
+      "cena": 8,
+      "start": 55.712,
+      "end": 62.503,
+      "fala": 6.391
+    },
+    {
+      "cena": 9,
+      "start": 62.503,
+      "end": 70.574,
+      "fala": 5.571
     }
   ]
 }
