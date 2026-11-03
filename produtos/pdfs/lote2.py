@@ -26,13 +26,20 @@ def grade_cartas(textos, nome, cols=3, alt_mm=50, rotulo='', cor='#1d1d1d', icon
 # ---------- 1. Etiquetas de presente ----------
 def etiquetas():
     nome = 'Etiquetas de Presente de Natal'
-    css = '''.eti{display:grid;grid-template-columns:repeat(4,1fr);gap:4mm 3mm;margin-top:2mm}
+    css = CSS_PASSOS + '''.eti{display:grid;grid-template-columns:repeat(4,1fr);gap:4mm 3mm;margin-top:2mm}
 .tag{height:59mm;border:2px solid #1d1d1d;border-radius:6mm 6mm 4mm 4mm;clip-path:polygon(18% 0,82% 0,100% 14%,100% 100%,0 100%,0 14%);
 display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:7mm;font-size:21px;position:relative}
 .tag .furo{width:5mm;height:5mm;border:1.5px solid #1d1d1d;border-radius:50%;position:absolute;top:2mm}
 .tag .l{width:80%;text-align:left;border-bottom:1.5px solid #bbb;margin-top:1mm}'''
-    pags = [capa('pra embrulhar', 'Etiquetas<br>de <span class="r">Presente</span>', '48 etiquetas fofas pra colorir, recortar e amarrar',
+    pags = [capa('pra embrulhar', 'Etiquetas<br>de <span class="r">Presente</span>', '48 etiquetas fofas já pintadas, pra recortar e amarrar',
                  ''.join(svg(n, 90) for n in ['presente', 'gorro', 'sino', 'estrela']))]
+    pags.append(instrucoes('Como usar', [
+        'Imprime as 3 folhas de etiquetas em impressora colorida, em A4. Papel mais grosso, tipo 180 g, fica melhor.',
+        'As etiquetas já vêm pintadas: não precisa colorir nada.',
+        'Recorta cada etiqueta pela linha de fora. São 16 por folha.',
+        'Fura a bolinha marcada no topo com a ponta do lápis ou um furador.',
+        'Escreve o nome de quem dá (De:) e de quem ganha (Para:).',
+        'Passa uma fitinha ou barbante no furo e amarra no presente!'], nome))
     frases = ['Feliz Natal!', 'Com carinho', 'Não abre antes!', 'Ho ho ho!', 'Pra você', 'Boas festas!']
     for p in range(3):
         cel = ''
@@ -45,14 +52,14 @@ display:flex;flex-direction:column;align-items:center;justify-content:flex-start
 
 # ---------- 2. Cartões de Natal pra colorir ----------
 def cartoes_natal():
-    nome = 'Cartões de Natal pra Colorir'
+    nome = 'Cartões de Natal'
     css = CSS_PASSOS + '''.cartao{height:132mm;border:1.5px dashed #999;display:grid;grid-template-columns:1fr 1fr;margin-bottom:3mm}
 .cartao>div{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6mm;text-align:center}
 .cartao .verso{border-right:1.5px dashed #1d1d1d;font-size:20px;color:#888}
 .cartao .frente .msg{font-size:40px;line-height:1;margin-top:3mm}'''
     msgs = ['Feliz Natal!', 'Boas festas!', 'Um Natal fofinho pra você', 'Ho ho ho!', 'Que 2027 seja incrível!', 'Você é um presente',
             'Feliz Natal, vovó!', 'Feliz Natal, vovô!', 'Pra melhor família', 'Obrigado por esse ano!', 'Natal quentinho', 'Paz, amor e panetone']
-    pags = [capa('pra dar de presente', 'Cartões<br>de <span class="r">Natal</span>', '12 cartões pra colorir, dobrar e escrever',
+    pags = [capa('pra dar de presente', 'Cartões<br>de <span class="r">Natal</span>', '12 cartões já pintados, pra dobrar e escrever',
                  ''.join(svg(n, 90) for n in ['guirlanda', 'noel', 'arvore', 'caneca']))]
     pags.append(instrucoes('Como fazer', ['Imprime as folhas (papel mais grosso fica melhor).', 'Os cartões já vêm pintados. Se quiser, capricha com glitter ou canetinha.',
                                           'Recorta pela linha tracejada de fora.', 'Dobra ao meio na linha do centro, com o desenho pra fora.',

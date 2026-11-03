@@ -148,8 +148,11 @@
     $('#preco-barra').innerHTML = precoHTML(p);
     $('#formato').textContent = p.formato;
     $('#inclui').innerHTML = p.inclui.map(i => `<li>${esc(i)}</li>`).join('');
+    // Como funciona: comprar e baixar é igual pra todos; imprimir e usar vem de cada produto
+    const passos = ['Paga no Pix, pelo Mercado Pago.', 'O PDF aparece na tela na hora e chega no teu e-mail.'].concat(p.como_funciona || []);
+    $('#como').innerHTML = passos.map(t => `<li>${esc(t)}</li>`).join('');
     if (p.previas && p.previas.length) {
-      $('#previas').innerHTML = p.previas.map((s, i) => `<a role="button" tabindex="0" data-i="${i}"><img src="${esc(s)}" alt="Página ${i + 1} de dentro do ${esc(p.nome)}" loading="lazy"></a>`).join('');
+      $('#previas').innerHTML = p.previas.map((s, i) => `<a role="button" tabindex="0" data-i="${i}"${i === 0 && p.previa_instrucao ? ' class="instrucao"' : ''}><img src="${esc(s)}" alt="${i === 0 && p.previa_instrucao ? 'Passo a passo' : `Página ${i + 1} de dentro`} do ${esc(p.nome)}" loading="lazy"></a>`).join('');
       lightbox(p.previas);
     } else $('#bloco-previas').remove();
     const rel = produtos.filter(x => x.ativo && x.slug !== p.slug).sort((a, b) => (b.categoria === p.categoria) - (a.categoria === p.categoria)).slice(0, 8);

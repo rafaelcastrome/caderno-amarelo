@@ -21,10 +21,10 @@ def memoria():
 .verso{background:#e63946;background-image:radial-gradient(#fff 1.4mm,transparent 1.6mm),radial-gradient(#ffd23f 1mm,transparent 1.2mm);background-size:12mm 12mm;background-position:0 0,6mm 6mm;color:#fff}
 .verso span{font-size:40px;transform:rotate(-8deg);background:#e63946;padding:1mm 3mm;border-radius:3mm;border:2px solid #fff}'''
     pags = [capa('jogo pra imprimir', 'Jogo da<br><span class="r">Memória</span><br>de Natal',
-                 '18 pares de desenhos fofos pra recortar e colorir', ''.join(svg(n, 90) for n in ['noel', 'rena', 'boneco_neve', 'arvore']))]
+                 '18 pares de desenhos já pintados, pra recortar e jogar', ''.join(svg(n, 90) for n in ['noel', 'rena', 'boneco_neve', 'arvore']))]
     pags.append(instrucoes('Como montar e jogar', [
         'Imprime as páginas de cartas (de preferência em papel mais grosso, tipo 180 g).',
-        'Se quiser, colore cada par igualzinho (as duas cartas do mesmo jeito!).',
+        'As cartas já vêm pintadas: não precisa colorir nada.',
         'Imprime a página de verso atrás de cada folha, ou cola as folhas numa cartolina.',
         'Recorta na linha tracejada.',
         'Embaralha as 36 cartas viradas pra baixo. Cada um vira duas por vez: achou o par, fica com ele e joga de novo.',
@@ -83,15 +83,16 @@ def enfeites():
 .enf .furo{position:absolute;top:3mm;left:50%;width:4mm;height:4mm;margin-left:-2mm;border:1.5px solid #888;border-radius:50%}
 .enf.estrela .forma{border:none}
 '''
-    pags = [capa('recorta e monta', 'Enfeites<br>de <span class="r">Papel</span>', '18 enfeites pra colorir, recortar e pendurar na árvore',
+    pags = [capa('recorta e monta', 'Enfeites<br>de <span class="r">Papel</span>', '18 enfeites já pintados: é só recortar e pendurar na árvore',
                  ''.join(svg(n, 90) for n in ['bola', 'estrela', 'floco', 'sino']))]
     pags.append(instrucoes('Como fazer', [
-        'Imprime as folhas (papel mais grosso deixa o enfeite firme).',
-        'Colore do teu jeito. Canetinha, lápis de cor, glitter, vale tudo.',
-        'Recorta no círculo tracejado.',
-        'Pra ficar bonito dos dois lados, imprime duas vezes e cola uma folha nas costas da outra antes de recortar.',
-        'Faz o furinho em cima com um lápis ou furador, passa uma linha ou fitinha e pendura!',
-        'Ideia: escreve o nome de cada pessoa da família atrás e usa como enfeite de lugar na mesa da ceia.'], nome))
+        'Imprime as 3 folhas de enfeites (páginas 3 a 5) em impressora colorida, em A4. Papel mais grosso, tipo 180 g, deixa o enfeite firme.',
+        'Os enfeites já vêm pintados: não precisa colorir nada.',
+        'Recorta cada enfeite pela linha tracejada em volta do círculo. São 6 por folha.',
+        'Fura a bolinha marcada no topo com a ponta do lápis ou um furador.',
+        'Passa uma linha, barbante ou fitinha no furo, dá um nó e pendura na árvore!',
+        'Dica: pra ficar bonito dos dois lados, imprime a folha duas vezes e cola uma nas costas da outra antes de recortar.',
+        'Ideia: escreve o nome de cada pessoa da família atrás e usa como marcador de lugar na mesa da ceia.'], nome))
     for i in range(0, 18, 6):
         cel = ''.join(f'<div class="enf"><div class="forma"></div><div class="furo"></div>{svg(n, 210)}</div>' for n in TODOS[i:i + 6])
         pags.append(pagina(f'<div class="eg">{cel}</div>', nome=nome))

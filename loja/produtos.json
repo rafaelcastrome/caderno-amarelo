@@ -55,6 +55,11 @@
         "Precisa imprimir?",
         "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
       ]
+    ],
+    "como_funciona": [
+      "Imprime as páginas em A4, pode ser em preto e branco.",
+      "Pinta as cenas com lápis de cor, giz ou canetinha.",
+      "Se quiser, fura nas marquinhas e monta um caderninho (o passo a passo vem no PDF)."
     ]
   },
   {
@@ -78,9 +83,9 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/calendario-advento-desafios-1.jpg",
-      "assets/img/previas/calendario-advento-desafios-2.jpg",
-      "assets/img/previas/calendario-advento-desafios-3.jpg"
+      "assets/img/previas/calendario-advento-desafios-1.jpg?v=2",
+      "assets/img/previas/calendario-advento-desafios-2.jpg?v=2",
+      "assets/img/previas/calendario-advento-desafios-3.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -92,7 +97,13 @@
         "Precisa imprimir?",
         "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime em folha A4, em impressora colorida (em casa ou na papelaria).",
+      "Recorta os 24 cartões e guarda cada um num envelope, saquinho ou meia.",
+      "De 1 a 24 de dezembro, abre o cartão do dia e a família faz o desafio."
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "enfeites-de-papel",
@@ -115,9 +126,9 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/enfeites-de-papel-1.jpg",
-      "assets/img/previas/enfeites-de-papel-2.jpg",
-      "assets/img/previas/enfeites-de-papel-3.jpg"
+      "assets/img/previas/enfeites-de-papel-1.jpg?v=2",
+      "assets/img/previas/enfeites-de-papel-2.jpg?v=2",
+      "assets/img/previas/enfeites-de-papel-3.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -129,7 +140,13 @@
         "Precisa imprimir?",
         "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime em A4, em impressora colorida. Papel mais grosso (tipo 180 g) deixa mais firme.",
+      "Já vêm pintados: é só recortar no tracejado e furar a bolinha de cima.",
+      "Passa uma fitinha no furo e pendura na árvore."
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "bingo-de-natal",
@@ -152,9 +169,9 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/bingo-de-natal-1.jpg",
-      "assets/img/previas/bingo-de-natal-2.jpg",
-      "assets/img/previas/bingo-de-natal-3.jpg"
+      "assets/img/previas/bingo-de-natal-1.jpg?v=2",
+      "assets/img/previas/bingo-de-natal-2.jpg?v=2",
+      "assets/img/previas/bingo-de-natal-3.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -166,7 +183,13 @@
         "Precisa imprimir?",
         "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime em folha A4, em impressora colorida (em casa ou na papelaria).",
+      "Recorta as cartelas e as fichas de sorteio e põe as fichas num saquinho.",
+      "Alguém sorteia, quem tem o desenho marca com um feijão. Fechou a linha, grita BINGO!"
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "kit-amigo-secreto",
@@ -190,9 +213,9 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/kit-amigo-secreto-1.jpg",
-      "assets/img/previas/kit-amigo-secreto-2.jpg",
-      "assets/img/previas/kit-amigo-secreto-3.jpg"
+      "assets/img/previas/kit-amigo-secreto-1.jpg?v=2",
+      "assets/img/previas/kit-amigo-secreto-2.jpg?v=2",
+      "assets/img/previas/kit-amigo-secreto-3.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -204,7 +227,13 @@
         "Precisa imprimir?",
         "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime em folha A4, em impressora colorida (em casa ou na papelaria).",
+      "Escreve os nomes nos papeizinhos e cada um sorteia o seu.",
+      "Cada um preenche a lista de desejos, e na revelação tem a cartinha e as dicas."
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "quiz-de-natal",
@@ -227,9 +256,9 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/quiz-de-natal-1.jpg",
-      "assets/img/previas/quiz-de-natal-2.jpg",
-      "assets/img/previas/quiz-de-natal-3.jpg"
+      "assets/img/previas/quiz-de-natal-1.jpg?v=2",
+      "assets/img/previas/quiz-de-natal-2.jpg?v=2",
+      "assets/img/previas/quiz-de-natal-3.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -241,7 +270,13 @@
         "Precisa imprimir?",
         "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime em folha A4, em impressora colorida (em casa ou na papelaria).",
+      "Recorta os cartões de pergunta.",
+      "Divide a família em times e lê as perguntas. O gabarito tá no fim do PDF."
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "caca-ao-presente",
@@ -264,9 +299,9 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/caca-ao-presente-1.jpg",
-      "assets/img/previas/caca-ao-presente-2.jpg",
-      "assets/img/previas/caca-ao-presente-3.jpg"
+      "assets/img/previas/caca-ao-presente-1.jpg?v=2",
+      "assets/img/previas/caca-ao-presente-2.jpg?v=2",
+      "assets/img/previas/caca-ao-presente-3.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -278,7 +313,13 @@
         "Precisa imprimir?",
         "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime em folha A4, em impressora colorida (em casa ou na papelaria).",
+      "Recorta as pistas e esconde cada uma no lugar que a pista anterior descreve.",
+      "Entrega a primeira na mão e o presente fica no fim da trilha."
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "casinha-papai-noel-3d",
@@ -302,9 +343,9 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/casinha-papai-noel-3d-1.jpg",
-      "assets/img/previas/casinha-papai-noel-3d-2.jpg",
-      "assets/img/previas/casinha-papai-noel-3d-3.jpg"
+      "assets/img/previas/casinha-papai-noel-3d-1.jpg?v=2",
+      "assets/img/previas/casinha-papai-noel-3d-2.jpg?v=2",
+      "assets/img/previas/casinha-papai-noel-3d-3.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -316,7 +357,13 @@
         "Precisa imprimir?",
         "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime em tamanho real (100%), em impressora colorida e papel 180 g ou mais.",
+      "Já vem pintada: recorta na linha contínua e dobra no tracejado.",
+      "Cola as abas e monta a casinha, a árvore 3D e os bonequinhos."
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "jogo-da-memoria-natal",
@@ -338,9 +385,9 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/jogo-da-memoria-natal-1.jpg",
-      "assets/img/previas/jogo-da-memoria-natal-2.jpg",
-      "assets/img/previas/jogo-da-memoria-natal-3.jpg"
+      "assets/img/previas/jogo-da-memoria-natal-1.jpg?v=2",
+      "assets/img/previas/jogo-da-memoria-natal-2.jpg?v=2",
+      "assets/img/previas/jogo-da-memoria-natal-3.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -352,7 +399,13 @@
         "Precisa imprimir?",
         "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime em A4, em impressora colorida. Papel mais grosso (tipo 180 g) deixa mais firme.",
+      "As cartas já vêm pintadas: é só recortar as 36 no tracejado.",
+      "Embaralha viradas pra baixo e vira duas por vez. Achou o par, fica com ele."
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "retrospectiva-do-ano",
@@ -375,9 +428,9 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/retrospectiva-do-ano-1.jpg",
-      "assets/img/previas/retrospectiva-do-ano-2.jpg",
-      "assets/img/previas/retrospectiva-do-ano-3.jpg"
+      "assets/img/previas/retrospectiva-do-ano-1.jpg?v=2",
+      "assets/img/previas/retrospectiva-do-ano-2.jpg?v=2",
+      "assets/img/previas/retrospectiva-do-ano-3.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -389,7 +442,13 @@
         "Precisa imprimir?",
         "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime as páginas em A4 (colorida ou preto e branco).",
+      "Preenche com caneta: o ano em números, melhores momentos, top 5 e metas.",
+      "Guarda a carta pro teu eu do futuro e abre no fim do ano que vem."
+    ],
+    "previa_instrucao": false
   },
   {
     "slug": "etiquetas-de-presente",
@@ -412,9 +471,9 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/etiquetas-de-presente-1.jpg",
-      "assets/img/previas/etiquetas-de-presente-2.jpg",
-      "assets/img/previas/etiquetas-de-presente-3.jpg"
+      "assets/img/previas/etiquetas-de-presente-1.jpg?v=2",
+      "assets/img/previas/etiquetas-de-presente-2.jpg?v=2",
+      "assets/img/previas/etiquetas-de-presente-3.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -426,7 +485,13 @@
         "Precisa imprimir?",
         "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime em A4, em impressora colorida. Papel mais grosso (tipo 180 g) deixa mais firme.",
+      "Já vêm pintadas: recorta, fura a bolinha e escreve De e Para.",
+      "Amarra no presente com uma fitinha."
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "cartoes-de-natal-colorir",
@@ -449,9 +514,9 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/cartoes-de-natal-colorir-1.jpg",
-      "assets/img/previas/cartoes-de-natal-colorir-2.jpg",
-      "assets/img/previas/cartoes-de-natal-colorir-3.jpg"
+      "assets/img/previas/cartoes-de-natal-colorir-1.jpg?v=2",
+      "assets/img/previas/cartoes-de-natal-colorir-2.jpg?v=2",
+      "assets/img/previas/cartoes-de-natal-colorir-3.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -463,7 +528,13 @@
         "Precisa imprimir?",
         "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime em A4, em impressora colorida. Papel mais grosso (tipo 180 g) deixa mais firme.",
+      "Já vêm pintados: recorta no tracejado e dobra ao meio.",
+      "Escreve a tua mensagem por dentro e entrega."
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "detetive-do-caderno",
@@ -486,9 +557,9 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/detetive-do-caderno-1.jpg",
-      "assets/img/previas/detetive-do-caderno-2.jpg",
-      "assets/img/previas/detetive-do-caderno-3.jpg"
+      "assets/img/previas/detetive-do-caderno-1.jpg?v=2",
+      "assets/img/previas/detetive-do-caderno-2.jpg?v=2",
+      "assets/img/previas/detetive-do-caderno-3.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -504,7 +575,13 @@
         "Quantas pessoas jogam?",
         "Depende do jogo, mas todos funcionam em família ou com amigos. As regras estão no começo do PDF."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime em folha A4, em impressora colorida (em casa ou na papelaria).",
+      "Recorta as fichas dos suspeitos e as pistas.",
+      "Lê a história, revela as pistas uma a uma e descobre o culpado. A solução vem lacrada no fim."
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "escape-room-em-casa",
@@ -526,9 +603,9 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/escape-room-em-casa-1.jpg",
-      "assets/img/previas/escape-room-em-casa-2.jpg",
-      "assets/img/previas/escape-room-em-casa-3.jpg"
+      "assets/img/previas/escape-room-em-casa-1.jpg?v=2",
+      "assets/img/previas/escape-room-em-casa-2.jpg?v=2",
+      "assets/img/previas/escape-room-em-casa-3.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -544,7 +621,13 @@
         "Quantas pessoas jogam?",
         "Depende do jogo, mas todos funcionam em família ou com amigos. As regras estão no começo do PDF."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime em folha A4, em impressora colorida (em casa ou na papelaria).",
+      "Esconde os enigmas pela casa (ou entrega na mão).",
+      "Cada enigma resolvido dá um número. Os 4 números abrem o cadeado final."
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "verdade-ou-desafio",
@@ -566,9 +649,9 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/verdade-ou-desafio-1.jpg",
-      "assets/img/previas/verdade-ou-desafio-2.jpg",
-      "assets/img/previas/verdade-ou-desafio-3.jpg"
+      "assets/img/previas/verdade-ou-desafio-1.jpg?v=2",
+      "assets/img/previas/verdade-ou-desafio-2.jpg?v=2",
+      "assets/img/previas/verdade-ou-desafio-3.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -584,7 +667,13 @@
         "Quantas pessoas jogam?",
         "Depende do jogo, mas todos funcionam em família ou com amigos. As regras estão no começo do PDF."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime em folha A4, em impressora colorida (em casa ou na papelaria).",
+      "Recorta as cartas e separa em dois montes: Verdade e Desafio.",
+      "Na tua vez, escolhe um monte e tira uma carta."
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "quem-sou-eu",
@@ -606,9 +695,9 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/quem-sou-eu-1.jpg",
-      "assets/img/previas/quem-sou-eu-2.jpg",
-      "assets/img/previas/quem-sou-eu-3.jpg"
+      "assets/img/previas/quem-sou-eu-1.jpg?v=2",
+      "assets/img/previas/quem-sou-eu-2.jpg?v=2",
+      "assets/img/previas/quem-sou-eu-3.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -624,7 +713,13 @@
         "Quantas pessoas jogam?",
         "Depende do jogo, mas todos funcionam em família ou com amigos. As regras estão no começo do PDF."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime em folha A4, em impressora colorida (em casa ou na papelaria).",
+      "Recorta as cartas e embaralha.",
+      "Cada um põe uma carta na testa sem olhar e faz perguntas de sim ou não pra adivinhar."
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "stop-adedonha",
@@ -647,9 +742,9 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/stop-adedonha-1.jpg",
-      "assets/img/previas/stop-adedonha-2.jpg",
-      "assets/img/previas/stop-adedonha-3.jpg"
+      "assets/img/previas/stop-adedonha-1.jpg?v=2",
+      "assets/img/previas/stop-adedonha-2.jpg?v=2",
+      "assets/img/previas/stop-adedonha-3.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -665,7 +760,12 @@
         "Quantas pessoas jogam?",
         "Depende do jogo, mas todos funcionam em família ou com amigos. As regras estão no começo do PDF."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime uma folha por jogador (colorida ou preto e branco).",
+      "Sorteia uma letra e todo mundo preenche as colunas. Quem terminar grita STOP!"
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "batalha-naval",
@@ -687,9 +787,9 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/batalha-naval-1.jpg",
-      "assets/img/previas/batalha-naval-2.jpg",
-      "assets/img/previas/batalha-naval-3.jpg"
+      "assets/img/previas/batalha-naval-1.jpg?v=2",
+      "assets/img/previas/batalha-naval-2.jpg?v=2",
+      "assets/img/previas/batalha-naval-3.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -705,7 +805,12 @@
         "Quantas pessoas jogam?",
         "Depende do jogo, mas todos funcionam em família ou com amigos. As regras estão no começo do PDF."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime uma folha por jogador (colorida ou preto e branco).",
+      "Cada um desenha os navios escondido e vocês vão chutando casas: água ou fogo!"
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "labirintos",
@@ -727,9 +832,9 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/labirintos-1.jpg",
-      "assets/img/previas/labirintos-2.jpg",
-      "assets/img/previas/labirintos-3.jpg"
+      "assets/img/previas/labirintos-1.jpg?v=2",
+      "assets/img/previas/labirintos-2.jpg?v=2",
+      "assets/img/previas/labirintos-3.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -745,7 +850,12 @@
         "Quantas pessoas jogam?",
         "Depende do jogo, mas todos funcionam em família ou com amigos. As regras estão no começo do PDF."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime as páginas que quiser (colorida ou preto e branco).",
+      "Resolve com lápis, do fácil ao insano. As respostas estão no fim do PDF."
+    ],
+    "previa_instrucao": false
   },
   {
     "slug": "enigmas-e-sudokus",
@@ -767,9 +877,9 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/enigmas-e-sudokus-1.jpg",
-      "assets/img/previas/enigmas-e-sudokus-2.jpg",
-      "assets/img/previas/enigmas-e-sudokus-3.jpg"
+      "assets/img/previas/enigmas-e-sudokus-1.jpg?v=2",
+      "assets/img/previas/enigmas-e-sudokus-2.jpg?v=2",
+      "assets/img/previas/enigmas-e-sudokus-3.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -785,7 +895,12 @@
         "Quantas pessoas jogam?",
         "Depende do jogo, mas todos funcionam em família ou com amigos. As regras estão no começo do PDF."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime as páginas que quiser (colorida ou preto e branco).",
+      "Resolve sozinho ou em família. Todas as respostas estão no fim do PDF."
+    ],
+    "previa_instrucao": false
   },
   {
     "slug": "bandeirinhas-de-natal",
@@ -809,9 +924,10 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/bandeirinhas-de-natal-2.jpg",
-      "assets/img/previas/bandeirinhas-de-natal-4.jpg",
-      "assets/img/previas/bandeirinhas-de-natal-6.jpg"
+      "assets/img/previas/bandeirinhas-de-natal-1.jpg?v=2",
+      "assets/img/previas/bandeirinhas-de-natal-2.jpg?v=2",
+      "assets/img/previas/bandeirinhas-de-natal-4.jpg?v=2",
+      "assets/img/previas/bandeirinhas-de-natal-6.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -823,7 +939,13 @@
         "Precisa imprimir?",
         "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime em folha A4, em impressora colorida (em casa ou na papelaria).",
+      "Já vêm pintadas: recorta cada bandeirinha e dobra a faixa de cima.",
+      "Passa o barbante por dentro, monta FELIZ NATAL e pendura."
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "papel-de-presente-natal",
@@ -846,9 +968,10 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/papel-de-presente-natal-2.jpg",
-      "assets/img/previas/papel-de-presente-natal-5.jpg",
-      "assets/img/previas/papel-de-presente-natal-6.jpg"
+      "assets/img/previas/papel-de-presente-natal-1.jpg?v=2",
+      "assets/img/previas/papel-de-presente-natal-2.jpg?v=2",
+      "assets/img/previas/papel-de-presente-natal-5.jpg?v=2",
+      "assets/img/previas/papel-de-presente-natal-6.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -864,7 +987,12 @@
         "Que papel eu uso?",
         "Papel sulfite comum (75 g) funciona. Pra ficar mais firme, use 120 g ou mais. Tudo já vem colorido, é só imprimir em impressora colorida."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime a estampa que quiser em A4, em impressora colorida, tamanho real (100%).",
+      "Embrulha caixinhas e presentes pequenos. Pros grandes, emenda duas folhas com fita."
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "marcadores-de-pagina-natal",
@@ -887,9 +1015,10 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/marcadores-de-pagina-natal-2.jpg",
-      "assets/img/previas/marcadores-de-pagina-natal-3.jpg",
-      "assets/img/previas/marcadores-de-pagina-natal-4.jpg"
+      "assets/img/previas/marcadores-de-pagina-natal-1.jpg?v=2",
+      "assets/img/previas/marcadores-de-pagina-natal-2.jpg?v=2",
+      "assets/img/previas/marcadores-de-pagina-natal-3.jpg?v=2",
+      "assets/img/previas/marcadores-de-pagina-natal-4.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -901,7 +1030,13 @@
         "Precisa imprimir?",
         "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime em A4, em impressora colorida. Papel mais grosso (tipo 180 g) deixa mais firme.",
+      "Já vêm pintados: recorta no tracejado e fura a bolinha de cima.",
+      "Amarra uma fitinha e usa no teu livro ou dá de presente."
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "kit-ceia-de-natal",
@@ -925,9 +1060,10 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/kit-ceia-de-natal-2.jpg",
-      "assets/img/previas/kit-ceia-de-natal-3.jpg",
-      "assets/img/previas/kit-ceia-de-natal-6.jpg"
+      "assets/img/previas/kit-ceia-de-natal-1.jpg?v=2",
+      "assets/img/previas/kit-ceia-de-natal-2.jpg?v=2",
+      "assets/img/previas/kit-ceia-de-natal-3.jpg?v=2",
+      "assets/img/previas/kit-ceia-de-natal-6.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -939,7 +1075,13 @@
         "Precisa imprimir?",
         "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime em folha A4, em impressora colorida (em casa ou na papelaria).",
+      "Recorta os convites, os marcadores de lugar e as plaquinhas.",
+      "Preenche o cardápio e as listas e arruma a mesa da ceia."
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "vales-de-natal",
@@ -962,9 +1104,10 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/vales-de-natal-2.jpg",
-      "assets/img/previas/vales-de-natal-3.jpg",
-      "assets/img/previas/vales-de-natal-4.jpg"
+      "assets/img/previas/vales-de-natal-1.jpg?v=2",
+      "assets/img/previas/vales-de-natal-2.jpg?v=2",
+      "assets/img/previas/vales-de-natal-3.jpg?v=2",
+      "assets/img/previas/vales-de-natal-4.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -976,7 +1119,13 @@
         "Precisa imprimir?",
         "Sim, é feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime em folha A4, em impressora colorida (em casa ou na papelaria).",
+      "Recorta os vales e escolhe os que combinam com a pessoa.",
+      "Põe num envelope ou numa meia e dá de presente. Ela resgata quando quiser."
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "domino-de-natal",
@@ -998,8 +1147,9 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/domino-de-natal-2.jpg",
-      "assets/img/previas/domino-de-natal-3.jpg"
+      "assets/img/previas/domino-de-natal-1.jpg?v=2",
+      "assets/img/previas/domino-de-natal-2.jpg?v=2",
+      "assets/img/previas/domino-de-natal-3.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -1015,7 +1165,13 @@
         "Quantas pessoas jogam?",
         "Depende do jogo, mas todos funcionam em família ou com amigos. As regras estão no começo do PDF."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime em A4, em impressora colorida. Papel mais grosso (tipo 180 g) deixa mais firme.",
+      "As 28 peças já vêm pintadas: é só recortar no tracejado.",
+      "Cada um pega 7 peças e vai encaixando figura com figura. Ganha quem acabar primeiro."
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "trilha-de-natal",
@@ -1039,9 +1195,10 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/trilha-de-natal-2.jpg",
-      "assets/img/previas/trilha-de-natal-3.jpg",
-      "assets/img/previas/trilha-de-natal-4.jpg"
+      "assets/img/previas/trilha-de-natal-1.jpg?v=2",
+      "assets/img/previas/trilha-de-natal-2.jpg?v=2",
+      "assets/img/previas/trilha-de-natal-3.jpg?v=2",
+      "assets/img/previas/trilha-de-natal-4.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -1057,7 +1214,13 @@
         "Quantas pessoas jogam?",
         "Depende do jogo, mas todos funcionam em família ou com amigos. As regras estão no começo do PDF."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime em A4, em impressora colorida. Papel mais grosso (tipo 180 g) deixa mais firme.",
+      "Recorta os peões, monta o dado e separa as cartas surpresa.",
+      "Joga o dado e anda pelas 42 casas. Quem chegar primeiro na casa do Papai Noel ganha."
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "adesivos-de-natal",
@@ -1080,9 +1243,10 @@
     "titulo_conteudo": "",
     "conteudo": [],
     "previas": [
-      "assets/img/previas/adesivos-de-natal-2.jpg",
-      "assets/img/previas/adesivos-de-natal-3.jpg",
-      "assets/img/previas/adesivos-de-natal-5.jpg"
+      "assets/img/previas/adesivos-de-natal-1.jpg?v=2",
+      "assets/img/previas/adesivos-de-natal-2.jpg?v=2",
+      "assets/img/previas/adesivos-de-natal-3.jpg?v=2",
+      "assets/img/previas/adesivos-de-natal-5.jpg?v=2"
     ],
     "formato": "PDF pra imprimir · acesso na hora",
     "faq": [
@@ -1098,7 +1262,12 @@
         "Que papel eu uso?",
         "Papel sulfite comum (75 g) funciona. Pra ficar mais firme, use 120 g ou mais. Tudo já vem colorido, é só imprimir em impressora colorida."
       ]
-    ]
+    ],
+    "como_funciona": [
+      "Imprime em papel adesivo A4, em impressora colorida (ou em papel comum e usa cola).",
+      "Já vêm pintados: recorta cada adesivo e cola em cartões, presentes e cadernos."
+    ],
+    "previa_instrucao": true
   },
   {
     "slug": "kit-mentalista",
@@ -1156,7 +1325,12 @@
     ],
     "categoria": "Mente e mágica",
     "titulo_conteudo": "Os truques",
-    "previas": []
+    "previas": [],
+    "como_funciona": [
+      "Abre o PDF no celular ou imprime, se preferir.",
+      "Escolhe um truque e treina: cada um vem com as falas e o segredo.",
+      "Apresenta pra família e pros amigos e vê a cara deles."
+    ]
   },
   {
     "slug": "desafios-do-caderno",

@@ -301,3 +301,10 @@ body.saindo { opacity: 0; transform: translateY(-6px); }
   .jogo-teaser { transform: rotate(1deg); padding: 22px 18px 16px; }
   .jogo-teaser strong { font-size: 32px; }
 }
+
+/* Como funciona: passos numerados em cartõezinhos */
+.como-funciona { counter-reset: c; list-style: none; display: grid; gap: 8px; margin: 10px 0 24px; }
+.como-funciona li { counter-increment: c; position: relative; padding: 10px 12px 10px 52px; background: #fffbea; border: 2px solid #1f1f24; border-radius: 10px; font-size: 15px; line-height: 1.35; }
+.como-funciona li::before { content: counter(c); position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; border-radius: 50%; background: var(--amarelo, #ffd23f); border: 2px solid #1f1f24; display: flex; align-items: center; justify-content: center; font-family: var(--mao); font-size: 20px; font-weight: 700; }
+.previas a.instrucao { position: relative; }
+.previas a.instrucao::after { content: 'passo a passo'; position: absolute; left: 50%; bottom: -8px; transform: translateX(-50%) rotate(-2deg); background: #ffd23f; border: 2px solid #1f1f24; border-radius: 6px; padding: 0 8px; font-family: var(--mao); font-size: 16px; white-space: nowrap; }
