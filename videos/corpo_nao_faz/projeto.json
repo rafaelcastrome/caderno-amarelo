@@ -1,0 +1,49 @@
+{
+  "titulo": "5 coisas que teu corpo não consegue fazer",
+  "marca": {
+    "handle": "Cardeno_Amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": false,
+  "voz": {
+    "edge": "pt-BR-AntonioNeural",
+    "edgeRate": "+12%"
+  },
+  "pausaPadrao": 0.4,
+  "fontes": [
+    {
+      "fato": "Lamber o próprio cotovelo: quase ninguém consegue, a língua e o braço são curtos demais pro ângulo",
+      "fonte": "Curiosidade anatômica popular; tratada como 'quase ninguém' (há raras exceções), não como impossível absoluto"
+    },
+    {
+      "fato": "O som de P (e de M e B) é bilabial: só sai fechando os lábios",
+      "fonte": "Fonética articulatória (consoantes oclusivas bilabiais)"
+    },
+    {
+      "fato": "Ao engolir, a respiração para (apneia da deglutição): o palato mole e a epiglote fecham a passagem do ar",
+      "fonte": "Fisiologia da deglutição; Martin-Harris et al., 'Breathing and swallowing dynamics', J Appl Physiol 2005"
+    },
+    {
+      "fato": "Ninguém consegue fazer cócegas em si mesmo: o cerebelo prevê o próprio toque e diminui a sensação",
+      "fonte": "Blakemore, Wolpert & Frith, 'Central cancellation of self-produced tickle sensation', Nature Neuroscience 1998"
+    },
+    {
+      "fato": "Respiração é automática, mas vira controle consciente quando tu presta atenção nela",
+      "fonte": "Controle respiratório automático (tronco cerebral) e voluntário (córtex motor)"
+    }
+  ],
+  "cenas": [
+    { "fala": "Teu corpo NÃO consegue fazer nenhuma dessas cinco coisas... Duvido! Tenta comigo.", "pausa": 0.3 },
+    { "fala": "Um: lambe o teu cotovelo. Vai!", "pausa": 1.5 },
+    { "fala": "Nem chegou perto, né?", "pausa": 0.3 },
+    { "fala": "Dois: fala papai... sem encostar os lábios.", "pausa": 1.5 },
+    { "fala": "Saiu um aaai bem estranho, né?", "pausa": 0.3 },
+    { "fala": "Três: engole... e respira ao mesmo tempo.", "pausa": 1.5 },
+    { "fala": "Não dá! Quando tu engole, o corpo fecha o caminho do ar.", "pausa": 0.3 },
+    { "fala": "Quatro: faz cócegas em ti mesmo.", "pausa": 1.4 },
+    { "fala": "Nada, né? O cérebro sabe que é tu.", "pausa": 0.3 },
+    { "fala": "E a cinco... é a pior. Para de pensar na tua respiração.", "pausa": 1.2 },
+    { "fala": "Pronto! Agora tu tá respirando no manual.", "pausa": 0.5 },
+    { "fala": "Manda pro amigo que acha que consegue... e me segue, que amanhã tem desafio novo!", "pausa": 1.5 }
+  ]
+}
