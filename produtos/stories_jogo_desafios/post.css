@@ -1,0 +1,14 @@
+@font-face{font-family:Cav;src:url(Caveat-Bold.ttf)}
+*{margin:0;box-sizing:border-box}
+html,body{width:1080px;height:1350px}
+body{background:#fbf4dd;background-image:linear-gradient(90deg,transparent 88px,#e98a8a 88px,#e98a8a 92px,transparent 92px),linear-gradient(#b9c9ec 1.5px,transparent 1.5px),linear-gradient(90deg,#b9c9ec 1.5px,transparent 1.5px);background-size:100% 100%,54px 54px,54px 54px;font-family:Cav,cursive;color:#1f1f24;position:relative;overflow:hidden}
+.tag{display:inline-block;background:#ffd23f;padding:8px 34px 14px;border-radius:14px;font-size:64px;transform:rotate(-3deg)}
+.h{font-size:150px;line-height:.95}
+.red{color:#d62828}.blue{color:#1d4ed8}
+.mark{background:linear-gradient(transparent 55%,#ffd23f 55%,#ffd23f 92%,transparent 92%)}
+.sans{font-family:'DejaVu Sans',sans-serif;font-weight:700}
+.at{position:absolute;right:80px;bottom:50px;font-size:50px;color:#666}
+.card{background:#fffdf5;border:6px solid #1f1f24;border-radius:40px;box-shadow:14px 14px 0 #1f1f24;padding:50px 56px}
+.emo{font-family:'Noto Color Emoji'}
+.wrap{position:absolute;left:150px;right:80px}
+.zone{position:absolute;left:150px;right:80px;border:5px dashed #9aa6c9;border-radius:30px}
