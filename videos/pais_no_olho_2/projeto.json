@@ -1,0 +1,87 @@
+{
+  "titulo": "Parte 2: a resposta aparece no teu olho (França + pós-imagem)",
+  "marca": {
+    "handle": "Cardeno_Amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": false,
+  "voz": {
+    "edge": "pt-BR-AntonioNeural",
+    "edgeRate": "+12%"
+  },
+  "pausaPadrao": 0.4,
+  "fontes": [
+    {
+      "fato": "n (1 a 10) x 2 + 12, dividido por 2, menos n = 6 sempre; a 6ª letra é F; o país com F mais lembrado por brasileiros é a França",
+      "fonte": "Álgebra: (2n + 12)/2 - n = 6"
+    },
+    {
+      "fato": "Encarar uma imagem com as cores invertidas e depois olhar uma superfície clara faz aparecer a imagem nas cores certas (pós-imagem negativa): preto vira claro, ciano vira vermelho",
+      "fonte": "Illusions Index, 'Negative Afterimages'; Wikipedia, 'Afterimage'",
+      "url": "https://www.illusionsindex.org/i/negative-afterimages"
+    },
+    {
+      "fato": "A maior fronteira terrestre da França é com o Brasil (~730 km, pela Guiana Francesa), maior que a com a Espanha (~620 km)",
+      "fonte": "CIA World Factbook, France: land boundaries (Brazil 730 km, Spain 646 km)",
+      "url": "https://www.cia.gov/the-world-factbook/countries/france/"
+    }
+  ],
+  "cenas": [
+    {
+      "fala": "Parte dois! Eu vou adivinhar outro país... e ele vai aparecer dentro do teu olho!",
+      "pausa": 0.3
+    },
+    {
+      "fala": "Pensa num número de um a dez. Pensou?",
+      "pausa": 0.7
+    },
+    {
+      "fala": "Dobra ele.",
+      "pausa": 1.3
+    },
+    {
+      "fala": "Soma doze.",
+      "pausa": 1.3
+    },
+    {
+      "fala": "Divide por dois.",
+      "pausa": 1.3
+    },
+    {
+      "fala": "Agora tira o número que tu pensou.",
+      "pausa": 1.3
+    },
+    {
+      "fala": "Troca por uma letra. Um é A... dois é B... três é C...",
+      "pausa": 1.6
+    },
+    {
+      "fala": "Pensa num país com essa letra. Rápido!",
+      "pausa": 1.0
+    },
+    {
+      "fala": "Eu não vou falar qual é. Vou botar a bandeira no teu olho.",
+      "pausa": 0.3
+    },
+    {
+      "fala": "Olha só pro pontinho no meio. Não pisca... não mexe o olho... segura!",
+      "pausa": 8.5
+    },
+    {
+      "fala": "Agora! Tá vendo azul, branco e vermelho?",
+      "pausa": 1.2
+    },
+    {
+      "fala": "É a França! Acertei?",
+      "pausa": 0.5
+    },
+    {
+      "fala": "E olha que doido: a maior fronteira da França no mundo... é com o Brasil! Por causa da Guiana Francesa.",
+      "pausa": 0.4
+    },
+    {
+      "fala": "Manda pra um amigo, pra ver se aparece no olho dele também... e me segue, que amanhã tem desafio novo!",
+      "pausa": 2.5
+    }
+  ]
+}
