@@ -77,6 +77,7 @@
 
   function leque(produtos) {
     const el = $('#leque');
+    if (!el) return;
     const capas = produtos.slice(0, 5);
     el.innerHTML = capas.map((p, i) => `<a class="leque-capa" href="produto.html?p=${encodeURIComponent(p.slug)}" style="--i:${i}" tabindex="-1"><img src="${esc(p.capa)}" alt=""></a>`).join('');
     if (window.Efeitos && Efeitos.calmo) return;
@@ -127,7 +128,6 @@
 
     const vitrine = temporadaNatal ? ativos.filter(p => p.categoria === 'Natal') : ativos;
     leque(vitrine);
-    if (temporadaNatal) { $('#hero-cta').href = '#natal'; $('#hero-cta').textContent = 'Ver o especial de Natal →'; }
     palavraQueTroca();
     if (CFG.contato) $('#contato').innerHTML = `<a href="mailto:${esc(CFG.contato)}">${esc(CFG.contato)}</a>`;
     if (window.Efeitos) Efeitos.revelar();

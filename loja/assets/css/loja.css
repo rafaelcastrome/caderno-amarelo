@@ -276,3 +276,28 @@ body.saindo { opacity: 0; transform: translateY(-6px); }
   .revela { opacity: 1; transform: none; }
   .sublinhado path { stroke-dashoffset: 0; }
 }
+
+/* hero do jogo (Desafios do Caderno Amarelo no topo da home) */
+.hero-jogo .wrap { grid-template-columns: 1.15fr .85fr; }
+.btn-jogar { font-size: 21px; padding: 16px 30px; }
+.jogo-teaser { display: grid; gap: 10px; text-decoration: none; color: var(--tinta); background: #fff; border: 3px solid var(--tinta); border-radius: 22px;
+  box-shadow: var(--sombra); padding: 26px 22px 20px; transform: rotate(2deg); position: relative; transition: transform .2s; max-width: 420px; justify-self: center; width: 100%; }
+.jogo-teaser:hover { transform: rotate(0) scale(1.02); }
+.jogo-teaser::before { content: ''; position: absolute; top: -12px; left: 50%; width: 90px; height: 24px; margin-left: -45px; background: rgba(255, 210, 63, .75); transform: rotate(-3deg); }
+.jogo-teaser .etiqueta { justify-self: start; margin: 0; }
+.jogo-teaser strong { font-family: var(--mao); font-size: 38px; line-height: 1; }
+.jt-pergunta { font-weight: 700; font-size: 18px; }
+.jt-campo { display: flex; align-items: center; border: 2px solid var(--tinta); border-radius: 12px; padding: 12px 14px; background: var(--papel-claro); color: var(--tinta-suave); font-weight: 700; }
+.jt-cursor { width: 2px; height: 20px; background: var(--tinta); margin-left: 6px; animation: pisca 1s steps(1) infinite; }
+.jt-barra { height: 12px; border: 2px solid var(--tinta); border-radius: 999px; overflow: hidden; background: var(--papel-claro); }
+.jt-barra span { display: block; width: 3%; height: 100%; background: var(--amarelo); }
+.jt-rodape { font-size: 13px; font-weight: 800; color: var(--tinta-suave); }
+@media (max-width: 760px) {
+  .hero-jogo .wrap { grid-template-columns: 1fr; gap: 22px; }
+  .hero-jogo h1 { font-size: clamp(42px, 12vw, 56px); }
+  .hero-jogo p { margin: 12px 0 18px; font-size: 17px; }
+  .btn-jogar { width: 100%; }
+  .hero-jogo .hero-acoes { gap: 12px; justify-content: center; }
+  .jogo-teaser { transform: rotate(1deg); padding: 22px 18px 16px; }
+  .jogo-teaser strong { font-size: 32px; }
+}
