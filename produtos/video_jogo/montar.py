@@ -58,16 +58,16 @@ D = {i: dur(a) for i, a in A.items()}
 
 # segmentos: (início na gravação, fim, legenda, falas, momento-alvo da última fala terminar (rel.), segura no início)
 segs = [
-    dict(t0=M['home'], t1=M['d1'], cap='Joga esse aqui', falas=[1, 2], segura_ini=True),
-    dict(t0=M['d1'], t1=M['d1_fim'], cap='Parece fácil...', falas=[3], fim_fala=M['d1_fim'] - 1.0),
-    dict(t0=M['d2'], t1=M['d2_fim'], cap='E esse?', falas=[4], fim_fala=M['d2_fim'] - 1.0),
-    dict(t0=M['d3'], t1=M['d3_fim'], cap='66 desafios', falas=[5]),
+    dict(t0=M['home'], t1=M['d1'], cap='Acha que sabe tudo?', falas=[1], segura_ini=True),
+    dict(t0=M['d1'], t1=M['d1_fim'], cap='Cai em todas', falas=[2], fim_fala=M['d1_fim'] - 1.0),
+    dict(t0=M['d2'], t1=M['d2_fim'], cap='O óbvio engana', falas=[3], fim_fala=M['d2_fim'] - 1.0),
+    dict(t0=M['d3'], t1=M['d3_fim'], cap='66 desafios', falas=[4]),
     dict(t0=M['d5'], t1=M['d5_fim'], cap='66 desafios', falas=[]),
     dict(t0=M['d9'], t1=M['d9_fim'], cap='66 desafios', falas=[]),
 ]
 # a fala 5 cobre os 3 relances: distribui o tempo dela nos 3
-extra5 = max(0, D[5] + 0.3 - sum(s['t1'] - s['t0'] for s in segs[3:]))
-for s in segs[3:]: s['t1'] += extra5 / 3
+extra5 = max(0, D[4] + 0.3 - sum(s['t1'] - s['t0'] for s in segs[3:]))
+for s in segs[3:]: s['lim'] = s['t1']; s['t1'] += extra5 / 3
 
 plano, sons, t = [], [], 0.0
 for s in segs:
@@ -77,15 +77,15 @@ for s in segs:
         L = max(vid, ini + fal + 0.3)
     else:
         ini = 0.15
-        L = max(vid, fal + 0.3)
+        L = vid if s.get('lim') else max(vid, fal + 0.3)
     segura = L - vid if s.get('segura_ini') else 0
     plano.append((t, L, s, segura))
     tt = t + ini
     for i in s['falas']: sons.append((tt, A[i])); tt += D[i] + 0.25
     t += L
 FIM_INI = t
-L_FIM = max(3.2, D[6] + 0.8)
-sons.append((FIM_INI + 0.3, A[6]))
+L_FIM = D[5] + D[6] + 1.6
+sons.append((FIM_INI + 0.3, A[5])); sons.append((FIM_INI + 0.3 + D[5] + 0.5, A[6]))
 TOTAL = FIM_INI + L_FIM
 
 def cartao_final(k):
@@ -96,10 +96,11 @@ def cartao_final(k):
         d.text((x, y), txt, font=fo, fill=cor)
     c('Desafios do', 470, f(130)); c('Caderno Amarelo', 610, f(130), VERM, True)
     c('os 2 primeiros são de graça', 880, f(76))
-    if k > 0.6:
-        d.rounded_rectangle([250, 1040, 830, 1180], 40, fill=AMAR, outline=TINTA, width=6)
-        c('link na bio', 1060, f(96))
-    c('@Cardeno_Amarelo', 1400, f(60), (90, 90, 90))
+    if k > D[5] + 0.6:
+        c('toca no link', 1010, f(96), VERM)
+        d.line([(540, 1130), (540, 1215)], fill=VERM, width=10)
+        d.line([(505, 1180), (540, 1220), (575, 1180)], fill=VERM, width=10, joint='curve')
+    c('@Cardeno_Amarelo', 1560, f(60), (90, 90, 90))
     return im
 
 base = FUNDO.copy(); moldura(base)
@@ -113,7 +114,7 @@ for n in range(int(TOTAL * FPS)):
         p0, L, s, segura = next(p for p in plano if p[0] <= tv < p[0] + p[1])
         rel = tv - p0
         tr = s['t0'] + max(0, rel - segura)
-        tr = min(tr, s['t1'] - 0.01)
+        tr = min(tr, s.get('lim', s['t1']) - 0.01)
         im = base.copy(); im.paste(tela(quadro(tr)), (SX, SY))
         legenda(im, s['cap']); arroba(im)
     proc.stdin.write(im.tobytes())
