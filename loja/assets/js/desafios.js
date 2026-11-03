@@ -7,9 +7,9 @@
     preco: 6.90,                 // só pra exibir; o valor cobrado vem SEMPRE do banco
     // Preço "De" riscado. Só preencher com um preço que o jogo realmente teve (regra da loja: sem preço antigo falso).
     precoAntigo: null,
-    // false = Pix de demonstração e pagamento validado pelo toggle (pedido do Rafael, 02/11).
-    // true  = chama a função criar-pix de verdade e confere o pagamento em status-pedido.
-    pixReal: false,
+    // false = Pix de demonstração e pagamento validado pelo toggle (modo teste).
+    // true  = chama a função criar-pix de verdade e confere o pagamento em status-pedido (no ar desde 03/11).
+    pixReal: true,
     chaveSalva: 'desafios:jogo'
   };
 
@@ -58,7 +58,9 @@
   }
 
   function ler() { try { return JSON.parse(localStorage.getItem(JOGO.chaveSalva)) || {}; } catch (_) { return {}; } }
-  function salvar() { try { localStorage.setItem(JOGO.chaveSalva, JSON.stringify({ isPremium: estado.isPremium })); } catch (_) {} }
+  // pedido: Pix gerado e ainda não confirmado. Fica salvo pra liberar mesmo se a pessoa
+  // sair pro app do banco e a página recarregar.
+  function salvar() { try { localStorage.setItem(JOGO.chaveSalva, JSON.stringify({ isPremium: estado.isPremium, pedido: estado.isPremium ? null : (estado.pix?.pedido || salvo.pedido || null) })); } catch (_) {} }
 
   const bloqueado = d => d.isPremium && !estado.isPremium;
 
@@ -133,23 +135,34 @@
     timerPix = setInterval(async () => {
       try {
         const st = await chamar('status-pedido', { pedido: id });
-        if (st.status === 'pago') confirmarPagamento();
+        if (st.status === 'pago') confirmarPagamento(st.download);
       } catch (_) { /* tenta de novo no próximo ciclo */ }
     }, 4000);
   }
 
   // Pagamento validado (pelo Mercado Pago ou pelo toggle): libera o resto do jogo.
-  function confirmarPagamento() {
+  function confirmarPagamento(download) {
     clearInterval(timerPix);
     estado.pagamentoValidado = true;
     estado.isPremium = true;
     salvar();
     const prox = estado.resolvido ? estado.indice + 1 : estado.indice;
-    $('#paywall-corpo').innerHTML = `<div class="pw-ok"><div class="pw-ok-icone">🔓</div><h3>Liberado!</h3><p>Bora pro desafio ${String(prox + 1).padStart(2, '0')}.</p></div>`;
-    setTimeout(() => {
-      estado.erros = 0;
-      setEstado({ showPaywall: false, pix: null, indice: prox, resolvido: false });
-    }, 1100);
+    if (!estado.showPaywall) setEstado({ showPaywall: true });
+    const brinde = download
+      ? `<p><a class="btn btn-claro" href="${esc(download)}" target="_blank" rel="noopener">Baixar o PDF de brinde</a></p><p class="nota">Os 66 desafios pra imprimir, com gabarito. O link também foi pro teu e-mail.</p>`
+      : '';
+    $('#paywall-corpo').innerHTML = `<div class="pw-ok"><div class="pw-ok-icone">🔓</div><h3>Liberado!</h3>${brinde}<p><button class="btn" type="button" id="pw-bora">Bora pro desafio ${String(prox + 1).padStart(2, '0')}</button></p></div>`;
+    const seguir = () => { estado.erros = 0; setEstado({ showPaywall: false, pix: null, indice: prox, resolvido: false }); };
+    $('#pw-bora').addEventListener('click', seguir);
+    if (!download) setTimeout(() => { if (estado.showPaywall) seguir(); }, 1100);
+  }
+
+  // Voltou pra página com um Pix gerado e não confirmado: confere se já caiu.
+  if (salvo.pedido && !estado.isPremium && JOGO.pixReal && API) {
+    estado.pix = { pedido: salvo.pedido };
+    chamar('status-pedido', { pedido: salvo.pedido })
+      .then(st => { if (st.status === 'pago') confirmarPagamento(st.download); })
+      .catch(() => {});
   }
 
   // ---------- render ----------
@@ -284,6 +297,7 @@
       try {
         const pix = await gerarPixDesbloqueio($('#pw-email').value.trim());
         estado.pix = pix;
+        salvar();
         telaPix(pix);
         acompanharPagamento(pix.pedido);
       } catch (err) {
