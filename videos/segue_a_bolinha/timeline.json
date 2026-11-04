@@ -1,72 +1,72 @@
 {
-  "total": 50.625,
+  "total": 48.327,
   "motor_tts": "Gemini Algieba (ver projeto.json)",
   "cenas": [
     {
       "cena": 1,
       "start": 0.0,
-      "end": 5.458,
-      "fala": 5.108
+      "end": 5.06,
+      "fala": 4.71
     },
     {
       "cena": 2,
-      "start": 5.458,
-      "end": 12.065,
-      "fala": 3.307
+      "start": 5.06,
+      "end": 11.154,
+      "fala": 2.794
     },
     {
       "cena": 3,
-      "start": 12.065,
-      "end": 14.102,
-      "fala": 0.637
+      "start": 11.154,
+      "end": 13.051,
+      "fala": 0.497
     },
     {
       "cena": 4,
-      "start": 14.102,
-      "end": 15.982,
-      "fala": 1.531
+      "start": 13.051,
+      "end": 14.907,
+      "fala": 1.506
     },
     {
       "cena": 5,
-      "start": 15.982,
-      "end": 24.484,
-      "fala": 3.202
+      "start": 14.907,
+      "end": 23.344,
+      "fala": 3.137
     },
     {
       "cena": 6,
-      "start": 24.484,
-      "end": 26.796,
-      "fala": 0.912
+      "start": 23.344,
+      "end": 25.634,
+      "fala": 0.89
     },
     {
       "cena": 7,
-      "start": 26.796,
-      "end": 28.521,
-      "fala": 1.375
+      "start": 25.634,
+      "end": 27.293,
+      "fala": 1.309
     },
     {
       "cena": 8,
-      "start": 28.521,
-      "end": 37.502,
-      "fala": 2.981
+      "start": 27.293,
+      "end": 36.163,
+      "fala": 2.871
     },
     {
       "cena": 9,
-      "start": 37.502,
-      "end": 40.959,
-      "fala": 1.557
+      "start": 36.163,
+      "end": 39.581,
+      "fala": 1.517
     },
     {
       "cena": 10,
-      "start": 40.959,
-      "end": 44.25,
-      "fala": 2.891
+      "start": 39.581,
+      "end": 42.329,
+      "fala": 2.349
     },
     {
       "cena": 11,
-      "start": 44.25,
-      "end": 50.591,
-      "fala": 4.541
+      "start": 42.329,
+      "end": 48.297,
+      "fala": 4.168
     }
   ]
 }

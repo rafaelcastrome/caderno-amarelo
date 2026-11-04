@@ -13,3 +13,5 @@ Fluxo: falas/ (tts.py, tts_lote.py) -> audio/cenaN.mp3 -> montar_audio.py (timel
 
 v2 (04/11, pedidos do Rafael): narra "Copo N!" na revelação, fase 2 mais difícil, sem chiado (vush grave em vez de ruído branco,
 chimbal tonal, fades nas falas) e sem a mão parada no canto.
+v3 (04/11): o "chiado de TV" vinha de um estalo de ~0,13 s que o Gemini TTS deixa no FIM do áudio (cenas 1, 2, 10, 11).
+Cortei cada fala no último silêncio e o montar_audio.py agora tem noise gate + corte de silêncio em -36 dB.
