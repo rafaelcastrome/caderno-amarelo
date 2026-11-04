@@ -71,9 +71,13 @@ def frames_fundo(i, c, n):
         return
     cd = dur(clip); need = n / FPS
     vf = f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H}"
+    ss = 0.0
     if cd < need: vf = f"setpts={need / cd:.4f}*PTS," + vf  # clipe curto: deixa mais lento
+    else:  # clipe longo: acelera até 2x e pega o FINAL (onde o papel já está montado)
+        sp = min(2.0, cd / need); ss = max(0.0, cd - need * sp - 0.05)
+        vf = f"setpts=PTS/{sp:.4f}," + vf
     vf += f",fps={FPS}"
-    p = subprocess.Popen(["ffmpeg", "-v", "error", "-i", clip, "-an", "-vf", vf, "-frames:v", str(n), "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], stdout=subprocess.PIPE)
+    p = subprocess.Popen(["ffmpeg", "-v", "error", "-ss", f"{ss:.3f}", "-i", clip, "-an", "-vf", vf, "-frames:v", str(n), "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], stdout=subprocess.PIPE)
     last = None; k = 0
     while k < n:
         b = p.stdout.read(W * H * 3)
@@ -141,7 +145,7 @@ for i, c in enumerate(CENAS, 1):
             fr.alpha_composite(im2, (W // 2 - im2.width // 2, max(0, y - im2.height // 2 + (0 if c.get("tabela") else 0))))
         if c.get("conta") and tt >= c["start"] + c["fala"]:
             left = c["end"] - tt; num = min(3, max(1, math.ceil(left / (c["pausa"] / 3))))
-            fr.alpha_composite(CONT[num], (W // 2 - 85, 470))
+            fr.alpha_composite(CONT[num], (W // 2 - 85, H - 340))
         # @ andando pelo rodapé
         x = int((W - WM.width) / 2 + (W - WM.width - 40) / 2 * math.sin(tt * 0.35))
         fr.alpha_composite(WM, (x, H - 150))
