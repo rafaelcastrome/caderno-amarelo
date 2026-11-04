@@ -6,6 +6,6 @@ Ideia do Rafael em 03/11/2026 (thread 30): o narrador é o gênio da lâmpada, d
 - 3 roletas (ganhar, coração, viagem), 8 desejos cada trocando a cada 0,12 s + 1 DOURADO raro (0,08 s), com tique.
 - Fim: "meus desejos de 2027: 1. 2. 3." + balão "comenta!" e CTA manda pro amigo + me segue.
 
-Voz v2 (Rafael pediu mais emoção): Gemini Algieba, cenas 1-6 no gemini-3.1-flash-tts-preview com prompt de gênio empolgado, 7-9 no gemini-3.8-flash-tts (cota do 3.1 acabou). falas/tts.py, falas/linhas.txt. v1 com Antonio foi recusada (sem emoção, desejos lentos, pouca credibilidade).
+Voz v2 (Rafael pediu mais emoção): Gemini Algieba no gemini-3.1-flash-tts-preview com prompt de gênio empolgado, todas as 9 falas (as 7-9 foram regravadas em 04/11 porque o 3.8 deixava sotaque de gringo; nunca misturar modelos). falas/tts.py, falas/linhas.txt. v1 com Antonio foi recusada (sem emoção, desejos lentos, pouca credibilidade).
 Render: `node ../../.claude/skills/whiteboard-video/scripts/render.js . --out genio_raw.mp4`, depois mistura audio/ticks.wav e recomprime crf 28 (ver commit).
 Emojis dos cartões: fonte Noto Color Emoji.

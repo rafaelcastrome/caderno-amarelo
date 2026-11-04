@@ -7,7 +7,7 @@
   "marcaDagua": false,
   "voz": {
     "gemini": "Algieba",
-    "modelos": "cenas 1-6 gemini-3.1-flash-tts-preview (prompt de emoção), 7-9 gemini-3.8-flash-tts (cota do 3.1 acabou)"
+    "modelo": "gemini-3.1-flash-tts-preview com prompt de gênio empolgado (falas/tts.py)"
   },
   "pausaPadrao": 0.4,
   "fontes": [],
@@ -45,17 +45,17 @@
     {
       "fala": "Pronto! Os três tão selados. Mas presta atenção: desejo que fica só na cabeça... some.",
       "pausa": 0.3,
-      "tempo": 1.12
+      "tempo": 1.35
     },
     {
       "fala": "Escreve os teus três aqui nos comentários... e em dois mil e vinte e sete, volta aqui e me conta se realizou!",
       "pausa": 0.4,
-      "tempo": 1.12
+      "tempo": 1.35
     },
     {
       "fala": "E se caiu o desejo dourado... tu é raro! Manda pro teu amigo descobrir os dele... e me segue!",
       "pausa": 2.5,
-      "tempo": 1.12
+      "tempo": 1.35
     }
   ]
 }
