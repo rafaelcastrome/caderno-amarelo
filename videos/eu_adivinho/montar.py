@@ -42,7 +42,7 @@ for i, c in enumerate(CENAS, 1):
     wav = os.path.join(tmp, f"c{i}.wav")
     run(["ffmpeg", "-y", "-v", "error", "-i", os.path.join(R, "audio", f"cena{i}.mp3"), "-ar", "44100", "-ac", "2", "-af",
          "silenceremove=start_periods=1:start_threshold=-50dB,areverse,silenceremove=start_periods=1:start_threshold=-50dB,areverse,"
-         f"atempo={TEMPO},afade=t=out:st=0:d=0.01:curve=tri,apad=pad_dur={c['pausa']}", wav])
+         f"atempo={TEMPO},afade=t=in:d=0.01,areverse,afade=t=in:d=0.01,areverse,apad=pad_dur={c['pausa']}", wav])
     d = dur(wav); c["start"], c["fala"], c["end"] = t, d - c["pausa"], t + d; t += d
     lista.append(f"file '{wav}'")
 open(os.path.join(tmp, "lista.txt"), "w").write("\n".join(lista) + "\n")
@@ -138,10 +138,10 @@ for i, c in enumerate(CENAS, 1):
     for k, b in enumerate(frames_fundo(i, c, n)):
         tt = (g + k) / FPS
         fr = Image.frombytes("RGB", (W, H), b).convert("RGBA")
-        s = pop(t_in, tt)
+        s = pop(t_in, tt) if c.get("tabela") else 0
         if s > 0:
             im = c["img"]; im2 = im.resize((max(1, int(im.width * s)), max(1, int(im.height * s))))
-            y = 250 if not c.get("tabela") else 330
+            y = 250 if not c.get("tabela") else H - 420
             fr.alpha_composite(im2, (W // 2 - im2.width // 2, max(0, y - im2.height // 2 + (0 if c.get("tabela") else 0))))
         if c.get("conta") and tt >= c["start"] + c["fala"]:
             left = c["end"] - tt; num = min(3, max(1, math.ceil(left / (c["pausa"] / 3))))
