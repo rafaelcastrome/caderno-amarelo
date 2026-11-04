@@ -1,13 +1,14 @@
 # Monta "Eu adivinho pra onde tu foi" (formato 3 IAs: clipes do Google Flow + voz + textos por cima).
 # Uso: python3 montar.py            -> eu_adivinho.mp4
-# Entrada: audio/cenaN.mp3 (Antonio, gravado no PC do Rafael) e flow/cenaNN.mp4 (clipes do Flow).
+# Entrada: audio/cenaN.wav (voz Algieba, Gemini gemini-3.1-flash-tts-preview, uma requisição só: falas/tts_tudo.py) e flow/cenaNN.mp4 (clipes do Flow).
 # Cena sem clipe vira um quadro provisório no caderno amarelo (prévia de tempo).
 import json, os, subprocess, math
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 R = os.path.dirname(os.path.abspath(__file__))
 W, H, FPS = 720, 1280, 30
-TEMPO = 1.08  # acelera a voz um pouco
+TEMPO = 1.04  # acelera a voz um pouco
+SOM_CLIPES = 0.35  # volume do som original dos clipes do Flow, por baixo da voz
 FONT = os.path.join(R, "Caveat-Bold.ttf")
 f = lambda s: ImageFont.truetype(FONT, s)
 
@@ -40,7 +41,13 @@ tmp = os.path.join(R, "tmp"); os.makedirs(tmp, exist_ok=True)
 lista, t = [], 0.0
 for i, c in enumerate(CENAS, 1):
     wav = os.path.join(tmp, f"c{i}.wav")
-    run(["ffmpeg", "-y", "-v", "error", "-i", os.path.join(R, "audio", f"cena{i}.mp3"), "-ar", "44100", "-ac", "2", "-af",
+    src = os.path.join(R, "audio", f"cena{i}.wav")  # Algieba (Gemini 3.1), cortado de falas/Algieba_tudo.wav
+    if c.get("corte"):  # abre um respiro no meio da fala
+        src2 = os.path.join(tmp, f"c{i}_meio.wav"); k = c["corte"]; pm = c["pausa_meio"]
+        run(["ffmpeg", "-y", "-v", "error", "-i", src, "-filter_complex",
+             f"[0:a]atrim=0:{k},afade=t=out:st={k-0.02}:d=0.02,apad=pad_dur={pm}[a];[0:a]atrim={k},asetpts=PTS-STARTPTS,afade=t=in:d=0.02[b];[a][b]concat=n=2:v=0:a=1", src2])
+        src = src2
+    run(["ffmpeg", "-y", "-v", "error", "-i", src, "-ar", "44100", "-ac", "2", "-af",
          "silenceremove=start_periods=1:start_threshold=-50dB,areverse,silenceremove=start_periods=1:start_threshold=-50dB,areverse,"
          f"atempo={TEMPO},afade=t=in:d=0.01,areverse,afade=t=in:d=0.01,areverse,apad=pad_dur={c['pausa']}", wav])
     d = dur(wav); c["start"], c["fala"], c["end"] = t, d - c["pausa"], t + d; t += d
@@ -117,7 +124,7 @@ def contagem(n):
 WM = etiqueta("@Cardeno_Amarelo", 34).resize((260, 76))
 CONT = {n: contagem(n) for n in (1, 2, 3)}
 for c in CENAS:
-    c["img"] = tabela() if c.get("tabela") else etiqueta(c["txt"], 120 if c.get("grande") else (88 if len(c["txt"]) < 14 else 72))
+    c["img"] = tabela() if c.get("tabela") else etiqueta(c["txt"], 80 if c.get("grande") else (58 if len(c["txt"]) < 14 else 50))
 
 def pop(t0, t):  # escala de entrada com um pulinho
     if t0 <= 0: return 1
@@ -125,6 +132,26 @@ def pop(t0, t):  # escala de entrada com um pulinho
     if x <= 0: return 0
     if x >= 1: return 1
     return 1.12 * math.sin(x * math.pi / 2) if x < 0.8 else 1.12 - 0.6 * (x - 0.8)
+
+# ---------- som original dos clipes (mesmo corte/velocidade do vídeo) ----------
+def som_cena(i, c):
+    clip = os.path.join(R, "flow", f"cena{i:02d}.mp4"); n = round(c["end"] * FPS) - round(c["start"] * FPS); need = n / FPS
+    out = os.path.join(tmp, f"s{i}.wav")
+    if not os.path.exists(clip):
+        run(["ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i", f"anullsrc=r=44100:cl=stereo", "-t", f"{need:.3f}", out]); return out
+    cd = dur(clip); ss = 0.0
+    if cd < need: sp = cd / need
+    else: sp = min(2.0, cd / need); ss = max(0.0, cd - need * sp - 0.05)
+    run(["ffmpeg", "-y", "-v", "error", "-ss", f"{ss:.3f}", "-i", clip, "-vn", "-af",
+         f"atempo={sp:.4f},aresample=44100,apad,atrim=0:{need:.3f},afade=t=in:d=0.08,areverse,afade=t=in:d=0.08,areverse", "-ac", "2", out])
+    return out
+sl = [f"file '{som_cena(i, c)}'" for i, c in enumerate(CENAS, 1)]
+open(os.path.join(tmp, "som.txt"), "w").write("\n".join(sl) + "\n")
+som = os.path.join(tmp, "som.wav"); mix = os.path.join(tmp, "mix.wav")
+run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", os.path.join(tmp, "som.txt"), som])
+run(["ffmpeg", "-y", "-v", "error", "-i", narr, "-i", som, "-filter_complex",
+     f"[1:a]volume={SOM_CLIPES}[s];[0:a][s]amix=inputs=2:duration=first:normalize=0,alimiter=limit=0.9", mix])
+narr = mix
 
 # ---------- render ----------
 out = os.path.join(R, "eu_adivinho.mp4")
@@ -138,11 +165,11 @@ for i, c in enumerate(CENAS, 1):
     for k, b in enumerate(frames_fundo(i, c, n)):
         tt = (g + k) / FPS
         fr = Image.frombytes("RGB", (W, H), b).convert("RGBA")
-        s = pop(t_in, tt) if c.get("tabela") else 0
+        s = pop(t_in, tt)
         if s > 0:
             im = c["img"]; im2 = im.resize((max(1, int(im.width * s)), max(1, int(im.height * s))))
-            y = 250 if not c.get("tabela") else H - 420
-            fr.alpha_composite(im2, (W // 2 - im2.width // 2, max(0, y - im2.height // 2 + (0 if c.get("tabela") else 0))))
+            y = 105 if not c.get("tabela") else H - 420
+            fr.alpha_composite(im2, (W // 2 - im2.width // 2, max(12, y - im2.height // 2)))
         if c.get("conta") and tt >= c["start"] + c["fala"]:
             left = c["end"] - tt; num = min(3, max(1, math.ceil(left / (c["pausa"] / 3))))
             fr.alpha_composite(CONT[num], (W // 2 - 85, H - 340))
