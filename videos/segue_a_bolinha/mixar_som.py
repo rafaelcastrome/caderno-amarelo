@@ -25,7 +25,7 @@ def madd(sig, t, g):
 t = 0.0; k = 0
 while t < T - 1.0:
     madd(kick(), t, 0.9)
-    madd(hat() - lowpass(hat(), 8), t + beat / 2, 0.25)
+    madd(tone(3200, .03, 160), t + beat / 2, 0.10)   # chimbal limpo (antes era ruído)
     f = bassN[(k // 4) % 4]; d = beat * 0.9; tt = np.arange(int(d * SR)) / SR
     madd(np.tanh(2.5 * np.sin(2 * np.pi * f * tt)) * env(len(tt), .01, .08), t, 0.22)
     t += beat; k += 1
@@ -39,9 +39,9 @@ out += music * vol
 for fase in sw:
     for t0, dur, npares in fase:
         n = int(dur * SR); nz = rng.standard_normal(n); x = np.linspace(0, 1, n)
-        w = (nz - lowpass(nz, 3)) * 0.4 + lowpass(nz, 6); w *= np.sin(np.pi * x) ** 2
-        add(w, t0, 0.20 + 0.06 * (npares - 1))
-        add(tone(1800, .03, 120), t0, 0.25)          # tique
+        w = lowpass(lowpass(nz, 60), 30) * 6; w *= np.sin(np.pi * x) ** 3   # vush grave e macio (sem chiado)
+        add(w, t0, 0.18 + 0.05 * (npares - 1))
+        add(tone(1500, .03, 140), t0, 0.18)          # tique
 # --- levantar copo (pop) e revelação (plim) ---
 pop = lambda: np.sin(2 * np.pi * np.cumsum(np.linspace(300, 900, int(.09 * SR))) / SR) * np.exp(-np.arange(int(.09 * SR)) / SR * 30)
 for t in [C[5]["start"] + .5, C[8]["start"] + .4]: add(pop(), t, 0.5)

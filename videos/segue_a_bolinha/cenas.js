@@ -14,6 +14,8 @@ window.CENAS = function (WB) {
   const txt = (s, x, y, size, cor, parent, anchor = 'middle') => {
     const r = WB.textStrokes(s, x, y, size, cor, parent, anchor); WB.showNow(r.strokes); return r;
   };
+  // sem mão neste vídeo (não tem desenho à mão; ela ficava parada no canto)
+  document.getElementById('hand').style.display = 'none';
   const RED = '#e63946', RED_D = '#a4161a', YEL = '#ffd60a', GOLD = '#e0a800';
 
   // ---------------- gancho fixo desde o quadro 0 ----------------
@@ -187,7 +189,7 @@ window.CENAS = function (WB) {
     slots: [{ x: 250, y: 900 }, { x: 540, y: 900 }, { x: 830, y: 900 }, { x: 395, y: 1240 }, { x: 685, y: 1240 }],
     escala: 0.95, ballSlot: 3,
     tShow: st(5) + 0.15, tLiftUp: st(5) + 0.5, tLiftDown: tf(5, 0.8), tShufA: fimFala(5), tShufB: en(5) - 0.05,
-    rodadas: 9, seed: 3, duplas: false, tNum: st(6), tReveal: st(7) + 0.05, tOut: st(8),
+    rodadas: 12, seed: 2, duplas: true, tNum: st(6), tReveal: st(7) + 0.05, tOut: st(8),
   });
   const g3 = [];
   for (const y of [790, 1060, 1330]) for (const x of [240, 520, 800]) g3.push({ x, y });

@@ -8,7 +8,7 @@ lista, tempos, t = [], [], 0.0
 for i, c in enumerate(cenas, 1):
     mp3 = os.path.join(root,"audio",f"cena{i}.mp3"); wav = mp3[:-4]+".wav"
     pausa = c.get("pausa", 2.5 if i == len(cenas) else proj.get("pausaPadrao", 0.6))
-    subprocess.check_call(["ffmpeg","-y","-v","error","-i",mp3,"-ar","44100","-ac","2","-af",f"silenceremove=start_periods=1:start_threshold=-50dB,areverse,silenceremove=start_periods=1:start_threshold=-50dB,areverse,silenceremove=stop_periods=-1:stop_duration=0.28:stop_threshold=-42dB,atempo={c.get('tempo',1.1)},apad=pad_dur={pausa}",wav])
+    subprocess.check_call(["ffmpeg","-y","-v","error","-i",mp3,"-ar","44100","-ac","2","-af",f"silenceremove=start_periods=1:start_threshold=-50dB,areverse,silenceremove=start_periods=1:start_threshold=-50dB,areverse,silenceremove=stop_periods=-1:stop_duration=0.28:stop_threshold=-42dB,atempo={c.get('tempo',1.1)},afade=t=in:d=0.02,areverse,afade=t=in:d=0.04,areverse,apad=pad_dur={pausa}",wav])
     d = dur(wav); tempos.append({"cena":i,"start":round(t,3),"end":round(t+d,3),"fala":round(d-pausa,3)}); t += d
     lista.append(f"file '{wav}'")
 lp = os.path.join(root,"audio","lista.txt"); open(lp,"w").write("\n".join(lista)+"\n")

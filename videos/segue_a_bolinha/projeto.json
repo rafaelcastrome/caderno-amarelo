@@ -28,13 +28,13 @@
       "tempo": 1.1
     },
     {
-      "fala": "Tá aqui! Essa foi fácil, né?",
+      "fala": "Copo um! Essa foi fácil, né?",
       "pausa": 0.35,
       "tempo": 1.25
     },
     {
       "fala": "Fase dois... cinco copos. Olha bem onde ela tá... Valendo!",
-      "pausa": 4.6,
+      "pausa": 5.3,
       "tempo": 1.3
     },
     {
@@ -43,7 +43,7 @@
       "tempo": 1.2
     },
     {
-      "fala": "Aqui! Ainda tá contigo?",
+      "fala": "Copo dois! Ainda tá contigo?",
       "pausa": 0.35,
       "tempo": 1.25
     },
@@ -58,8 +58,8 @@
       "tempo": 1.25
     },
     {
-      "fala": "Tava aqui!",
-      "pausa": 0.5,
+      "fala": "Copo seis! Quem acertou essa... é fera!",
+      "pausa": 0.4,
       "tempo": 1.1
     },
     {
