@@ -1,0 +1,130 @@
+{
+  "total": 63.004,
+  "cenas": [
+    {
+      "txt": "PRA ONDE\nTU VAI?",
+      "pausa": 0.3,
+      "entra": 0.0,
+      "desc": "mala de papel com etiqueta",
+      "start": 0.0,
+      "fala": 4.514,
+      "end": 4.814
+    },
+    {
+      "txt": "pensa de\n1 a 10",
+      "pausa": 1.4,
+      "entra": 0.0,
+      "desc": "cabeça com balão",
+      "start": 4.814,
+      "fala": 1.544,
+      "end": 7.757
+    },
+    {
+      "txt": "× 2",
+      "pausa": 2.4,
+      "conta": true,
+      "desc": "avião decolando",
+      "start": 7.757,
+      "fala": 1.101,
+      "end": 11.258
+    },
+    {
+      "txt": "+ 36",
+      "pausa": 2.4,
+      "conta": true,
+      "desc": "avião nas nuvens",
+      "start": 11.258,
+      "fala": 1.346,
+      "end": 15.004
+    },
+    {
+      "txt": "÷ 2",
+      "pausa": 2.4,
+      "conta": true,
+      "desc": "mapa dobrando",
+      "start": 15.004,
+      "fala": 0.946,
+      "end": 18.35
+    },
+    {
+      "txt": "− o teu\nnúmero",
+      "pausa": 2.4,
+      "conta": true,
+      "desc": "borracha apagando",
+      "start": 18.35,
+      "fala": 2.297,
+      "end": 23.047
+    },
+    {
+      "tabela": true,
+      "pausa": 2.6,
+      "desc": "peças virando",
+      "start": 23.047,
+      "fala": 7.247,
+      "end": 32.893
+    },
+    {
+      "txt": "um PAÍS com\nessa letra",
+      "pausa": 2.6,
+      "conta": true,
+      "desc": "globo girando",
+      "start": 32.893,
+      "fala": 2.226,
+      "end": 37.719
+    },
+    {
+      "txt": "RÚSSIA?",
+      "pausa": 0.5,
+      "entra": 0.35,
+      "grande": true,
+      "desc": "catedral de papel",
+      "start": 37.719,
+      "fala": 1.796,
+      "end": 40.015
+    },
+    {
+      "txt": "ACERTEI?\ncomenta!",
+      "pausa": 0.8,
+      "desc": "matrioskas",
+      "start": 40.015,
+      "fala": 1.265,
+      "end": 42.08
+    },
+    {
+      "txt": "menos de\n4 km",
+      "pausa": 0.4,
+      "entra": 0.5,
+      "desc": "duas ilhas no gelo",
+      "start": 42.08,
+      "fala": 4.315,
+      "end": 46.795
+    },
+    {
+      "txt": "21 HORAS\nde diferença",
+      "pausa": 0.4,
+      "entra": 0.4,
+      "desc": "sol e lua",
+      "start": 46.795,
+      "fala": 2.922,
+      "end": 50.117
+    },
+    {
+      "txt": "do AMANHÃ\npro ONTEM",
+      "pausa": 0.4,
+      "entra": 0.45,
+      "desc": "pessoa andando no gelo",
+      "start": 50.117,
+      "fala": 3.341,
+      "end": 53.858
+    },
+    {
+      "txt": "VOLTA e pensa\nem OUTRO número",
+      "pausa": 1.2,
+      "entra": 0.45,
+      "desc": "mala de novo (loop)",
+      "start": 53.858,
+      "fala": 7.946,
+      "end": 63.004
+    }
+  ]
+}
