@@ -1,0 +1,88 @@
+{
+  "total": 41.585,
+  "cenas": [
+    {
+      "txt": "EU ADIVINHO\nA TUA IDADE",
+      "pausa": 0.3,
+      "entra": 0.0,
+      "desc": "calculadora com chocolate",
+      "start": 0.0,
+      "fala": 3.954,
+      "end": 4.254
+    },
+    {
+      "txt": "chocolate por\nsemana: 1 a 9",
+      "pausa": 0.8,
+      "entra": 0.0,
+      "desc": "barra de chocolate",
+      "start": 4.254,
+      "fala": 3.917,
+      "end": 8.971
+    },
+    {
+      "txt": "× 2",
+      "pausa": 1.4,
+      "conta": true,
+      "desc": "duas barras",
+      "start": 8.971,
+      "fala": 1.932,
+      "end": 12.302
+    },
+    {
+      "txt": "+ 5",
+      "pausa": 1.4,
+      "conta": true,
+      "desc": "mão com 5 dedos",
+      "start": 12.302,
+      "fala": 1.599,
+      "end": 15.302
+    },
+    {
+      "txt": "× 50",
+      "pausa": 1.4,
+      "conta": true,
+      "desc": "pilha de moedas",
+      "start": 15.302,
+      "fala": 1.489,
+      "end": 18.191
+    },
+    {
+      "txt": "já fez: + 1776\nnão fez: + 1775",
+      "pausa": 1.8,
+      "conta": true,
+      "entra": 0.1,
+      "desc": "calendário e bolinho",
+      "start": 18.191,
+      "fala": 7.448,
+      "end": 27.439
+    },
+    {
+      "txt": "− o ano em\nque nasceu",
+      "pausa": 1.6,
+      "conta": true,
+      "desc": "berço com ursinho",
+      "start": 27.439,
+      "fala": 2.15,
+      "end": 31.189
+    },
+    {
+      "txt": "1º = chocolate\n2 últimos = IDADE",
+      "pausa": 0.5,
+      "entra": 0.3,
+      "desc": "bolo de aniversário",
+      "start": 31.189,
+      "fala": 5.58,
+      "end": 37.27
+    },
+    {
+      "txt": "MANDA PRA\nUM AMIGO",
+      "pausa": 0.6,
+      "entra": 0.0,
+      "clipe": 1,
+      "desc": "calculadora de novo (loop)",
+      "start": 37.27,
+      "fala": 3.715,
+      "end": 41.585
+    }
+  ]
+}
