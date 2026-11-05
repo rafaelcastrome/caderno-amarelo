@@ -1,0 +1,63 @@
+{
+  "titulo": "A ou B? #1 Teto ou Lua",
+  "marca": {
+    "handle": "Cardeno_Amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": true,
+  "voz": {
+    "edge": "pt-BR-AntonioNeural"
+  },
+  "pausaPadrao": 0.6,
+  "fontes": [
+    {
+      "fato": "Folha comum (75 g/m²) tem cerca de 0,1 mm de espessura; 2^42 x 0,1 mm = 439.805 km",
+      "fonte": "cálculo; espessura típica de papel sulfite",
+      "url": ""
+    },
+    {
+      "fato": "Distância média Terra-Lua: 384.400 km",
+      "fonte": "NASA",
+      "url": "https://science.nasa.gov/moon/facts/"
+    },
+    {
+      "fato": "30 dobras = 107 km, acima da linha de Kármán (100 km), onde começa o espaço",
+      "fonte": "FAI / linha de Kármán",
+      "url": "https://en.wikipedia.org/wiki/K%C3%A1rm%C3%A1n_line"
+    },
+    {
+      "fato": "Recorde de dobras de uma folha: 12, Britney Gallivan, 2002",
+      "fonte": "Wikipedia / Pomona Historical Society",
+      "url": "https://en.wikipedia.org/wiki/Britney_Gallivan"
+    }
+  ],
+  "cenas": [
+    {
+      "fala": "(ver montagem.json)"
+    },
+    {
+      "fala": "(ver montagem.json)"
+    },
+    {
+      "fala": "(ver montagem.json)"
+    },
+    {
+      "fala": "(ver montagem.json)"
+    },
+    {
+      "fala": "(ver montagem.json)"
+    },
+    {
+      "fala": "(ver montagem.json)"
+    },
+    {
+      "fala": "(ver montagem.json)"
+    },
+    {
+      "fala": "(ver montagem.json)"
+    },
+    {
+      "fala": "(ver montagem.json)"
+    }
+  ]
+}
