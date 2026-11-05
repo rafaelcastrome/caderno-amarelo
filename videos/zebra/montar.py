@@ -19,7 +19,7 @@ CENAS = [
     dict(txt="× 2", pausa=1.4, conta=True, desc="dois coelhos"),
     dict(txt="+ 52", pausa=1.4, conta=True, desc="baralho em leque"),
     dict(txt="÷ 2", pausa=1.4, conta=True, desc="maçã cortada"),
-    dict(txt="− o número\nque pensou", pausa=1.4, conta=True, desc="borracha"),
+    dict(txt="− o número\nque pensou", pausa=1.4, conta=True, inicio=True, desc="borracha (começo do clipe: o fim vira uma vila)"),
     dict(txt="", tabela=True, pausa=1.2, entra=0.0, desc="blocos de brinquedo"),
     dict(txt="ZEBRA!", grande=True, pausa=0.4, entra=0.45, desc="zebra pop-up"),
     dict(txt="pele PRETA\npor baixo do pelo", pausa=0.4, entra=0.45, desc="zebra na savana"),
@@ -76,7 +76,8 @@ def frames_fundo(i, c, n):
     cd = dur(clip); need = n / FPS
     vf = f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H}"
     ss = 0.0
-    if cd < need: vf = f"setpts={need / cd:.4f}*PTS," + vf  # clipe curto: deixa mais lento
+    if c.get("inicio"): pass  # usa o COMEÇO do clipe, em velocidade normal
+    elif cd < need: vf = f"setpts={need / cd:.4f}*PTS," + vf  # clipe curto: deixa mais lento
     else:  # clipe longo: acelera até 2x e pega o FINAL (onde o papel já está montado)
         sp = min(2.0, cd / need); ss = max(0.0, cd - need * sp - 0.05)
         vf = f"setpts=PTS/{sp:.4f}," + vf
@@ -138,7 +139,8 @@ def som_cena(i, c):
     if not os.path.exists(clip):
         run(["ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i", f"anullsrc=r=44100:cl=stereo", "-t", f"{need:.3f}", out]); return out
     cd = dur(clip); ss = 0.0
-    if cd < need: sp = cd / need
+    if c.get("inicio"): sp = 1.0
+    elif cd < need: sp = cd / need
     else: sp = min(2.0, cd / need); ss = max(0.0, cd - need * sp - 0.05)
     run(["ffmpeg", "-y", "-v", "error", "-ss", f"{ss:.3f}", "-i", clip, "-vn", "-af",
          f"atempo={sp:.4f},aresample=44100,apad,atrim=0:{need:.3f},afade=t=in:d=0.08,areverse,afade=t=in:d=0.08,areverse", "-ac", "2", out])

@@ -50,7 +50,8 @@
       "txt": "− o número\nque pensou",
       "pausa": 1.4,
       "conta": true,
-      "desc": "borracha",
+      "inicio": true,
+      "desc": "borracha (começo do clipe: o fim vira uma vila)",
       "start": 16.973,
       "fala": 1.918,
       "end": 20.291
