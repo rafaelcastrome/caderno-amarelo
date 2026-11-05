@@ -1,0 +1,98 @@
+{
+  "total": 40.644,
+  "cenas": [
+    {
+      "txt": "EU ADIVINHO\nO TEU ANIMAL",
+      "pausa": 0.3,
+      "entra": 0.0,
+      "desc": "cartola com fita de zebra",
+      "start": 0.0,
+      "fala": 3.813,
+      "end": 4.113
+    },
+    {
+      "txt": "pensa num\nnúmero de 1 a 10",
+      "pausa": 0.8,
+      "entra": 0.0,
+      "desc": "nuvem de pensamento",
+      "start": 4.113,
+      "fala": 2.013,
+      "end": 6.926
+    },
+    {
+      "txt": "× 2",
+      "pausa": 1.4,
+      "conta": true,
+      "desc": "dois coelhos",
+      "start": 6.926,
+      "fala": 2.058,
+      "end": 10.384
+    },
+    {
+      "txt": "+ 52",
+      "pausa": 1.4,
+      "conta": true,
+      "desc": "baralho em leque",
+      "start": 10.384,
+      "fala": 2.019,
+      "end": 13.803
+    },
+    {
+      "txt": "÷ 2",
+      "pausa": 1.4,
+      "conta": true,
+      "desc": "maçã cortada",
+      "start": 13.803,
+      "fala": 1.77,
+      "end": 16.973
+    },
+    {
+      "txt": "− o número\nque pensou",
+      "pausa": 1.4,
+      "conta": true,
+      "desc": "borracha",
+      "start": 16.973,
+      "fala": 1.918,
+      "end": 20.291
+    },
+    {
+      "txt": "",
+      "tabela": true,
+      "pausa": 1.2,
+      "entra": 0.0,
+      "desc": "blocos de brinquedo",
+      "start": 20.291,
+      "fala": 5.108,
+      "end": 26.599
+    },
+    {
+      "txt": "ZEBRA!",
+      "grande": true,
+      "pausa": 0.4,
+      "entra": 0.45,
+      "desc": "zebra pop-up",
+      "start": 26.599,
+      "fala": 2.123,
+      "end": 29.122
+    },
+    {
+      "txt": "pele PRETA\npor baixo do pelo",
+      "pausa": 0.4,
+      "entra": 0.45,
+      "desc": "zebra na savana",
+      "start": 29.122,
+      "fala": 6.761,
+      "end": 36.283
+    },
+    {
+      "txt": "MANDA PRA\nUM AMIGO",
+      "pausa": 0.6,
+      "entra": 0.0,
+      "clipe": 1,
+      "desc": "cartola de novo (loop)",
+      "start": 36.283,
+      "fala": 3.761,
+      "end": 40.644
+    }
+  ]
+}
