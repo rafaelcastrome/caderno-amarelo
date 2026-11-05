@@ -1,0 +1,10 @@
+{"take": "falas/take1.wav", "voz": "Algieba (gemini-3.1-flash-tts-preview)",
+ "cortes": [5.04, 11.05, 16.55, 20.17, 29.1],
+ "cenas": [
+  {"fala": 0, "pausa": 0.4},
+  {"fala": 1, "pausa": 2.5},
+  {"fala": 2, "pausa": 3.5},
+  {"fala": 3, "pausa": 0.6},
+  {"fala": 4, "pausa": 0.6},
+  {"fala": 5, "pausa": 2.5}
+ ]}

@@ -1,0 +1,50 @@
+{
+  "titulo": "O som que sobe pra sempre",
+  "marca": {
+    "handle": "caderno_amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": true,
+  "voz": {
+    "edge": "pt-BR-AntonioNeural",
+    "edgeRate": "+10%",
+    "kokoro": "pm_alex",
+    "kokoroSpeed": 1.1
+  },
+  "pausaPadrao": 0.6,
+  "fontes": [
+    {
+      "fato": "Escala de Shepard: notas separadas por oitavas, com volume em sino, parecem subir sem fim",
+      "fonte": "Shepard, R. N. 1964, 'Circularity in judgments of relative pitch', JASA 36(12):2346-2353",
+      "url": "https://doi.org/10.1121/1.1919362"
+    },
+    {
+      "fato": "Christopher Nolan usou o tom de Shepard na trilha e na estrutura de Dunkirk (2017)",
+      "fonte": "Entrevista de Nolan ao Business Insider (jul/2017), citada por Inverse e kottke.org",
+      "url": "https://www.inverse.com/article/34765-shepard-tone-dunkirk-christopher-nolan-soundtrack"
+    }
+  ],
+  "cenas": [
+    {
+      "fala": "(ver montagem.json)"
+    },
+    {
+      "fala": "(ver montagem.json)"
+    },
+    {
+      "fala": "(ver montagem.json)"
+    },
+    {
+      "fala": "(ver montagem.json)"
+    },
+    {
+      "fala": "(ver montagem.json)"
+    },
+    {
+      "fala": "(ver montagem.json)"
+    },
+    {
+      "fala": "(ver montagem.json)"
+    }
+  ]
+}

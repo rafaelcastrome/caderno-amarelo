@@ -1,0 +1,11 @@
+{"take": "falas/take1.wav", "voz": "Algieba (gemini-3.1-flash-tts-preview)",
+ "cortes": [4.3, 11.7, 15.5, 26.16, 31.36],
+ "cenas": [
+  {"fala": 0, "pausa": 0.4},
+  {"arquivo": "sfx/chiado.wav", "pausa": 1.0},
+  {"fala": 1, "pausa": 2.2},
+  {"fala": 2, "pausa": 0.3},
+  {"arquivo": "sfx/chiado.wav", "pausa": 1.0},
+  {"fala": 3, "pausa": 0.6},
+  {"fala": 4, "pausa": 2.5}
+ ]}

@@ -1,0 +1,47 @@
+{
+  "titulo": "Teu pé vai te desobedecer",
+  "marca": {
+    "handle": "caderno_amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": true,
+  "voz": {
+    "edge": "pt-BR-AntonioNeural",
+    "edgeRate": "+10%",
+    "kokoro": "pm_alex",
+    "kokoroSpeed": 1.1
+  },
+  "pausaPadrao": 0.6,
+  "fontes": [
+    {
+      "fato": "Mão e pé do mesmo lado se acoplam com facilidade no mesmo sentido; no sentido contrário é difícil ou impossível",
+      "fonte": "Baldissera, Cavallari e Civaschi 1982, Neuroscience Letters 34:95-100",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5374888"
+    },
+    {
+      "fato": "O lado esquerdo do cérebro controla os movimentos do lado direito do corpo",
+      "fonte": "conhecimento básico de neuroanatomia (via corticoespinhal cruzada)",
+      "url": ""
+    }
+  ],
+  "cenas": [
+    {
+      "fala": "(ver montagem.json)"
+    },
+    {
+      "fala": "(ver montagem.json)"
+    },
+    {
+      "fala": "(ver montagem.json)"
+    },
+    {
+      "fala": "(ver montagem.json)"
+    },
+    {
+      "fala": "(ver montagem.json)"
+    },
+    {
+      "fala": "(ver montagem.json)"
+    }
+  ]
+}
