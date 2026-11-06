@@ -2,44 +2,52 @@
 window.EP = [
   // 1 gancho: o homem e duas nuvens atrás
   (P, L, D) => {
+    L.ceu({ passaros: false });
     L.cogumelo({ x: -1.3, z: -1.8, s: 0.65, t: 0, t0: 0, t1: 2.2 });
     L.cogumelo({ x: 1.35, z: -2.0, s: 0.65, t: 0, t0: 0.6, t1: 2.8 });
-    L.homem({ x: 0, z: 0.6, t: 0.1 });
+    const h = L.homem({ x: -2.6, z: 0.6, t: 0.1 });
+    L.anda(h, -2.6, 0, 0.3, 2.2);
     L.cam(D, { y: 1.5, dist: 1.05 });
   },
   // 2 Japão 1945, desenhava navios
   (P, L, D) => {
-    L.mesa({ x: 0.7, z: -0.2, t: 0.1 });
-    L.homem({ x: -1.4, z: 0.2, t: 0.5 });
-    L.txt('1945', { x: 0, z: 1.9, tam: 1.0, t: 1.4, cor: P.CORES.VERMELHO });
+    L.mesa({ x: 0.5, z: -0.2, t: 0.1 });
+    const h = L.homem({ x: -1.2, z: 0.2, t: 0.3, gesto: 'desenha' });
+    L.txt('1945', { x: 0, z: 1.9, tam: 1.0, t: 1.0, cor: P.CORES.VERMELHO });
     L.cam(D, { y: 1.2 });
   },
   // 3 viagem de trem pra Hiroshima
   (P, L, D) => {
+    L.ceu({ semente: 7 });
     L.cidade({ z: -1.8, t: 0.1, semente: 4 });
-    L.trem({ x0: -4.5, x1: 0.3, t0: 0.3, t1: Math.min(D - 0.5, 3.2), z: 0.6, t: 0, passageiro: true });
+    L.trem({ x0: -4.5, x1: 0.3, t0: 0.2, t1: Math.min(D - 0.5, 3.2), z: 0.6, t: 0, passageiro: true });
     L.cam(D, { y: 1.1 });
   },
   // 4 seis de agosto, malas prontas
   (P, L, D) => {
-    L.calendario({ x: 0.8, y: 1.6, z: -0.6, t: 0.1 });
-    L.mala({ x: -0.9, z: 0.5, t: 0.6 });
-    L.mala({ x: -0.6, z: 1.2, s: 0.7, t: 1.0, cor: 0x5a6a7a });
+    L.calendario({ x: 0.9, y: 1.6, z: -0.6, t: 0.1 });
+    L.mala({ x: -0.3, z: 0.4, t: 0.4 });
+    L.mala({ x: 0.1, z: 1.1, s: 0.7, t: 0.7, cor: 0x5a6a7a });
+    const h = L.homem({ x: -2.8, z: 0.9, s: 0.85, t: 0.2 });
+    L.anda(h, -2.8, -1.5, 0.6, 2.2);
+    P.animar((ts, t) => { h.userData.gesto = t > 2.3 ? 'aponta' : undefined; });
     L.cam(D, { y: 1.2 });
   },
   // 5 andando até o estaleiro
   (P, L, D) => {
+    L.ceu({ semente: 9 });
     L.cidade({ z: -2.0, t: 0.1, semente: 8, n: 5 });
-    L.guindaste({ x: 1.4, z: -0.9, t: 0.5 });
-    L.navio({ x: 1.6, z: -0.3, s: 0.55, t: 0.7 });
-    const h = L.homem({ x: -1.8, z: 0.9, s: 0.8, t: 0.2 });
-    P.animar((ts, t) => { const k = Math.min(1, t / D); h.position.x = -1.8 + 1.6 * k; h.position.y = Math.abs(Math.sin(ts * 9)) * 0.06; });
+    L.guindaste({ x: 1.0, z: -0.9, t: 0.3 });
+    L.navio({ x: 1.6, z: -0.3, s: 0.55, t: 0.5 });
+    const h = L.homem({ x: -2.4, z: 0.9, s: 0.8, t: 0.1 });
+    L.anda(h, -2.4, 0.2, 0.3, D);
     L.cam(D, { y: 1.2 });
   },
   // 6 oito e quinze: avião lá em cima
   (P, L, D) => {
+    L.ceu({ semente: 3, passaros: false });
     const h = L.homem({ x: -0.9, z: 0.8, t: 0.1 });
-    P.animar((ts, t) => { const k = Math.min(1, Math.max(0, (t - 1.2) / 0.6)); h.userData.cab.rotation.x = -0.45 * k; });
+    P.animar((ts, t) => { const k = Math.min(1, Math.max(0, (t - 1.0) / 0.5)); h.userData.olha = k; h.userData.gesto = t > 1.6 ? 'aponta' : undefined; });
     L.aviao({ x: -2.6, x1: 2.8, t0: 0.4, t1: D, y: 3.4, z: -1.0, t: 0.3 });
     L.txt('8h15', { x: 0.7, z: 1.8, tam: 0.8, t: 0.6, cor: P.CORES.PRETO });
     L.cam(D, { y: 1.7 });

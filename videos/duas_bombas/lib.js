@@ -4,6 +4,12 @@ window.LIB = (P) => {
   const { F, CORES: C, THREE } = P;
   const PELE = 0xe9b98e, CALCA = 0x3a3a44, CABELO = 0x2a2420, BRANCO = 0xf6f1e4;
   const L = {};
+  const RAP = 0.5; // monta o cenário 2x mais rápido
+  const acelera = (fn, iO) => (...a) => { const o = Object.assign({}, a[iO] || {}); if (o.t !== undefined) o.t *= RAP; o.dur = o.dur ?? 0.28; a[iO] = o; return fn(...a); };
+  P.peca = acelera(P.peca, 1); P.deitado = acelera(P.deitado, 1); P.caixa = acelera(P.caixa, 3);
+  const imp0 = P.impresso; P.impresso = acelera(imp0, 3);
+  const txt0 = P.texto; P.texto = (str, o = {}) => txt0(str, Object.assign({}, o, { t: (o.t ?? 0) * RAP, passo: (o.passo ?? 0.12) * 0.6, dur: o.dur ?? 0.3 }));
+  const ani0 = P.animar; L.vivo = [];
 
   // câmera padrão: de cima (~35°) com empurrãozinho lento
   L.cam = (D, o = {}) => {
@@ -17,31 +23,89 @@ window.LIB = (P) => {
     const g = P.grupo({ x: o.x || 0, y: o.y || 0, z: o.z || 0, pai: o.pai, ry: o.ry || 0 });
     g.scale.setScalar(o.s ?? 1);
     const t = o.t ?? 0.2, roupa = o.terno ? 0x5b5f6a : BRANCO;
-    [-0.15, 0.15].forEach((x, i) => {
-      P.peca(F.ret(0.24, 0.95, 0.05), { pai: g, prof: 0.07, cor: CALCA, x, y: 0.5, t: t + i * 0.06 });
-      P.peca(F.ret(0.32, 0.12, 0.05), { pai: g, prof: 0.08, cor: 0x221c18, x: x + 0.04 * (i ? 1 : -1), y: 0.06, z: 0.03, t: t + 0.12 + i * 0.05 });
+    const pernas = [-0.15, 0.15].map((x, i) => {
+      const p = P.grupo({ pai: g, x, y: 0.98 });
+      P.peca(F.ret(0.24, 0.95, 0.05), { pai: p, prof: 0.07, cor: CALCA, y: -0.48, t: t + i * 0.06 });
+      P.peca(F.ret(0.32, 0.12, 0.05), { pai: p, prof: 0.08, cor: 0x221c18, x: 0.04 * (i ? 1 : -1), y: -0.92, z: 0.03, t: t + 0.12 + i * 0.05 });
+      return p;
     });
-    P.peca(F.ret(0.78, 1.0, 0.14), { pai: g, prof: 0.08, cor: roupa, y: 1.42, t: t + 0.25 });
-    if (o.terno) P.peca(F.poligono([[-0.12, 0.5], [0.12, 0.5], [0, 0.05]]), { pai: g, prof: 0.02, cor: BRANCO, y: 1.42, z: 0.05, t: t + 0.35 });
+    const corpo = P.grupo({ pai: g }); g.userData.corpo = corpo;
+    P.peca(F.ret(0.78, 1.0, 0.14), { pai: corpo, prof: 0.08, cor: roupa, y: 1.42, t: t + 0.25 });
+    if (o.terno) P.peca(F.poligono([[-0.12, 0.5], [0.12, 0.5], [0, 0.05]]), { pai: corpo, prof: 0.02, cor: BRANCO, y: 1.42, z: 0.05, t: t + 0.35 });
     const ang = o.bracos === 'cima' ? 2.6 : o.bracos === 'abertos' ? 0.9 : 0.12;
-    [-1, 1].forEach((sx, i) => {
-      const b = P.grupo({ pai: g, x: sx * 0.44, y: 1.86, z: 0.02 }); b.rotation.z = sx * ang;
+    const bracos = [-1, 1].map((sx, i) => {
+      const b = P.grupo({ pai: corpo, x: sx * 0.44, y: 1.86, z: 0.02 }); b.rotation.z = sx * ang;
       P.peca(F.ret(0.2, 0.85, 0.08), { pai: b, prof: 0.07, cor: roupa, y: -0.42, t: t + 0.4 + i * 0.07 });
       P.peca(F.circulo(0.12), { pai: b, prof: 0.06, cor: PELE, y: -0.9, z: 0.01, t: t + 0.5 + i * 0.07 });
       if (o.band && sx < 0) P.peca(F.ret(0.24, 0.3, 0.04), { pai: b, prof: 0.09, cor: BRANCO, y: -0.45, z: 0.02, t: t + 0.9 });
+      return b;
     });
-    P.peca(F.ret(0.2, 0.18, 0.04), { pai: g, prof: 0.06, cor: PELE, y: 1.98, t: t + 0.5 });
-    const cab = P.grupo({ pai: g, y: 2.28 }); g.userData.cab = cab;
+    P.peca(F.ret(0.2, 0.18, 0.04), { pai: corpo, prof: 0.06, cor: PELE, y: 1.98, t: t + 0.5 });
+    const cab = P.grupo({ pai: corpo, y: 2.28 }); g.userData.cab = cab;
     P.peca(F.circulo(0.34), { pai: cab, prof: 0.08, cor: o.cabeca ?? PELE, t: t + 0.55 });
     P.peca(F.arco(0.36, 0.0, -0.15, Math.PI + 0.15), { pai: cab, prof: 0.1, cor: o.velho ? 0xe8e4dc : CABELO, y: 0.06, z: 0.01, t: t + 0.7 });
-    [-0.12, 0.12].forEach((x) => P.peca(F.circulo(0.04), { pai: cab, prof: 0.02, cor: 0x2b2622, x, y: -0.04, z: 0.06, t: t + 0.8, entra: 'pop', esboco: false }));
+    const olhos = [-0.12, 0.12].map((x) => P.peca(F.circulo(0.04), { pai: cab, prof: 0.02, cor: 0x2b2622, x, y: -0.04, z: 0.06, t: t + 0.8, entra: 'pop', esboco: false }));
     P.peca(F.arco(0.1, 0.07, Math.PI * 1.15, Math.PI * 1.85), { pai: cab, prof: 0.02, cor: 0x8a3a30, y: -0.08, z: 0.06, t: t + 0.85, entra: 'pop', esboco: false });
     if (o.velho) [-0.12, 0.12].forEach((x) => P.peca(F.anel(0.1, 0.075), { pai: cab, prof: 0.02, cor: 0x3a3330, x, y: -0.04, z: 0.08, t: t + 0.9, entra: 'pop', esboco: false }));
     if (o.band) {
       P.peca(F.ret(0.74, 0.16, 0.03), { pai: cab, prof: 0.02, cor: BRANCO, y: 0.16, z: 0.08, rz: -0.12, t: t + 1.0 });
       P.peca(F.ret(0.2, 0.22, 0.03), { pai: cab, prof: 0.02, cor: BRANCO, x: 0.2, y: -0.12, z: 0.08, t: t + 1.05 });
     }
+    // vida: respira, pisca, balança os braços; anda quando g.userData.anda > 0; gesto = 'acena' | 'aponta' | 'desenha' | 'fala'
+    const fase = (o.x || 0) * 3.1 + (o.z || 0);
+    g.userData.anda = 0; g.userData.gesto = o.gesto; g.userData.olha = 0;
+    P.animar((ts) => {
+      const u = g.userData, w = u.anda, q = ts * 9 + fase;
+      pernas.forEach((p, i) => { p.rotation.z = w * 0.5 * Math.sin(q + i * Math.PI); });
+      corpo.position.y = w * Math.abs(Math.sin(q)) * 0.07 + (1 - w) * Math.sin(ts * 2.2 + fase) * 0.012;
+      corpo.rotation.z = w * Math.sin(q) * 0.03;
+      bracos.forEach((b, i) => {
+        const sx = i ? 1 : -1; let a = sx * ang + w * 0.55 * Math.sin(q + i * Math.PI) + (1 - w) * sx * 0.05 * Math.sin(ts * 1.8 + fase + i);
+        if (u.gesto === 'acena' && i === 1) a = 2.5 + 0.35 * Math.sin(ts * 12);
+        if (u.gesto === 'aponta' && i === 1) a = 2.75;
+        if (u.gesto === 'desenha' && i === 1) a = 0.9 + 0.18 * Math.sin(ts * 14);
+        if (u.gesto === 'fala') a = sx * (0.35 + 0.25 * Math.abs(Math.sin(ts * 6 + i)));
+        b.rotation.z = a;
+      });
+      if (!u.travaCab) cab.rotation.z = Math.sin(ts * 1.3 + fase) * 0.06 + w * Math.sin(q) * 0.04;
+      cab.rotation.x = -0.5 * u.olha;
+      const pisca = ((ts + fase) % 3.1) < 0.1 ? 0.15 : 1; olhos.forEach((e) => e.scale.y = pisca);
+    });
     return g;
+  };
+  // faz o boneco andar de x0 até x1 entre t0 e t1 (pernas se mexem só enquanto anda)
+  L.anda = (h, x0, x1, t0, t1, z0, z1) => {
+    P.animar((ts, tt) => {
+      const k = Math.min(1, Math.max(0, (tt - t0) / (t1 - t0)));
+      h.position.x = x0 + (x1 - x0) * k; if (z0 !== undefined) h.position.z = z0 + (z1 - z0) * k;
+      h.userData.anda = tt > t0 && tt < t1 ? Math.min(1, (tt - t0) * 4, (t1 - tt) * 4) : 0;
+    });
+  };
+
+  // céu vivo: nuvens de papel passando e passarinhos
+  L.ceu = (o = {}) => {
+    const r = P.fixo(o.semente ?? 5);
+    for (let i = 0; i < (o.n ?? 3); i++) {
+      const n = P.peca(F.nuvem(1.2 + r() * 0.8, 0.5 + r() * 0.2), { prof: 0.05, cor: 0xfbf6ea, x: -2.5 + i * 2.3, y: 2.7 + r() * 0.5, z: -2.1 - r() * 0.5, t: 0.05 + i * 0.1, entra: 'pop' });
+      const v = 0.18 + r() * 0.15, x0 = -2.5 + i * 2.3;
+      P.animar((ts) => { n.position.x = ((x0 + ts * v + 3.5) % 7) - 3.5; });
+    }
+    if (o.passaros !== false) for (let i = 0; i < 3; i++) {
+      const b = P.grupo({ y: 2.6 + i * 0.25, z: -1.2 });
+      const asa1 = P.peca(F.poligono([[0, 0], [-0.22, 0.08], [-0.2, 0.02]]), { pai: b, prof: 0.01, cor: 0x2b2622, t: 0.2, entra: 'fixo', esboco: false });
+      const asa2 = P.peca(F.poligono([[0, 0], [0.22, 0.08], [0.2, 0.02]]), { pai: b, prof: 0.01, cor: 0x2b2622, t: 0.2, entra: 'fixo', esboco: false });
+      P.animar((ts, tt) => { b.position.x = -3.5 + ((tt * 0.9 + i * 1.3) % 7); b.position.y = 2.6 + i * 0.25 + Math.sin(tt * 3 + i) * 0.08; const f = Math.sin(ts * 16 + i) * 0.5; asa1.rotation.z = f; asa2.rotation.z = -f; });
+    }
+  };
+  // fumaça saindo de uma chaminé (grupo pai + posição)
+  L.fumaca = (pai, x, y, z = 0) => {
+    const bolas = [0, 1, 2, 3, 4].map((i) => P.peca(F.nuvem(0.42, 0.3), { pai, prof: 0.04, cor: 0xe9e4da, x, y, z, t: 0, entra: 'fixo', esboco: false }));
+    P.animar((ts) => bolas.forEach((b, i) => { const k = ((ts * 0.7 + i / 5) % 1); b.position.set(x - k * 0.9, y + k * 1.3, z); b.scale.setScalar(0.4 + k * 1.3); b.visible = k > 0.02; }));
+  };
+  // ondas do mar (faixas que vão e voltam)
+  L.ondas = (z = -2.4) => {
+    for (let i = 0; i < 4; i++) { const w = P.deitado(F.ret(1.1, 0.06, 0.03), { prof: 0.01, cor: 0xf4fbff, x: -2.4 + i * 1.5, y: 0.03, z: z + (i % 2) * 0.4, t: 0, entra: 'fixo', esboco: false });
+      P.animar((ts) => { w.position.x = -2.4 + i * 1.5 + Math.sin(ts * 1.5 + i) * 0.25; }); }
   };
 
   // casinha japonesa (caixa + telhado)
@@ -73,9 +137,12 @@ window.LIB = (P) => {
     P.caixa(1.9, 0.8, 0.7, { pai: g, x: -0.4, y: 0.62, cor: verde, t });
     P.caixa(0.9, 1.05, 0.7, { pai: g, x: 1.05, y: 0.74, cor: 0x2b2622, t: t + 0.1 });
     P.peca(F.ret(0.22, 0.4, 0.05), { pai: g, prof: 0.1, cor: 0x2b2622, x: 1.3, y: 1.45, t: t + 0.25 });
+    L.fumaca(g, 1.3, 1.75, 0);
+    const rodas = [];
     [-1.05, -0.55, -0.05, 0.45].forEach((x, i) => P.peca(F.ret(0.32, 0.3, 0.04), { pai: g, prof: 0.02, cor: 0xf6e7a6, x, y: 0.72, z: 0.36, t: t + 0.3 + i * 0.05, esboco: false }));
-    [-1.0, -0.2, 0.8, 1.3].forEach((x, i) => P.peca(F.circulo(0.2), { pai: g, prof: 0.08, cor: 0x3a3330, x, y: 0.22, z: 0.36, t: t + 0.4 + i * 0.05, entra: 'pop' }));
-    if (o.passageiro) { const h = L.homem({ pai: g, x: -0.55, y: 0.25, z: 0.2, s: 0.32, t: t + 0.5, band: o.band }); }
+    [-1.0, -0.2, 0.8, 1.3].forEach((x, i) => rodas.push(P.peca(F.estrela(0.2, 0.16, 8), { pai: g, prof: 0.08, cor: 0x3a3330, x, y: 0.22, z: 0.36, t: t + 0.4 + i * 0.05, entra: 'pop' })));
+    P.animar((ts) => { rodas.forEach((r) => r.children[0].rotation.z = -g.position.x * 2.5); g.children.forEach(() => {}); });
+    if (o.passageiro) { const h = L.homem({ pai: g, x: -0.55, y: 0.25, z: 0.2, s: 0.32, t: t + 0.5, band: o.band, gesto: o.band ? undefined : 'acena' }); }
     if (o.x1 !== undefined) P.animar((ts, tt) => { const k = Math.min(1, Math.max(0, (tt - o.t0) / (o.t1 - o.t0))); g.position.x = o.x0 + (o.x1 - o.x0) * (k * k * (3 - 2 * k)); });
     // trilho
     P.deitado(F.ret(7, 0.08, 0.01), { prof: 0.01, cor: 0x6b5a48, z: (o.z ?? 0) + 0.12, t: 0, entra: 'fixo', esboco: false });
@@ -85,6 +152,7 @@ window.LIB = (P) => {
 
   L.navio = (o = {}) => {
     const g = P.grupo({ x: o.x || 0, z: o.z || 0, pai: o.pai }); const t = o.t ?? 0; g.scale.setScalar(o.s ?? 1);
+    P.animar((ts) => { g.rotation.z = Math.sin(ts * 1.6 + (o.x || 0)) * 0.03; g.position.y = Math.sin(ts * 1.6) * 0.04; });
     P.peca(F.poligono([[-1.5, 0.5], [1.7, 0.5], [1.2, -0.1], [-1.2, -0.1]]), { pai: g, prof: 0.5, cor: o.cor ?? 0x3d4a5c, y: 0.1, t });
     P.peca(F.ret(3.0, 0.1, 0.02), { pai: g, prof: 0.52, cor: C.VERMELHO, y: 0.3, t: t + 0.2 });
     P.caixa(0.9, 0.5, 0.4, { pai: g, x: -0.3, y: 0.85, cor: BRANCO, t: t + 0.3 });
@@ -96,7 +164,9 @@ window.LIB = (P) => {
     const g = P.grupo({ x: o.x || 0, z: o.z || 0, pai: o.pai }); const t = o.t ?? 0;
     P.peca(F.ret(0.14, 2.6, 0.02), { pai: g, prof: 0.14, cor: C.LARANJA, y: 1.3, t });
     P.peca(F.ret(1.8, 0.12, 0.02), { pai: g, prof: 0.12, cor: C.LARANJA, x: 0.7, y: 2.55, t: t + 0.15 });
-    P.peca(F.ret(0.03, 0.8, 0.01), { pai: g, prof: 0.03, cor: 0x2b2622, x: 1.4, y: 2.1, t: t + 0.3, esboco: false });
+    const cabo = P.grupo({ pai: g, x: 1.4, y: 2.5 }); P.peca(F.ret(0.03, 0.8, 0.01), { pai: cabo, prof: 0.03, cor: 0x2b2622, y: -0.4, t: t + 0.3, esboco: false });
+    P.peca(F.ret(0.3, 0.25, 0.02), { pai: cabo, prof: 0.2, cor: 0x7d9ac4, y: -0.9, t: t + 0.35 });
+    P.animar((ts) => { cabo.rotation.z = Math.sin(ts * 1.4) * 0.15; });
     return g;
   };
 
@@ -109,7 +179,7 @@ window.LIB = (P) => {
     P.peca(F.nuvem(2.0, 0.8), { pai: g, prof: 0.1, cor: cin2, y: 2.35, z: 0.22, t, entra: 'fixo' });
     P.peca(F.nuvem(1.3, 0.5), { pai: g, prof: 0.1, cor: cin2, y: 0.25, z: 0.22, t, entra: 'fixo' });
     const t0 = o.t0 ?? t, t1 = o.t1 ?? t0 + 2.5;
-    P.animar((ts, tt) => { const k = Math.min(1, Math.max(0.001, (tt - t0) / (t1 - t0))); const e = 1 - Math.pow(1 - k, 3); g.scale.set(s * (0.3 + 0.7 * e), s * e, s); });
+    P.animar((ts, tt) => { const k = Math.min(1, Math.max(0.001, (tt - t0) / (t1 - t0))); const e = 1 - Math.pow(1 - k, 3); const b = 1 + Math.sin(ts * 3) * 0.025; g.scale.set(s * (0.3 + 0.7 * e) * b, s * e, s); g.rotation.z = Math.sin(ts * 1.1) * 0.02; });
     return g;
   };
 
@@ -266,7 +336,8 @@ window.LIB = (P) => {
   L.arvore = (o = {}) => {
     const g = P.grupo({ x: o.x || 0, z: o.z || 0 }); const t = o.t ?? 0; g.scale.setScalar(o.s ?? 1);
     P.peca(F.ret(0.25, 1.2, 0.05), { pai: g, prof: 0.1, cor: 0x6a4026, y: 0.6, t });
-    P.peca(F.nuvem(1.6, 1.3), { pai: g, prof: 0.12, cor: o.cor ?? C.VERDE, y: 1.3, t: t + 0.2 });
+    const copa = P.peca(F.nuvem(1.6, 1.3), { pai: g, prof: 0.12, cor: o.cor ?? C.VERDE, y: 1.3, t: t + 0.2 });
+    P.animar((ts) => { copa.rotation.z = Math.sin(ts * 1.7 + (o.x || 0)) * 0.05; });
     P.peca(F.nuvem(1.1, 0.8), { pai: g, prof: 0.05, cor: C.VERDE_CLARO, y: 1.45, z: 0.08, t: t + 0.3 });
     return g;
   };
