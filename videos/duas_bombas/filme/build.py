@@ -16,6 +16,12 @@ CENAS = [
  (5.6, []),
  (5.6, [("N4", 0.8, None)]),
  (5.8, [("N5", 1.6, None)]),
+ (7.6, [("N6", 0.4, None)]),
+ (9.0, [("A3", 0.8, "akira"), ("T4", 4.0, "tsutomu")]),
+ (7.2, [("A4", 0.4, "akira"), ("T5", 4.9, "tsutomu")]),
+ (8.8, [("N7", 0.4, None)]),
+ (8.4, [("N8", 0.4, None)]),
+ (6.8, [("N9", 0.25, None), ("N10", 2.4, None)]),
 ]
 def env(nome, ini, D):
     w = wave.open(f"{A}/{nome}.wav"); x = np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(float) / 32768; sr = w.getframerate()

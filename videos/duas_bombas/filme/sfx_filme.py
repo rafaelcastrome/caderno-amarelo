@@ -62,6 +62,26 @@ t0 = ini[8]; dur = CENAS[8][0] + CENAS[9][0]; n = int(dur * SR)
 cr = np.zeros(n); idx = rng.integers(0, n, int(dur * 25)); cr[idx] = rng.standard_normal(len(idx))
 cr = lpf(cr, 0.3) * 0.8 + lpf(rng.standard_normal(n), 0.01) * 0.6
 add(cr * np.interp(np.arange(n) / SR, [0, 1, dur - 1, dur], [0, 0.5, 0.5, 0]), t0)
+# parte 2 do filme: fogo no abrigo (11), passos (12, 13), trem (14, 15), ronco distante do avião (16)
+def fogo(c, g=0.4):
+    t0 = ini[c - 1]; dur = CENAS[c - 1][0]; n = int(dur * SR)
+    cr = np.zeros(n); idx = rng.integers(0, n, int(dur * 25)); cr[idx] = rng.standard_normal(len(idx))
+    add((lpf(cr, 0.3) * 0.8 + lpf(rng.standard_normal(n), 0.01) * 0.6) * np.interp(np.arange(n) / SR, [0, 0.5, dur - 0.5, dur], [0, g, g, 0]), t0)
+fogo(11, 0.35)
+passos(12, [[0, 3.4], [2.4, 0.95]], 0.35)
+passos(13, [[0, -1.0], [2.0, -1.0], [7.2, 0.6]], 0.4); passos(13, [[0, 0.2], [2.6, 0.2], [7.2, 2.4]], 0.35)
+for c in (14, 15):
+    t0 = ini[c - 1]; dur = CENAS[c - 1][0]; n = int(dur * SR); t = np.arange(n) / SR
+    rate = 3.2 if c == 14 else np.interp(t, [0, dur - 2, dur], [3.0, 1.0, 0.0])
+    ph = np.cumsum(np.ones(n) * rate / SR) if c == 14 else np.cumsum(rate / SR)
+    pulso = (np.sin(2 * np.pi * ph * 2) > 0.6).astype(float)
+    sh = lpf(rng.standard_normal(n), 0.06) * lpf(pulso, 0.01) * 2.5
+    clack = np.zeros(n); k = np.where(np.diff(np.floor(ph * 1.0)) > 0)[0]; clack[k] = 1
+    add((sh + lpf(clack, 0.2) * 3) * np.interp(t, [0, 0.6, dur - 0.6, dur], [0, 0.35, 0.35, 0.1]), t0)
+    if c == 15: add(np.sin(2 * np.pi * 880 * t[:int(0.9 * SR)]) * env(int(0.9 * SR), 0.05, 0.4) * 0.15, t0 + dur - 2.2)  # apito
+t0 = ini[15] + 1.5; dur = CENAS[15][0] - 1.5; n = int(dur * SR); t = np.arange(n) / SR
+ron = lpf(sum(np.sign(np.sin(2 * np.pi * f * t + p)) for f, p in [(62, 0), (63.3, 1), (93.5, 2)]) * 0.25, 0.03)
+add(ron * np.interp(t, [0, 1.5, dur], [0, 0.45, 0.6]), t0)
 out = np.clip(out, -1, 1); s = (np.stack([out, out], 1) * 32767).astype(np.int16)
 w = wave.open("audio/sfx_filme.wav", "wb"); w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes(s.tobytes()); w.close()
 print("sfx", TOT)

@@ -6,9 +6,10 @@ from build import CENAS
 R = os.path.dirname(os.path.abspath(__file__)); W, H, FPS = 720, 1280, 30
 fnt = lambda s: ImageFont.truetype(f"{R}/../Caveat-Bold.ttf", s)
 ini = list(np.cumsum([0] + [c[0] for c in CENAS])); TOT = ini[-1]
-TXT = {1: "O HOMEM DAS DUAS BOMBAS\nPARTE 1", 2: "Hiroshima, 1945", 5: "6 de agosto · 8h15", 9: "3 km da bomba"}
+TXT = {1: "O HOMEM DAS DUAS BOMBAS\nPARTE 1", 2: "Hiroshima, 1945", 5: "6 de agosto · 8h15", 9: "3 km da bomba", 12: "No dia seguinte", 16: "PARTE 2 no perfil"}
+LAB_INI = {16: 2.4}
 FALA = {"A1": "Yamaguchi! Bora, que o trem não espera!", "T1": "Três meses longe de casa...\nhoje eu finalmente volto!",
-        "T2": "Ih... esqueci meu carimbo\nlá no estaleiro!", "A2": "Vai lá buscar.\nA gente te espera na estação!", "T3": "Que avião é esse lá em cima?"}
+        "T2": "Ih... esqueci meu carimbo\nlá no estaleiro!", "A2": "Vai lá buscar.\nA gente te espera na estação!", "T3": "Que avião é esse lá em cima?", "A3": "Yamaguchi! Você tá vivo!", "T4": "Tô... mas eu quase\nnão tô escutando nada.", "A4": "Vem comigo. Vamo pra estação...\na gente vai pra casa.", "T5": "Pra casa..."}
 run = subprocess.check_call
 def etiqueta(txt, size, fundo=(255, 253, 244, 245)):
     fo = fnt(size); lines = txt.split("\n"); dd = ImageDraw.Draw(Image.new("L", (1, 1)))
@@ -62,15 +63,15 @@ while True:
     if len(b) < W * H * 3: break
     t = fr / FPS; im = Image.frombytes("RGB", (W, H), b).convert("RGBA")
     c = next((i for i in range(1, len(CENAS) + 1) if ini[i - 1] <= t < ini[i]), len(CENAS))
-    if c in LAB and t - ini[c - 1] < CENAS[c - 1][0] - 0.2:
-        lab = LAB[c]; k = min(1, (t - ini[c - 1]) / 0.25); s = 0.6 + 0.4 * k
+    if c in LAB and LAB_INI.get(c, 0) <= t - ini[c - 1] < CENAS[c - 1][0] - (0 if c == len(CENAS) else 0.2):
+        lab = LAB[c]; k = min(1, (t - ini[c - 1] - LAB_INI.get(c, 0)) / 0.25); s = 0.6 + 0.4 * k
         l2 = lab.resize((max(1, int(lab.width * s)), max(1, int(lab.height * s)))); im.alpha_composite(l2, ((W - l2.width) // 2, 105 - (l2.height - lab.height) // 2))
     for a, z, img in SUB:
         if a <= t < z: im.alpha_composite(img, ((W - img.width) // 2, H - 330))
     x = int((W - WM.width) / 2 + math.sin(t * 0.35) * 200); im.alpha_composite(WM, (x, H - 120))
     enc.stdin.write(im.convert("RGB").tobytes()); fr += 1
 enc.stdin.close(); enc.wait()
-os.replace(out, f"{R}/previa_filme_parte1.mp4")
+os.replace(out, f"{R}/duas_bombas_parte1_filme.mp4")
 for p in os.listdir(R):
     if p.startswith("tmp_"): os.remove(f"{R}/{p}")
 print("ok", fr / FPS)

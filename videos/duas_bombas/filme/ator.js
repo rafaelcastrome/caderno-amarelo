@@ -35,6 +35,11 @@ window.ATOR = (P, L) => {
     deitado_mexe: { rot: 1.45, ly: -0.98, tN: 0.6, kN: -1.0, tF: 0.1, kF: -0.3, pN: 0, pF: 0, sN: 1.8, eN: 1.0, sF: 2.8, eF: 0.4, head: 0.35, lean: 0.15 },
     ajoelhado: { hipY: 0.6, tN: 1.45, kN: -1.5, tF: -0.2, kF: -1.35, pN: 0, pF: 0, lean: 0.42, sN: 0.7, eN: 0.5, sF: 0.2, eF: 0.6, head: -0.1 },
     curvado: { lean: 0.32, sN: 0.45, eN: 0.9, sF: -0.1, eF: 1.2, head: -0.05 },
+    sentado_chao: { hipY: 0.24, tN: 1.25, kN: -2.45, tF: 1.15, kF: -2.35, pN: 0.3, pF: 0.3, lean: 0.35, sN: 1.05, eN: 1.55, sF: 0.95, eF: 1.5, head: -0.35 },
+    abre_bracos: { sN: 1.35, eN: 0.25, sF: 1.15, eF: 0.35, head: 0.1 },
+    mao_orelha: { sN: 2.0, eN: 2.55, head: -0.15, lean: 0.05 },
+    apoia: { sN: 1.25, eN: 0.6 },
+    ferido: { lean: 0.14, head: -0.12, sF: 0.1, eF: 1.4 },
   };
   const CH = ['lean', 'head', 'sN', 'eN', 'sF', 'eF', 'hipY', 'tN', 'kN', 'tF', 'kF', 'pN', 'pF', 'rot', 'ly', 'osc', 'bolso', 'flail', 'olhosF'];
   const pega = (nome) => (typeof nome === 'string' ? nome.split('+').reduce((a, n) => Object.assign(a, POSES[n]), {}) : nome);
@@ -164,7 +169,7 @@ window.ATOR = (P, L) => {
       if (voo && t > voo.t0) { const k = Math.min(1, (t - voo.t0) / (voo.t1 - voo.t0)); const e = 1 - Math.pow(1 - k, 1.6);
         x += voo.dx * e; y += (voo.h ?? 1) * 4 * k * (1 - k); rot += (voo.giro ?? 0) * sm(k); if (k >= 1) { const b = t - voo.t1; y += Math.abs(Math.sin(b * 9)) * 0.12 * Math.exp(-b * 5); } }
       const dir = dirEm(t);
-      g.position.set(x, 0, p[1]); g.scale.set(s * (Math.abs(dir) < 0.05 ? 0.05 * Math.sign(dir || 1) : dir), s, s);
+      g.position.set(x, o.y || 0, p[1]); g.scale.set(s * (Math.abs(dir) < 0.05 ? 0.05 * Math.sign(dir || 1) : dir), s, s);
       giro.rotation.z = rot; giro.position.y = 1.2 + q.ly + y;
       pelve.position.y = q.hipY; tronco.rotation.z = -q.lean;
       pernas[0].coxa.rotation.z = q.tN; pernas[0].joelho.rotation.z = q.kN; pernas[0].tor.rotation.z = -(q.tN + q.kN) + q.pN;
