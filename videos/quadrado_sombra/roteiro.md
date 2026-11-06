@@ -8,5 +8,5 @@ Voz Algieba, gemini-3.1-flash-tts-preview, take único (`falas/todas.txt` -> `fa
 Imagem e efeitos: `python3 video.py` (PIL + numpy) -> quadrado_sombra.mp4 (39,7 s).
 
 Roteiro: gancho A ou B (quadro 0) -> comenta antes, 3-2-1 -> recorta o B e põe do lado do A -> mesma cor ->
-tampa a folha com 2 buracos -> iguaizinhos -> tira o papel, B clareia -> por quê (cérebro desconta a sombra) ->
+apaga as casas uma por uma até sobrar só A e B (pedido do Rafael: a tampa de papel parecia manipulação) -> iguaizinhos -> as casas voltam, B clareia -> por quê (cérebro desconta a sombra) ->
 CTA "todo dia uma ilusão" + cartão Seguir -> Seguindo -> volta pro quadro 0 (loop).

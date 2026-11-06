@@ -112,6 +112,47 @@ def tampa():
     return im
 TAMPA = tampa()
 
+# ---------- apagar as casas uma por uma (só sobra A e B) ----------
+import random
+CASAS = [(c, r) for r in range(I.N) for c in range(I.N) if (c, r) not in (I.A_CEL, I.B_CEL)]
+random.Random(7).shuffle(CASAS)
+PAPEL_IM = papel()
+def _resto_mask():
+    m = Image.new("L", (W, H), 0); d = ImageDraw.Draw(m)
+    d.rectangle([PX - 40, PY - 60, PX + I.S + 40, PY + I.S + 40], fill=255)
+    for q in (QA, QB): d.polygon(q, fill=0)
+    return m
+RESTO = _resto_mask()
+_a = np.array(ILU).astype(int); _g = ((_a[..., 1] - _a[..., 0]) > 25).astype(np.uint8) * 255
+CIL = Image.new("L", (W, H), 0); CIL.paste(Image.fromarray(_g).filter(ImageFilter.MaxFilter(3)), (PX, PY))
+
+def apagar(im, t):
+    e0, e1 = T[4] + 0.55, T[5] + 0.15          # some
+    v0, v1 = T[6] + 0.55, T[6] + 1.55          # volta
+    n = len(CASAS)
+    if t < e0 or t > v1 + 0.3: return im
+    if t <= v0:
+        pc = (t - e0) / (e1 - 0.35 - e0) * n     # casas apagadas
+        ar = ease((t - (e1 - 0.35)) / 0.4)
+    else:
+        pc = (1 - (t - (v0 + 0.25)) / (v1 - v0 - 0.25)) * n
+        ar = 1 - ease((t - v0) / 0.3)
+    m = Image.new("L", (W, H), 0); d = ImageDraw.Draw(m)
+    for i, (c, r) in enumerate(CASAS):
+        a = min(1, max(0, (pc - i) / 1.5))
+        if a > 0: d.polygon(qcel(c, r), fill=int(255 * a))
+    m = Image.composite(Image.new("L", (W, H), 0), m, CIL)
+    if ar > 0:
+        m = Image.fromarray(np.maximum(np.array(m), (np.array(RESTO) * ar).astype(np.uint8)))
+    im = Image.composite(PAPEL_IM, im, m)
+    if ar > 0.5:
+        d = ImageDraw.Draw(im)
+        for nome, q in (("A", QA), ("B", QB)):
+            d.line(q + [q[0]], fill=TINTA, width=4)
+            cx = sum(p[0] for p in q) / 4; y = min(p[1] for p in q)
+            d.text((cx, y - 45), nome, font=fonte(90), fill=VERM, anchor="mm")
+    return im
+
 # ---------- cartão Seguir ----------
 def cartao(seguindo, apertar):
     c = Image.new("RGBA", (900, 470), (0, 0, 0, 0)); d = ImageDraw.Draw(c)
@@ -199,19 +240,13 @@ def quadro(t):
     elif c in (5, 6, 7):
         if c == 5 and ct < 0.6:
             k = ease(ct / 0.6); peca(im, interp(QDEST, QB, k), sombra=math.sin(k * math.pi)); d = ImageDraw.Draw(im)
-        if c == 5:
-            y = -H + H * ease((ct - 0.5) / 1.0)
-        elif c == 6:
-            y = 0
-        else:
-            y = -H * ease(ct / 0.8)
-        if y > -H: im.paste(TAMPA, (0, int(y)), TAMPA)
+        im = apagar(im, t)
         d = ImageDraw.Draw(im)
         if c == 5: texto(d, (W / 2, TOPO_Y + 60), "ainda não acredita?", 100, TINTA)
         if c == 6:
             texto(d, (W / 2, TOPO_Y + 60), "IGUAIZINHOS!", int(150 * back(ct / 0.35)) + 1, VERM)
             sublinha(d, 220, 860, TOPO_Y + 150, min(1, ct / 0.6))
-        if c == 7: texto(d, (W / 2, TOPO_Y + 60), "agora tira o papel...", 96, TINTA)
+        if c == 7: texto(d, (W / 2, TOPO_Y + 60), "agora volta tudo...", 96, TINTA)
         if c >= 6: rodape(d, "mesma cor", TINTA, 96, 1580)
     elif c == 8:
         anel(d, QB, t); texto(d, (W / 2, TOPO_Y + 60), "...e o B clareou de novo!", 92, TINTA)
@@ -263,9 +298,12 @@ def sfx():
     for k in range(3): put(c0 + k * 0.85, tick(1200))
     put(T[2] + 3.0, whoop(0.8, 300, 700)); put(T[2] + 4.65, tick(500))
     put(T[3], ding())
-    put(T[4], whoop(0.5, 700, 300)); put(T[4] + 0.6, whoop(0.9, 200, 120, 0.25))
+    put(T[4], whoop(0.5, 700, 300))
+    e0, e1 = T[4] + 0.55, T[5] + 0.15; v0, v1 = T[6] + 0.55, T[6] + 1.55; nc = len(CASAS)
+    for i in range(nc):
+        put(e0 + i * (e1 - 0.35 - e0) / nc, tick(900 + 15 * i) * 0.45)
+        put(v0 + 0.25 + (nc - i) * (v1 - v0 - 0.25) / nc, tick(1300 - 12 * i) * 0.35)
     put(T[5], ding())
-    put(T[6], whoop(0.7, 150, 260, 0.22))
     put(T[9] + 2.7, tick(900)); put(T[9] + 2.75, tick(1400))
     import wave
     with wave.open("audio/sfx.wav", "wb") as w:

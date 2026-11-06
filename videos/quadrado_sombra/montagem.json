@@ -1,5 +1,61 @@
-{"take": "falas/take_rapido.wav", "voz": "Algieba",
- "cortes": [4.9, 7.909, 14.5, 18.818, 22.773, 25.273, 27.182, 29.818, 40.0],
- "cenas": [{"fala":0,"pausa":0.2},{"fala":1,"pausa":1.6},{"fala":2,"pausa":0.9},{"fala":3,"pausa":0.5},
-           {"fala":4,"pausa":0.5},{"fala":5,"pausa":0.2},{"fala":6,"pausa":0.5},{"fala":7,"pausa":0.4},
-           {"fala":8,"pausa":0.4},{"fala":9,"pausa":1.6}]}
+{
+ "take": "falas/take_junto.wav",
+ "voz": "Algieba",
+ "cortes": [
+  4.9,
+  7.909,
+  14.5,
+  18.818,
+  22.773,
+  25.273,
+  27.182,
+  29.818,
+  40.0,
+  46.289583,
+  50.189583,
+  52.189583,
+  54.289583
+ ],
+ "cenas": [
+  {
+   "fala": 0,
+   "pausa": 0.2
+  },
+  {
+   "fala": 1,
+   "pausa": 1.6
+  },
+  {
+   "fala": 2,
+   "pausa": 0.9
+  },
+  {
+   "fala": 3,
+   "pausa": 0.5
+  },
+  {
+   "fala": 10,
+   "pausa": 0.5
+  },
+  {
+   "fala": 11,
+   "pausa": 0.2
+  },
+  {
+   "fala": 12,
+   "pausa": 0.5
+  },
+  {
+   "fala": 13,
+   "pausa": 0.4
+  },
+  {
+   "fala": 8,
+   "pausa": 0.4
+  },
+  {
+   "fala": 9,
+   "pausa": 1.6
+  }
+ ]
+}
