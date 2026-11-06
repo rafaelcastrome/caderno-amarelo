@@ -1,0 +1,57 @@
+{
+ "take": "falas/take_r.wav",
+ "voz": "Algieba (gemini-3.1-flash-tts-preview)",
+ "cortes": [
+  5.627,
+  11.273,
+  15.727,
+  19.273,
+  24.182,
+  30.455,
+  38.545,
+  41.727,
+  46.364
+ ],
+ "cenas": [
+  {
+   "fala": 0,
+   "pausa": 0.35
+  },
+  {
+   "fala": 1,
+   "pausa": 0.35
+  },
+  {
+   "fala": 2,
+   "pausa": 0.35
+  },
+  {
+   "fala": 3,
+   "pausa": 0.35
+  },
+  {
+   "fala": 4,
+   "pausa": 0.35
+  },
+  {
+   "fala": 5,
+   "pausa": 0.35
+  },
+  {
+   "fala": 6,
+   "pausa": 0.35
+  },
+  {
+   "fala": 7,
+   "pausa": 0.35
+  },
+  {
+   "fala": 8,
+   "pausa": 0.6
+  },
+  {
+   "fala": 9,
+   "pausa": 2.0
+  }
+ ]
+}

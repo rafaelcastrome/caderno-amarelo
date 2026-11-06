@@ -1,0 +1,6 @@
+{
+  "name": "papel3d",
+  "private": true,
+  "description": "Motor do vídeo papel recortado em código (Caderno Amarelo)",
+  "dependencies": { "three": "0.160.0", "opentype.js": "1.3.4" }
+}
