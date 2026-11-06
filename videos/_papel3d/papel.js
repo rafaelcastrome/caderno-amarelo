@@ -205,6 +205,8 @@
     const p = lerp(a.pos, b.pos, k), l = lerp(a.alvo, b.alvo, k);
     const tremor = [Math.sin(t * 1.3) * 0.03, Math.sin(t * 0.9 + 1) * 0.025, 0]; // câmera na mão, bem leve
     cam.position.set(p[0] + tremor[0], p[1] + tremor[1], p[2]); cam.lookAt(l[0], l[1], l[2]);
+    const P_ = window.P; if (P_ && P_.camOff) { const o = P_.camOff(t) || [0, 0, 0]; cam.position.x += o[0]; cam.position.y += o[1]; cam.position.z += o[2] || 0; }
+    if (P_ && P_.fov && cam.fov !== P_.fov) { cam.fov = P_.fov; cam.updateProjectionMatrix(); }
   }
 
   // ---------- esboço a lápis (o contorno aparece antes do papel chegar) ----------
