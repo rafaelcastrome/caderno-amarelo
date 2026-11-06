@@ -1,6 +1,6 @@
 ---
 name: video-papel-recortado-codigo
-description: Use para fazer vídeos curtos do Caderno Amarelo no formato papel recortado em 3D feito só com código (three.js), sem Google Flow; separado do whiteboard-video e do video-papel-recortado-flow.
+description: Use para vídeos do Caderno Amarelo em papel recortado 3D feito só com código (three.js), desafios ou histórias em série como cena de filme com bonecos que andam, falam e encenam; sem Google Flow.
 ---
 
 # Vídeo papel recortado em código (three.js) - Caderno Amarelo
@@ -11,7 +11,11 @@ Terceiro formato de vídeo do Caderno Amarelo. Os outros dois continuam como est
 
 Este aqui faz o diorama de papel recortado (peças de papelão em cima do bloco amarelo pautado, cadernos amarelos desfocados atrás) inteiro por código, em three.js no Chromium headless, na nuvem. Não precisa do PC do Rafael nem de crédito. Vantagens sobre o Flow: letras e números de papel certinhos, refazer à vontade, mesma cara em todas as cenas. Desvantagem: é mais "limpinho", então cada objeto precisa de detalhe de papel (camadas, costura, rebite, borda clara).
 
-Motor: `videos/_papel3d/` (branch claude/project-thread-1ekqk1 até ir pra main). Amostra aprovada: `videos/_papel3d/exemplos/cena_mala.js` e `cena_numero.js`.
+Motor: `videos/_papel3d/` (branch claude/project-thread-1ekqk1 até ir pra main; versão com câmera tremendo/zoom na claude/project-thread-4215i7). Amostras aprovadas: `videos/_papel3d/exemplos/cena_mala.js` e `cena_numero.js` (desafio) e `videos/duas_bombas/filme/` (história como cena de filme, aprovada pelo Rafael em 06/11: "Ficou top").
+
+Dois modos:
+- **Desafio** (seções 1 a 5): objetos de papel montando, narrador só.
+- **História / série como cena de filme** (seção 6): bonecos de verdade que andam, falam e encenam tudo que acontece. É o modo pra historinha.
 
 ## 1. Ideia e roteiro (igual ao formato Flow)
 - Desafio primeiro. Mandar 3 ideias curtas e esperar o Rafael escolher. Sem revelar a resposta no pitch.
@@ -53,7 +57,8 @@ Regras de visual (o que fez a mala nova ficar perto do Flow):
 - Peças entram uma por uma (stop-motion 12 qps), com o contorno a lápis aparecendo antes, 2-4 s pra montar o objeto inteiro.
 - Cores do `P.CORES` (papel fosco, quentes). Sombra macia já vem da luz.
 - Faixa de cima da tela (y < ~200 px) fica livre: é onde entra o texto na montagem. Objeto no meio.
-- Câmera sempre com um empurrãozinho lento (aproxima ~10%) e de cima, ~35°.
+- Câmera sempre com um empurrãozinho lento (aproxima ~10%) e de cima, ~35° (no modo filme a câmera é mais baixa e acompanha a ação, ver seção 6).
+- `P.camOff = (t) => [dx, dy, dz]` treme a câmera (explosão, impacto); `P.fov` muda o zoom.
 - Nunca deixar letra pela metade, peça atravessando outra ou peça afundada na folha: conferir quadros antes.
 
 Conferir rápido (quadros soltos, ~5 s):
@@ -84,3 +89,45 @@ Mandar uma folha com um quadro de cada cena (contact sheet) pro Rafael aprovar A
 - mp4 em /mnt/project-files/videos/<video>/ e no git (sem os clipes intermediários se forem grandes).
 - Legendas TikTok e Instagram e comentário fixado, uma mensagem por item, em bloco de código, terminando com #cadernoamarelo.
 - Sugerir Reel de teste até o formato provar resultado.
+
+
+## 6. Modo história / série como cena de filme
+O Rafael rejeitou história só narrada com objetos parados e com boneco de frente que só balança (06/11: "Ainda não tá legal, quero movimentos imitando a realidade"). O que ele aprovou:
+- **Tudo que é narrado é mostrado acontecendo**: a bomba caindo, o boneco sendo arremessado, o trem andando. Nada de cena parada com texto.
+- **Os personagens falam de verdade** em vez de o narrador contar tudo. Narrador entra pouco: abertura, passagem de tempo, gancho final.
+- **Andar de gente de verdade**: joelho, cotovelo, pé firme no chão (não escorrega), braço balançando oposto à perna.
+- **Câmera de filme**: plano aberto da cidade descendo, plano médio de dois personagens conversando, câmera acompanhando quem anda, câmera baixa olhando pro céu, câmera descendo junto com o que cai, tremor no impacto.
+- Episódios de 60 a 90 s em série, cada um termina num gancho ("a cidade dele se chamava...") e CTA "a parte dois já tá no meu perfil... me segue pra não perder!".
+
+### Arquivos (modelo: `videos/duas_bombas/filme/`)
+- `../lib.js`: props reaproveitáveis (casa, cidade, trem, navio, guindaste, cogumelo, clarão, flash, noite, céu com nuvens e passarinhos, fumaça, ondas, sol, mesa, árvore...).
+- `ator.js` (`window.ATOR(P, L)`): o boneco de filme `L.ator` e props de filme.
+- `cenas.js`: `window.EP = [ (P, L, D) => {...}, ... ]`, uma função por cena.
+- `build.py`: lista `CENAS = [(duração, [(arquivo_da_fala, início_na_cena, personagem_que_mexe_a_boca | None), ...]), ...]`; gera `cenas/fNN.js` (lib + ator + cenas + `window.BOCA`) e renderiza `flow/fNN.mp4` (4 em paralelo). `python3 build.py --prev 1.01 3.5 6 2 5` = só quadros soltos das cenas 2 e 5 (tempo com ponto, senão vira número de cena).
+- `sfx_filme.py`: efeitos sintetizados em numpy.
+- `montar.py`: junta clipes, vozes nos tempos certos, efeitos, papel, etiquetas, legendas das falas e o @ andando.
+- `folha.py saida.jpg quadros...`: folha de quadros pra conferir.
+
+### O boneco `L.ator(o)`
+Boneco de perfil (olha pra +x; `dir: -1` olha pra esquerda; virar = a peça de papel gira de lado, fica bonito). Peças: coxa, canela, pé, tronco, braço, antebraço, mão, pescoço, cabeça com nariz, queixo, orelha, olho que pisca, sobrancelha, cabelo e boca. Membros do lado de trás um pouco mais escuros.
+- `mov: [[t, x, z?], ...]`: onde ele está no tempo (com suavização; `'lin'` no 4º item = velocidade constante). O passo sai da distância percorrida, então o pé fica plantado (IK de 2 ossos no joelho, passada 1.0).
+- `dirs: [[t, ±1], ...]`, `poses: [[t, 'pose', duração_da_transição], ...]` (pode somar: `'sentado+desenha'`).
+- Poses prontas: normal, sentado, desenha, levanta_lapis, bracos_cima, mao_cabeca, bolsos, aponta, aponta_cima, olha_cima, protege, voando, deitado, deitado_mexe, ajoelhado, curvado, sentado_chao, abre_bracos, mao_orelha, apoia, ferido. Pose nova = objeto com `lean, head, sN, eN, sF, eF, hipY, tN, kN, tF, kF, pN, pF, rot, ly` (ombro/cotovelo/coxa/joelho/pé, N = lado da frente, F = de trás).
+- `voo: {t0, t1, dx, h, giro}`: arremessado (arco + cambalhota); combinar com poses voando -> deitado. Levantar = deitado_mexe -> ajoelhado -> curvado.
+- `nome`: liga a boca ao áudio (`window.BOCA[nome]`, amplitude da fala a 30 qps). Enquanto fala, a mão gesticula sozinha (`gesticula: false` desliga).
+- `roupa, calca, terno, chapeu (cor), band (enfaixado), mala ([[t, 0|1]] ou true), s (escala), y, pai (ex.: dentro do trem), t: -1` (já está em cena) ou t (monta com lápis).
+- Props de filme: `L.fundoCeu` (painel de céu atrás, essencial pra câmera baixa), `L.veu(cor, op)` (tinta de poeira/noite), `L.b29`, `L.bomba({traj})`, `L.boladefogo`, `L.ondaChoque`, `L.destrocos`, `L.tremor([[t, força, duração]])`, `L.K` (keyframes).
+
+### Voz com personagens
+- Narrador: Algieba (`videos/_comum/gemini_historia.py`). Falas: `videos/_comum/gemini_dialogo.py` (multi-voz Gemini 3.1, 2 personagens por requisição, linhas `Nome: fala` separadas por linha em branco, `--dir` com a atuação da cena). Usados na série: Tsutomu = Achird, colega = Alnilam. Só vozes aprovadas; mesmo modelo no vídeo todo.
+- Cortar cada fala nos silêncios (silencedetect -38 dB, d=0.45), conferir com Whisper, `atempo=1.1` só no narrador.
+- Cena dura o que a fala precisa + respiro; o tempo de cada fala vai em `CENAS` do build.py.
+
+### Som
+Passos sincronizados com a passada, ronco de avião, assobio de bomba descendo, explosão grave (sem chiado), zumbido no ouvido depois do impacto, fogo crepitando, trem. Papel por baixo baixinho (0.22). loudnorm I=-15.
+
+### Montagem
+Etiqueta de lugar/data na faixa de cima ("Hiroshima, 1945", "6 de agosto · 8h15"), legenda das falas embaixo com o nome do personagem em amarelo, @ andando no rodapé. Conferir quadros de cada cena (enquadramento: ninguém cortado na borda; câmera a ~9-10 de distância pra plano médio no vertical) antes de renderizar tudo. Render: ~70 s de vídeo levam ~5 min com 4 em paralelo.
+
+### Checar fatos
+História real: conferir os detalhes na internet antes de encenar (Wikipedia é bloqueada na nuvem, usar busca). Detalhe sem fonte fica de fora.
