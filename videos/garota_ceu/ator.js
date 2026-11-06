@@ -43,6 +43,10 @@ window.ATOR = (P, L) => {
     carrega: { sN: 0.95, eN: 1.55, sF: 0.85, eF: 1.65, head: -0.12 },
     velho: { lean: 0.15, head: -0.06, sN: 0.25, eN: 0.45, sF: 0.1, eF: 0.4 },
     abraco: { sN: 1.45, eN: 1.1, sF: 1.35, eF: 1.2, head: -0.1, lean: 0.08 },
+    testa_chao: { sN: 0.75, eN: 0.25, lean: 0.22, head: -0.25, osc: 1 },
+    ombro_quebrado: { sF: 0.15, eF: 1.6, lean: 0.12, head: -0.1 },
+    boia: { rot: 1.5, ly: -1.05, tN: 0.1, kN: -0.1, tF: -0.05, kF: -0.1, pN: 0, pF: 0, sN: 2.8, eN: 0.2, sF: 2.9, eF: 0.2, head: 0.2 },
+    rema: { hipY: 0.5, tN: 1.45, kN: -1.5, tF: 1.35, kF: -1.45, pN: 0, pF: 0, lean: 0.25, sN: 1.0, eN: 0.6, sF: 0.9, eF: 0.7, osc: 1 },
   };
   const CH = ['lean', 'head', 'sN', 'eN', 'sF', 'eF', 'hipY', 'tN', 'kN', 'tF', 'kF', 'pN', 'pF', 'rot', 'ly', 'osc', 'bolso', 'flail', 'olhosF'];
   const pega = (nome) => (typeof nome === 'string' ? nome.split('+').reduce((a, n) => Object.assign(a, POSES[n]), {}) : nome);
@@ -69,14 +73,20 @@ window.ATOR = (P, L) => {
       return { coxa, joelho, tor };
     };
     const pernas = [perna(0), perna(1)];
+    if (o.folhaPerna) P.peca(F.elipse(0.13, 0.22), { pai: pernas[0].joelho, prof: 0.02, cor: 0x4c8a4a, y: -0.3, z: 0.105, ...op(0.12) });
     const tronco = P.grupo({ pai: pelve });
     P.peca(F.poligono([[-0.17, -0.05], [0.16, -0.05], [0.2, 0.45], [0.17, 0.82], [0.05, 0.9], [-0.14, 0.9], [-0.21, 0.6]]), { pai: tronco, prof: 0.12, cor: roupa, ...op(0.15) });
     if (o.terno) P.peca(F.poligono([[0.1, 0.88], [0.19, 0.8], [0.14, 0.45]]), { pai: tronco, prof: 0.02, cor: BRANCO, z: 0.065, ...op(0.2) });
-    P.peca(F.ret(0.38, 0.09, 0.03), { pai: tronco, prof: 0.125, cor: escuro(calca, 0.7), y: 0.0, ...op(0.18) }); // cinto
-    if (o.saia) P.peca(F.poligono([[-0.21, 0.05], [0.21, 0.05], [0.32, -(o.saiaH ?? 0.58)], [-0.3, -(o.saiaH ?? 0.58)]]), { pai: pelve, prof: 0.2, cor: o.saia, ...op(0.19) });
+    if (!o.saia) P.peca(F.ret(0.38, 0.09, 0.03), { pai: tronco, prof: 0.125, cor: escuro(calca, 0.7), y: 0.0, ...op(0.18) }); // cinto
+    if (o.saia) { // quadril + uma aba em cada coxa (acompanha andar e sentar, não atravessa a perna)
+      P.peca(F.poligono([[-0.18, 0.06], [0.18, 0.06], [0.17, -0.12], [-0.17, -0.12]]), { pai: pelve, prof: 0.26, cor: o.saia, ...op(0.19) });
+      // abas finas, só um pouco mais largas que a coxa (não viram caixa ao andar)
+      [0, 1].forEach((l) => P.peca(F.poligono([[-0.15, 0.04], [0.15, 0.04], [0.17, -(o.saiaH ?? 0.58)], [-0.17, -(o.saiaH ?? 0.58)]]),
+        { pai: pernas[l].coxa, prof: 0.1, cor: escuro(o.saia, l ? 0.85 : 1), z: l ? -0.012 : 0.012, ...op(0.19) }));
+    }
     // braços: ombro -> cotovelo -> mão
     const braco = (lado) => {
-      const z = lado ? -0.09 : 0.09, f = lado ? 0.8 : 1;
+      const z = (lado ? -1 : 1) * (o.saia ? 0.16 : 0.09), f = lado ? 0.8 : 1;
       const omb = P.grupo({ pai: tronco, x: 0.0, y: 0.78, z });
       P.peca(F.ret(0.15, 0.46, 0.06), { pai: omb, prof: 0.05, cor: escuro(o.semManga ? (o.pele ?? PELE) : roupa, f), y: -0.2, ...op(0.22 + lado * 0.04) });
       const cot = P.grupo({ pai: omb, y: -0.4 });
@@ -86,6 +96,7 @@ window.ATOR = (P, L) => {
       return { omb, cot, mao };
     };
     const bracos = [braco(0), braco(1)];
+    if (o.naMao) o.naMao(bracos[0].mao, op(0.3));
     if (o.band) P.peca(F.ret(0.17, 0.22, 0.03), { pai: bracos[0].omb, prof: 0.06, cor: BRANCO, y: -0.2, z: 0.01, ...op(0.5) });
     // cabeça de perfil (olhando pra +x)
     const pesc = P.grupo({ pai: tronco, x: 0.02, y: 0.86 });
@@ -94,12 +105,17 @@ window.ATOR = (P, L) => {
     P.peca(F.circulo(0.27), { pai: cab, prof: 0.08, cor: o.pele ?? PELE, x: 0.03, y: 0.24, ...op(0.32) });
     P.peca(F.poligono([[0.27, 0.3], [0.37, 0.2], [0.27, 0.17]]), { pai: cab, prof: 0.06, cor: o.pele ?? PELE, ...op(0.34) }); // nariz
     P.peca(F.poligono([[0.18, 0.04], [0.26, 0.06], [0.28, 0.12], [0.1, 0.1]]), { pai: cab, prof: 0.07, cor: o.pele ?? PELE, ...op(0.34) }); // queixo
-    P.peca(F.arco(0.29, 0, Math.PI * 0.42, Math.PI * 1.22), { pai: cab, prof: 0.1, cor: o.cabelo ?? CABELO, x: 0.03, y: 0.25, z: 0.005, ...op(0.38) });
+    if (!o.cabeloLongo) P.peca(F.arco(0.29, 0, Math.PI * 0.42, Math.PI * 1.22), { pai: cab, prof: 0.1, cor: o.cabelo ?? CABELO, x: 0.03, y: 0.25, z: 0.005, ...op(0.38) });
     P.peca(F.circulo(0.065), { pai: cab, prof: 0.02, cor: escuro(PELE, 0.92), x: -0.03, y: 0.22, z: 0.06, ...op(0.4, { esboco: false }) }); // orelha
     if (o.coque) P.peca(F.circulo(0.14), { pai: cab, prof: 0.1, cor: o.cabelo ?? CABELO, x: -0.24, y: 0.36, z: 0.004, ...op(0.39) });
     if (o.cabeloLongo) {
-      const cl = P.peca(F.poligono([[-0.3, 0.42], [0.04, 0.5], [0.06, 0.3], [-0.06, 0.1], [-0.08, -0.12], [-0.2, -0.16], [-0.34, -0.1], [-0.36, 0.2]]), { pai: cab, prof: 0.07, cor: o.cabelo ?? CABELO, x: 0.0, y: 0.04, z: -0.03, ...op(0.37) });
-      P.peca(F.poligono([[0.0, 0.52], [0.3, 0.44], [0.3, 0.36], [0.16, 0.4], [0.02, 0.38]]), { pai: cab, prof: 0.1, cor: o.cabelo ?? CABELO, z: 0.01, ...op(0.385) });
+      // franja + topo (na frente da cabeça) e a parte que cai até o ombro (atrás da cabeça), contornos suaves
+      const topo = new THREE.Shape(); topo.absarc(0.03, 0.25, 0.3, Math.PI * 0.12, Math.PI * 1.1, false);
+      topo.quadraticCurveTo(-0.12, 0.22, 0.0, 0.36); topo.quadraticCurveTo(0.12, 0.39, 0.22, 0.34); topo.lineTo(0.3, 0.36);
+      P.peca(topo, { pai: cab, prof: 0.1, cor: o.cabelo ?? CABELO, z: 0.006, ...op(0.38) });
+      const cai = new THREE.Shape(); cai.moveTo(-0.27, 0.36); cai.quadraticCurveTo(-0.4, 0.1, -0.36, -0.18); cai.quadraticCurveTo(-0.2, -0.22, -0.04, -0.14);
+      cai.quadraticCurveTo(-0.02, 0.05, 0.02, 0.2); cai.lineTo(-0.1, 0.36); cai.closePath();
+      const cl = P.peca(cai, { pai: cab, prof: 0.06, cor: escuro(o.cabelo ?? CABELO, 0.88), z: -0.045, ...op(0.37) });
       cab.userData.cabelo = cl;
     }
     if (o.oculos) {
@@ -198,10 +214,13 @@ window.ATOR = (P, L) => {
       pesc.rotation.z = q.lean * 0.5; cab.rotation.z = q.head;
       if (mala) { mala.rotation.z = -(rot - q.lean + q.sF + q.eF); mala.visible = malaVis(t) > 0.5; }
       const pis = ((t + fase0 * 0.3) % 3.3) < 0.11 || q.olhosF > 0.5; olho.children[0].scale.y = pis ? 0.15 : 1;
-      sob.children[0].rotation.z = fr * 0.1;
+      sob.children[0].rotation.z = fr * 0.1; if (o.cabeloLongo) sob.visible = false;
       if (cab.userData.cabelo && o.vento) cab.userData.cabelo.rotation.z = (typeof o.vento === 'function' ? o.vento(t) : o.vento) * (0.35 + 0.2 * Math.sin(t * 23));
     });
-    g.userData.cab = cab;
+    if (o.olhoInchado) { P.peca(F.elipse(0.075, 0.06), { pai: cab, prof: 0.02, cor: 0xc98a78, x: 0.17, y: 0.3, z: 0.062, ...op(0.45, { esboco: false }) });
+      P.peca(F.ret(0.1, 0.012, 0.005), { pai: cab, prof: 0.02, cor: 0x3a2a20, x: 0.17, y: 0.29, z: 0.072, ...op(0.45, { esboco: false }) }); }
+    if (o.barba) P.peca(F.poligono([[0.02, 0.22], [0.22, 0.18], [0.3, 0.08], [0.24, 0.0], [0.08, 0.0], [-0.02, 0.1]]), { pai: cab, prof: 0.09, cor: o.barba, z: 0.004, ...op(0.45) });
+    g.userData.cab = cab; g.userData.mao = bracos[0].mao;
     return g;
   };
 

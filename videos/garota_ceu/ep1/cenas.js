@@ -74,28 +74,22 @@ window.EP = [
   },
   // 5 cabine: as duas sentadas, janela redonda com nuvens passando
   (P, L, D) => {
-    P.peca(P.F.ret(9, 5, 0.04), { prof: 0.04, cor: 0xe8e2d4, y: 2.0, z: -1.2, ...L.FX }); // parede
+    const jan = L.paredeJanela();
     P.peca(P.F.ret(9, 0.5, 0.04), { prof: 0.5, cor: 0xd6cfbf, y: 3.6, z: -0.9, ...L.FX }); // bagageiro
-    const jan = P.grupo({ x: 0.55, y: 2.15, z: -1.15 });
-    P.peca(P.F.ret(0.75, 0.95, 0.3), { pai: jan, prof: 0.02, cor: 0x8cc3e8, ...L.FX });
-    P.peca(P.F.anel(0.5, 0.38), { pai: jan, prof: 0.06, cor: 0xcfc8b8, z: 0.03, ...L.FX });
-    const nuv = [0, 1, 2].map((i) => P.peca(P.F.nuvem(0.5, 0.22), { pai: jan, prof: 0.01, cor: 0xfbf6ea, x: 0, y: -0.2 + i * 0.2, z: 0.012, ...L.FX }));
-    P.animar((ts, t) => nuv.forEach((n, i) => { n.position.x = ((t * 0.5 + i * 0.4) % 1.2) - 0.6; n.visible = Math.abs(n.position.x) < 0.3; }));
+    const nuv = [0, 1, 2].map((i) => P.peca(P.F.nuvem(0.5, 0.22), { pai: jan, prof: 0.01, cor: 0xfbf6ea, x: 0, y: -0.2 + i * 0.2, ...L.FX }));
+    P.animar((ts, t) => nuv.forEach((n, i) => { n.position.x = ((t * 0.5 + i * 0.4) % 1.6) - 0.8; }));
     L.fileira({ x: 0.2, z: 0.0, D, gente: [Object.assign({}, L.JU, { lugar: 0, poses: [[0, 'sentado'], [1.0, 'sentado+olha_cima', 0.6]], dirs: [[0, 1], [0.8, -1]] }), Object.assign({}, L.MAE, { lugar: 2, poses: [[0, 'sentado+carrega']] })] });
     L.chao(0x5a5048, 0.3, 3, 0, 10);
     L.CAM([[0, [1.6, 4.5, 5.8], [0.2, 1.6, -0.2]], [D, [1.4, 4.2, 5.2], [0.2, 1.65, -0.2]]]);
   },
   // 6 a janela escurece: nuvens pretas, chuva no vidro, ela fica séria
   (P, L, D) => {
-    P.peca(P.F.ret(6, 5, 0.04), { prof: 0.04, cor: 0xe8e2d4, y: 2.0, z: -1.2, ...L.FX });
-    const jan = P.grupo({ x: 0.55, y: 2.15, z: -1.15 });
-    P.peca(P.F.ret(0.75, 0.95, 0.3), { pai: jan, prof: 0.02, cor: 0x8cc3e8, ...L.FX });
-    const esc = [0, 1, 2, 3].map((i) => P.peca(P.F.nuvem(0.9, 0.5), { pai: jan, prof: 0.01, cor: [0x3a4458, 0x2c3446, 0x4a5468, 0x232a38][i], x: 1.2, y: -0.3 + i * 0.22, z: 0.012 + i * 0.001, ...L.FX }));
-    P.animar((ts, t) => esc.forEach((n, i) => { n.position.x = 1.0 - Math.min(1, Math.max(0, (t - 0.6 - i * 0.35) / 1.4)) * 1.1; n.visible = n.position.x < 0.75; }));
+    const jan = L.paredeJanela({ w: 6 });
+    const esc = [0, 1, 2, 3].map((i) => P.peca(P.F.nuvem(0.9, 0.5), { pai: jan, prof: 0.01, cor: [0x3a4458, 0x2c3446, 0x4a5468, 0x232a38][i], x: 1.2, y: -0.3 + i * 0.22, z: 0.01 + i * 0.005, ...L.FX }));
+    P.animar((ts, t) => esc.forEach((n, i) => { n.position.x = 1.2 - Math.min(1, Math.max(0, (t - 0.6 - i * 0.35) / 1.4)) * 1.3; }));
     const gotas = []; const r = P.fixo(8);
-    for (let i = 0; i < 10; i++) gotas.push([P.peca(P.F.ret(0.012, 0.12, 0.005), { pai: jan, prof: 0.005, cor: 0xdfe8f0, x: (r() - 0.5) * 0.55, y: 0.3, z: 0.02, rz: 0.4, ...L.FX }), r()]);
-    P.animar((ts, t) => gotas.forEach(([g, k]) => { const u = (t * 0.9 + k) % 1; g.visible = t > 2.2; g.position.y = 0.35 - u * 0.75; g.position.x = (k - 0.5) * 0.55 + u * 0.15; }));
-    P.peca(P.F.anel(0.5, 0.38), { pai: jan, prof: 0.06, cor: 0xcfc8b8, z: 0.03, ...L.FX });
+    for (let i = 0; i < 10; i++) gotas.push([P.peca(P.F.ret(0.012, 0.12, 0.005), { pai: jan, prof: 0.005, cor: 0xdfe8f0, x: (r() - 0.5) * 0.4, y: 0.3, z: 0.24, rz: 0.4, ...L.FX }), r()]);
+    P.animar((ts, t) => gotas.forEach(([g, k]) => { const u = (t * 0.9 + k) % 1; g.visible = t > 2.2; g.position.y = 0.3 - u * 0.6; g.position.x = (k - 0.5) * 0.4 + u * 0.1; }));
     L.fileira({ x: 0.2, z: 0.0, D, gente: [Object.assign({}, L.JU, { lugar: 0, dirs: [[0, -1]], poses: [[0, 'sentado+olha_cima'], [2.6, 'sentado', 0.8]] })] });
     L.veu(0x1a2a50, (t) => Math.min(0.35, Math.max(0, (t - 0.8) / 3) * 0.35));
     L.CAM([[0, [0.75, 2.3, 3.4], [0.35, 2.05, -0.4]], [D, [0.7, 2.25, 2.9], [0.35, 2.05, -0.4]]]);
