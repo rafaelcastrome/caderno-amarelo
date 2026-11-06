@@ -40,6 +40,9 @@ window.ATOR = (P, L) => {
     mao_orelha: { sN: 2.0, eN: 2.55, head: -0.15, lean: 0.05 },
     apoia: { sN: 1.25, eN: 0.6 },
     ferido: { lean: 0.14, head: -0.12, sF: 0.1, eF: 1.4 },
+    carrega: { sN: 0.95, eN: 1.55, sF: 0.85, eF: 1.65, head: -0.12 },
+    velho: { lean: 0.15, head: -0.06, sN: 0.25, eN: 0.45, sF: 0.1, eF: 0.4 },
+    abraco: { sN: 1.45, eN: 1.1, sF: 1.35, eF: 1.2, head: -0.1, lean: 0.08 },
   };
   const CH = ['lean', 'head', 'sN', 'eN', 'sF', 'eF', 'hipY', 'tN', 'kN', 'tF', 'kF', 'pN', 'pF', 'rot', 'ly', 'osc', 'bolso', 'flail', 'olhosF'];
   const pega = (nome) => (typeof nome === 'string' ? nome.split('+').reduce((a, n) => Object.assign(a, POSES[n]), {}) : nome);
@@ -94,6 +97,16 @@ window.ATOR = (P, L) => {
     P.peca(F.arco(0.29, 0, Math.PI * 0.42, Math.PI * 1.22), { pai: cab, prof: 0.1, cor: o.cabelo ?? CABELO, x: 0.03, y: 0.25, z: 0.005, ...op(0.38) });
     P.peca(F.circulo(0.065), { pai: cab, prof: 0.02, cor: escuro(PELE, 0.92), x: -0.03, y: 0.22, z: 0.06, ...op(0.4, { esboco: false }) }); // orelha
     if (o.coque) P.peca(F.circulo(0.14), { pai: cab, prof: 0.1, cor: o.cabelo ?? CABELO, x: -0.24, y: 0.36, z: 0.004, ...op(0.39) });
+    if (o.oculos) {
+      P.peca(F.anel(0.075, 0.055), { pai: cab, prof: 0.02, cor: 0x2b2622, x: 0.17, y: 0.3, z: 0.065, ...op(0.43, { esboco: false }) });
+      P.peca(F.ret(0.2, 0.022, 0.01), { pai: cab, prof: 0.02, cor: 0x2b2622, x: 0.0, y: 0.32, z: 0.065, ...op(0.43, { esboco: false }) });
+    }
+    if (o.bebe) { // bebê enrolado na manta, no colo (use a pose 'carrega')
+      const b = P.grupo({ pai: tronco, x: 0.27, y: 0.52, z: 0.14 });
+      P.peca(F.circulo(0.17), { pai: b, prof: 0.16, cor: o.bebe === true ? 0xf2e2b8 : o.bebe, x: -0.08, ...op(0.45) });
+      P.peca(F.circulo(0.15), { pai: b, prof: 0.16, cor: o.bebe === true ? 0xf2e2b8 : o.bebe, x: 0.08, ...op(0.45) });
+      P.peca(F.circulo(0.085), { pai: b, prof: 0.1, cor: PELE, x: 0.17, y: 0.1, z: 0.03, ...op(0.47) });
+    }
     const olho = P.peca(F.circulo(0.032), { pai: cab, prof: 0.02, cor: 0x231c17, x: 0.17, y: 0.3, z: 0.05, ...op(0.42, { esboco: false }) });
     const sob = P.peca(F.ret(0.1, 0.025, 0.01), { pai: cab, prof: 0.02, cor: o.cabelo ?? CABELO, x: 0.17, y: 0.38, z: 0.05, ...op(0.42, { esboco: false }) });
     const boca = P.peca(F.elipse ? F.elipse(0.045, 0.03) : F.circulo(0.035), { pai: cab, prof: 0.02, cor: 0x7a2a24, x: 0.22, y: 0.12, z: 0.05, ...op(0.44, { esboco: false }) });
