@@ -70,6 +70,7 @@ window.ATOR = (P, L) => {
     P.peca(F.poligono([[-0.17, -0.05], [0.16, -0.05], [0.2, 0.45], [0.17, 0.82], [0.05, 0.9], [-0.14, 0.9], [-0.21, 0.6]]), { pai: tronco, prof: 0.12, cor: roupa, ...op(0.15) });
     if (o.terno) P.peca(F.poligono([[0.1, 0.88], [0.19, 0.8], [0.14, 0.45]]), { pai: tronco, prof: 0.02, cor: BRANCO, z: 0.065, ...op(0.2) });
     P.peca(F.ret(0.38, 0.09, 0.03), { pai: tronco, prof: 0.125, cor: escuro(calca, 0.7), y: 0.0, ...op(0.18) }); // cinto
+    if (o.saia) P.peca(F.poligono([[-0.21, 0.05], [0.21, 0.05], [0.32, -0.58], [-0.3, -0.58]]), { pai: pelve, prof: 0.2, cor: o.saia, ...op(0.19) });
     // braços: ombro -> cotovelo -> mão
     const braco = (lado) => {
       const z = lado ? -0.09 : 0.09, f = lado ? 0.8 : 1;
@@ -92,6 +93,7 @@ window.ATOR = (P, L) => {
     P.peca(F.poligono([[0.18, 0.04], [0.26, 0.06], [0.28, 0.12], [0.1, 0.1]]), { pai: cab, prof: 0.07, cor: o.pele ?? PELE, ...op(0.34) }); // queixo
     P.peca(F.arco(0.29, 0, Math.PI * 0.42, Math.PI * 1.22), { pai: cab, prof: 0.1, cor: o.cabelo ?? CABELO, x: 0.03, y: 0.25, z: 0.005, ...op(0.38) });
     P.peca(F.circulo(0.065), { pai: cab, prof: 0.02, cor: escuro(PELE, 0.92), x: -0.03, y: 0.22, z: 0.06, ...op(0.4, { esboco: false }) }); // orelha
+    if (o.coque) P.peca(F.circulo(0.14), { pai: cab, prof: 0.1, cor: o.cabelo ?? CABELO, x: -0.24, y: 0.36, z: 0.004, ...op(0.39) });
     const olho = P.peca(F.circulo(0.032), { pai: cab, prof: 0.02, cor: 0x231c17, x: 0.17, y: 0.3, z: 0.05, ...op(0.42, { esboco: false }) });
     const sob = P.peca(F.ret(0.1, 0.025, 0.01), { pai: cab, prof: 0.02, cor: o.cabelo ?? CABELO, x: 0.17, y: 0.38, z: 0.05, ...op(0.42, { esboco: false }) });
     const boca = P.peca(F.elipse ? F.elipse(0.045, 0.03) : F.circulo(0.035), { pai: cab, prof: 0.02, cor: 0x7a2a24, x: 0.22, y: 0.12, z: 0.05, ...op(0.44, { esboco: false }) });
