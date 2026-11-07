@@ -15,7 +15,7 @@ TEXTOS = {**{f"N{i+1}": t for i, t in enumerate(p.strip() for p in open(f"{R}/na
           "J1": "Mãe, posso ficar com a janela?", "M1": "Pode, filha. É uma horinha só... teu pai já tá esperando a gente.",
           "J2": "Mãe... olha lá fora!", "M2": "Calma, filha. Segura a minha mão.", "M3": "“Agora acabou tudo.”", "J3": "Mãe?... Mãe!"}
 COR = {"N": (255, 255, 255), "J": (255, 226, 120), "M": (255, 190, 175)}
-LAB = {1: ("A GAROTA QUE CAIU DO CÉU\nhistória real · parte 1", 0.15, None), 2: ("Lima · Peru · 24/12/1971", 0.3, None),
+LAB = {2: ("Lima · Peru · 24/12/1971", 0.3, None),
        3: ("cena reconstruída", 0.3, "pequena"), 6: ("cena reconstruída", 0.3, "pequena"), 8: ("segundo o relato dela", 4.2, "pequena")}
 ini = list(np.cumsum([0] + [c[0] for c in CENAS])); TOT = ini[-1]
 run = subprocess.check_call
@@ -53,7 +53,22 @@ for c, (D, fs) in enumerate(CENAS, 1):
         tam = [len(x) for x in pedacos]; a = ini[c - 1] + t
         for x, n in zip(pedacos, tam): b = a + d * n / sum(tam); SUB.append((a, b + 0.05, legenda(x, COR[nome[0]]))); a = b
 WM = etiqueta("@Cardeno_Amarelo", 30); LABS = {k: etiqueta(v[0], 34 if v[2] else (46 if "\n" in v[0] else 52)) for k, v in LAB.items()}
-FIM = etiqueta("A PARTE 2 já tá\nno meu perfil", 56); B0, B1 = botao(False), botao(True)
+B0, B1 = botao(False), botao(True)
+# folha amarela pautada do Caderno Amarelo (abre e fecha o episódio)
+def pagina(linhas):
+    im = Image.new("RGBA", (W, H), (244, 221, 136, 255)); d = ImageDraw.Draw(im); r = np.random.default_rng(5)
+    for _ in range(9000): x, y = r.integers(0, W), r.integers(0, H); d.point((int(x), int(y)), fill=(120, 100, 40, int(r.integers(5, 22))))
+    for y in range(150, H, 46): d.line([(0, y), (W, y)], fill=(105, 150, 195, 150), width=2)
+    for x in (84, 90): d.line([(x, 0), (x, H)], fill=(205, 85, 85, 190), width=2)
+    for txt, y, tam, cor in linhas: d.text((W // 2 + 20, y), txt, font=fnt(tam), fill=cor, anchor="mm")
+    sh = Image.new("RGBA", (W, 40), (0, 0, 0, 0)); ImageDraw.Draw(sh).rectangle([0, 0, W, 40], fill=(0, 0, 0, 0))
+    return im
+TINTA, VERM = (40, 38, 60, 255), (200, 45, 35, 255)
+ABRE = pagina([("A GAROTA QUE", 470, 96, TINTA), ("CAIU DO CÉU", 575, 96, TINTA), ("história real · parte 1", 690, 50, VERM)])
+FECHA = pagina([("A PARTE 2", 430, 92, TINTA), ("já tá no meu perfil", 530, 64, TINTA)])
+SOMBRA = Image.new("RGBA", (W, 60), (0, 0, 0, 0))
+for i in range(60): ImageDraw.Draw(SOMBRA).line([(0, i), (W, i)], fill=(0, 0, 0, int(90 * (1 - i / 60))))
+ease = lambda k: (lambda k: k * k * (3 - 2 * k))(min(1, max(0, k)))
 # 1) cada cena: começo do clipe, 720x1280, na duração certa; som do clipe guardado
 partes = []
 for i, (D, _) in enumerate(CENAS, 1):
@@ -91,10 +106,12 @@ while True:
         l2 = lab.resize((max(1, int(lab.width * s)), max(1, int(lab.height * s)))); im.alpha_composite(l2, ((W - l2.width) // 2, 105 - (l2.height - lab.height) // 2))
     for a, z, img in SUB:
         if a <= t < z: im.alpha_composite(img, (0, H - 330))
-    if c == len(CENAS) and tc > 5.0:
-        k = min(1, (tc - 5.0) / 0.3); f2 = FIM.copy(); f2.putalpha(Image.eval(FIM.getchannel("A"), lambda a: int(a * k))); im.alpha_composite(f2, ((W - FIM.width) // 2, 420))
-        bt = B1 if tc > 7.6 else B0; s = min(1, (tc - 5.6) / 0.25) * (0.92 if 7.45 < tc < 7.6 else 1)
-        if tc > 5.6: b2 = bt.resize((max(1, int(bt.width * s)), max(1, int(bt.height * s)))); im.alpha_composite(b2, ((W - b2.width) // 2, 640))
+    if t < 1.2: # abre: a folha sobe e revela o filme
+        y = int(-H * ease((t - 0.55) / 0.6)); im.alpha_composite(ABRE, (0, y)); im.alpha_composite(SOMBRA, (0, min(H - 1, y + H)))
+    if c == len(CENAS) and tc > 5.0: # fecha: a folha volta de baixo com o convite e o Seguir
+        y = int(H * (1 - ease((tc - 5.0) / 0.5))); im.alpha_composite(SOMBRA, (0, max(0, y - 60))) if y > 60 else None; im.alpha_composite(FECHA, (0, y))
+        bt = B1 if tc > 7.6 else B0; s = min(1, max(0, (tc - 5.8) / 0.25)) * (0.92 if 7.45 < tc < 7.6 else 1)
+        if tc > 5.8: b2 = bt.resize((max(1, int(bt.width * s)), max(1, int(bt.height * s)))); im.alpha_composite(b2, ((W - b2.width) // 2, y + 640))
     x = int((W - WM.width) / 2 + math.sin(t * 0.35) * 200); im.alpha_composite(WM, (x, H - 120))
     enc.stdin.write(im.convert("RGB").tobytes()); fr += 1
 enc.stdin.close(); enc.wait()
