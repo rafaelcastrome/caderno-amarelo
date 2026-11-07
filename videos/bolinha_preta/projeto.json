@@ -1,0 +1,21 @@
+{
+  "titulo": "Quantas bolinhas pretas? (grade cintilante)",
+  "marca": { "handle": "Cardeno_Amarelo", "nome": "Caderno Amarelo" },
+  "marcaDagua": true,
+  "pausaPadrao": 0.6,
+  "fontes": [
+    { "fato": "Grade cintilante: bolinhas brancas nos cruzamentos de uma grade cinza sobre fundo preto parecem piscar pretas; descoberta por Elke Lingelbach em 1994", "fonte": "M. Schrauf, B. Lingelbach, E. R. Wist, 'The scintillating grid illusion', Vision Research 37(8), 1997", "url": "https://doi.org/10.1016/S0042-6989(96)00255-6" },
+    { "fato": "A explicação clássica (inibição lateral, grade de Hermann) não explica tudo e o mecanismo segue debatido", "fonte": "P. H. Schiller, C. E. Carvey, 'The Hermann grid illusion revisited', Perception 34, 2005", "url": "https://doi.org/10.1068/p5447" }
+  ],
+  "cenas": [
+    { "fala": "Conta quantas bolinhas pretas tem aqui! Rápido!" },
+    { "fala": "(contagem 4-3-2-1)" },
+    { "fala": "Contou? Difícil, né... elas fogem quando tu olha!" },
+    { "fala": "Agora olha fixo pra uma bolinha só." },
+    { "fala": "Viu? A que tu olha é branca... e as do lado ficam piscando preto." },
+    { "fala": "Agora olha o que acontece quando eu apago as linhas." },
+    { "fala": "Zero! Não tem nenhuma bolinha preta. Todas são brancas!" },
+    { "fala": "Quem pinta elas de preto é o teu cérebro... e até hoje os cientistas brigam pra explicar por quê." },
+    { "fala": "Quantas tu contou? Comenta aí... e volta pro começo pra tentar pegar uma!" }
+  ]
+}
