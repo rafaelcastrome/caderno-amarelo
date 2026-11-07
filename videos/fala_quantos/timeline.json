@@ -1,0 +1,60 @@
+{
+  "total": 46.666,
+  "motor_tts": "gemini Algieba (gemini-3.1-flash-tts-preview)",
+  "cenas": [
+    {
+      "cena": 1,
+      "start": 0.0,
+      "end": 4.783,
+      "fala": 4.483
+    },
+    {
+      "cena": 2,
+      "start": 4.783,
+      "end": 7.883,
+      "fala": 2.6
+    },
+    {
+      "cena": 3,
+      "start": 7.883,
+      "end": 13.38,
+      "fala": 5.197
+    },
+    {
+      "cena": 4,
+      "start": 13.38,
+      "end": 19.18,
+      "fala": 5.4
+    },
+    {
+      "cena": 5,
+      "start": 19.18,
+      "end": 23.202,
+      "fala": 3.421
+    },
+    {
+      "cena": 6,
+      "start": 23.202,
+      "end": 30.536,
+      "fala": 7.135
+    },
+    {
+      "cena": 7,
+      "start": 30.536,
+      "end": 38.536,
+      "fala": 7.7
+    },
+    {
+      "cena": 8,
+      "start": 38.536,
+      "end": 42.485,
+      "fala": 1.749
+    },
+    {
+      "cena": 9,
+      "start": 42.485,
+      "end": 46.666,
+      "fala": 2.681
+    }
+  ]
+}

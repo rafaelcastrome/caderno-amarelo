@@ -1,0 +1,45 @@
+{
+  "titulo": "Fala quantos tem (Fala a cor 3)",
+  "marca": {
+    "handle": "Cardeno_Amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": true,
+  "pausaPadrao": 0.6,
+  "fontes": [
+    {
+      "fato": "A leitura automática do número atrapalha dizer a quantidade (efeito Stroop numérico / contagem)",
+      "fonte": "J. R. Stroop, 'Studies of interference in serial verbal reactions', Journal of Experimental Psychology, 1935",
+      "url": "https://doi.org/10.1037/h0054651"
+    }
+  ],
+  "cenas": [
+    {
+      "fala": "Fala QUANTOS tem! Não o número... a quantidade! Em voz alta... e rápido!"
+    },
+    {
+      "fala": "(tiques nível 1)"
+    },
+    {
+      "fala": "Fácil, né? Agora com número. Fala quantos tem... não o número que tá escrito!"
+    },
+    {
+      "fala": "(tiques nível 2)"
+    },
+    {
+      "fala": "Travou, né?! Teu cérebro lê o número antes de conseguir contar."
+    },
+    {
+      "fala": "Agora o nível impossível. Azul... fala quantos tem. Vermelho... fala o número. Valendo!"
+    },
+    {
+      "fala": "(tiques nível 3)"
+    },
+    {
+      "fala": "Quantas tu errou? Comenta aí!"
+    },
+    {
+      "fala": "Manda pro amigo que se acha esperto... e volta pro começo!"
+    }
+  ]
+}
