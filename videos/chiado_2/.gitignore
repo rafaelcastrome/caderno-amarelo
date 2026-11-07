@@ -1,0 +1,5 @@
+frames/
+preview/
+audio/*.wav
+*_bruto.mp4
+render.log
