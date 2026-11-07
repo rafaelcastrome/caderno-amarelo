@@ -6,9 +6,10 @@ window.CENAS = function (WB) {
   const wmRect = document.querySelector('rect[fill="#fffaf0"]');
   if (wmRect) { const wm = wmRect.parentNode; WB.effect(t => wm.setAttribute('transform', `translate(${(280 * Math.sin(2 * Math.PI * t / 14)).toFixed(1)} 0)`)); }
   // gancho na tela desde o quadro 0
-  WB.showNow(WB.textStrokes('parte 2', 900, 95, 60, INK.gray, null, 'middle').strokes);
-  WB.showNow(WB.textStrokes('TU NÃO VAI ENTENDER', 540, 215, 96, INK.black, null, 'middle').strokes);
-  WB.showNow(WB.textStrokes('ESSA FRASE', 540, 335, 120, INK.red, null, 'middle').strokes);
+  const p2 = C.stamp('PARTE 2', 540, 115, { size: 96, color: INK.red, rot: -4 });
+  WB.showNow([p2.box, p2.text].flat());
+  WB.showNow(WB.textStrokes('TU NÃO VAI ENTENDER', 540, 305, 96, INK.black, null, 'middle').strokes);
+  WB.showNow(WB.textStrokes('ESSA FRASE', 540, 420, 120, INK.red, null, 'middle').strokes);
 
   // c1: alto-falante
   const spk = [WB.strokePath(WB.roughRect(330, 520, 410, 640), INK.black, 8),
