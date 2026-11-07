@@ -55,7 +55,7 @@ window.EP = [
     P.peca(P.F.ret(16, 7.4, 0.02), { prof: 0.03, cor: 0x1d3a26, y: 2.6, z: -3.7, ...L.FX });
     for (let i = 0; i < 6; i++) L.arvoreAlta({ x: -4 + i * 1.6, z: -2.4 + (i % 2) * 1.2, h: 6 + (i % 3), tom: i % 3, semente: 40 + i });
     const r = P.fixo(19); for (let i = 0; i < 34; i++) P.peca(P.F.nuvem(2.4, 1.5), { prof: 0.08, cor: [0x1f4a2c, 0x2a5e34, 0x37733f][i % 3], x: -5 + (i / 34) * 10 + r() * 0.4, y: 6.6 + r() * 1.6, z: -2.4 + r() * 1.6, ...L.FX });
-    L.aviao({ x: -4.5, y: 9.4, z: -3.3, x1: 4.5, t0: 0.2, t1: 3.6, t: 0 }).scale.setScalar(1.4);
+    L.aviao({ x: -4.5, y: 9.4, z: -3.3, x1: 4.5, t0: 0.2, t1: 3.6, t: -1 }).scale.setScalar(1.4);
     L.chao(0x4a3a28, 3.0, 14, 0, 20);
     L.ator(Object.assign({}, L.JU_ANDA, { x: -0.6, z: 0.8, D, t: -1, poses: [[0, 'ombro_quebrado+aponta_cima'], [3.0, 'ombro_quebrado+olha_cima', 0.3], [3.6, 'ombro_quebrado+aponta_cima', 0.3], [6.2, 'ombro_quebrado+olha_cima', 0.5]] }));
     L.CAM(CORTE([[0, [0.0, 5.2, 17.0], [0.0, 5.2, 0.0]], [3.6, [0.0, 1.7, 5.8], [-0.6, 1.8, 0.8]], [D, [-0.1, 1.6, 5.2], [-0.6, 1.9, 0.8]]]));

@@ -8,7 +8,7 @@ window.EP = [
     nuv.forEach(([n, k]) => { n.rotation.x = -Math.PI / 2; });
     P.animar((ts, t) => nuv.forEach(([n, k], i) => { n.position.y = ((k * 9 + t * (2.2 + k)) % 9); n.position.x = (k - 0.5) * 7 + Math.sin(i) * 0.4; }));
     const gira = P.grupo({ y: 9.6 });
-    const f = L.fileira({ pai: gira, rx: -Math.PI / 2, x: -0.1, z: -0.2, D, gente: [Object.assign({}, L.JU, { lugar: 0, vento: 1, poses: [[0, 'sentado+bracos_cima']] })], cinto: 1 });
+    const f = L.fileira({ pai: gira, rx: -Math.PI / 2, x: -0.1, z: -0.2, D, gente: [Object.assign({}, L.JU, { lugar: 0, vento: 1, poses: [[0, 'sentado+bracos_frente']] })], cinto: 1 });
     f.position.set(0.2, 0, 0.9);
     P.animar((ts, t) => { gira.rotation.y = t * 0.35; gira.position.y = 9.6 + Math.sin(t * 3) * 0.05; });
     L.CAM([[0, [0.0, 18.6, 0.4], [0, 0, 0]], [D, [0.0, 17.2, 0.35], [0, 0, 0]]]);
@@ -80,7 +80,7 @@ window.EP = [
     P.animar((ts, t) => nuv.forEach((n, i) => { n.position.x = ((t * 0.5 + i * 0.4) % 1.6) - 0.8; }));
     L.fileira({ x: 0.2, z: 0.0, D, gente: [Object.assign({}, L.JU, { lugar: 0, poses: [[0, 'sentado'], [1.0, 'sentado+olha_cima', 0.6]], dirs: [[0, 1], [0.8, -1]] }), Object.assign({}, L.MAE, { lugar: 2, poses: [[0, 'sentado+carrega']] })] });
     L.chao(0x5a5048, 0.3, 3, 0, 10);
-    L.CAM([[0, [1.6, 4.5, 5.8], [0.2, 1.6, -0.2]], [D, [1.4, 4.2, 5.2], [0.2, 1.65, -0.2]]]);
+    L.CAM([[0, [1.4, 6.0, 4.8], [0.2, 1.5, -0.3]], [D, [1.3, 5.7, 4.3], [0.2, 1.55, -0.3]]]);
   },
   // 6 a janela escurece: nuvens pretas, chuva no vidro, ela fica séria
   (P, L, D) => {
@@ -133,7 +133,8 @@ window.EP = [
     P.peca(P.F.ret(6, 5, 0.04), { prof: 0.04, cor: 0x8a8a90, y: 2.0, z: -1.2, ...L.FX });
     L.fileira({ x: 0.2, z: 0.0, D, gente: [Object.assign({}, L.JU, { lugar: 0, dirs: [[0, 1]], poses: [[0, 'sentado'], [1.2, 'sentado+olha_cima', 1.4]] }), Object.assign({}, L.MAE, { lugar: 2, poses: [[0, 'sentado']] })] });
     L.veu(0x101a38, 0.42);
-    L.CAM([[0, [1.2, 3.9, 4.2], [0.3, 1.85, -0.2]], [D, [1.1, 3.7, 3.7], [0.3, 1.85, -0.2]]]);
+    L.chao(0x3a3836, 1.0, 6, 0, 10);
+    L.CAM([[0, [1.3, 5.8, 4.8], [0.3, 1.3, 0.0]], [D, [1.2, 5.5, 4.3], [0.3, 1.35, 0.0]]]);
   },
   // 10 olhando a asa pela janela: clarão enorme em cima do motor
   (P, L, D) => {
@@ -175,7 +176,7 @@ window.EP = [
     const pedacos = []; for (let i = 0; i < 7; i++) pedacos.push(P.peca(P.F.poligono([[0, 0], [0.4 + r() * 0.4, 0.05], [0.2, 0.3]]), { prof: 0.03, cor: [0xf4f1ea, 0xd9d4ca, 0x2f5d9a][i % 3], x: -1.5 + r() * 3, y: 6.5, z: -1.6, ...L.FX }));
     P.animar((ts, t) => pedacos.forEach((p, i) => { p.position.y = 5.6 + t * (0.5 + i * 0.08); p.rotation.z = t * (1 + i * 0.3); p.visible = t < D - 1; }));
     const gira = P.grupo({ x: 0.0, y: 1.6, z: 0.6 });
-    L.fileira({ pai: gira, x: -0.2, y: -0.6, D, gente: [Object.assign({}, L.JU, { lugar: 0, vento: 1, poses: [[0, 'sentado+bracos_cima']] })], cinto: 1 });
+    L.fileira({ pai: gira, x: -0.2, y: -0.6, D, gente: [Object.assign({}, L.JU, { lugar: 0, vento: 1, poses: [[0, 'sentado+bracos_frente']] })], cinto: 1 });
     P.animar((ts, t) => { gira.rotation.z = Math.sin(t * 0.9) * 0.35; gira.position.y = 1.6 + Math.sin(t * 2.2) * 0.08; });
     L.CAM([[0, [0.4, 2.2, 7.6], [0.0, 2.0, 0.0]], [D, [0.2, 2.4, 8.6], [0.0, 2.2, 0.0]]]);
     L.tremor([[0, 0.05, D]]);
@@ -184,7 +185,7 @@ window.EP = [
   (P, L, D) => {
     L.copas({ semente: 5, n: 170, rio: (x) => Math.sin(x * 0.5) * 1.6 + 1.2 });
     const gira = P.grupo({ y: 2.0 });
-    L.fileira({ pai: gira, rx: -Math.PI / 2, x: 0.0, z: -0.2, D, gente: [Object.assign({}, L.JU, { lugar: 0, vento: 1, poses: [[0, 'sentado+bracos_cima']] })], cinto: 1 }).position.set(-0.2, 0, 0.9);
+    L.fileira({ pai: gira, rx: -Math.PI / 2, x: 0.0, z: -0.2, D, gente: [Object.assign({}, L.JU, { lugar: 0, vento: 1, poses: [[0, 'sentado+bracos_frente']] })], cinto: 1 }).position.set(-0.2, 0, 0.9);
     P.animar((ts, t) => { gira.rotation.y = t * 1.6; });
     L.CAM([[0, [0.0, 18.0, 0.3], [0, 0, 0]], [D, [0.0, 4.4, 0.1], [0, 0, 0]]]);
     L.veu(0x000000, (t) => Math.min(1, Math.max(0, (t - (D - 0.7)) / 0.5)));

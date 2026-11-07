@@ -43,8 +43,8 @@ window.EP = [];
       rioFundo(P, L); L.chao(0x4a3a28, 0.4, 4.2, 0, 16);
       const piso = L.cabana({ x: 1.6, z: -0.2 });
       L.ator(Object.assign({}, L.JU_FERIDA, { pai: piso, x: -0.2, z: 0.0, D, t: -1, olhoInchado: true, poses: [[0, DEITA_OLHA]] }));
-      [0, 1, 2].forEach((k) => L.ator(Object.assign({}, HOMEM(k), { x: -1.4 - k * 0.75, z: 1.0 + k * 0.12, D, t: -1,
-        mov: [[0, -1.4 - k * 0.75], [1.2, -1.4 - k * 0.75], [1.7, -1.75 - k * 0.75, 1.0 + k * 0.12]], poses: [[0, 'normal'], [1.2, 'protege', 0.3], [2.6, 'normal', 0.6]] })));
+      [0, 1, 2].forEach((k) => L.ator(Object.assign({}, HOMEM(k), { x: -0.8 - k * 0.8, z: 1.0 + k * 0.12, D, t: -1,
+        mov: [[0, -0.8 - k * 0.8], [1.2, -0.8 - k * 0.8], [1.7, -1.1 - k * 0.8, 1.0 + k * 0.12]], poses: [[0, 'normal'], [1.2, { lean: -0.14, head: 0.12, sN: 0.75, eN: 0.5, sF: 0.6, eF: 0.5 }, 0.3], [3.0, 'normal', 0.8]] })));
       L.veu(0x0e2a14, 0.14);
       L.CAM([[0, [-0.6, 2.2, 13.0], [-0.6, 1.4, 0.4]], [D, [-0.6, 2.2, 12.2], [-0.6, 1.4, 0.4]]]);
     },
@@ -130,7 +130,7 @@ window.EP = [];
       L.ator(Object.assign({}, ADULTA(L), { x: -0.2, z: 0.8, D, t: -1, poses: [[0, 'desenha'], [D * 0.55, 'olha_cima', 0.6]],
         naMao: (m, op) => P.peca(P.F.ret(0.3, 0.4, 0.02), Object.assign({ pai: m, prof: 0.03, cor: 0x8a6a42, x: 0.1, y: 0.05 }, op)) }));
       L.veu(0x0e2a14, 0.06);
-      L.CAM([[0, [0.6, 1.8, 7.0], [0.0, 1.4, 0.8]], [D, [0.4, 1.8, 6.2], [0.0, 1.45, 0.8]]]);
+      L.CAM([[0, [0.6, 1.9, 9.2], [0.0, 1.5, 0.8]], [D, [0.4, 1.9, 8.4], [0.0, 1.5, 0.8]]]);
     },
     // 13 de cima: a floresta inteira, o rio e a estação pequenininha
     (P, L, D) => {
