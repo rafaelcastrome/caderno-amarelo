@@ -7,16 +7,19 @@ R = os.path.dirname(os.path.abspath(__file__)); V = f"{R}/../flow_p1/video"; A =
 fnt = lambda s: ImageFont.truetype(f"{R}/../../duas_bombas/Caveat-Bold.ttf", s)
 # (duração, [(fala, início na cena)])
 CENAS = [
- (5.0, [("N1", 0.4)]), (10.6, [("N2", 0.4)]), (7.9, [("J1", 0.5), ("M1", 3.0)]), (4.3, [("N3", 0.4)]), (5.3, [("N4", 0.4)]),
- (5.4, [("J2", 0.4), ("M2", 2.7)]), (3.0, [("N5", 0.4)]), (6.6, [("N6", 0.4), ("M3", 4.4)]), (3.2, [("N7", 0.4)]), (3.2, [("N8", 0.5)]),
- (6.2, [("N9", 0.3)]), (3.6, [("N10", 0.4)]), (2.6, []), (7.8, [("J3", 0.6), ("N11", 3.4)]), (9.5, [("N12", 0.5)]),
+ (5.0, [("N1", 0.4)]), (10.6, [("N2", 0.4)]), (7.6, [("J1f", 0.58), ("M1f", 3.18)]), (4.3, [("N3", 0.4)]), (5.3, [("N4", 0.4)]),
+ (5.6, [("J2f", 0.53), ("M2f", 3.18)]), (6.9, [("N5", 0.4), ("N6", 3.0)]), (3.0, [("M3", 0.74)]), (3.2, [("N7", 0.4)]), (3.2, [("N8", 0.5)]),
+ (6.2, [("N9", 0.3)]), (3.6, [("N10", 0.4)]), (2.6, []), (8.7, [("J3a", 0.35), ("J3b", 3.16), ("N11", 4.4)]), (9.5, [("N12", 0.5)]),
 ]
+# cenas com fala: clipe refeito no Flow com a boca mexendo; vozes encaixadas no tempo da boca (sem acelerar o vídeo).
+# O áudio do Flow (voz gerada por ele) é descartado; o ambiente vem do clipe original da cena.
+FALA = {3: "fala03", 6: "fala06", 8: "fala08_limpo", 14: "fala14"}
 TEXTOS = {**{f"N{i+1}": t for i, t in enumerate(p.strip() for p in open(f"{R}/narrador.txt", encoding="utf-8").read().split("\n\n") if p.strip())},
           "J1": "Mãe, posso ficar com a janela?", "M1": "Pode, filha. É uma horinha só... teu pai já tá esperando a gente.",
-          "J2": "Mãe... olha lá fora!", "M2": "Calma, filha. Segura a minha mão.", "M3": "“Agora acabou tudo.”", "J3": "Mãe?... Mãe!"}
+          "J2": "Mãe... olha lá fora!", "M2": "Calma, filha. Segura a minha mão.", "M3": "“Agora acabou tudo.”", "J3": "Mãe?... Mãe!", "J3a": "Mãe?", "J3b": "Mãe!"}
 COR = {"N": (255, 255, 255), "J": (255, 226, 120), "M": (255, 190, 175)}
 LAB = {2: ("Lima · Peru · 24/12/1971", 0.3, None),
-       3: ("cena reconstruída", 0.3, "pequena"), 6: ("cena reconstruída", 0.3, "pequena"), 8: ("segundo o relato dela", 4.2, "pequena")}
+       3: ("cena reconstruída", 0.3, "pequena"), 6: ("cena reconstruída", 0.3, "pequena"), 8: ("segundo o relato dela", 0.2, "pequena")}
 ini = list(np.cumsum([0] + [c[0] for c in CENAS])); TOT = ini[-1]
 run = subprocess.check_call
 def dur(f):
@@ -48,7 +51,7 @@ def botao(seguindo):
 SUB = []
 for c, (D, fs) in enumerate(CENAS, 1):
     for nome, t in fs:
-        txt = TEXTOS[nome]; d = dur(f"{A}/{nome}.wav")
+        txt = TEXTOS.get(nome, TEXTOS.get(nome[:2])); d = dur(f"{A}/{nome}.wav")
         pedacos = [x.strip() for x in re.split(r"(?<=[.?!])\s+", txt) if x.strip()]
         tam = [len(x) for x in pedacos]; a = ini[c - 1] + t
         for x, n in zip(pedacos, tam): b = a + d * n / sum(tam); SUB.append((a, b + 0.05, legenda(x, COR[nome[0]]))); a = b
@@ -73,6 +76,12 @@ ease = lambda k: (lambda k: k * k * (3 - 2 * k))(min(1, max(0, k)))
 partes = []
 for i, (D, _) in enumerate(CENAS, 1):
     src = f"{V}/cena{i:02d}.mp4"; out = f"{R}/tmp_c{i:02d}.mp4"; vd = vdur(src); k = max(1.0, D / (vd - 0.1))
+    if i in FALA:  # vídeo da fala em velocidade real (congela o último quadro se faltar), som ambiente do clipe original
+        run(["ffmpeg", "-y", "-v", "error", "-i", f"{V}/{FALA[i]}.mp4", "-i", src, "-f", "lavfi", "-t", str(D), "-i", "anullsrc=r=44100:cl=stereo", "-filter_complex",
+             f"[0:v]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},tpad=stop_mode=clone:stop_duration=3,trim=0:{D},setpts=PTS-STARTPTS[v];"
+             f"[1:a]aresample=44100,aformat=channel_layouts=stereo,atrim=0:{D},asetpts=PTS-STARTPTS[a0];[a0][2:a]amix=inputs=2:duration=longest:normalize=0,atrim=0:{D}[a]",
+             "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "18", "-c:a", "pcm_s16le", out.replace(".mp4", ".mkv")])
+        partes.append(out.replace(".mp4", ".mkv")); continue
     run(["ffmpeg", "-y", "-v", "error", "-i", src, "-f", "lavfi", "-t", str(D), "-i", "anullsrc=r=44100:cl=stereo", "-filter_complex",
          f"[0:v]setpts={k:.4f}*PTS,scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},trim=0:{D},setpts=PTS-STARTPTS[v];"
          f"[0:a]atempo={1/k:.4f},aresample=44100,aformat=channel_layouts=stereo,atrim=0:{D},asetpts=PTS-STARTPTS[a0];[a0][1:a]amix=inputs=2:duration=longest:normalize=0,atrim=0:{D}[a]",
@@ -94,7 +103,7 @@ run(["ffmpeg", "-y", "-v", "error", *ins, "-i", f"{R}/tmp_v.mkv", "-filter_compl
 dec = subprocess.Popen(["ffmpeg", "-v", "error", "-i", f"{R}/tmp_v.mkv", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], stdout=subprocess.PIPE)
 out = f"{R}/tmp_final.mp4"
 enc = subprocess.Popen(["ffmpeg", "-y", "-v", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-", "-i", f"{R}/tmp_mix.wav",
-    "-c:v", "libx264", "-crf", "27", "-preset", "medium", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k", "-af", "loudnorm=I=-15:TP=-1.5", "-shortest", "-movflags", "+faststart", out], stdin=subprocess.PIPE)
+    "-c:v", "libx264", "-crf", "31", "-preset", "medium", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k", "-af", "loudnorm=I=-15:TP=-1.5", "-shortest", "-movflags", "+faststart", out], stdin=subprocess.PIPE)
 fr = 0
 while True:
     b = dec.stdout.read(W * H * 3)
