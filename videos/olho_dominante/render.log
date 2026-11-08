@@ -1,12 +1,12 @@
-Renderizando 1364 quadros (45.45s) com 4 páginas...
-  150/1364 quadros (33s, faltam ~4.5 min)
-  300/1364 quadros (66s, faltam ~3.9 min)
-  450/1364 quadros (98s, faltam ~3.3 min)
-  600/1364 quadros (131s, faltam ~2.8 min)
-  750/1364 quadros (163s, faltam ~2.2 min)
-  900/1364 quadros (194s, faltam ~1.7 min)
-  1050/1364 quadros (225s, faltam ~1.1 min)
-  1200/1364 quadros (256s, faltam ~0.6 min)
-  1350/1364 quadros (288s, faltam ~0.0 min)
+Renderizando 1427 quadros (47.55s) com 4 páginas...
+  150/1427 quadros (34s, faltam ~4.8 min)
+  300/1427 quadros (65s, faltam ~4.1 min)
+  450/1427 quadros (97s, faltam ~3.5 min)
+  600/1427 quadros (130s, faltam ~3.0 min)
+  750/1427 quadros (162s, faltam ~2.4 min)
+  900/1427 quadros (195s, faltam ~1.9 min)
+  1050/1427 quadros (228s, faltam ~1.4 min)
+  1200/1427 quadros (261s, faltam ~0.8 min)
+  1350/1427 quadros (292s, faltam ~0.3 min)
 Compilando com FFmpeg...
-OK: /home/user/caderno-amarelo/videos/olho_dominante_raw.mp4
+OK: /home/user/caderno-amarelo/videos/olho_dominante/olho_dominante_raw.mp4

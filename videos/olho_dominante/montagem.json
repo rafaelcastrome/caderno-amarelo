@@ -5,7 +5,7 @@
  "cenas": [
   {"fala": 0, "pausa": 0.3},
   {"fala": 1, "pausa": 0.1},
-  {"arquivo": "sfx/espera3.wav", "ganho": 0.4, "pausa": 0.1},
+  {"arquivo": "sfx/espera5.wav", "ganho": 0.4, "pausa": 0.1},
   {"fala": 2, "pausa": 1.6},
   {"fala": 3, "pausa": 0.5},
   {"fala": 4, "pausa": 2.0},
