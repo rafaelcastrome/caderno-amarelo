@@ -1,0 +1,39 @@
+{
+  "titulo": "Descobre teu olho dominante",
+  "marca": {
+    "handle": "Cardeno_Amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": true,
+  "pausaPadrao": 0.6,
+  "fontes": [],
+  "cenas": [
+    {
+      "fala": "Tu sabe qual é o teu olho dominante? Descobre agora... leva cinco segundos!"
+    },
+    {
+      "fala": "Estica o braço com o celular. Com a outra mão... bota o dedo na frente do rosto e tampa o X. Com os dois olhos abertos!"
+    },
+    {
+      "fala": "(espera 3 s)"
+    },
+    {
+      "fala": "Agora fecha o olho esquerdo..."
+    },
+    {
+      "fala": "O X continua atrás do dedo... ou pulou pro lado?"
+    },
+    {
+      "fala": "Abre... e agora fecha o direito!"
+    },
+    {
+      "fala": "Se o X pulou quando tu fechou o direito... teu olho dominante é o direito! Se pulou no esquerdo... tu é do olho esquerdo."
+    },
+    {
+      "fala": "Uns setenta por cento das pessoas são do olho direito. E o mais doido... tem muito destro que mira com o olho esquerdo, e nunca percebeu!"
+    },
+    {
+      "fala": "Comenta aí... direito ou esquerdo? E manda pro amigo testar!"
+    }
+  ]
+}

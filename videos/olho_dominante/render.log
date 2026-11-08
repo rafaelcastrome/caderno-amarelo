@@ -1,0 +1,12 @@
+Renderizando 1364 quadros (45.45s) com 4 páginas...
+  150/1364 quadros (33s, faltam ~4.5 min)
+  300/1364 quadros (66s, faltam ~3.9 min)
+  450/1364 quadros (98s, faltam ~3.3 min)
+  600/1364 quadros (131s, faltam ~2.8 min)
+  750/1364 quadros (163s, faltam ~2.2 min)
+  900/1364 quadros (194s, faltam ~1.7 min)
+  1050/1364 quadros (225s, faltam ~1.1 min)
+  1200/1364 quadros (256s, faltam ~0.6 min)
+  1350/1364 quadros (288s, faltam ~0.0 min)
+Compilando com FFmpeg...
+OK: /home/user/caderno-amarelo/videos/olho_dominante_raw.mp4
