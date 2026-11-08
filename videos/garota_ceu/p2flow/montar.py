@@ -10,7 +10,7 @@ fnt = lambda s: ImageFont.truetype(f"{R}/../../duas_bombas/Caveat-Bold.ttf", s)
 CENAS = [
  (None, [("N1", 0.6)], {}), (None, [("N2", 0.4)], {}), (None, [("N3", 0.4)], {}), (None, [("N4", 0.4)], {}),
  (7.4, [("J1a", 0.82), ("J1b", 2.6), ("J1c", 4.7), ("N5", 6.15)], {"amb": "cena02"}), (None, [("N6", 0.4)], {}),
- (None, [("J2a", 0.45), ("J2b", 2.58), ("N7", 4.1)], {"amb": "cena02"}), (None, [("N8", 0.4)], {"amb": "cena06"}),
+ (None, [("J2a", 0.45), ("J2b", 2.58), ("N7", 3.95)], {"amb": "cena02"}), (None, [("N8", 0.4)], {"amb": "cena06"}),
  (7.3, [("P1a", 0.17), ("P1b", 1.65), ("P1c", 3.03), ("P1d", 4.8)], {"amb": "cena02"}), (None, [("N9", 0.4)], {}),
  (3.8, [("J3a", 1.06), ("J3b", 1.89)], {"ss": 3.6, "amb": "cena02"}), (None, [("N10", 0.4)], {}),
  (4.0, [("J4a", 0.71), ("J4b", 2.39)], {"ss": 1.6, "amb": "cena02"}), (None, [("N11", 0.5)], {"fim": 3.4}),
@@ -81,11 +81,13 @@ SOMBRA = Image.new("RGBA", (W, 60), (0, 0, 0, 0))
 for i in range(60): ImageDraw.Draw(SOMBRA).line([(0, i), (W, i)], fill=(0, 0, 0, int(90 * (1 - i / 60))))
 ease = lambda k: (lambda k: k * k * (3 - 2 * k))(min(1, max(0, k)))
 # 1) cada cena: começo do clipe, 720x1280, na duração certa; som do clipe guardado
+FALA = {5, 7, 9, 11, 13}
 partes = []
 for i, (D, _, o) in enumerate(CENAS, 1):
     src = f"{V}/cena{i:02d}.mp4"; amb = f"{V}/{o.get('amb', f'cena{i:02d}')}.mp4"; ss = o.get("ss", 0); out = f"{R}/tmp_c{i:02d}.mkv"
+    k = 1.0 if i in FALA else max(1.0, D / (vdur(src) - ss - 0.1))  # cenas sem fala podem ficar um pouco mais lentas; com fala, velocidade real
     run(["ffmpeg", "-y", "-v", "error", "-ss", str(ss), "-i", src, "-i", amb, "-f", "lavfi", "-t", str(D), "-i", "anullsrc=r=44100:cl=stereo", "-filter_complex",
-         f"[0:v]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},tpad=stop_mode=clone:stop_duration=6,trim=0:{D},setpts=PTS-STARTPTS[v];"
+         f"[0:v]setpts={k:.4f}*PTS,scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},tpad=stop_mode=clone:stop_duration=6,trim=0:{D},setpts=PTS-STARTPTS[v];"
          f"[1:a]aresample=44100,aformat=channel_layouts=stereo,atrim=0:{D},asetpts=PTS-STARTPTS[a0];[a0][2:a]amix=inputs=2:duration=longest:normalize=0,atrim=0:{D}[a]",
          "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "18", "-c:a", "pcm_s16le", out])
     partes.append(out)
