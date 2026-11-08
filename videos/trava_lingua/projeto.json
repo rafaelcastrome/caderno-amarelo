@@ -1,0 +1,39 @@
+{
+  "titulo": "Trava-língua impossível",
+  "marca": {
+    "handle": "Cardeno_Amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": true,
+  "pausaPadrao": 0.6,
+  "fontes": [],
+  "cenas": [
+    {
+      "fala": "Trava-língua impossível! Fala em voz alta, bem rápido... e sem travar!"
+    },
+    {
+      "fala": "Nível um. Três vezes seguidas... valendo!"
+    },
+    {
+      "fala": "(cronômetro 1)"
+    },
+    {
+      "fala": "Fácil, né? Agora o nível dois... três vezes. Valendo!"
+    },
+    {
+      "fala": "(cronômetro 2)"
+    },
+    {
+      "fala": "Travou, né?! Agora o impossível... cinco vezes. Ninguém passou daqui... valendo!"
+    },
+    {
+      "fala": "(cronômetro 3)"
+    },
+    {
+      "fala": "E aí... travou em qual? Um, dois ou três? Comenta aí!"
+    },
+    {
+      "fala": "Manda pro amigo que se acha bom de fala... e volta pro começo!"
+    }
+  ]
+}

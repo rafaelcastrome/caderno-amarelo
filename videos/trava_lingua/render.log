@@ -1,0 +1,13 @@
+Renderizando 1369 quadros (45.63s) com 4 páginas...
+  150/1369 quadros (38s, faltam ~5.1 min)
+  300/1369 quadros (78s, faltam ~4.6 min)
+  450/1369 quadros (116s, faltam ~3.9 min)
+  600/1369 quadros (148s, faltam ~3.2 min)
+  750/1369 quadros (180s, faltam ~2.5 min)
+  900/1369 quadros (212s, faltam ~1.8 min)
+  1050/1369 quadros (243s, faltam ~1.2 min)
+  1200/1369 quadros (275s, faltam ~0.6 min)
+  1350/1369 quadros (333s, faltam ~0.1 min)
+Compilando com FFmpeg...
+OK: /home/user/caderno-amarelo/videos/trava_lingua/trava_lingua_raw.mp4
+DONE
