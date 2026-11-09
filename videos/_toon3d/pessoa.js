@@ -28,10 +28,16 @@
     const g = T.grupo(o.pai);
     const P = { g };
     // pernas
+    P.pernas = [];
     for (const sx of [-1, 1]) {
-      const perna = T.capsula(0.058, 0.62, o.saia ? pele : calca, g); perna.position.set(0.085 * sx, 0.42, 0);
-      const pe = T.esfera(0.07, sap, g); pe.scale.set(0.85, 0.6, 1.5); pe.position.set(0.085 * sx, 0.05, 0.04);
+      const quadril = T.grupo(g, 0.085 * sx, 0.78, 0);
+      const perna = T.capsula(0.058, 0.62, o.saia ? pele : calca, quadril); perna.position.set(0, -0.36, 0);
+      const pe = T.esfera(0.07, sap, quadril); pe.scale.set(0.85, 0.6, 1.5); pe.position.set(0, -0.73, 0.04);
+      P.pernas.push(quadril);
     }
+    // passada: fase em ciclos, amp em rad
+    P.anda = (fase, amp = 0.35) => { P.pernas.forEach((q, i) => { q.rotation.x = Math.sin(fase * 6.283 + i * Math.PI) * amp; });
+      P.tronco.position.y = 0.78 + Math.abs(Math.cos(fase * 6.283)) * 0.02 * (amp / 0.35); };
     const tronco = P.tronco = T.grupo(g, 0, 0.78, 0);
     if (o.saia) {
       const saia = T.cilindro(0.16, 0.27, 0.5, roupa, tronco); saia.position.y = 0.1; saia.scale.z = 0.8;
@@ -45,7 +51,17 @@
     T.esfera(0.145, pele, cabeca);
     const cap = T.m(new THREE.SphereGeometry(0.153, 32, 20, 0, Math.PI * 2, 0, Math.PI * 0.52), cab, cabeca);
     cap.rotation.x = -0.42; cap.position.set(0, 0.008, -0.008);
-    if (o.coque !== false) { const cq = T.esfera(0.072, cab, cabeca); cq.position.set(0, 0.15, -0.06); }
+    if (o.coque !== false && !o.capuz) { const cq = T.esfera(0.072, cab, cabeca); cq.position.set(0, 0.15, -0.06); }
+    if (o.bone) { // boné virado pra trás
+      const copa = T.m(new THREE.SphereGeometry(0.158, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.5), o.bone, cabeca); copa.position.y = 0.02; copa.rotation.x = -0.12;
+      const aba = T.cilindro(0.1, 0.1, 0.012, o.bone, cabeca); aba.scale.set(1, 1, 0.75); aba.position.set(0, 0.055, -0.16); aba.rotation.x = 0.25;
+    }
+    if (o.capuz) { // capuz cobrindo a cabeça, rosto na sombra
+      cap.visible = false;
+      const cz = T.m(new THREE.SphereGeometry(0.175, 32, 20, 0, Math.PI * 2, 0, Math.PI * 0.75), o.capuz, cabeca); cz.rotation.x = -0.55; cz.position.set(0, 0.01, -0.02);
+      const sombra = T.esfera(0.146, '#2a2a30', cabeca, { sem: true }); sombra.position.z = 0.004; sombra.scale.set(0.97, 0.97, 0.97);
+      P.rostoSombra = sombra;
+    }
     for (const sx of [-1, 1]) { const orelha = T.esfera(0.028, pele, cabeca); orelha.scale.set(0.5, 1, 0.8); orelha.position.set(0.143 * sx, -0.005, -0.005); }
     // olhos
     P.olhos = [];
@@ -70,15 +86,16 @@
     // braços
     P.br = {};
     for (const [lado, sx] of [['E', 1], ['D', -1]]) {
-      const ombro = T.grupo(tronco, 0.19 * sx, 0.55, 0);
+      const ombro = T.grupo(tronco, 0.175 * sx, 0.55, 0);
       const sup = T.capsula(0.042, 0.2, pele, ombro); sup.position.y = -0.13;
-      const manga = T.cilindro(0.047, 0.046, 0.12, roupa, ombro); manga.position.y = -0.06;
+      const manga = T.cilindro(0.058, 0.05, 0.15, roupa, ombro); manga.position.y = -0.05;
       const cot = T.grupo(ombro, 0, -0.27, 0);
       const inf = T.capsula(0.038, 0.18, pele, cot); inf.position.y = -0.12;
-      const mao = T.grupo(cot, 0, -0.26, 0);
-      const palma = T.esfera(0.045, pele, mao); palma.scale.set(0.85, 1.05, 0.55);
-      const ded = T.capsula(0.02, 0.035, pele, mao); ded.position.set(0, -0.045, 0.004); ded.scale.set(1.6, 1, 0.8);
-      const pol = T.capsula(0.014, 0.03, pele, mao); pol.position.set(-0.035 * sx, -0.005, 0.012); pol.rotation.z = 0.6 * sx;
+      const mao = T.grupo(cot, 0, -0.215, 0);
+      const M = T.mao({ pele, sx: -sx, esc: 0.82, pai: mao, w: 0.0024 });
+      T.orientaMao(M, new V(0, -1, 0), new V(sx, 0, 0.25));
+      M.g.position.y = 0.045;
+      M.pose({ dedos: [[0.35, 0.45, 0.3], [0.4, 0.5, 0.3], [0.45, 0.5, 0.3], [0.5, 0.55, 0.35]], abre: 0.05, pol: [0.5, 0.5, 0.2, 0.15] });
       P.br[lado] = { ombro, cot, mao, sx };
     }
     P.L1 = 0.27; P.L2 = 0.26;

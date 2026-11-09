@@ -27,8 +27,8 @@
       tela.userData.f((c, w, h) => desenhaTela(c, w, h, estado, t)); tela.userData.redesenha();
     };
     // botões na tela (coordenadas locais do celular)
-    V.botaoVerde = new V3(0.019, -0.05, PD / 2 + 0.002);
-    V.botaoVermelho = new V3(-0.019, -0.05, PD / 2 + 0.002);
+    V.botaoVerde = new V3(0.0168, -0.046, PD / 2 + 0.002);
+    V.botaoVermelho = new V3(-0.0168, -0.046, PD / 2 + 0.002);
 
     // ---------- braço genérico (manga + antebraço) ----------
     const L1 = 0.3, L2 = 0.29;
@@ -42,6 +42,14 @@
     };
     V.bE = braco(-1); V.bD = braco(1);
     // pernas sentado (jeans + meia), seguem o tronco
+    if (o.empe) {
+      const alt = o.y || 1.62;
+      for (const sx of [-1, 1]) {
+        const perna = T.capsula(0.075, 0.7, o.jeans || '#3b5a8c', corpo); perna.position.set(0.11 * sx, -alt + 0.5, 0.02);
+        const tn = T.esfera(0.075, '#f2f2f2', corpo); tn.scale.set(0.85, 0.55, 1.5); tn.position.set(0.11 * sx, -alt + 0.05, -0.04);
+        const tn2 = T.esfera(0.05, '#2f8f4e', corpo); tn2.scale.set(1, 0.6, 1.3); tn2.position.set(0.11 * sx, -alt + 0.085, -0.06);
+      }
+    }
     if (o.sentado) {
       const jeans = o.jeans || '#3b5a8c', alt = o.y || 1.12;
       for (const sx of [-1, 1]) {
@@ -51,45 +59,28 @@
       }
     }
 
-    // ---------- mão esquerda segurando o celular (dedos dão a volta na borda direita, polegar na esquerda) ----------
-    const mE = V.maoE = T.grupo(cel, 0, 0, 0);
-    const pl = T.esfera(0.05, pele, mE); pl.scale.set(0.95, 1.1, 0.42); pl.position.set(-0.012, -0.045, -0.022);
-    const pulso = T.capsula(0.034, 0.05, pele, mE); pulso.position.set(-0.03, -0.1, -0.03); pulso.rotation.z = 0.5;
-    // 4 dedos: atrás do celular -> borda direita -> ponta por cima da frente
-    const comp = [0.0, 0.004, 0.002, -0.004];
-    [0.034, 0.012, -0.01, -0.03].forEach((y, i) => {
-      const r = 0.0085 - i * 0.0004;
-      const tras = T.capsula(r, 0.05, pele, mE, { w: 0.003 }); tras.rotation.z = Math.PI / 2; tras.position.set(0.012, y, -PD / 2 - r);
-      const borda = T.capsula(r, PD + 0.004, pele, mE, { w: 0.003 }); borda.rotation.x = Math.PI / 2; borda.position.set(PW / 2 + r * 0.6, y, 0);
-      const ponta = T.capsula(r * 0.95, 0.007 + comp[i], pele, mE, { w: 0.003 }); ponta.rotation.z = Math.PI / 2;
-      ponta.position.set(PW / 2 - 0.004 - comp[i] / 2, y, PD / 2 + r * 0.7);
-      const unha = T.esfera(r * 0.55, '#f3c9ad', mE, { sem: true }); unha.scale.set(1, 0.8, 0.35);
-      unha.position.set(PW / 2 - 0.009 - comp[i], y, PD / 2 + r * 1.55);
-    });
-    // polegar: sobe pela borda esquerda, por cima da frente
-    const p1 = T.capsula(0.0098, 0.03, pele, mE, { w: 0.003 }); p1.position.set(-PW / 2 - 0.004, -0.05, 0.002); p1.rotation.z = -0.35;
-    const p2 = T.capsula(0.0092, 0.02, pele, mE, { w: 0.003 }); p2.position.set(-PW / 2 + 0.002, -0.022, PD / 2 + 0.008); p2.rotation.z = -0.15;
-    const pu = T.esfera(0.006, '#f3c9ad', mE, { sem: true }); pu.position.set(-PW / 2 + 0.004, -0.012, PD / 2 + 0.017); pu.scale.set(1, 1.2, 0.35);
-    V.pulsoE = new V3(-0.035, -0.125, -0.035); // ponto do pulso no espaço do celular
-
-    // ---------- mão direita apontando (indicador esticado ao longo de +z local) ----------
-    const mD = V.maoD = T.grupo(corpo, 0.12, -0.42, -0.25);
-    const punhoD = T.esfera(0.036, pele, mD); punhoD.scale.set(1, 0.8, 1.1); punhoD.position.z = -0.01;
-    const ind1 = T.capsula(0.0095, 0.03, pele, mD, { w: 0.003 }); ind1.rotation.x = Math.PI / 2; ind1.position.set(-0.012, 0.02, 0.045);
-    const ind2 = T.capsula(0.009, 0.02, pele, mD, { w: 0.003 }); ind2.rotation.x = Math.PI / 2; ind2.position.set(-0.012, 0.02, 0.075);
-    const unhaD = T.esfera(0.0055, '#f3c9ad', mD, { sem: true }); unhaD.position.set(-0.012, 0.028, 0.083); unhaD.scale.set(1, 0.4, 1.2);
-    for (let i = 0; i < 3; i++) { const d = T.capsula(0.0095, 0.014, pele, mD, { w: 0.003 }); d.rotation.z = Math.PI / 2; d.position.set(0.006 + 0, 0.004 - i * 0.017, 0.035); }
-    const polD = T.capsula(0.011, 0.025, pele, mD, { w: 0.003 }); polD.position.set(-0.032, -0.005, 0.02); polD.rotation.x = Math.PI / 2; polD.rotation.y = 0.6;
-    V.pontaD = new V3(-0.012, 0.02, 0.088); // ponta do indicador no espaço da mão
-
+    // ---------- mão esquerda segurando o celular: palma atrás, dedos dão a volta na borda direita, polegar na frente da borda esquerda ----------
+    const AJ = V.ajE = Object.assign({ x: -0.016, y: -0.025, z: -0.0185, inc: 0.4,
+      dedos: [[0.3, 1.5, 0.25], [0.3, 1.55, 0.25], [0.3, 1.55, 0.25], [0.35, 1.5, 0.25]], pol: [0.55, 0.7, 0.22, 0.12] }, o.ajE || {});
+    const mE = V.maoE = T.mao({ pele, sx: -1, pai: cel });
+    const posE = () => {
+      mE.g.position.set(AJ.x, AJ.y, AJ.z);
+      T.orientaMao(mE, new V3(1, AJ.inc, 0), new V3(0, 0, -1));
+      mE.pose({ dedos: AJ.dedos, abre: 0.03, pol: AJ.pol });
+    };
+    posE(); V.posE = posE;
+    // ---------- mão direita apontando ----------
+    const mD = T.mao({ pele, sx: 1, pai: corpo });
+    mD.pose({ dedos: [[0.08, 0.12, 0.08], [1.45, 1.55, 0.9], [1.5, 1.55, 0.9], [1.5, 1.5, 0.85]], abre: 0.02, pol: [0.35, 1.05, 0.55, 0.35] });
+    V.maoD = mD.g;
     // atualiza braços (chamar depois de posicionar cel e maoD)
     V.bracos = () => {
       corpo.updateMatrixWorld(true);
-      const pE = cel.localToWorld(V.pulsoE.clone()); corpo.worldToLocal(pE);
+      const pE = mE.pulso.getWorldPosition(new V3()); corpo.worldToLocal(pE);
       T.ik2(V.bE.ombro, V.bE.cot, L1, L2, pE, new V3(-1, -0.6, 0.2));
-      const pD = mD.localToWorld(new V3(0.015, -0.01, -0.05)); corpo.worldToLocal(pD);
+      const pD = mD.pulso.getWorldPosition(new V3()); corpo.worldToLocal(pD);
       T.ik2(V.bD.ombro, V.bD.cot, L1, L2, pD, new V3(1, -0.6, 0.2));
-      V.bD.ombro.visible = mD.visible;
+      V.bD.ombro.visible = mD.g.visible;
     };
     // leva a mão direita: u=0 descansando (fora de quadro), u=1 com a ponta do dedo no ponto 'alvo' (local do celular)
     V.dedo = (u, alvoCel, toque = 0) => {
@@ -98,14 +89,17 @@
       const desc = new V3(0.2, -0.5, -0.22);
       const perto = alvo.clone().add(new V3(0.05, -0.06, 0.06));
       const pos = desc.clone().lerp(perto, T.suave(u));
-      mD.position.copy(pos); mD.lookAt(cel.localToWorld(alvoCel.clone()));
-      // corrige pra ponta do dedo cair no alvo quando u=1
+      mD.g.position.copy(pos);
+      const alvoW = cel.localToWorld(alvoCel.clone()); corpo.worldToLocal(alvoW);
+      const dir = alvoW.clone().sub(pos).normalize();
+      const dorso = pos.clone().multiplyScalar(-1).normalize().add(new V3(0.3, 0, 0));
+      T.orientaMao(mD, dir, dorso);
       if (u > 0) {
-        mD.updateMatrixWorld(true);
-        const ponta = mD.localToWorld(V.pontaD.clone()); corpo.worldToLocal(ponta);
-        mD.position.add(alvo.clone().sub(ponta).multiplyScalar(T.suave(u)));
+        mD.g.updateMatrixWorld(true);
+        const ponta = mD.ponta.getWorldPosition(new V3()); corpo.worldToLocal(ponta);
+        mD.g.position.add(alvo.clone().sub(ponta).multiplyScalar(T.suave(u)));
       }
-      mD.visible = u > 0.001;
+      mD.g.visible = u > 0.001;
     };
     return V;
   };
@@ -118,6 +112,21 @@
     c.textAlign = 'right'; c.fillText('▮▮▮ 78%', w - 20, 34);
     c.textAlign = 'center';
     if (estado === 'apagada') { c.fillStyle = '#0a0c10'; c.fillRect(0, 0, w, h); return; }
+    if (estado === 'hora') {
+      c.fillStyle = '#fff'; c.font = 'bold 130px sans-serif'; c.fillText('6:59', w / 2, h * 0.33);
+      c.font = '28px sans-serif'; c.fillStyle = '#c9d6ea'; c.fillText('segunda-feira', w / 2, h * 0.39);
+      return;
+    }
+    if (estado === 'msg') {
+      c.fillStyle = '#fff'; c.font = 'bold 110px sans-serif'; c.fillText('6:58', w / 2, h * 0.22);
+      const y = h * 0.3; c.fillStyle = 'rgba(235,240,248,0.95)'; c.beginPath(); c.roundRect(24, y, w - 48, 200, 26); c.fill();
+      c.fillStyle = '#9fb6d8'; c.beginPath(); c.arc(70, y + 50, 28, 0, 7); c.fill();
+      c.fillStyle = '#e9b48c'; c.beginPath(); c.arc(70, y + 44, 11, 0, 7); c.fill(); c.fillStyle = '#2f8f4e'; c.beginPath(); c.arc(70, y + 68, 17, Math.PI, 0); c.fill();
+      c.textAlign = 'left'; c.fillStyle = '#111'; c.font = 'bold 32px sans-serif'; c.fillText('EU', 112, y + 46);
+      c.fillStyle = '#777'; c.font = '22px sans-serif'; c.fillText('agora', w - 110, y + 46);
+      c.fillStyle = '#222'; c.font = '31px sans-serif'; c.fillText('olha pro outro lado', 112, y + 110); c.fillText('da rua.', 112, y + 150);
+      c.textAlign = 'center'; return;
+    }
     const cx = w / 2, cy = h * 0.3;
     if (estado === 'tocando') {
       for (let k = 0; k < 3; k++) { const f = ((t * 0.9 + k / 3) % 1); c.strokeStyle = `rgba(120,220,140,${(1 - f) * 0.8})`; c.lineWidth = 5; c.beginPath(); c.arc(cx, cy, 62 + f * 80, 0, 7); c.stroke(); }

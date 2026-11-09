@@ -1,2 +1,6 @@
 node_modules/
 .DS_Store
+videos/ligacao_numero/toon3d/*.f32
+videos/ligacao_numero/toon3d/leg/
+videos/ligacao_numero/toon3d/legf/
+videos/ligacao_numero/toon3d/prev/
