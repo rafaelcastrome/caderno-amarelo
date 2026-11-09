@@ -1,0 +1,42 @@
+[
+ {
+  "t0": 0.0,
+  "dur": 9.6,
+  "src": "/home/user/caderno-amarelo/videos/ligacao_numero/flow_p1/montagem/../../flow_teste/cena_teste.mp4"
+ },
+ {
+  "t0": 9.6,
+  "dur": 12.2,
+  "src": "s3.png"
+ },
+ {
+  "t0": 21.8,
+  "dur": 5.6,
+  "src": "s4.mp4"
+ },
+ {
+  "t0": 27.4,
+  "dur": 9.0,
+  "src": "s5.mp4"
+ },
+ {
+  "t0": 36.4,
+  "dur": 7.0,
+  "src": "s6.png"
+ },
+ {
+  "t0": 43.4,
+  "dur": 6.4,
+  "src": "s7.mp4"
+ },
+ {
+  "t0": 49.8,
+  "dur": 9.5,
+  "src": "s8.png"
+ },
+ {
+  "t0": 59.3,
+  "dur": 5.0,
+  "src": "final"
+ }
+]
