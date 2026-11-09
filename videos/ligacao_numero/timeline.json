@@ -1,0 +1,66 @@
+{
+  "total": 26.54,
+  "motor_tts": "gemini Algieba + Kore (gemini-3.1-flash-tts-preview, multi-locutor)",
+  "cenas": [
+    {
+      "cena": 1,
+      "start": 0.0,
+      "end": 3.284,
+      "fala": 2.984
+    },
+    {
+      "cena": 2,
+      "start": 3.284,
+      "end": 7.108,
+      "fala": 3.624
+    },
+    {
+      "cena": 3,
+      "start": 7.108,
+      "end": 9.728,
+      "fala": 2.62
+    },
+    {
+      "cena": 4,
+      "start": 9.728,
+      "end": 12.704,
+      "fala": 2.677
+    },
+    {
+      "cena": 5,
+      "start": 12.704,
+      "end": 13.346,
+      "fala": 0.342
+    },
+    {
+      "cena": 6,
+      "start": 13.346,
+      "end": 16.076,
+      "fala": 2.23
+    },
+    {
+      "cena": 7,
+      "start": 16.076,
+      "end": 17.189,
+      "fala": 0.813
+    },
+    {
+      "cena": 8,
+      "start": 17.189,
+      "end": 20.533,
+      "fala": 3.144
+    },
+    {
+      "cena": 9,
+      "start": 20.533,
+      "end": 21.633,
+      "fala": 0.9
+    },
+    {
+      "cena": 10,
+      "start": 21.633,
+      "end": 26.54,
+      "fala": 2.507
+    }
+  ]
+}

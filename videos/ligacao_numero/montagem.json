@@ -1,0 +1,18 @@
+{
+ "take": "falas/take_tel.wav",
+ "voz": "Algieba + Kore (gemini-3.1-flash-tts-preview, multi-locutor)",
+ "cortes": [3.52, 7.8, 11.6, 13.3, 16.4, 18.6, 22.5],
+ "cenas": [
+  {"fala": 0, "pausa": 0.3},
+  {"fala": 1, "pausa": 0.2},
+  {"arquivo": "sfx/toque.wav", "ganho": 0.7, "pausa": 0.0},
+  {"fala": 2, "pausa": 0.3},
+  {"fala": 3, "pausa": 0.3},
+  {"fala": 4, "pausa": 0.5},
+  {"fala": 5, "pausa": 0.3},
+  {"fala": 6, "pausa": 0.2},
+  {"arquivo": "sfx/desliga.wav", "ganho": 0.6, "pausa": 0.2},
+  {"fala": 7, "pausa": 2.4}
+ ],
+ "fundo": {"arquivo": "sfx/fundo.wav", "volume_cenas": [[1, 0, 0.0], [2, 1, 0.0], [3, 0, 0.35], [10, 1, 0.5]]}
+}

@@ -1,0 +1,42 @@
+{
+ "titulo": "Ligação do teu próprio número - parte 1 (prévia)",
+ "marca": {
+  "handle": "Cardeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": true,
+ "pausaPadrao": 0.6,
+ "fontes": [],
+ "cenas": [
+  {
+   "fala": "Filho! Tu vai perder o ônibus das sete!"
+  },
+  {
+   "fala": "Tô indo, mãe! Só tô achando o tênis..."
+  },
+  {
+   "fala": "(toque do celular)"
+  },
+  {
+   "fala": "Ué... esse número aí é o meu."
+  },
+  {
+   "fala": "Alô?"
+  },
+  {
+   "fala": "(voz no telefone) Não entra no ônibus das sete."
+  },
+  {
+   "fala": "Quem tá falando?"
+  },
+  {
+   "fala": "(voz no telefone) Sou eu. Daqui a vinte minutos."
+  },
+  {
+   "fala": "(chamada encerrada)"
+  },
+  {
+   "fala": "Filho? Quem era no telefone?"
+  }
+ ]
+}
