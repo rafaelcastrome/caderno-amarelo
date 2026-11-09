@@ -14,6 +14,14 @@ Como funciona:
 
 `<skill>` abaixo é a pasta deste SKILL.md.
 
+## Regra de todas as skills: nada deformado ou mal feito
+Regra do Rafael (09/11/2026) pra todos os formatos: nenhuma forma pode sair deformada, torta ou mal feita. Isso inclui braço atravessando porta ou rosto, mão virando bloco ou "salsicha", dedo solto, objeto sem forma reconhecível, peça atravessando outra e texto cortado.
+- Antes de mandar qualquer prévia ou vídeo, abra quadros de cada cena (também no meio dos movimentos) e confira mãos, braços, rostos e objetos.
+- Mão = palma arredondada + 4 dedos de tamanhos diferentes + polegar, na proporção de mão de verdade. Segurando algo, os dedos ficam na borda e não cobrem o que importa.
+- Braço ou gesto não cruza porta, parede, rosto nem outro personagem. Se cruzar, troque o lado ou a pose.
+- Objeto com a silhueta certa (tênis parece tênis), nunca um retângulo genérico.
+- Se algo continuar estranho e não der pra consertar, tire do quadro em vez de mandar.
+
 ## Fluxo
 
 ### 1. Entender o pedido e escrever o roteiro
