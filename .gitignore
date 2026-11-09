@@ -5,7 +5,7 @@ videos/ligacao_numero/toon3d/leg/
 videos/ligacao_numero/toon3d/legf/
 videos/ligacao_numero/toon3d/prev/
 # intermediários de render (3D toon)
-videos/_toon3d/node_modules/
+videos/_toon3d/node_modules
 videos/ligacao_numero/flow_p1/montagem/tmp/
 videos/ligacao_numero/toon3d/*.txt
 videos/ligacao_numero/toon3d/*.png
