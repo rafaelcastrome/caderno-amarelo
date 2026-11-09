@@ -1,0 +1,54 @@
+{
+ "titulo": "Tua vida em quadradinhos",
+ "marca": {
+  "handle": "Cardeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "edge": "pt-BR-AntonioNeural",
+  "edgeRate": "+10%",
+  "kokoro": "pm_alex",
+  "kokoroSpeed": 1.1
+ },
+ "pausaPadrao": 0.6,
+ "fontes": [
+  {
+   "fato": "Suposições declaradas na fala: viver até 80 anos (80x52 = 4.160 semanas), 15 anos já vividos, dormir 8 h/noite (1/3 dos 65 anos restantes = ~21,7 anos), escola/trabalho/trânsito ~12 anos (8 h + 1 h de trânsito por dia útil por ~45 anos), comer/banho/louça/fila ~2,5 h/dia (~7 anos), celular 4 h/dia (~10,8 anos). Sobram ~701 semanas.",
+   "fonte": "Conta própria com as suposições ditas no vídeo",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Tua vida inteira cabe nessa folha... olha só."
+  },
+  {
+   "fala": "Cada quadradinho é uma semana. Cada linha, um ano. Se tu viver até os oitenta... são quatro mil cento e sessenta quadradinhos. Parece muito, né?"
+  },
+  {
+   "fala": "Agora pinta os que já foram. Tem quinze anos? Então tudo isso aqui... já era."
+  },
+  {
+   "fala": "Dormindo oito horas por noite... vai um terço do que sobrou."
+  },
+  {
+   "fala": "Escola, trabalho e trânsito... mais uns doze anos."
+  },
+  {
+   "fala": "Comer, tomar banho, lavar louça, ficar na fila... mais sete."
+  },
+  {
+   "fala": "E se tu passar quatro horas por dia no celular... lá se vão quase onze anos!"
+  },
+  {
+   "fala": "Sabe o que sobra de verdade? Isso aqui. Uns setecentos quadradinhos. Só."
+  },
+  {
+   "fala": "E esse primeiro aqui... é essa semana. E ela já tá acabando."
+  },
+  {
+   "fala": "Manda pra alguém com quem tu quer gastar os teus quadradinhos.\n"
+  }
+ ]
+}
