@@ -1,0 +1,138 @@
+{
+  "total": 73.418,
+  "motor_tts": "Algieba (tu), Kore (m\u00e3e), Achird (amigo) - gemini-3.1-flash-tts-preview",
+  "cenas": [
+    {
+      "cena": 1,
+      "start": 0.0,
+      "end": 3.672,
+      "fala": 2.972
+    },
+    {
+      "cena": 2,
+      "start": 3.672,
+      "end": 7.9,
+      "fala": 3.628
+    },
+    {
+      "cena": 3,
+      "start": 7.9,
+      "end": 10.72,
+      "fala": 2.62
+    },
+    {
+      "cena": 4,
+      "start": 10.72,
+      "end": 14.498,
+      "fala": 2.678
+    },
+    {
+      "cena": 5,
+      "start": 14.498,
+      "end": 16.444,
+      "fala": 0.346
+    },
+    {
+      "cena": 6,
+      "start": 16.444,
+      "end": 19.89,
+      "fala": 2.246
+    },
+    {
+      "cena": 7,
+      "start": 19.89,
+      "end": 21.694,
+      "fala": 0.803
+    },
+    {
+      "cena": 8,
+      "start": 21.694,
+      "end": 25.121,
+      "fala": 3.127
+    },
+    {
+      "cena": 9,
+      "start": 25.121,
+      "end": 27.42,
+      "fala": 0.9
+    },
+    {
+      "cena": 10,
+      "start": 27.42,
+      "end": 30.32,
+      "fala": 2.6
+    },
+    {
+      "cena": 11,
+      "start": 30.32,
+      "end": 35.228,
+      "fala": 2.507
+    },
+    {
+      "cena": 12,
+      "start": 35.228,
+      "end": 37.528,
+      "fala": 2.0
+    },
+    {
+      "cena": 13,
+      "start": 37.528,
+      "end": 41.713,
+      "fala": 3.485
+    },
+    {
+      "cena": 14,
+      "start": 41.713,
+      "end": 46.113,
+      "fala": 3.6
+    },
+    {
+      "cena": 15,
+      "start": 46.113,
+      "end": 48.313,
+      "fala": 1.6
+    },
+    {
+      "cena": 16,
+      "start": 48.313,
+      "end": 53.456,
+      "fala": 4.143
+    },
+    {
+      "cena": 17,
+      "start": 53.456,
+      "end": 54.893,
+      "fala": 0.938
+    },
+    {
+      "cena": 18,
+      "start": 54.893,
+      "end": 58.193,
+      "fala": 3.0
+    },
+    {
+      "cena": 19,
+      "start": 58.193,
+      "end": 61.198,
+      "fala": 2.505
+    },
+    {
+      "cena": 20,
+      "start": 61.198,
+      "end": 65.998,
+      "fala": 4.2
+    },
+    {
+      "cena": 21,
+      "start": 65.998,
+      "end": 68.918,
+      "fala": 2.62
+    },
+    {
+      "cena": 22,
+      "start": 68.918,
+      "end": 73.418,
+      "fala": 4.5
+    }
+  ]
+}

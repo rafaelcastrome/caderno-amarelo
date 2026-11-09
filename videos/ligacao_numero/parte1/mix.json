@@ -1,0 +1,31 @@
+{
+ "voz": "Algieba (tu), Kore (mãe), Achird (amigo) - gemini-3.1-flash-tts-preview",
+ "cenas": [
+  {"a": "../falas/p1/a0.wav", "pausa": 0.7},
+  {"a": "../falas/p1/a1.wav", "pausa": 0.6},
+  {"a": "../sfx/toque.wav", "ganho": 0.6, "pausa": 0.2},
+  {"a": "../falas/p1/a2.wav", "pausa": 1.1},
+  {"a": "../falas/p1/a3.wav", "pausa": 1.6},
+  {"a": "../falas/p1/a4.wav", "pausa": 1.2},
+  {"a": "../falas/p1/a5.wav", "pausa": 1.0},
+  {"a": "../falas/p1/a6.wav", "pausa": 0.3},
+  {"a": "../sfx/desliga.wav", "ganho": 0.5, "pausa": 1.4},
+  {"a": "../sfx/passos.wav", "ganho": 0.8, "pausa": 0.3},
+  {"a": "../falas/p1/a7.wav", "pausa": 2.4},
+  {"a": "../sfx/rua.wav", "ganho": 0.6, "pausa": 0.3},
+  {"a": "../falas/p1/b0.wav", "pausa": 0.7},
+  {"a": "../falas/p1/b1.wav", "pausa": 0.8},
+  {"a": "../sfx/vibra.wav", "ganho": 0.7, "pausa": 0.6},
+  {"a": "../falas/p1/b2.wav", "pausa": 1.0},
+  {"a": "../falas/p1/b3.wav", "pausa": 0.5},
+  {"a": "../sfx/trovao.wav", "ganho": 0.8, "pausa": 0.3},
+  {"a": "../falas/p1/b4.wav", "pausa": 0.5},
+  {"a": "../sfx/onibus.wav", "ganho": 0.8, "pausa": 0.6},
+  {"a": "../sfx/toque.wav", "ganho": 0.6, "pausa": 0.3},
+  {"silencio": 4.5, "pausa": 0}
+ ],
+ "camadas": [
+  {"a": "../sfx/fundo.wav", "de": [3, 0], "ate": [22, 1], "vol": 0.45, "loop": true, "fade": 1.5},
+  {"a": "../sfx/chuva.wav", "de": [18, 0.05], "ate": [22, 1], "vol": 0.6, "loop": true, "fade": 1.0}
+ ]
+}
