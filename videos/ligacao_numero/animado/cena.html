@@ -1,0 +1,302 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face { font-family: Cav; src: url(Caveat-Bold.ttf); }
+html, body { margin: 0; background: #000; }
+svg { display: block; width: 540px; height: 960px; }
+</style></head>
+<body>
+<svg id="s" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg"></svg>
+<script>
+// TESTE "Ligação do teu próprio número" em desenho animado colorido (sem mão desenhando).
+// Câmera = cabeça do protagonista. Tudo é função pura de t: window.render(t).
+// Plano A (0 - 10.72): quarto. Mãe na porta falando (boca pela energia do áudio, sobrancelhas, piscar,
+//   braço apontando pro relógio), sai andando; câmera olha pra baixo e as tuas mãos calçam o tênis;
+//   celular vibra na cama, câmera vira pra ele e a mão pega.
+// Plano B (10.72 - 21): celular nas tuas mãos, polegar atende, tela anima com a voz do telefone, zoom lento.
+let ENV = null;
+const S = document.getElementById('s');
+const OL = '#2a2320', LW = 6;
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lerp = (a, b, u) => a + (b - a) * u;
+const ease = u => { u = clamp(u); return u * u * (3 - 2 * u); };
+const eo = u => { u = clamp(u); return 1 - Math.pow(1 - u, 3); };
+const seg = (t, a, b) => ease((t - a) / (b - a));
+function K(keys) { // [[t, v], ...] com ease
+  return t => {
+    if (t <= keys[0][0]) return keys[0][1];
+    for (let i = 1; i < keys.length; i++) if (t < keys[i][0]) {
+      const [t0, v0] = keys[i - 1], [t1, v1] = keys[i], u = ease((t - t0) / (t1 - t0));
+      return Array.isArray(v0) ? v0.map((v, j) => lerp(v, v1[j], u)) : lerp(v0, v1, u);
+    }
+    return keys[keys.length - 1][1];
+  };
+}
+function en(name, t) {
+  const e = ENV[name]; const x = (t - e.off) * 30, i = Math.floor(x);
+  if (i < 0 || i >= e.v.length - 1) return 0;
+  return lerp(e.v[i], e.v[i + 1], x - i);
+}
+const f1 = n => n.toFixed(1);
+const P = (d, fill, o = {}) => `<path d="${d}" fill="${fill}" stroke="${o.s || OL}" stroke-width="${o.w ?? LW}" stroke-linejoin="round" stroke-linecap="round" ${o.op ? `opacity="${o.op}"` : ''}/>`;
+const E = (cx, cy, rx, ry, fill, o = {}) => `<ellipse cx="${f1(cx)}" cy="${f1(cy)}" rx="${f1(rx)}" ry="${f1(Math.max(0.5, ry))}" fill="${fill}" stroke="${o.s || OL}" stroke-width="${o.w ?? LW}"/>`;
+const G = (tr, inner, extra = '') => `<g transform="${tr}" ${extra}>${inner}</g>`;
+function limb(pts, color, w) { // braço grosso com contorno
+  const d = 'M ' + pts.map(p => f1(p[0]) + ' ' + f1(p[1])).join(' L ');
+  return `<path d="${d}" fill="none" stroke="${OL}" stroke-width="${w + 2 * LW}" stroke-linecap="round" stroke-linejoin="round"/>` +
+         `<path d="${d}" fill="none" stroke="${color}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
+}
+function ik(sx, sy, hx, hy, L1, L2, bend) { // cotovelo de 2 ossos
+  let dx = hx - sx, dy = hy - sy, d = Math.hypot(dx, dy); d = Math.min(d, L1 + L2 - 1);
+  const a = Math.atan2(dy, dx), c = Math.acos(clamp((L1 * L1 + d * d - L2 * L2) / (2 * L1 * d), -1, 1));
+  const ang = a + bend * c; return [sx + L1 * Math.cos(ang), sy + L1 * Math.sin(ang)];
+}
+const SKIN = '#f0bf94', SKIN2 = '#d99a6c', HOOD = '#3f6fb5', HOOD2 = '#335d99';
+
+// ---------------- cenário do quarto ----------------
+function quarto(t, porta) {
+  let s = '';
+  s += `<rect x="-400" y="-400" width="1880" height="1560" fill="#f2dfb8"/>`;           // parede
+  s += `<rect x="-400" y="1150" width="1880" height="2200" fill="#c99560"/>`;           // chão
+  for (let k = -6; k <= 6; k++) s += `<path d="M ${540 + k * 120} 1150 L ${540 + k * 420} 2850" stroke="#a8763f" stroke-width="5"/>`;
+  s += `<path d="M -400 1150 L 1480 1150" stroke="${OL}" stroke-width="6"/>`;
+  s += `<rect x="-400" y="1120" width="1880" height="34" fill="#fff7e6" stroke="${OL}" stroke-width="5"/>`; // rodapé
+  // janela com luz da manhã e cortina balançando
+  const sw = Math.sin(t * 1.3) * 10;
+  s += `<rect x="720" y="330" width="300" height="400" fill="#bfe3f5" stroke="${OL}" stroke-width="7"/>`;
+  s += `<circle cx="930" cy="430" r="40" fill="#ffe27a"/><path d="M 720 640 Q 800 600 870 650 T 1020 630 L 1020 730 L 720 730 Z" fill="#9ccf8a"/>`;
+  s += `<path d="M 870 330 L 870 730 M 720 530 L 1020 530" stroke="${OL}" stroke-width="6"/>`;
+  s += P(`M 690 300 L 770 300 Q ${760 + sw} 520 ${745 + sw * 1.5} 770 L 690 770 Z`, '#e46a5a');
+  s += P(`M 1050 300 L 970 300 Q ${980 - sw} 520 ${995 - sw * 1.5} 770 L 1050 770 Z`, '#e46a5a');
+  s += `<polygon points="720,330 1020,330 1020,730 720,730" fill="#fff2a8" opacity="${0.12 + 0.05 * Math.sin(t * 0.8)}"/>`;
+  // pôster e relógio
+  s += P('M 80 380 L 250 360 L 262 600 L 92 615 Z', '#7fc1a8') + `<text x="170" y="505" font-family="Cav" font-size="56" text-anchor="middle" fill="#2a2320" transform="rotate(-4 170 505)">GOL!</text>`;
+  s += E(520, 250, 70, 70, '#fff') + `<path d="M 520 250 L 520 200 M 520 250 L ${f1(520 + 40 * Math.cos(-1.9))} ${f1(250 + 40 * Math.sin(-1.9))}" stroke="${OL}" stroke-width="7" stroke-linecap="round"/>`;
+  const sa = t * 2 * Math.PI / 60 * 6 - Math.PI / 2;
+  s += `<path d="M 520 250 L ${f1(520 + 55 * Math.cos(sa))} ${f1(250 + 55 * Math.sin(sa))}" stroke="#d13b3b" stroke-width="3"/>`;
+  // porta (aberta, corredor escuro atrás)
+  s += `<rect x="290" y="420" width="330" height="735" fill="#5d4b3e" stroke="${OL}" stroke-width="7"/>`;
+  s += `<rect x="300" y="430" width="310" height="725" fill="#7a6352"/>`;
+  s += porta || '';
+  s += P('M 620 420 L 700 400 L 700 1175 L 620 1155 Z', '#c98b55');   // folha da porta aberta
+  s += E(682, 800, 9, 9, '#e8c35a', { w: 4 });
+  s += `<rect x="270" y="400" width="370" height="24" fill="#e9d2a6" stroke="${OL}" stroke-width="6"/>`;
+  return s;
+}
+
+// ---------------- a mãe ----------------
+function mae(t) {
+  // entra já na porta; fala 0-2.97; aponta pro pulso; vira e sai pela direita em 3.6-4.6
+  const x = K([[0, 470], [3.55, 470], [4.6, 760]])(t);
+  if (x > 740) return '';
+  const walk = t > 3.55 ? Math.abs(Math.sin((t - 3.55) * 9)) * 14 : 0;
+  const breathe = Math.sin(t * 2.2) * 4;
+  const talk = en('mae', t);
+  const y0 = 1150 - walk;
+  const ang = t < 3.55 ? Math.sin(t * 7) * talk * 4 : 0;   // cabeça mexe ao falar
+  const turn = seg(t, 3.4, 3.7);                           // vira de lado pra sair
+  let s = '';
+  // pernas
+  const st = t > 3.55 ? Math.sin((t - 3.55) * 9) * 18 : 0;
+  s += limb([[x - 30, y0 - 170], [x - 34 - st, y0 - 10]], '#3b3b55', 34);
+  s += limb([[x + 30, y0 - 170], [x + 34 + st, y0 - 10]], '#3b3b55', 34);
+  s += E(x - 40 - st, y0 - 6, 34, 14, '#5a3a2a') + E(x + 40 + st, y0 - 6, 34, 14, '#5a3a2a');
+  // vestido
+  const sy = y0 - 560 + breathe;
+  s += P(`M ${x - 85} ${sy} Q ${x} ${sy - 25} ${x + 85} ${sy} L ${x + 120} ${y0 - 160} Q ${x} ${y0 - 135} ${x - 120} ${y0 - 160} Z`, '#8a5cc7');
+  s += P(`M ${x - 55} ${sy + 120} L ${x + 55} ${sy + 120} L ${x + 75} ${y0 - 175} Q ${x} ${y0 - 160} ${x - 75} ${y0 - 175} Z`, '#fbf6ee', { w: 5 }); // avental
+  // braço esquerdo (da tela): na cintura
+  const shL = [x + 80, sy + 20], hipL = [x + 95, sy + 210];
+  const elL = ik(...shL, ...hipL, 110, 110, -1);
+  // braço direito: aponta pro pulso esquerdo / chama ("anda logo") enquanto fala
+  const shR = [x - 80, sy + 20];
+  const pt = t < 3.4 ? 1 : 1 - turn;
+  const wave = Math.sin(t * 9) * 25 * talk;
+  const hR = [lerp(x - 100, x - 185, pt), lerp(sy + 230, sy - 30 + wave, pt)];
+  const elR = ik(...shR, ...hR, 115, 115, 1);
+  const armL = limb([shL, elL, hipL], '#8a5cc7', 40) + E(hipL[0], hipL[1], 24, 24, SKIN);
+  const armR = limb([shR, elR, hR], '#8a5cc7', 40) + E(hR[0], hR[1], 26, 26, SKIN) +
+    (pt > 0.5 ? limb([[hR[0], hR[1]], [hR[0] - 6, hR[1] - 46]], SKIN, 16) : '');  // dedo pra cima
+  s += armL;
+  // cabeça
+  const hx = x, hy = sy - 95 + breathe * 0.5;
+  let h = '';
+  h += limb([[hx, hy + 60], [hx, hy + 95]], SKIN, 40);
+  h += P(`M ${hx - 82} ${hy + 10} Q ${hx - 95} ${hy - 105} ${hx} ${hy - 110} Q ${hx + 95} ${hy - 105} ${hx + 82} ${hy + 10} Z`, '#4a2f22'); // cabelo atrás
+  h += E(hx + 50 * turn, hy - 112, 34, 30, '#4a2f22');           // coque
+  h += E(hx, hy, 78, 86, SKIN);
+  h += P(`M ${hx - 80} ${hy - 20} Q ${hx - 60} ${hy - 100} ${hx} ${hy - 90} Q ${hx + 70} ${hy - 100} ${hx + 82} ${hy - 25} Q ${hx + 30} ${hy - 70} ${hx - 80} ${hy - 20} Z`, '#4a2f22');
+  if (turn < 0.6) {
+    const look = Math.sin(t * 0.9) * 3;
+    const blink = [0.9, 2.6].some(b => Math.abs(t - b) < 0.07) ? 0.1 : 1;
+    const ex = hx + look;
+    h += E(ex - 30, hy + 2, 14, 17 * blink, '#fff', { w: 4 }) + E(ex + 30, hy + 2, 14, 17 * blink, '#fff', { w: 4 });
+    if (blink > 0.5) h += E(ex - 28, hy + 5, 7, 8, OL, { w: 0 }) + E(ex + 32, hy + 5, 7, 8, OL, { w: 0 });
+    const brow = 10 + 8 * talk;  // brava: ponta de dentro desce
+    h += `<path d="M ${ex - 50} ${hy - 30} L ${ex - 14} ${hy - 22 + brow * 0.6}" stroke="${OL}" stroke-width="8" stroke-linecap="round"/>`;
+    h += `<path d="M ${ex + 50} ${hy - 30} L ${ex + 14} ${hy - 22 + brow * 0.6}" stroke="${OL}" stroke-width="8" stroke-linecap="round"/>`;
+    h += `<path d="M ${hx - 4} ${hy + 18} Q ${hx + 10} ${hy + 34} ${hx - 6} ${hy + 38}" fill="none" stroke="${SKIN2}" stroke-width="5" stroke-linecap="round"/>`;
+    h += E(hx - 52, hy + 38, 14, 8, '#f19a8a', { w: 0 }) + E(hx + 52, hy + 38, 14, 8, '#f19a8a', { w: 0 });
+    const op = clamp(talk * 1.2);
+    if (op > 0.08) h += E(hx, hy + 56, 16 + 8 * op, 4 + 18 * op, '#7a2230', { w: 5 }) + E(hx, hy + 60 + 10 * op, 9 * op + 2, 4 * op + 1, '#e46a7a', { w: 0 });
+    else h += `<path d="M ${hx - 18} ${hy + 60} Q ${hx} ${hy + 52} ${hx + 18} ${hy + 60}" fill="none" stroke="${OL}" stroke-width="6" stroke-linecap="round"/>`;
+  } else {
+    h += E(hx + 60, hy + 5, 10, 12, OL, { w: 0 });
+    h += `<path d="M ${hx + 78} ${hy + 50} L ${hx + 58} ${hy + 52}" stroke="${OL}" stroke-width="6" stroke-linecap="round"/>`;
+  }
+  s += G(`rotate(${f1(ang)} ${hx} ${hy + 80})`, h);
+  s += armR;
+  return s;
+}
+
+// ---------------- tuas pernas, tênis e mãos (olhando pra baixo) ----------------
+function pernasMaos(t) {
+  // em coordenadas do quarto, abaixo do chão visível (y 1600-2700)
+  let s = '';
+  const tie = seg(t, 4.6, 5.0) * (1 - seg(t, 7.3, 7.7));
+  // pernas (jeans) saindo de baixo
+  s += P('M 60 3100 L 370 2060 Q 400 1990 470 1995 L 525 2010 L 530 3100 Z', '#3d5a8a');
+  s += P('M 1020 3100 L 710 2060 Q 680 1990 610 1995 L 555 2010 L 550 3100 Z', '#3d5a8a');
+  s += `<path d="M 300 2400 Q 330 2500 300 2600 M 780 2400 Q 750 2500 780 2600" stroke="#2e4770" stroke-width="6" fill="none"/>`;
+  // tênis no pé direito, meia no esquerdo
+  s += P('M 600 1990 Q 600 1880 650 1860 L 720 1860 Q 760 1900 800 1930 Q 860 1960 850 2020 L 600 2030 Z', '#fafafa');
+  s += `<path d="M 610 2020 L 850 2015" stroke="#d13b3b" stroke-width="12"/>`;
+  s += P('M 520 1995 Q 500 1880 440 1870 L 390 1880 Q 340 1950 330 2010 L 520 2015 Z', '#e8e8e8');
+  // cadarços balançando
+  const lw = Math.sin(t * 14) * 18 * tie;
+  s += `<path d="M 690 1900 Q ${640 + lw} 1950 ${610 + lw} 1990 M 700 1905 Q ${760 - lw} 1950 ${790 - lw} 1985" fill="none" stroke="#d13b3b" stroke-width="7" stroke-linecap="round"/>`;
+  // mãos puxando os cadarços (abrem e fecham)
+  const op = Math.sin(t * 7) * 40 * tie;
+  const hL = [lerp(400, 600 - op, tie), lerp(2300, 1950, tie)], hR = [lerp(800, 780 + op, tie), lerp(2300, 1950, tie)];
+  s += limb([[150, 2950], [lerp(250, 380, tie), 2350], hL], HOOD, 150);
+  s += limb([[930, 2950], [lerp(830, 830, tie), 2350], hR], HOOD, 150);
+  s += hand(hL[0], hL[1], 1) + hand(hR[0], hR[1], -1);
+  return s;
+}
+function hand(x, y, side, grip = 0) {
+  let s = E(x, y, 85, 72, SKIN);
+  for (let i = 0; i < 4; i++) s += E(x - 54 * side + i * 36 * side, y - 66 + grip * 26, 20, 36 - grip * 10, SKIN, { w: 5 });
+  s += E(x + 74 * side, y - 10, 22, 42, SKIN, { w: 5 });
+  return s;
+}
+
+// ---------------- celular em cima da cama ----------------
+function celCama(t) {
+  const ring = t >= 7.9 && t < 10.9;
+  const vib = ring ? Math.sin(t * 2 * Math.PI * 22) * 7 * (Math.sin(t * 2 * Math.PI * 1.4) > -0.2 ? 1 : 0) : 0;
+  let s = '';
+  s += P('M 860 1560 L 1500 1560 L 1500 2400 L 830 2400 Z', '#4f86c6');   // cama (lençol azul)
+  s += `<path d="M 900 1700 Q 1100 1660 1500 1720 M 880 1900 Q 1150 1860 1500 1950" stroke="#3d6fa8" stroke-width="6" fill="none"/>`;
+  const glow = ring ? 0.5 + 0.3 * Math.sin(t * 8) : 0;
+  s += G(`translate(${f1(1120 + vib)} 1760) rotate(-12)`,
+    `<rect x="-80" y="-150" width="160" height="300" rx="22" fill="#222" stroke="${OL}" stroke-width="6"/>` +
+    `<rect x="-66" y="-130" width="132" height="260" rx="10" fill="${ring ? '#9fe3ff' : '#333'}"/>` +
+    (ring ? `<text x="0" y="10" font-family="Cav" font-size="70" text-anchor="middle" fill="#222">EU</text>` : '') +
+    `<circle r="190" fill="#9fe3ff" opacity="${(glow * 0.35).toFixed(2)}"/>`);
+  if (ring) for (const k of [0, 1]) { const r = 200 + ((t * 160 + k * 60) % 120); s += `<circle cx="1120" cy="1760" r="${f1(r)}" fill="none" stroke="#fff" stroke-width="5" opacity="${f1(1 - (r - 200) / 120)}"/>`; }
+  return s;
+}
+
+// ---------------- plano B: o celular na tua mão ----------------
+function planoB(t) {
+  let s = '';
+  // fundo: quarto desfocado
+  s += `<g filter="url(#blur)" transform="translate(-300 -500) scale(1.4)">${quarto(t, '')}</g>`;
+  s += `<rect width="1080" height="1920" fill="#000" opacity="0.18"/>`;
+  const z = K([[10.72, 0.9], [11.3, 1.0], [16.4, 1.02], [19.9, 1.16]])(t);
+  const tr = t > 16.4 && t < 19.9 ? Math.sin(t * 37) * 3 : 0;  // mão tremendo
+  const sway = Math.sin(t * 1.1) * 8, swy = Math.sin(t * 1.6) * 6;
+  const vib = t < 14.5 ? Math.sin(t * 2 * Math.PI * 22) * 6 * (Math.sin(t * 2 * Math.PI * 1.4) > -0.2 ? 1 : 0) : 0;
+  const answered = t >= 14.75;
+  let ph = '';
+  ph += `<rect x="-330" y="-620" width="660" height="1240" rx="80" fill="#1e1e22" stroke="${OL}" stroke-width="8"/>`;
+  ph += `<rect x="-300" y="-570" width="600" height="1140" rx="50" fill="${answered ? '#14324a' : '#1f4e7a'}"/>`;
+  ph += `<rect x="-60" y="-600" width="120" height="16" rx="8" fill="#111"/>`;
+  const txt = (s2, y, size, c) => `<text x="0" y="${y}" font-family="Cav" font-size="${size}" text-anchor="middle" fill="${c}">${s2}</text>`;
+  if (!answered) {
+    ph += txt('chamada recebida', -420, 64, '#cfe6ff');
+    for (const k of [0, 1, 2]) { const r = 130 + ((t * 120 + k * 50) % 150); ph += `<circle cy="-180" r="${f1(r)}" fill="none" stroke="#9fd0ff" stroke-width="4" opacity="${f1(1 - (r - 130) / 150)}"/>`; }
+  } else {
+    const sec = Math.floor(t - 14.75); ph += txt('em ligação  00:0' + Math.min(9, sec), -420, 60, '#7ee08f');
+  }
+  ph += `<circle cy="-180" r="125" fill="#f0bf94" stroke="${OL}" stroke-width="6"/>` + txt('EU', -150, 110, '#2a2320');
+  ph += txt('(51) 9 9634-2817', 40, 66, '#ffffff');
+  // destaque do número quando ele percebe (c4)
+  const hl = seg(t, 12.3, 12.7) * (1 - seg(t, 14.4, 14.6));
+  if (hl > 0) ph += `<rect x="-270" y="-15" width="540" height="80" rx="20" fill="none" stroke="#ff5a5a" stroke-width="7" opacity="${f1(hl)}"/>`;
+  if (!answered) {
+    ph += `<circle cx="-150" cy="380" r="80" fill="#e04848" stroke="${OL}" stroke-width="6"/><path d="M -185 380 L -115 380" stroke="#fff" stroke-width="16" stroke-linecap="round"/>`;
+    const pulse = 1 + 0.06 * Math.sin(t * 9);
+    ph += `<g transform="translate(150 380) scale(${f1(pulse)})"><circle r="80" fill="#3fae5a" stroke="${OL}" stroke-width="6"/><path d="M -30 -10 Q 0 30 30 -10" stroke="#fff" stroke-width="14" fill="none" stroke-linecap="round"/></g>`;
+  } else {
+    // ondas da voz do telefone
+    const v = en('tel', t);
+    for (let i = 0; i < 15; i++) {
+      const h = 14 + v * 170 * (0.5 + 0.5 * Math.sin(i * 1.7 + t * 18));
+      ph += `<rect x="${-238 + i * 34}" y="${f1(260 - h / 2)}" width="20" height="${f1(h)}" rx="10" fill="#ff6b6b"/>`;
+    }
+    ph += `<circle cy="440" r="70" fill="#e04848" stroke="${OL}" stroke-width="6"/><path d="M -30 440 L 30 440" stroke="#fff" stroke-width="14" stroke-linecap="round"/>`;
+  }
+  // polegar direito: vem até o botão verde e arrasta pra cima
+  const thumb = K([[10.72, [340, 520]], [14.2, [340, 520]], [14.55, [170, 400]], [14.8, [160, 300]], [15.3, [330, 560]]])(t);
+  let hands = '';
+  hands += limb([[-520, 1250], [-420, 700], [-340, 460]], HOOD, 150);            // braço esquerdo
+  hands += E(-330, 470, 80, 120, SKIN);                                          // palma esquerda atrás
+  for (let i = 0; i < 4; i++) hands += E(-336, 80 + i * 105, 34, 44, SKIN, { w: 5 }); // dedos na borda
+  hands += limb([[560, 1250], [450, 760], [360, 560]], HOOD, 150);
+  hands += E(350, 580, 85, 110, SKIN);
+  for (let i = 0; i < 3; i++) hands += E(340, 230 + i * 100, 32, 42, SKIN, { w: 5 });
+  hands += limb([[380, 600], [thumb[0], thumb[1]]], SKIN, 64);
+  s += G(`translate(${f1(540 + sway + tr + vib)} ${f1(1010 + swy)}) scale(${f1(z)}) rotate(${f1(Math.sin(t * 0.8) * 1.5)})`, ph + hands);
+  return s;
+}
+
+// ---------------- legendas ----------------
+const LEG = [
+  [0, 3.4, 'MÃE', 'Filho! Tu vai perder o ônibus das 7!', '#d9b8ff'],
+  [3.67, 7.6, 'TU', 'Tô indo, mãe! Só tô achando o tênis...', '#bfe0ff'],
+  [10.72, 14.2, 'TU', 'Ué... esse número aí é o meu.', '#bfe0ff'],
+  [14.5, 16.2, 'TU', 'Alô?', '#bfe0ff'],
+  [16.44, 19.9, 'NO TELEFONE', 'Não entra no ônibus das 7.', '#ff9a9a']];
+function legenda(t) {
+  const Y = t >= 10.72 ? 175 : 1270;
+  const L = LEG.find(l => t >= l[0] && t < l[1]); if (!L) return '';
+  const w = L[3].split(' '); let a = L[3], b = '';
+  if (L[3].length > 24) { let best = 1e9; for (let i = 1; i < w.length; i++) { const x = w.slice(0, i).join(' '), y = w.slice(i).join(' '); const d = Math.abs(x.length - y.length); if (d < best) { best = d; a = x; b = y; } } }
+  const st = `font-family="Cav" text-anchor="middle" stroke="#1a1a1a" stroke-width="14" paint-order="stroke" stroke-linejoin="round"`;
+  return `<text x="540" y="${Y}" font-size="48" fill="${L[4]}" ${st}>${L[2]}</text>` +
+    `<text x="540" y="${Y + 80}" font-size="80" fill="#ffffff" ${st}>${a}</text>` + (b ? `<text x="540" y="${Y + 165}" font-size="80" fill="#ffffff" ${st}>${b}</text>` : '');
+}
+
+window.render = function (t) {
+  let body = '';
+  if (t < 10.72) {
+    // câmera: respira; 3.7-4.6 olha pra baixo (pros pés); 7.9-9.2 vira pra direita (celular na cama); 10.3 avança
+    const down = seg(t, 3.9, 4.6) * (1 - seg(t, 7.6, 8.4));
+    const right = seg(t, 8.2, 9.2);
+    const reach = seg(t, 10.0, 10.7);
+    const z = 1 + 0.12 * right + 0.25 * reach;
+    const cx = 540 + 0.0, ty = -down * 980 - right * 360, tx = -right * 420;
+    const sx = Math.sin(t * 0.9) * 7 + Math.sin(t * 2.3) * 3, sy = Math.sin(t * 1.3) * 8;
+    const rot = Math.sin(t * 0.7) * 0.6 + right * 3;
+    let sc = quarto(t, mae(t)) + pernasMaos(t) + celCama(t);
+    // mão direita pegando o celular
+    if (t > 9.6) { const u = seg(t, 9.6, 10.6); sc += limb([[1100, 2900], [lerp(1050, 1110, u), lerp(2600, 1950, u)]], HOOD, 130) + hand(lerp(1050, 1110, u), lerp(2600, 1880, u), -1, u); }
+    body = G(`translate(${f1(540 + sx + tx)} ${f1(960 + sy + ty)}) rotate(${f1(rot)}) scale(${f1(z)}) translate(-540 -960)`, sc);
+    // corte rápido: flash escuro
+    const k = seg(t, 10.45, 10.72); if (k > 0) body += `<rect width="1080" height="1920" fill="#000" opacity="${f1(k)}"/>`;
+  } else {
+    body = planoB(t);
+    const k = 1 - seg(t, 10.72, 10.95); if (k > 0) body += `<rect width="1080" height="1920" fill="#000" opacity="${f1(k)}"/>`;
+    const fo = seg(t, 20.2, 21); if (fo > 0) body += `<rect width="1080" height="1920" fill="#000" opacity="${f1(fo)}"/>`;
+  }
+  // vinheta
+  body += `<rect width="1080" height="1920" fill="url(#vin)"/>`;
+  body += legenda(t);
+  // marca d'água que anda
+  const wx = 540 + 280 * Math.sin(2 * Math.PI * t / 14);
+  body += `<text x="${f1(wx)}" y="1870" font-family="Cav" font-size="44" text-anchor="middle" fill="#fff" opacity="0.8" stroke="#000" stroke-width="6" paint-order="stroke">@Cardeno_Amarelo</text>`;
+  S.innerHTML = `<defs><filter id="blur"><feGaussianBlur stdDeviation="9"/></filter>
+    <radialGradient id="vin" cx="50%" cy="50%" r="75%"><stop offset="60%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity="0.45"/></radialGradient></defs>` + body;
+};
+</script></body></html>
