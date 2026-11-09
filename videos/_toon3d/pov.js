@@ -21,10 +21,10 @@
     const cam = T.esfera(0.003, '#000', cel, { sem: true }); cam.position.set(0, PH / 2 - 0.004, PD / 2 + 0.001);
     V.PW = PW; V.PH = PH;
     let ultimo = '';
-    V.celTela = (estado, t) => {
-      const chave = estado + Math.floor(t * 15);
+    V.celTela = (estado, t, info = {}) => {
+      const chave = estado + Math.floor(t * 15) + JSON.stringify(info);
       if (chave === ultimo) return; ultimo = chave;
-      tela.userData.f((c, w, h) => desenhaTela(c, w, h, estado, t)); tela.userData.redesenha();
+      tela.userData.f((c, w, h) => desenhaTela(c, w, h, estado, t, info)); tela.userData.redesenha();
     };
     // botões na tela (coordenadas locais do celular)
     V.botaoVerde = new V3(0.0168, -0.046, PD / 2 + 0.002);
@@ -105,15 +105,22 @@
   };
 
   // ---------- tela do celular ----------
-  function desenhaTela(c, w, h, estado, t) {
+  // info (opcional): {nome:'AMIGO', hora:'7:20', cor:'#e2783a', pele:'#c98e66', msgs:[['linha','linha'],...]}
+  function avatar(c, x, y, r, info) {
+    c.fillStyle = '#9fb6d8'; c.beginPath(); c.arc(x, y, r, 0, 7); c.fill();
+    c.fillStyle = info.pele || '#e9b48c'; c.beginPath(); c.arc(x, y - r * 0.16, r * 0.39, 0, 7); c.fill();
+    c.fillStyle = info.cor || '#2f8f4e'; c.beginPath(); c.arc(x, y + r * 0.74, r * 0.61, Math.PI, 0); c.fill();
+  }
+  function desenhaTela(c, w, h, estado, t, info = {}) {
+    const NOME = info.nome || 'EU';
     const g = c.createLinearGradient(0, 0, 0, h);
     g.addColorStop(0, '#2b3a55'); g.addColorStop(1, '#141a28'); c.fillStyle = g; c.fillRect(0, 0, w, h);
-    c.fillStyle = '#fff'; c.font = 'bold 20px sans-serif'; c.textAlign = 'left'; c.fillText('6:52', 22, 34);
+    c.fillStyle = '#fff'; c.font = 'bold 20px sans-serif'; c.textAlign = 'left'; c.fillText(info.hora || '6:52', 22, 34);
     c.textAlign = 'right'; c.fillText('▮▮▮ 78%', w - 20, 34);
     c.textAlign = 'center';
     if (estado === 'apagada') { c.fillStyle = '#0a0c10'; c.fillRect(0, 0, w, h); return; }
     if (estado === 'hora') {
-      c.fillStyle = '#fff'; c.font = 'bold 130px sans-serif'; c.fillText('6:59', w / 2, h * 0.33);
+      c.fillStyle = '#fff'; c.font = 'bold 130px sans-serif'; c.fillText(info.hora || '6:59', w / 2, h * 0.33);
       c.font = '28px sans-serif'; c.fillStyle = '#c9d6ea'; c.fillText('segunda-feira', w / 2, h * 0.39);
       return;
     }
@@ -127,16 +134,29 @@
       c.fillStyle = '#222'; c.font = '31px sans-serif'; c.fillText('olha pro outro lado', 112, y + 110); c.fillText('da rua.', 112, y + 150);
       c.textAlign = 'center'; return;
     }
+    if (estado === 'msgs') { // várias mensagens empilhadas de info.nome
+      c.fillStyle = '#fff'; c.font = 'bold 110px sans-serif'; c.fillText(info.hora || '7:20', w / 2, h * 0.2);
+      let y = h * 0.26;
+      for (const linhas of info.msgs || []) {
+        const alt = 90 + linhas.length * 40;
+        c.fillStyle = 'rgba(235,240,248,0.95)'; c.beginPath(); c.roundRect(24, y, w - 48, alt, 26); c.fill();
+        avatar(c, 70, y + 50, 28, info);
+        c.textAlign = 'left'; c.fillStyle = '#111'; c.font = 'bold 30px sans-serif'; c.fillText(NOME, 112, y + 46);
+        c.fillStyle = '#777'; c.font = '22px sans-serif'; c.fillText('agora', w - 110, y + 46);
+        c.fillStyle = '#222'; c.font = '29px sans-serif'; linhas.forEach((l, k) => c.fillText(l, 112, y + 100 + k * 40));
+        c.textAlign = 'center'; y += alt + 18;
+      }
+      return;
+    }
     const cx = w / 2, cy = h * 0.3;
     if (estado === 'tocando') {
       for (let k = 0; k < 3; k++) { const f = ((t * 0.9 + k / 3) % 1); c.strokeStyle = `rgba(120,220,140,${(1 - f) * 0.8})`; c.lineWidth = 5; c.beginPath(); c.arc(cx, cy, 62 + f * 80, 0, 7); c.stroke(); }
     }
-    c.fillStyle = '#9fb6d8'; c.beginPath(); c.arc(cx, cy, 62, 0, 7); c.fill();
-    c.fillStyle = '#e9b48c'; c.beginPath(); c.arc(cx, cy - 10, 24, 0, 7); c.fill();
-    c.fillStyle = '#2f8f4e'; c.beginPath(); c.arc(cx, cy + 46, 38, Math.PI, 0); c.fill();
-    c.fillStyle = '#fff'; c.font = 'bold 92px sans-serif'; c.fillText('EU', cx, h * 0.53);
+    avatar(c, cx, cy, 62, info);
+    c.fillStyle = '#fff'; c.font = `bold ${NOME.length > 3 ? 74 : 92}px sans-serif`; c.fillText(NOME, cx, h * 0.53);
     c.font = '28px sans-serif'; c.fillStyle = '#c9d6ea';
     if (estado === 'tocando') c.fillText('chamando...', cx, h * 0.6);
+    if (estado === 'ligando') c.fillText('chamando...', cx, h * 0.6);
     if (estado === 'chamada') { const s = Math.max(0, Math.floor(t)); c.fillText('00:' + String(s).padStart(2, '0'), cx, h * 0.6); }
     if (estado === 'encerrada') c.fillText('chamada encerrada', cx, h * 0.6);
     const by = h * 0.83, r = 40;
@@ -144,7 +164,7 @@
       c.fillStyle = '#e04848'; c.beginPath(); c.arc(w * 0.25, by, r, 0, 7); c.fill();
       c.fillStyle = '#3cc35c'; c.beginPath(); c.arc(w * 0.75, by, r, 0, 7); c.fill();
       tel(c, w * 0.25, by, true); tel(c, w * 0.75, by, false);
-    } else if (estado === 'chamada') {
+    } else if (estado === 'chamada' || estado === 'ligando') {
       c.fillStyle = '#e04848'; c.beginPath(); c.arc(cx, by, r, 0, 7); c.fill(); tel(c, cx, by, true);
     }
   }

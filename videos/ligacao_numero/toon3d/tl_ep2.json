@@ -1,0 +1,132 @@
+{
+ "dur": 78.301,
+ "ev": {
+  "INI": {
+   "t": 0.0,
+   "d": 1.0
+  },
+  "f0": {
+   "t": 1.2,
+   "d": 2.78,
+   "quem": "tu",
+   "leg": "Vai, mano... eu pego o próximo.",
+   "arq": "ep2/f0"
+  },
+  "f1": {
+   "t": 4.28,
+   "d": 3.59,
+   "quem": "amigo",
+   "leg": "Tu é doido, mano. Fui!",
+   "arq": "ep2/f1"
+  },
+  "FECHA": {
+   "t": 8.07,
+   "d": 1.0
+  },
+  "PARTE": {
+   "t": 9.07,
+   "d": 4.0
+  },
+  "SOZINHO": {
+   "t": 13.27,
+   "d": 2.2
+  },
+  "LIGA": {
+   "t": 15.67,
+   "d": 1.0
+  },
+  "f2": {
+   "t": 17.27,
+   "d": 2.68,
+   "quem": "tu",
+   "leg": "Atende, mano... atende...",
+   "arq": "ep2/f2"
+  },
+  "g0": {
+   "t": 20.45,
+   "d": 8.28,
+   "quem": "grav",
+   "leg": "O número que você ligou está fora de área ou desligado.",
+   "arq": "ep2/g0"
+  },
+  "HORA": {
+   "t": 29.13,
+   "d": 2.0
+  },
+  "PARA": {
+   "t": 31.13,
+   "d": 1.6
+  },
+  "f3": {
+   "t": 33.03,
+   "d": 3.39,
+   "quem": "tu",
+   "leg": "Parou de chover... do nada.",
+   "arq": "ep2/f3"
+  },
+  "OLHA": {
+   "t": 36.72,
+   "d": 2.4
+  },
+  "f4": {
+   "t": 39.12,
+   "d": 2.04,
+   "quem": "tu",
+   "leg": "Cadê todo mundo?",
+   "arq": "ep2/f4"
+  },
+  "MSG1": {
+   "t": 41.96,
+   "d": 2.8
+  },
+  "MSG2": {
+   "t": 44.96,
+   "d": 2.6
+  },
+  "LIGAAMIGO": {
+   "t": 47.96,
+   "d": 1.6
+  },
+  "f5": {
+   "t": 49.96,
+   "d": 6.84,
+   "quem": "amigo",
+   "leg": "Mano... me escuta... o motorista virou pra mim... ele tem a tua cara.",
+   "arq": "ep2/f5"
+  },
+  "f6": {
+   "t": 57.1,
+   "d": 2.539,
+   "quem": "tu",
+   "leg": "O quê?! Alô?! Mano?!",
+   "arq": "ep2/f6"
+  },
+  "CAI": {
+   "t": 59.839,
+   "d": 1.6
+  },
+  "FAROL": {
+   "t": 61.839,
+   "d": 2.6
+  },
+  "CHEGA": {
+   "t": 64.439,
+   "d": 4.2
+  },
+  "ROSTO": {
+   "t": 68.939,
+   "d": 2.2
+  },
+  "g1": {
+   "t": 71.339,
+   "d": 5.362,
+   "quem": "mot",
+   "leg": "E agora...? Vai subir?",
+   "arq": "ep2/g1"
+  },
+  "FIM": {
+   "t": 78.301,
+   "d": 0.0
+  }
+ }
+}
