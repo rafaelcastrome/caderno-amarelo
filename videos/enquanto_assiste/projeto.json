@@ -1,0 +1,14 @@
+{
+ "titulo": "Enquanto tu assiste esse vídeo",
+ "marca": {"handle": "Cardeno_Amarelo", "nome": "Caderno Amarelo"},
+ "marcaDagua": false,
+ "pausaPadrao": 0.4,
+ "fontes": [
+  {"fato": "~4,3 nascimentos por segundo (~134 milhões por ano)", "fonte": "ONU, World Population Prospects (estimativa)", "url": ""},
+  {"fato": "~44 raios por segundo no planeta", "fonte": "NOAA / NASA (estimativa)", "url": ""},
+  {"fato": "~100 bilhões de mensagens de WhatsApp por dia (~1,16 milhão por segundo)", "fonte": "Meta, 2020", "url": ""},
+  {"fato": "coração em repouso ~75 batidas por minuto (suposição)", "fonte": "suposição", "url": ""},
+  {"fato": "~330 bilhões de células trocadas por dia (~3,8 milhões por segundo)", "fonte": "Sender & Milo, Nature Medicine 2021", "url": ""},
+  {"fato": "Terra a ~29,8 km/s em volta do Sol", "fonte": "NASA", "url": ""}
+ ]
+}
