@@ -98,7 +98,7 @@ poe(mus, drone(E('APAGA') - E('CORRE'), 55), E('CORRE'), 0.35)
 poe(mus, reverso(1.4), E('APAGA') - 1.4, 0.5)
 poe(mus, batida(4, 30), E('APAGA'), 1.0)                                    # apaga tudo
 poe(mus, vidro(E('CEL') - E('APAGA'), 1046), E('APAGA') + 0.6, 0.3)
-poe(mus, drone(TQ - E('APAGA'), 32.7), E('APAGA') + 0.3, 0.5)
+poe(mus, drone(TQ - E('APAGA'), 32.7), E('APAGA') + 0.3, 0.32)
 poe(mus, subida(TQ - E('CEL')), E('CEL'), 0.3)
 poe(mus, batida(3, 36), TQ, 0.9)                                            # corta pro quarto
 poe(mus, drone(QD, 41.2) * 0.6, TQ + 0.5, 0.3)
@@ -129,7 +129,7 @@ while t < TQ + QT['VERDE']['t'] - Q0: poe(sfx, toque[:int(min(len(toque) / SR, T
 poe(sfx, clique, TQ + QT['VERDE']['t'] - Q0, 0.4)
 
 # ---------------- mixagem (abaixa trilha e efeitos sob as falas) ----------------
-envv = np.convolve(np.abs(voz), np.ones(4800) / 4800, 'same'); duck = 1 - 0.55 * np.clip(envv / 0.03, 0, 1)
+envv = np.convolve(np.abs(voz), np.ones(4800) / 4800, 'same'); duck = 1 - 0.72 * np.clip(envv / 0.03, 0, 1)   # trilha bem mais baixa enquanto alguém fala
 duck = np.convolve(duck, np.ones(9600) / 9600, 'same').astype(np.float32)
 mix = voz * 1.0 + sfx * (0.5 + 0.4 * duck) * 0.8 + mus * duck * 0.6
 mix = mix / np.abs(mix).max() * 0.9
