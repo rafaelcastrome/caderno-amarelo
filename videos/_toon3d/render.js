@@ -9,6 +9,7 @@ const iPrev = args.indexOf('--prev'); const prev = iPrev >= 0 ? args.slice(iPrev
 const iB = args.indexOf('--dados'); const dados = iB >= 0 ? fs.readFileSync(path.resolve(args[iB + 1]), 'utf8') : '{}';
 const iB2 = args.indexOf('--bocas'); const bocas = iB2 >= 0 ? fs.readFileSync(path.resolve(args[iB2 + 1]), 'utf8') : '{}';
 const FPS = 30; const AQUI = __dirname;
+const iDe = args.indexOf('--de'); const iAte = args.indexOf('--ate'); // trecho em quadros (pra renderizar em pedaços)
 (async () => {
   const b = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
   const p = await b.newPage({ viewport: { width: 720, height: 1280 } });
@@ -25,7 +26,8 @@ const FPS = 30; const AQUI = __dirname;
   if (prev) { for (const t of prev) fs.writeFileSync(saida.replace(/\.mp4$/, `_${t}.jpg`), await grab(t)); await b.close(); return; }
   const ff = spawn('ffmpeg', ['-y', '-v', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-', '-c:v', 'libx264', '-crf', '17', '-pix_fmt', 'yuv420p', saida]);
   const n = Math.round(info.dur * FPS);
-  for (let i = 0; i < n; i++) {
+  const q0 = iDe >= 0 ? +args[iDe + 1] : 0, q1 = iAte >= 0 ? Math.min(n, +args[iAte + 1]) : n;
+  for (let i = q0; i < q1; i++) {
     const j = await grab(i / FPS); if (!ff.stdin.write(j)) await new Promise((r) => ff.stdin.once('drain', r));
     if (i % 30 === 0) process.stdout.write(`\r${path.basename(saida)} ${i}/${n}`);
   }
