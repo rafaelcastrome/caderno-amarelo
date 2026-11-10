@@ -107,6 +107,7 @@
   // ---------- tela do celular ----------
   // info (opcional): {nome:'AMIGO', hora:'7:20', cor:'#e2783a', pele:'#c98e66', msgs:[['linha','linha'],...]}
   function avatar(c, x, y, r, info) {
+    if (info.icone) { c.fillStyle = info.corIcone || '#d43c3c'; c.beginPath(); c.arc(x, y, r, 0, 7); c.fill(); c.fillStyle = '#fff'; c.font = `bold ${Math.round(r * 1.2)}px sans-serif`; c.textAlign = 'center'; c.fillText(info.icone, x, y + r * 0.42); c.textAlign = 'left'; return; }
     c.fillStyle = '#9fb6d8'; c.beginPath(); c.arc(x, y, r, 0, 7); c.fill();
     c.fillStyle = info.pele || '#e9b48c'; c.beginPath(); c.arc(x, y - r * 0.16, r * 0.39, 0, 7); c.fill();
     c.fillStyle = info.cor || '#2f8f4e'; c.beginPath(); c.arc(x, y + r * 0.74, r * 0.61, Math.PI, 0); c.fill();
