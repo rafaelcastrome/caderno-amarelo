@@ -1,0 +1,60 @@
+{
+ "titulo": "Teu braço vai subir sozinho",
+ "marca": {
+  "handle": "Cardeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único, atempo 1.1)"
+ },
+ "pausaPadrao": 0.6,
+ "fontes": [
+  {
+   "fato": "Pressionar o braço para fora contra uma parede/batente por ~30 s a 1 min faz o braço subir sozinho ao soltar (pós-contração involuntária, fenômeno de Kohnstamm). Descrito por Alberto Salmon (1914) e Oskar Kohnstamm (1915); a maioria das pessoas sente, cerca de 15% não. O mecanismo ainda é debatido.",
+   "fonte": "De Havas, Ghosh, Gomi & Haggard, Frontiers in Behavioral Neuroscience (2015); Wikipedia 'Kohnstamm's phenomenon'; UNC Asheville capstone (2025)",
+   "url": "https://www.frontiersin.org/journals/behavioral-neuroscience/articles/10.3389/fnbeh.2015.00185/full"
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Em trinta segundos... teu braço vai subir sozinho. E tu não vai conseguir segurar!"
+  },
+  {
+   "fala": "Levanta e fica do lado de uma parede... ou no batente da porta."
+  },
+  {
+   "fala": "Braço esticado pra baixo... e as costas da mão encostadas na parede. Assim, ó."
+  },
+  {
+   "fala": "Agora empurra a parede com força... como se quisesse levantar o braço. Força mesmo! Valendo!"
+  },
+  {
+   "fala": ""
+  },
+  {
+   "fala": "Não para! Empurra!"
+  },
+  {
+   "fala": "Tá cansando? Ótimo... continua!"
+  },
+  {
+   "fala": "Mais força... só mais cinco segundos!"
+  },
+  {
+   "fala": ""
+  },
+  {
+   "fala": "Agora sai da parede... dá um passo pro lado... e deixa o braço bem solto. Relaxa..."
+  },
+  {
+   "fala": "Subiu sozinho, né?! Tu não fez nada... é o teu cérebro que continua mandando o braço empurrar!"
+  },
+  {
+   "fala": "Isso foi descoberto faz mais de cem anos... e os cientistas até hoje discutem como funciona."
+  },
+  {
+   "fala": "Agora faz num amigo sem contar nada... e comenta aí: subiu ou não subiu?"
+  }
+ ]
+}

@@ -1,0 +1,100 @@
+{
+ "take": "falas/take_r.wav",
+ "voz": "Algieba",
+ "cortes": [
+  5.091,
+  8.9,
+  13.845,
+  19.636,
+  21.818,
+  24.455,
+  27.436,
+  34.364,
+  41.173,
+  47.182
+ ],
+ "cenas": [
+  {
+   "fala": 0,
+   "pausa": 0.3
+  },
+  {
+   "fala": 1,
+   "pausa": 0.3
+  },
+  {
+   "fala": 2,
+   "pausa": 0.6
+  },
+  {
+   "fala": 3,
+   "pausa": 0.2
+  },
+  {
+   "silencio": 6.0,
+   "pausa": 0
+  },
+  {
+   "fala": 4,
+   "pausa": 6.75
+  },
+  {
+   "fala": 5,
+   "pausa": 6.36
+  },
+  {
+   "fala": 6,
+   "pausa": 5.0
+  },
+  {
+   "arquivo": "sfx/ding.wav",
+   "pausa": 0
+  },
+  {
+   "fala": 7,
+   "pausa": 3.6
+  },
+  {
+   "fala": 8,
+   "pausa": 0.4
+  },
+  {
+   "fala": 9,
+   "pausa": 0.5
+  },
+  {
+   "fala": 10,
+   "pausa": 2.2
+  }
+ ],
+ "fundo": {
+  "arquivo": "sfx/tique.wav",
+  "volume_cenas": [
+   [
+    1,
+    0,
+    0
+   ],
+   [
+    5,
+    0,
+    0
+   ],
+   [
+    5,
+    0.001,
+    0.45
+   ],
+   [
+    8,
+    0.999,
+    0.45
+   ],
+   [
+    9,
+    0,
+    0
+   ]
+  ]
+ }
+}
