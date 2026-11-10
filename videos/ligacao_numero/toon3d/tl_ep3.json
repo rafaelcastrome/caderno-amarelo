@@ -1,0 +1,164 @@
+{
+ "dur": 88.672,
+ "ev": {
+  "INI": {
+   "t": 0.0,
+   "d": 0.6
+  },
+  "b0": {
+   "t": 0.6,
+   "d": 6.0,
+   "quem": "mot",
+   "leg": "Sobe... ele tá lá atrás.",
+   "arq": "ep3/b0"
+  },
+  "SOBE": {
+   "t": 6.8,
+   "d": 1.4
+  },
+  "a0": {
+   "t": 8.4,
+   "d": 3.3,
+   "quem": "tu",
+   "leg": "Cadê meu amigo?!",
+   "arq": "ep3/a0"
+  },
+  "PROCURA": {
+   "t": 11.9,
+   "d": 1.8
+  },
+  "a1": {
+   "t": 13.7,
+   "d": 3.1,
+   "quem": "tu",
+   "leg": "Mano?! Tu tá aqui?",
+   "arq": "ep3/a1"
+  },
+  "BONE": {
+   "t": 17.4,
+   "d": 1.0
+  },
+  "a2": {
+   "t": 18.4,
+   "d": 3.1,
+   "quem": "tu",
+   "leg": "Esse é o boné dele...",
+   "arq": "ep3/a2"
+  },
+  "ANDA": {
+   "t": 22.1,
+   "d": 1.6
+  },
+  "b1": {
+   "t": 23.9,
+   "d": 4.8,
+   "quem": "mot",
+   "leg": "Ninguém desce antes do ponto final.",
+   "arq": "ep3/b1"
+  },
+  "MSG": {
+   "t": 29.3,
+   "d": 3.2
+  },
+  "JANELA1": {
+   "t": 32.9,
+   "d": 3.0
+  },
+  "JANELA2": {
+   "t": 37.3,
+   "d": 0.8
+  },
+  "a3": {
+   "t": 38.1,
+   "d": 4.95,
+   "quem": "tu",
+   "leg": "Peraí... essa mulher de novo?",
+   "arq": "ep3/a3"
+  },
+  "JANELA3": {
+   "t": 44.45,
+   "d": 0.8
+  },
+  "a4": {
+   "t": 45.25,
+   "d": 3.45,
+   "quem": "tu",
+   "leg": "A gente tá passando na mesma rua...",
+   "arq": "ep3/a4"
+  },
+  "HORA": {
+   "t": 49.3,
+   "d": 0.8
+  },
+  "a5": {
+   "t": 50.1,
+   "d": 4.0,
+   "quem": "tu",
+   "leg": "O celular... a hora tá voltando...",
+   "arq": "ep3/a5"
+  },
+  "SUSSURRO": {
+   "t": 55.7,
+   "d": 0.0
+  },
+  "a6": {
+   "t": 55.7,
+   "d": 3.35,
+   "quem": "amigo",
+   "leg": "Mano... aqui atrás...",
+   "arq": "ep3/a6"
+  },
+  "ATRAS": {
+   "t": 59.25,
+   "d": 1.6
+  },
+  "a7": {
+   "t": 60.85,
+   "d": 3.12,
+   "quem": "tu",
+   "leg": "Mano! Levanta, bora descer!",
+   "arq": "ep3/a7"
+  },
+  "LEVANTA": {
+   "t": 64.37,
+   "d": 1.0
+  },
+  "a8": {
+   "t": 65.37,
+   "d": 5.31,
+   "quem": "amigo",
+   "leg": "Não dá, mano... ele disse que só um de nós desce.",
+   "arq": "ep3/a8"
+  },
+  "b2": {
+   "t": 71.28,
+   "d": 3.07,
+   "quem": "amigo",
+   "leg": "Ele tá olhando pra gente...",
+   "arq": "ep3/b2"
+  },
+  "VIRA": {
+   "t": 74.65,
+   "d": 1.8
+  },
+  "b3": {
+   "t": 76.75,
+   "d": 4.122,
+   "quem": "mot",
+   "leg": "Escolhe.",
+   "arq": "ep3/b3"
+  },
+  "PARA": {
+   "t": 81.672,
+   "d": 3.0
+  },
+  "VE": {
+   "t": 84.672,
+   "d": 3.8
+  },
+  "FIM": {
+   "t": 88.672,
+   "d": 0.0
+  }
+ }
+}
