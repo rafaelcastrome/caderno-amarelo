@@ -1,0 +1,54 @@
+{
+ "titulo": "Eu leio tua mente",
+ "marca": {
+  "handle": "Cardeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único, atempo 1.1)"
+ },
+ "pausaPadrao": 0.6,
+ "fontes": [
+  {
+   "fato": "Número de 2 algarismos menos a soma dos algarismos é sempre múltiplo de 9 (10a+b-a-b=9a); todos os múltiplos de 9 têm o mesmo desenho",
+   "fonte": "Matemática do truque",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Eu vou ler tua mente... e tu não vai entender como!"
+  },
+  {
+   "fala": "Pensa num número de dois algarismos... qualquer um, de dez a noventa e nove."
+  },
+  {
+   "fala": "Agora pega o número inteiro... e tira dele os dois algarismos. Tipo... cinquenta e dois: cinquenta e dois menos cinco... menos dois."
+  },
+  {
+   "fala": "Faz a tua conta... acha o resultado na tabela... e decora o desenho do lado."
+  },
+  {
+   "fala": "Decorou? Pensa forte nele... bem forte..."
+  },
+  {
+   "fala": "O teu desenho é... esse aqui!"
+  },
+  {
+   "fala": "Duvida? Pensa em outro número... e faz a mesma conta."
+  },
+  {
+   "fala": "Acha o resultado nessa tabela nova... e decora o desenho."
+  },
+  {
+   "fala": "Pensa forte... E agora o teu desenho é..."
+  },
+  {
+   "fala": "Esse!"
+  },
+  {
+   "fala": "Acertei as duas? Comenta aí!\n"
+  }
+ ]
+}
