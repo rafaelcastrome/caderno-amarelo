@@ -1,0 +1,42 @@
+{
+ "titulo": "Tu tem dois narizes",
+ "marca": {
+  "handle": "Cardeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único, atempo 1.1)"
+ },
+ "pausaPadrao": 0.6,
+ "fontes": [
+  {
+   "fato": "Ilusão de Aristóteles: com os dedos cruzados, um objeto tocando os dois lados de dentro parece dois",
+   "fonte": "Aristóteles, Metafísica; Benedetti 1985",
+   "url": "https://en.wikipedia.org/wiki/Aristotle%27s_illusion"
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Faz isso comigo agora... tu vai sentir uma coisa muito estranha!"
+  },
+  {
+   "fala": "Cruza o dedo do meio por cima do indicador... igual quando tu faz figa."
+  },
+  {
+   "fala": "Agora fecha o olho... e encosta a pontinha do nariz no meio dos dois dedos."
+  },
+  {
+   "fala": "Esfrega devagar... pra cima e pra baixo..."
+  },
+  {
+   "fala": "Sentiu? Tu tem dois narizes!"
+  },
+  {
+   "fala": "Teu cérebro acha que os dedos tão no lugar normal... então cada dedo grita: achei um nariz! E ele monta dois."
+  },
+  {
+   "fala": "Testa no amigo do lado... e comenta: sentiu dois ou não?\n"
+  }
+ ]
+}
