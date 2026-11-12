@@ -119,6 +119,7 @@
     c.fillStyle = '#fff'; c.font = 'bold 20px sans-serif'; c.textAlign = 'left'; c.fillText(info.hora || '6:52', 22, 34);
     c.textAlign = 'right'; c.fillText('▮▮▮ 78%', w - 20, 34);
     c.textAlign = 'center';
+    if (estado === 'custom' && info.f) { info.f(c, w, h, t); return; }
     if (estado === 'apagada') { c.fillStyle = '#0a0c10'; c.fillRect(0, 0, w, h); return; }
     if (estado === 'hora') {
       c.fillStyle = '#fff'; c.font = 'bold 130px sans-serif'; c.fillText(info.hora || '6:59', w / 2, h * 0.33);

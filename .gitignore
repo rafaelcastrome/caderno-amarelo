@@ -30,3 +30,14 @@ videos/ligacao_numero/toon3d/legf4/
 videos/ligacao_numero/toon3d/c4_*
 videos/ligacao_numero/toon3d/video_ep4.mp4
 videos/ligacao_numero/toon3d/quarto_fim.mp4
+# Alerta: não abra (intermediários)
+videos/alerta_nao_abra/p1/partes/
+videos/alerta_nao_abra/p1/prev/
+videos/alerta_nao_abra/p1/legf1/
+videos/alerta_nao_abra/p1/*.f32
+videos/alerta_nao_abra/p1/p1.mp4
+videos/alerta_nao_abra/p1/video_p1.mp4
+videos/alerta_nao_abra/p1/c1_fim.*
+videos/alerta_nao_abra/p1/q.png
+videos/alerta_nao_abra/p1/*.txt
+videos/_toon3d/package*.json
