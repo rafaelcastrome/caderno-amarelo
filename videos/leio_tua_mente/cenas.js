@@ -88,7 +88,7 @@ window.CENAS = function (WB) {
     const st = [sp(WB.roughRect(x + 3, y + 3, x + CW - 3, y + CH - 3), '#c9c2a8', 2, grade)];
     st.push(...WB.textStrokes(String(n), x + 30, cy + 13, 40, INK.black, grade, 'middle').strokes);
     let f, cor;
-    if ((n % 9 === 0 && n >= 9) || EXTRA.has(n)) { f = 'coracao'; cor = INK.red; }
+    if (n % 9 === 0 || EXTRA.has(n)) { f = 'coracao'; cor = INK.red; }
     else { f = OUTRAS[Math.floor(rnd() * OUTRAS.length)]; cor = CORES[Math.floor(rnd() * CORES.length)]; }
     st.push(sp(FORMAS[f](x + 72, cy, 20), cor, 5, grade));
     WB.showNow(st);
@@ -103,8 +103,12 @@ window.CENAS = function (WB) {
   rest(s2 + 3.1, S[2].start - 0.1);
   // cena 3: tira os algarismos (exemplo sem resultado)
   const s3 = S[2].start;
-  aviso(s3 + 0.2, s3 + 1.4, S[3].start - 0.05, 'tira os 2 algarismos', 540, 1580, 80, INK.purple);
-  aviso(s3 + 3.0, s3 + 5.6, S[3].start - 0.05, 'ex: 52 − 5 − 2', 540, 1710, 96, INK.gray);
+  aviso(s3 + 0.2, s3 + 1.5, S[3].start - 0.05, 'pega o número INTEIRO', 540, 1530, 80, INK.purple);
+  aviso(s3 + 2.2, s3 + 3.6, S[3].start - 0.05, 'e tira os 2 algarismos', 540, 1625, 72, INK.purple);
+  aviso(s3 + 4.4, s3 + 5.0, S[3].start - 0.05, 'ex: 52', 400, 1730, 100, INK.gray);
+  aviso(s3 + 5.6, s3 + 6.0, S[3].start - 0.05, '− 5', 610, 1730, 100, INK.gray);
+  aviso(s3 + 6.5, s3 + 6.9, S[3].start - 0.05, '− 2', 760, 1730, 100, INK.gray);
+  rest(s3 + 7.0, S[2].end - 0.05);
   // cena 4: acha na tabela, decora o desenho
   const s4 = S[3].start;
   aviso(s4 + 0.2, s4 + 1.1, S[4].start - 0.05, 'acha o resultado', 420, 1590, 80, INK.blue);

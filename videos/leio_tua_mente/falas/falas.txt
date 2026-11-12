@@ -2,7 +2,7 @@ Eu vou ler tua mente... e tu não vai entender como!
 
 Pensa num número de dois algarismos... qualquer um, de dez a noventa e nove.
 
-Agora tira desse número os dois algarismos. Tipo... cinquenta e dois: menos cinco... menos dois.
+Agora pega o número inteiro... e tira dele os dois algarismos. Tipo... cinquenta e dois: cinquenta e dois menos cinco... menos dois.
 
 Faz a tua conta... acha o resultado na tabela... e decora o desenho do lado.
 
