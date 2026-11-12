@@ -1,0 +1,42 @@
+{
+ "titulo": "Dedo-salsicha",
+ "marca": {
+  "handle": "Cardeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único, atempo 1.1)"
+ },
+ "pausaPadrao": 0.6,
+ "fontes": [
+  {
+   "fato": "Salsicha flutuante: diplopia fisiológica, cada olho vê os dedos em posição diferente e o cérebro funde as imagens",
+   "fonte": "Floating finger illusion",
+   "url": "https://en.wikipedia.org/wiki/Floating_finger_illusion"
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Apoia o celular... e faz isso comigo. Leva só dez segundos!"
+  },
+  {
+   "fala": "Junta as pontinhas dos dois dedos indicadores... bem na frente dos olhos."
+  },
+  {
+   "fala": "Agora olha pra parede lá atrás... não olha pros dedos!"
+  },
+  {
+   "fala": "E afasta os dedos um pouquinho..."
+  },
+  {
+   "fala": "Tá vendo? Uma salsicha flutuando no meio do ar!"
+  },
+  {
+   "fala": "Cada olho vê os dedos num lugar diferente... e o teu cérebro cola as duas imagens. Aí nasce a salsicha."
+  },
+  {
+   "fala": "Viu a salsicha? Comenta aí... e manda pro amigo!\n"
+  }
+ ]
+}
