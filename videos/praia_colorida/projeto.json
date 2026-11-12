@@ -1,0 +1,50 @@
+{
+ "titulo": "Teu olho pinta a praia",
+ "marca": {
+  "handle": "Cardeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único, atempo 1.1)"
+ },
+ "pausaPadrao": 0.6,
+ "fontes": [
+  {
+   "fato": "Pós-imagem negativa: os cones cansam e, quando a cor some, aparece a cor oposta (processo oponente de Hering); sobre uma imagem cinza ela 'pinta' a foto.",
+   "fonte": "Illusions Index, Negative Afterimages",
+   "url": "https://www.illusionsindex.org/i/negative-afterimages"
+  },
+  {
+   "fato": "Ponto cego: onde o nervo óptico sai da retina não há fotorreceptores; o cérebro preenche a falha.",
+   "fonte": "Wikipedia, Blind spot (vision)",
+   "url": "https://en.wikipedia.org/wiki/Blind_spot_(vision)"
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Esse desenho é preto e branco... mas daqui a pouco tu vai ver ele colorido. Dentro do teu olho!"
+  },
+  {
+   "fala": "Olha só pro pontinho preto no meio... e não pisca! Isso... fica aí. Não mexe o olho, hein!"
+  },
+  {
+   "fala": "Segura... tá quase..."
+  },
+  {
+   "fala": "Agora! Tá vendo? O céu azul... o mar... a bandeira verde e amarela!"
+  },
+  {
+   "fala": "Agora mexe o olho... sumiu! Ele sempre foi preto e branco."
+  },
+  {
+   "fala": "Quem pintou foi o teu cérebro. As células de cor do teu olho cansaram... e mostraram a cor contrária."
+  },
+  {
+   "fala": "E sabe o mais doido? Tem um buraco no teu olho que não enxerga nada... e o cérebro pinta por cima, pra tu nem perceber."
+  },
+  {
+   "fala": "Viu colorido? Comenta: vi... ou não vi. Não viu? Volta... e dessa vez, não pisca!"
+  }
+ ]
+}

@@ -1,0 +1,59 @@
+{
+  "titulo": "Teu cérebro pinta a bandeira (pós-imagem + ilusão da cachoeira)",
+  "marca": {
+    "handle": "cardeno_amarelo",
+    "nome": "Caderno Amarelo"
+  },
+  "marcaDagua": false,
+  "voz": {
+    "elevenlabs": "Gabriel Euzébio (r3KkFedJ4n8aabIZ0RFQ), modelo eleven_v4, aprovada pelo Rafael em 2026-10-25"
+  },
+  "audio": "Narração gerada fora do gerar_audio.py (a skill não tem ElevenLabs): uma tomada só (../audio_eleven/take1.mp3) com silêncio inserido em 8 pontos, todos dentro de silêncio real medido por RMS (abaixo de -80 dB), para as encaradas de ~12 s na bandeira e na espiral.",
+  "fontes": [
+    {
+      "fato": "Encarar uma imagem de cores invertidas e depois olhar uma superfície clara faz aparecer a imagem nas cores normais (pós-imagem negativa); a explicação clássica é a adaptação das células de cor da retina (cones) somada ao processo oponente (verde x vermelho, azul x amarelo)",
+      "fonte": "Afterimage (Wikipedia, com o exemplo da bandeira invertida); Illusions Index, 'Negative Afterimages'",
+      "url": "https://www.illusionsindex.org/i/negative-afterimages"
+    },
+    {
+      "fato": "Ilusão da cachoeira (pós-efeito de movimento): depois de olhar algo em movimento, coisas paradas parecem se mexer pro outro lado; descrita por Robert Addams em 1834 nas Falls of Foyers, Escócia",
+      "fonte": "Addams, R. (1834), London and Edinburgh Philosophical Magazine; The Scientist, 'Falling Water, Rising Rocks, 1834'",
+      "url": "https://www.the-scientist.com/falling-water-rising-rocks-1834-69225"
+    }
+  ],
+  "cenas": [
+    {
+      "fala": "Essa bandeira tá com as cores todas erradas... e o teu cérebro vai consertar. Sozinho!"
+    },
+    {
+      "fala": "Olha só pro pontinho preto no meio. E não pisca! Isso... fica aí. Não mexe o olho, hein! Quase..."
+    },
+    {
+      "fala": "Agora! Tá vendo? Verde... amarelo... azul! A bandeira certinha!"
+    },
+    {
+      "fala": "Só que ela não tá aí. Nunca esteve!"
+    },
+    {
+      "fala": "As células do teu olho que veem cor... cansaram. Aí, quando a cor some... elas mostram o contrário."
+    },
+    {
+      "fala": "Isso se chama pós-imagem. Achou fácil? Fase dois!"
+    },
+    {
+      "fala": "Olha bem no meio dessa espiral... sem piscar. Segura... Tá quase..."
+    },
+    {
+      "fala": "Agora! Parece que ela tá girando pro outro lado, né? Mas ela tá parada!"
+    },
+    {
+      "fala": "Olha pra tua mão, rapidinho... Tá encolhendo? Ou crescendo?"
+    },
+    {
+      "fala": "Isso é a ilusão da cachoeira. Um cara reparou nisso em mil oitocentos e trinta e quatro... olhando uma cachoeira na Escócia."
+    },
+    {
+      "fala": "Funcionou contigo? Comenta: vi... ou não vi. Não viu? Volta... e dessa vez, não pisca!"
+    }
+  ]
+}
