@@ -1,0 +1,54 @@
+{
+ "titulo": "Põe o dedo na tela 2",
+ "marca": {
+  "handle": "Cardeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único, atempo 1.1)"
+ },
+ "pausaPadrao": 0.6,
+ "fontes": [
+  {
+   "fato": "Truque de paridade (tabuleiro de xadrez): cada passo troca a cor da casa; o nº de letras de cada desenho foi escolhido para todo mundo cair na mesma cor, e só se apagam casas da outra cor.",
+   "fonte": "Matemática do próprio truque, conferida por simulação de todos os 12 começos",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Põe o dedo em qualquer desenho... qualquer um! Eu vou adivinhar onde ele vai parar."
+  },
+  {
+   "fala": "Agora conta as letras do teu desenho... e anda isso de casas. Pra cima, pra baixo ou pro lado... diagonal não vale!"
+  },
+  {
+   "fala": "Tipo... no ovo: três letras. Anda uma... duas... três! A casa onde tu tá não conta."
+  },
+  {
+   "fala": "Pronto? Tu não tá no sorvete... nem na lua."
+  },
+  {
+   "fala": "Agora anda três casas. Casa apagada não vale!"
+  },
+  {
+   "fala": "Tu não tá no gato... nem na pipa... nem na flor."
+  },
+  {
+   "fala": "Anda uma casa."
+  },
+  {
+   "fala": "Sai do peixe... do ovo... e do balão."
+  },
+  {
+   "fala": "Última! Anda uma... e... tu tá no chinelo!"
+  },
+  {
+   "fala": "O chinelo da tua mãe... corre!"
+  },
+  {
+   "fala": "Acertei? Comenta aí! Duvida? Volta... e começa em outro desenho.\n"
+  }
+ ]
+}
