@@ -1,0 +1,228 @@
+{
+ "dur": 174.64,
+ "cenas": [
+  {
+   "n": 1,
+   "t": 0.25,
+   "d": 4.645,
+   "txt": "No meu prédio... o elevador pula do doze pro catorze.",
+   "arq": "c01"
+  },
+  {
+   "n": 2,
+   "t": 5.245,
+   "d": 6.089,
+   "txt": "O treze existe. Dá pra ver da rua. Tem janela... mas ninguém mora lá.",
+   "arq": "c02"
+  },
+  {
+   "n": 3,
+   "t": 11.683,
+   "d": 3.71,
+   "txt": "Na escada, a porta do treze nem maçaneta tem.",
+   "arq": "c03"
+  },
+  {
+   "n": 4,
+   "t": 15.743,
+   "d": 3.655,
+   "txt": "O seu Jorge do catorze jura que tem um cofre lá dentro.",
+   "arq": "c04"
+  },
+  {
+   "n": 5,
+   "t": 19.749,
+   "d": 3.199,
+   "txt": "A síndica diz que é só número de azar. E pronto.",
+   "arq": "c05"
+  },
+  {
+   "n": 6,
+   "t": 23.297,
+   "d": 3.39,
+   "txt": "Eu moro no doze. Com a minha mãe... e a minha vó.",
+   "arq": "c06"
+  },
+  {
+   "n": 7,
+   "t": 27.037,
+   "d": 2.872,
+   "txt": "E a minha vó... tem umas manias.",
+   "arq": "c07"
+  },
+  {
+   "n": 8,
+   "t": 30.26,
+   "d": 6.603,
+   "txt": "Toda noite, nove em ponto, ela deixa um prato de comida na escada. Diz que é pro santo.",
+   "arq": "c08"
+  },
+  {
+   "n": 9,
+   "t": 37.463,
+   "d": 3.475,
+   "txt": "De manhã, o prato tá lá. Vazio... e lavado.",
+   "arq": "c09"
+  },
+  {
+   "n": 10,
+   "t": 41.838,
+   "d": 8.523,
+   "txt": "Antes de dormir, ela bate no teto. Toc, toc. E alguma coisa bate de volta. Toc, toc. A minha mãe diz que é o cano.",
+   "arq": "c10"
+  },
+  {
+   "n": 11,
+   "t": 50.71,
+   "d": 6.248,
+   "txt": "Ela canta uma música pra dormir que ninguém conhece. Nem a minha mãe sabe a letra.",
+   "arq": "c11"
+  },
+  {
+   "n": 12,
+   "t": 57.308,
+   "d": 7.314,
+   "txt": "E ela nunca tira uma chave velha do pescoço. Diz que é da casa da roça. A vó nunca morou na roça.",
+   "arq": "c12"
+  },
+  {
+   "n": 13,
+   "t": 65.122,
+   "d": 5.608,
+   "txt": "Um dia, eu resolvi ver quem come esse prato. Sentei na escada... e dormi.",
+   "arq": "c13"
+  },
+  {
+   "n": 14,
+   "t": 71.08,
+   "d": 5.679,
+   "txt": "Acordei com o prato vazio do meu lado. E um desenho. De mim. Dormindo ali.",
+   "arq": "c14"
+  },
+  {
+   "n": 15,
+   "t": 77.109,
+   "d": 3.759,
+   "txt": "Eu guardei o desenho. E não contei pra ninguém.",
+   "arq": "c15"
+  },
+  {
+   "n": 16,
+   "t": 81.768,
+   "d": 3.049,
+   "txt": "Até que uma noite... a vó passou mal.",
+   "arq": "c16"
+  },
+  {
+   "n": 17,
+   "t": 85.167,
+   "d": 7.03,
+   "txt": "Na maca, ela pegou a minha mão... e me deu a chave. Só falou: O prato... não esquece o prato.",
+   "arq": "c17"
+  },
+  {
+   "n": 18,
+   "t": 92.546,
+   "d": 5.466,
+   "txt": "A minha mãe foi com ela. A vizinha disse que ela ia dormir no hospital.",
+   "arq": "c18"
+  },
+  {
+   "n": 19,
+   "t": 98.362,
+   "d": 2.124,
+   "txt": "E eu... esqueci o prato.",
+   "arq": "c19"
+  },
+  {
+   "n": 20,
+   "t": 101.086,
+   "d": 7.385,
+   "txt": "Às dez, começou. Toc, toc. Só que dessa vez, ninguém bateu primeiro. Toc, toc. Toc, toc, toc, toc!",
+   "arq": "c20"
+  },
+  {
+   "n": 21,
+   "t": 109.471,
+   "d": 2.764,
+   "txt": "E a luz do prédio inteiro apagou.",
+   "arq": "c21"
+  },
+  {
+   "n": 22,
+   "t": 115.236,
+   "d": 2.48,
+   "txt": "Eu peguei o prato. E a chave.",
+   "arq": "c22"
+  },
+  {
+   "n": 23,
+   "t": 118.315,
+   "d": 3.262,
+   "txt": "Embaixo da tinta... tinha uma fechadura.",
+   "arq": "c23"
+  },
+  {
+   "n": 24,
+   "t": 122.977,
+   "d": 4.47,
+   "txt": "Lá dentro era igual a nossa casa. Só que parado no tempo.",
+   "arq": "c24"
+  },
+  {
+   "n": 25,
+   "t": 128.048,
+   "d": 3.831,
+   "txt": "Na parede tinha desenho. Um monte. Todos de mim.",
+   "arq": "c25"
+  },
+  {
+   "n": 26,
+   "t": 132.478,
+   "d": 3.262,
+   "txt": "A cadeira de balanço ainda tava mexendo.",
+   "arq": "c26"
+  },
+  {
+   "n": 27,
+   "t": 137.14,
+   "d": 9.233,
+   "txt": "Na estante, uma foto da vó, novinha. Com duas bebês no colo. Iguaizinhas. A vó sempre disse que a minha mãe era filha única.",
+   "arq": "c27"
+  },
+  {
+   "n": 28,
+   "t": 146.973,
+   "d": 5.11,
+   "txt": "Aí, lá do quarto escuro... alguém começou a cantar a música da vó.",
+   "arq": "c28"
+  },
+  {
+   "n": 29,
+   "t": 154.884,
+   "d": 6.532,
+   "txt": "Quando a luz voltou, a minha mãe tava em casa. Disse que voltou mais cedo do hospital.",
+   "arq": "c29"
+  },
+  {
+   "n": 30,
+   "t": 161.766,
+   "d": 5.11,
+   "txt": "Ela me pôs pra dormir... e cantou a música da vó. A letra inteira.",
+   "arq": "c30"
+  },
+  {
+   "n": 31,
+   "t": 167.476,
+   "d": 2.764,
+   "txt": "A minha mãe não sabe essa música.",
+   "arq": "c31"
+  },
+  {
+   "n": 32,
+   "t": 171.44,
+   "d": 3.2,
+   "txt": ""
+  }
+ ]
+}
