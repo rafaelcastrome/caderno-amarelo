@@ -1,0 +1,8 @@
+flow/
+cenas/
+leg/
+*.f32
+junto.mp4
+filtro.txt
+lista.txt
+audio/take*.wav
