@@ -6,7 +6,9 @@ AQ = os.path.dirname(os.path.abspath(__file__)); os.chdir(AQ)
 import importlib.util
 spec = importlib.util.spec_from_file_location('b', 'build.py'); b = importlib.util.module_from_spec(spec); spec.loader.exec_module(b)
 CENAS = b.CENAS; SR = 48000
-INI = np.cumsum([0] + [d for d, _ in CENAS]).tolist(); TOTAL = INI[-1]
+HK0, HK = 15.3, 2.2  # gancho: o puxão do cabo (cena 6) logo no começo
+OFF = HK
+INI = (OFF + np.cumsum([0] + [d for d, _ in CENAS])).tolist(); TOTAL = INI[-1]
 LEG = {'C1': 'Ai... minha coluna... mais uma caixa... só mais uma...', 'C2': 'Peraí... que que é isso? Meu crachá... da Microsoft.',
        'C3': 'Oi! Parece que você está escrevendo uma carta! Quer ajuda?', 'E1': 'Clippy... a partir de hoje... você vai trabalhar lá embaixo. No depósito.',
        'C4': 'Mas... por quê?! Eu ajudava todo mundo!', 'E2': 'Sei lá. Só vai.', 'C5': 'Vinte anos... sem motivo nenhum.',
@@ -62,6 +64,12 @@ poe(mus, drone(CENAS[4][0] + 0.3, 49), S[4], 0.35)
 for k in range(6): poe(sfx, batida(0.4, 50) * 0.8, S[4] + 0.5 + k * 0.62, 0.45)
 x = tt(2.2); poe(mus, (bp(ruido(2.2), 500, 4000) * (x / 2.2) ** 2).astype(np.float32), S[4] + 2.2, 0.25)
 # 6 servidores: ventoinhas + bipes; puxão, faísca, tudo desliga
+# gancho (0..HK): tensão, puxão, faísca, apagão
+TH = 16.2 - HK0
+poe(mus, drone(TH + 0.2, 41), 0, 0.35); poe(sfx, batida(0.3, 120), TH, 0.5)
+crh = bp(ruido(0.7), 2000, 9000) * (rng.random(int(0.7 * SR)) > 0.85) * env(int(0.7 * SR), 0.005, 0.3); poe(sfx, crh.astype(np.float32), TH + 0.08, 0.6)
+x = tt(1.2); poe(sfx, (np.sin(2 * np.pi * np.cumsum(420 * np.exp(-x * 2.2) + 30) / SR) * env(len(x), 0.01, 0.3)).astype(np.float32), TH + 0.12, 0.35)
+poe(sfx, batida(2.0, 32), TH + 0.12, 0.9)
 TP = S[5] + 16.2
 laco(sfx, (bp(ruido(2), 200, 1500) * 0.5 + 0.1 * np.sin(2 * np.pi * 120 * tt(2))).astype(np.float32), S[5], TP + 0.25, 0.3)
 for k in range(26): poe(sfx, tom(2000 + 300 * (k % 3), 0.08, 30, (1,)), S[5] + 0.3 + k * 0.6, 0.08)
@@ -81,8 +89,9 @@ mix = voz + sfx * (0.55 + 0.45 * duck) + mus * duck * 0.8
 mix = mix / np.abs(mix).max() * 0.9; mix[:int(TOTAL * SR)].astype(np.float32).tofile('mix.f32')
 
 # vídeo: junta clipes
-open('lista.txt', 'w').write(''.join(f"file 'flow/f{i+1:02d}.mp4'\n" for i in range(len(CENAS))))
-subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', 'lista.txt', '-an', '-c', 'copy', 'junto.mp4'], check=True)
+subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', str(HK0), '-t', str(HK), '-i', 'flow/f06.mp4', '-an', '-c:v', 'libx264', '-crf', '16', '-pix_fmt', 'yuv420p', '-r', '30', 'gancho.mp4'], check=True)
+open('lista.txt', 'w').write("file 'gancho.mp4'\n" + ''.join(f"file 'flow/f{i+1:02d}.mp4'\n" for i in range(len(CENAS))))
+subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', 'lista.txt', '-an', '-c:v', 'libx264', '-crf', '16', '-pix_fmt', 'yuv420p', '-r', '30', 'junto.mp4'], check=True)
 FB = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'; CAV = os.path.abspath('../_papel3d/Caveat-Bold.ttf')
 COR = {'clipe': '0xd8d0ff', 'chefe': '0xffd27a', 'copilot': '0x9fe8ff'}; NOME = {'clipe': 'CLIPPY', 'chefe': 'CHEFE', 'copilot': 'COPILOT'}
 os.makedirs('leg', exist_ok=True); fil = []; legs.sort()
@@ -101,7 +110,8 @@ for i, (a, c, quem, x, cena) in enumerate(legs):
         open(f'leg/{i}_{j}.txt', 'w').write(l)
         fil.append(f"drawtext=fontfile={FB}:textfile=leg/{i}_{j}.txt:fontsize=32:fontcolor={COR[quem]}:borderw=4:bordercolor=0x111111:x=(w-tw)/2:y=h*{y0}+{j * 42}:enable='between(t,{a:.2f},{c:.2f})'")
 # título (gancho do quadro 0) e etiquetas de tempo
-ETQ = [('O Clippy da Microsoft...', 0, 3.4, 54, 0.06), ('20 anos depois', 0.5, 3.4, 44, 0.06 + 0.055),
+ETQ = [('Descobriram quem', 0, HK, 60, 0.07), ('derrubou o Outlook...', 0, HK, 60, 0.07 + 0.065),
+       ('O Clippy da Microsoft...', OFF, OFF + 3.4, 54, 0.06), ('20 anos depois', OFF + 0.5, OFF + 3.4, 44, 0.06 + 0.055),
        ('1997', S[2] + 0.05, S[4] - 0.1, 50, 0.07), ('Hoje', S[4] + 0.05, S[4] + 2.2, 50, 0.07)]
 for k, (txt, a, c, fs, y) in enumerate(ETQ):
     open(f'leg/etq{k}.txt', 'w').write(txt)
