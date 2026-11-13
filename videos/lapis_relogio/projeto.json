@@ -1,0 +1,45 @@
+{
+ "titulo": "O lápis acha o teu número",
+ "marca": {
+  "handle": "Cardeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "pausaPadrao": 0.6,
+ "fontes": [
+  {
+   "fato": "Truque do relógio: toques 1-7 livres, 8º no 12 e anti-horário; no toque 20-n o lápis está em n",
+   "fonte": "Matemática do truque",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Eu vou achar o número que tu pensou... só batendo esse lápis!"
+  },
+  {
+   "fala": "Pensa num número do relógio... de um a doze. Pensou?"
+  },
+  {
+   "fala": "Agora, a cada toc do lápis... tu conta um a mais, começando do teu número."
+  },
+  {
+   "fala": "Tipo... pensou no cinco? No primeiro toc tu fala seis... depois sete... oito..."
+  },
+  {
+   "fala": "Quando chegar no vinte... grita PARA! E olha onde o lápis tá. Valendo!"
+  },
+  {
+   "fala": "O lápis tava em cima do teu número... né?"
+  },
+  {
+   "fala": "Duvida? Volta e tenta com outro número... e comenta qual tu pensou!\n"
+  },
+  {
+   "fala": ""
+  }
+ ]
+}
