@@ -6,13 +6,13 @@ AQ = os.path.dirname(os.path.abspath(__file__)); os.chdir(AQ)
 import importlib.util
 spec = importlib.util.spec_from_file_location('b', 'build.py'); b = importlib.util.module_from_spec(spec); spec.loader.exec_module(b)
 CENAS = b.CENAS; SR = 48000
-HK0, HK = 12.3, 4.7  # gancho: narrador + o puxão do cabo (cena 6) logo no começo
+HK0, HK = 13.6, 4.7  # gancho: narrador + o puxão do cabo (cena 6) logo no começo
 OFF = HK
 INI = (OFF + np.cumsum([0] + [d for d, _ in CENAS])).tolist(); TOTAL = INI[-1]
 LEG = {'C1': 'Ai... minha coluna... mais uma caixa... só mais uma...', 'C2': 'Peraí... que que é isso? Meu crachá... da Microsoft.',
        'C3': 'Oi! Parece que você está escrevendo uma carta! Quer ajuda?', 'E1': 'Clippy... a partir de hoje... você vai trabalhar lá embaixo. No depósito.',
        'C4': 'Mas... por quê?! Eu ajudava todo mundo!', 'E2': 'Sei lá. Só vai.', 'C5': 'Vinte anos... sem motivo nenhum.',
-       'C6': 'Parece que você está tentando mandar um e-mail...', 'C7': '...Quer ajuda?', 'P1': 'Oi! Eu sou o Copilot, o novo assistente! E você... quem é?', 'X1': 'Eu?... Eu sou o cara que você substituiu.'}
+       'C6': 'Parece que você está tentando mandar um e-mail...', 'C7': '...Quer ajuda?', 'P1': 'Oi! Eu sou o Copilot! Parece que você está carregando caixas o dia inteiro... Quer que eu automatize isso pra você?', 'X1': 'Eu?... Eu sou o cara que você substituiu.'}
 def wav(p): return np.frombuffer(subprocess.run(['ffmpeg', '-v', 'error', '-i', p, '-ac', '1', '-ar', str(SR), '-f', 'f32le', '-'], capture_output=True, check=True).stdout, np.float32).copy()
 N = int((TOTAL + 1) * SR); voz, sfx, mus = (np.zeros(N, np.float32) for _ in range(3))
 def poe(buf, a, t, g=1.0):
@@ -65,18 +65,18 @@ for k in range(6): poe(sfx, batida(0.4, 50) * 0.8, S[4] + 0.5 + k * 0.62, 0.45)
 x = tt(2.2); poe(mus, (bp(ruido(2.2), 500, 4000) * (x / 2.2) ** 2).astype(np.float32), S[4] + 2.2, 0.25)
 # 6 servidores: ventoinhas + bipes; puxão, faísca, tudo desliga
 # gancho (0..HK): narrador, tensão, puxão, faísca, apagão
-TH = 16.2 - HK0
+TH = 17.5 - HK0
 n0 = wav('audio/N0.wav'); poe(voz, n0 / (np.abs(n0).max() + 1e-9) * 0.85, 0.15)
 poe(mus, drone(TH + 0.2, 41), 0, 0.35); poe(sfx, batida(0.3, 120), TH, 0.5)
 crh = bp(ruido(0.7), 2000, 9000) * (rng.random(int(0.7 * SR)) > 0.85) * env(int(0.7 * SR), 0.005, 0.3); poe(sfx, crh.astype(np.float32), TH + 0.08, 0.6)
 x = tt(1.2); poe(sfx, (np.sin(2 * np.pi * np.cumsum(420 * np.exp(-x * 2.2) + 30) / SR) * env(len(x), 0.01, 0.3)).astype(np.float32), TH + 0.12, 0.35)
 poe(sfx, batida(2.0, 32), TH + 0.12, 0.9)
-TP = S[5] + 16.2
+TP = S[5] + 17.5
 laco(sfx, (bp(ruido(2), 200, 1500) * 0.5 + 0.1 * np.sin(2 * np.pi * 120 * tt(2))).astype(np.float32), S[5], TP + 0.25, 0.3)
 for k in range(26): poe(sfx, tom(2000 + 300 * (k % 3), 0.08, 30, (1,)), S[5] + 0.3 + k * 0.6, 0.08)
 for k, f in enumerate([880, 1175, 1568]): poe(sfx, tom(f, 0.6, 5), S[5] + 1.0 + k * 0.08, 0.2)  # Copilot liga
 for k in range(5): poe(sfx, tink(1700 + (k % 2) * 200), S[5] + 0.1 + k * 0.3, 0.22)
-poe(mus, drone(16.4, 41), S[5], 0.3)
+poe(mus, drone(17.7, 41), S[5], 0.3)
 poe(sfx, batida(0.3, 120), TP, 0.5)                                   # plugue saindo
 cr = bp(ruido(0.7), 2000, 9000) * (rng.random(int(0.7 * SR)) > 0.85) * env(int(0.7 * SR), 0.005, 0.3); poe(sfx, cr.astype(np.float32), TP + 0.08, 0.6)
 x = tt(1.6); poe(sfx, (np.sin(2 * np.pi * np.cumsum(420 * np.exp(-x * 2.2) + 30) / SR) * env(len(x), 0.01, 0.4)).astype(np.float32), TP + 0.12, 0.35)  # desligando
@@ -113,10 +113,10 @@ for i, (a, c, quem, x, cena) in enumerate(legs):
 # título (gancho do quadro 0) e etiquetas de tempo
 ETQ = [('A Microsoft não caiu', 0, HK, 60, 0.07), ('por ataque hacker...', 0, HK, 60, 0.07 + 0.065),
        ('O Clippy da Microsoft...', OFF, OFF + 3.4, 54, 0.06), ('20 anos depois', OFF + 0.5, OFF + 3.4, 44, 0.06 + 0.055),
-       ('1997', S[2] + 0.05, S[4] - 0.1, 110, 0.05), ('Hoje', S[4] + 0.05, S[4] + 2.2, 50, 0.07)]
+       ('1997', S[2] + 0.05, S[3] - 0.05, 110, 0.05), ('2007', S[3] + 0.05, S[4] - 0.1, 110, 0.05), ('Hoje', S[4] + 0.05, S[4] + 2.2, 50, 0.07)]
 for k, (txt, a, c, fs, y) in enumerate(ETQ):
     open(f'leg/etq{k}.txt', 'w').write(txt)
-    fil.append(f"drawtext=fontfile={CAV}:textfile=leg/etq{k}.txt:fontsize={fs}:fontcolor=0x2b2622:box=1:boxcolor={'0xf2c230@0.97' if txt == '1997' else '0xfffaf0@0.92'}:boxborderw={22 if txt == '1997' else 14}:x=(w-tw)/2:y=h*{y}:enable='between(t,{a:.2f},{c:.2f})'")
+    fil.append(f"drawtext=fontfile={CAV}:textfile=leg/etq{k}.txt:fontsize={fs}:fontcolor=0x2b2622:box=1:boxcolor={'0xf2c230@0.97' if txt in ('1997', '2007') else '0xfffaf0@0.92'}:boxborderw={22 if txt in ('1997', '2007') else 14}:x=(w-tw)/2:y=h*{y}:enable='between(t,{a:.2f},{c:.2f})'")
 fil.append(f"drawtext=fontfile={FB}:text='@Cardeno_Amarelo':fontsize=22:fontcolor=white@0.6:borderw=2:bordercolor=0x000000@0.4:x=40+(w-tw-80)*(0.5+0.5*sin(t*0.37)):y=h*0.93+14*sin(t*0.5)")
 open('filtro.txt', 'w').write(','.join(fil))
 subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', 'junto.mp4', '-f', 'f32le', '-ar', str(SR), '-ac', '1', '-i', 'mix.f32',
