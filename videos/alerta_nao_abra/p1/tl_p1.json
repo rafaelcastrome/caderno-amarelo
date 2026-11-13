@@ -1,5 +1,5 @@
 {
- "dur": 169.908,
+ "dur": 170.633,
  "ev": {
   "INI": {
    "t": 0.0,
@@ -173,170 +173,170 @@
   },
   "m0": {
    "t": 79.906,
-   "d": 2.47,
+   "d": 2.382,
    "quem": "marcos",
    "leg": "Alguém tem sinal? Eu não tenho sinal!",
    "arq": "m0"
   },
   "n0": {
-   "t": 82.676,
-   "d": 4.6,
+   "t": 82.588,
+   "d": 4.582,
    "quem": "neide",
    "leg": "Aqui embaixo ninguém tem, moço. Nunca teve.",
    "arq": "n0"
   },
   "m1": {
-   "t": 87.576,
-   "d": 1.32,
+   "t": 87.47,
+   "d": 1.538,
    "quem": "marcos",
    "leg": "Então como chegou o alerta?",
    "arq": "m1"
   },
   "FECHA": {
-   "t": 89.196,
+   "t": 89.308,
    "d": 1.8
   },
   "e5": {
-   "t": 91.196,
+   "t": 91.308,
    "d": 10.382,
    "quem": "edson",
    "leg": "Um, dois, três, quatro... e eu. Cinco. Ninguém abre essa porta até a central liberar. Combinado?",
    "arq": "e5"
   },
   "m2": {
-   "t": 101.878,
-   "d": 2.25,
+   "t": 101.99,
+   "d": 2.292,
    "quem": "marcos",
    "leg": "Combinado nada. Eu tenho filho em casa.",
    "arq": "m2"
   },
   "e6": {
-   "t": 104.428,
+   "t": 104.582,
    "d": 2.192,
    "quem": "edson",
    "leg": "Todo mundo tem alguém em casa.",
    "arq": "e6"
   },
   "SENTA": {
-   "t": 106.92,
+   "t": 107.074,
    "d": 1.5
   },
   "t7": {
-   "t": 108.62,
+   "t": 108.774,
    "d": 1.582,
    "quem": "tu",
    "leg": "Tá bem?",
    "arq": "t7"
   },
   "l6": {
-   "t": 110.602,
+   "t": 110.756,
    "d": 0.342,
    "quem": "leo",
    "leg": "Tô.",
    "arq": "l6"
   },
   "t8": {
-   "t": 111.344,
+   "t": 111.498,
    "d": 2.237,
    "quem": "tu",
    "leg": "Tá esquisito, cara.",
    "arq": "t8"
   },
   "l7": {
-   "t": 113.881,
+   "t": 114.035,
    "d": 1.996,
    "quem": "leo",
    "leg": "Tô com frio. Só isso.",
    "arq": "l7"
   },
   "t9": {
-   "t": 116.678,
+   "t": 116.832,
    "d": 2.332,
    "quem": "tu",
    "leg": "A senhora já viu isso antes, né?",
    "arq": "t9"
   },
   "n1": {
-   "t": 119.31,
-   "d": 6.95,
+   "t": 119.464,
+   "d": 6.604,
    "quem": "neide",
    "leg": "Antes de ser shopping, isso aqui era o hospital. Eu era da limpeza lá também.",
    "arq": "n1"
   },
   "t10": {
-   "t": 126.66,
+   "t": 126.468,
    "d": 1.228,
    "quem": "tu",
    "leg": "E?",
    "arq": "t10"
   },
   "n2": {
-   "t": 128.288,
-   "d": 9.93,
+   "t": 128.096,
+   "d": 9.884,
    "quem": "neide",
    "leg": "Teve uma noite igual. Mandaram trancar a ala de baixo... De manhã, abriram. Faltava gente.",
    "arq": "n2"
   },
   "m3": {
-   "t": 138.518,
-   "d": 1.1,
+   "t": 138.28,
+   "d": 1.756,
    "quem": "marcos",
    "leg": "Faltava como?",
    "arq": "m3"
   },
   "n3": {
-   "t": 140.118,
-   "d": 3.02,
+   "t": 140.536,
+   "d": 3.328,
    "quem": "neide",
    "leg": "Faltava. E sobrava.",
    "arq": "n3"
   },
   "SILENCIO": {
-   "t": 143.438,
+   "t": 144.164,
    "d": 2.0
   },
   "TOC": {
-   "t": 145.438,
+   "t": 146.164,
    "d": 2.2
   },
   "mae0": {
-   "t": 147.838,
+   "t": 148.564,
    "d": 6.07,
    "quem": "mae",
    "leg": "Filho? Filho, sou eu... abre, pelo amor de Deus. Eu tô machucada.",
    "arq": "mae0"
   },
   "LEVANTA": {
-   "t": 154.208,
+   "t": 154.934,
    "d": 1.2
   },
   "t11": {
-   "t": 155.408,
+   "t": 156.134,
    "d": 4.83,
    "quem": "tu",
    "leg": "Ela tá em casa... ela nem sabe que eu tô aqui.",
    "arq": "t11"
   },
   "mae1": {
-   "t": 160.738,
+   "t": 161.464,
    "d": 3.252,
    "quem": "mae",
    "leg": "Sei sim, filho. Abre.",
    "arq": "mae1"
   },
   "VISOR": {
-   "t": 164.29,
+   "t": 165.016,
    "d": 1.8
   },
   "l8": {
-   "t": 166.29,
+   "t": 167.016,
    "d": 1.618,
    "quem": "leo",
    "leg": "Abre. É tua mãe.",
    "arq": "l8"
   },
   "FIM": {
-   "t": 168.108,
+   "t": 168.833,
    "d": 1.8
   }
  }
