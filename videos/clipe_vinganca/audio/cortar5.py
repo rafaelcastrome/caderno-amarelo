@@ -1,7 +1,7 @@
 # corta take5.wav (regravação mais limpa do começo) e encurta pausas internas > 0.45 s
 import wave, numpy as np
 w = wave.open('take5.wav'); sr = w.getframerate(); x = np.frombuffer(w.readframes(w.getnframes()), np.int16).astype(np.float32) / 32768
-CORTES = [("N0", 0.2, 5.05)]
+CORTES = [("N0", 0.2, 3.85)]
 h = int(0.02 * sr)
 for n, a, b in CORTES:
     y = x[int(a * sr):int(b * sr)]

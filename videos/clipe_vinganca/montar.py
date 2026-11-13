@@ -6,7 +6,7 @@ AQ = os.path.dirname(os.path.abspath(__file__)); os.chdir(AQ)
 import importlib.util
 spec = importlib.util.spec_from_file_location('b', 'build.py'); b = importlib.util.module_from_spec(spec); spec.loader.exec_module(b)
 CENAS = b.CENAS; SR = 48000
-HK0, HK = 11.35, 5.65  # gancho: narrador + o puxão do cabo (cena 6) logo no começo
+HK0, HK = 12.3, 4.7  # gancho: narrador + o puxão do cabo (cena 6) logo no começo
 OFF = HK
 INI = (OFF + np.cumsum([0] + [d for d, _ in CENAS])).tolist(); TOTAL = INI[-1]
 LEG = {'C1': 'Ai... minha coluna... mais uma caixa... só mais uma...', 'C2': 'Peraí... que que é isso? Meu crachá... da Microsoft.',
