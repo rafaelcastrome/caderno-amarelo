@@ -201,6 +201,6 @@ fil.append(f"drawtext=fontfile={FB}:text='@Cardeno_Amarelo':fontsize=22:fontcolo
 open('filtro_p1.txt', 'w').write(','.join(fil))
 saida = 'alerta_nao_abra_parte1.mp4'
 subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', 'video_p1.mp4', '-f', 'f32le', '-ar', str(SR), '-ac', '1', '-i', 'audio_p1.f32', '-filter_script:v', 'filtro_p1.txt',
-                '-af', 'loudnorm=I=-15:TP=-1.5:LRA=11', '-c:v', 'libx264', '-preset', 'slow', '-b:v', '520k', '-maxrate', '900k', '-bufsize', '1800k', '-pix_fmt', 'yuv420p',
+                '-af', 'loudnorm=I=-15:TP=-1.5:LRA=11', '-c:v', 'libx264', '-preset', 'slow', '-b:v', '380k', '-maxrate', '700k', '-bufsize', '1400k', '-pix_fmt', 'yuv420p',
                 '-c:a', 'aac', '-b:a', '112k', '-ar', '48000', '-movflags', '+faststart', '-shortest', saida], check=True)
 print('ok', round(TOTAL, 1), 's', os.path.getsize(saida) // 1024, 'KB')
