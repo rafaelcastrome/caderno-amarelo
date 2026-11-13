@@ -3,7 +3,7 @@
 import json, os, subprocess, numpy as np
 from scipy.signal import butter, sosfilt
 AQ = os.path.dirname(os.path.abspath(__file__)); os.chdir(AQ)
-SR = 48000; S = '../sfx/'; FA = '../falas/p1/'; W, H = 720, 1280
+SR = 48000; S = '../sfx/'; FA = '../falas/p1v2/'; W, H = 720, 1280
 TLD = json.load(open('tl_p1.json')); EV = TLD['ev']; DUR = TLD['dur']
 E = lambda k: EV[k]['t']
 fim = lambda k: E(k) + EV[k]['d']

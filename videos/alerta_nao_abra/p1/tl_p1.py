@@ -1,6 +1,6 @@
 # Linha do tempo da parte 1 a partir da duração das falas. Gera dados_p1.json (render) e tl_p1.json (montagem).
 import json, os, subprocess, numpy as np
-AQ = os.path.dirname(os.path.abspath(__file__)); F = os.path.join(AQ, '..', 'falas', 'p1')
+AQ = os.path.dirname(os.path.abspath(__file__)); F = os.path.join(AQ, '..', 'falas', 'p1v2')
 FALAS = {
  'l0': ('leo', 'Que isso?!'), 't0': ('tu', 'Chegou pra todo mundo.'),
  'l1': ('leo', 'Deve ser teste. A Defesa Civil fez um mês passado.'),
@@ -17,7 +17,7 @@ FALAS = {
  'm1': ('marcos', 'Então como chegou o alerta?'),
  'e5': ('edson', 'Um, dois, três, quatro... e eu. Cinco. Ninguém abre essa porta até a central liberar. Combinado?'),
  'm2': ('marcos', 'Combinado nada. Eu tenho filho em casa.'), 'e6': ('edson', 'Todo mundo tem alguém em casa.'),
- 't7': ('tu', 'Tu tá bem?'), 'l6': ('leo', 'Tô.'), 't8': ('tu', 'Tu tá esquisito.'), 'l7': ('leo', 'Tô com frio. Só isso.'),
+ 't7': ('tu', 'Tá bem?'), 'l6': ('leo', 'Tô.'), 't8': ('tu', 'Tá esquisito, cara.'), 'l7': ('leo', 'Tô com frio. Só isso.'),
  't9': ('tu', 'A senhora já viu isso antes, né?'),
  'n1': ('neide', 'Antes de ser shopping, isso aqui era o hospital. Eu era da limpeza lá também.'), 't10': ('tu', 'E?'),
  'n2': ('neide', 'Teve uma noite igual. Mandaram trancar a ala de baixo... De manhã, abriram. Faltava gente.'),

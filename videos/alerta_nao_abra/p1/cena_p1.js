@@ -331,15 +331,15 @@ window.CENA = (T) => {
     const LP = T.chaves([[0, [0, 0, 0.55]], [E('LEOSAI'), [0, 0, 0.55]], [E('LEOSAI') + 0.6, [-0.8, 0, 0.3]], [E('LEOSAI') + 2.0, [-6.6, 0, -1.3]], [E('LEOSAI') + 2.4, [-7.2, 0, -1.0]],
       [E('LEOSAI') + 3.6, [-7.2, -1.5, 1.5]], [E('LEOVOLTA') - 0.3, [-7.2, -1.5, 1.5]], [E('LEOVOLTA') + 0.0, [-1.5, 0, -12.5]], [E('LEOVOLTA') + 2.0, [-0.9, 0, -20.6]],
       [E('CORRE') + 0.2, [-0.9, 0, -20.6]], [E('CORRE') + 3.8, [3.0, 0, -10.4]], [E('CORRE') + EV.CORRE.d, [4.9, 0, -10.3]], [E('ESCADA') + EV.ESCADA.d, [9.6, B, -10.3]],
-      [E('CORREDOR') + EV.CORREDOR.d, [16.0, B, -10.2]], [E('FECHA') + 0.3, [16.6, B, -10.2]], [E('FECHA') + 1.9, [19.9, B, -9.5]], [E('SENTA') + 1.0, [22.15, B, -8.25]], [DUR, [22.15, B, -8.25]]], t);
+      [E('CORREDOR') + EV.CORREDOR.d, [16.0, B, -10.2]], [E('FECHA') + 0.3, [16.6, B, -10.2]], [E('FECHA') + 1.9, [19.9, B, -9.5]], [E('SENTA') + 1.0, [21.7, B, -8.8]], [DUR, [21.7, B, -8.8]]], t);
     // depois de LEVANTA, o Léo fica em pé logo atrás de nós (aparece quando a gente vira)
     let lp = LP;
-    if (t > E('LEVANTA')) lp = T.chaves([[E('LEVANTA'), LP], [E('mae1'), [20.9, B, -9.0]], [E('l8'), [19.55, B, -9.75]], [DUR, [19.45, B, -9.8]]], t);
+    if (t > E('LEVANTA')) lp = T.chaves([[E('LEVANTA'), [21.7, B, -8.8]], [E('mae1'), [20.9, B, -9.0]], [E('l8'), [19.55, B, -9.75]], [DUR, [19.45, B, -9.8]]], t);
     leoEmPe.g.position.set(lp[0], lp[1] + (t > E('SENTA') + 1.0 && t < E('LEVANTA') ? -0.32 : 0), lp[2]);
     const lp2 = T.chaves([[0, [0, 0, 0.55]], [E('LEOSAI'), [0, 0, 0.55]], [E('LEOSAI') + 0.6, [-0.8, 0, 0.3]], [E('LEOSAI') + 2.0, [-6.6, 0, -1.3]], [E('LEOSAI') + 2.4, [-7.2, 0, -1.0]],
       [E('LEOSAI') + 3.6, [-7.2, -1.5, 1.5]], [E('LEOVOLTA') - 0.3, [-7.2, -1.5, 1.5]], [E('LEOVOLTA') + 0.0, [-1.5, 0, -12.5]], [E('LEOVOLTA') + 2.0, [-0.9, 0, -20.6]],
       [E('CORRE') + 0.2, [-0.9, 0, -20.6]], [E('CORRE') + 3.8, [3.0, 0, -10.4]], [E('CORRE') + EV.CORRE.d, [4.9, 0, -10.3]], [E('ESCADA') + EV.ESCADA.d, [9.6, B, -10.3]],
-      [E('CORREDOR') + EV.CORREDOR.d, [16.0, B, -10.2]], [E('FECHA') + 0.3, [16.6, B, -10.2]], [E('FECHA') + 1.9, [19.9, B, -9.5]], [E('SENTA') + 1.0, [22.15, B, -8.25]], [DUR, [22.15, B, -8.25]]], t + 0.08);
+      [E('CORREDOR') + EV.CORREDOR.d, [16.0, B, -10.2]], [E('FECHA') + 0.3, [16.6, B, -10.2]], [E('FECHA') + 1.9, [19.9, B, -9.5]], [E('SENTA') + 1.0, [21.7, B, -8.8]], [DUR, [21.7, B, -8.8]]], t + 0.08);
     const lv = Math.hypot(lp2[0] - LP[0], lp2[2] - LP[2]);
     const sentadoCaixa = t > E('SENTA') + 1.0 && t < E('LEVANTA');
     if (lv > 0.01 && t < E('LEVANTA')) leoEmPe.g.rotation.y = Math.atan2(lp2[0] - LP[0], lp2[2] - LP[2]);
@@ -355,7 +355,7 @@ window.CENA = (T) => {
     leoEmPe.olhar(0, 0);
     leoEmPe.cabeca.rotation.set(sentadoCaixa && t < E('t7') ? 0.15 : 0, sentadoCaixa && t > E('t7') - 0.3 && t < E('l7') + EV.l7.d ? 0.5 : 0, 0);
     leoC.g.visible = sentadoCaixa; if (sentadoCaixa) leoEmPe.g.visible = false;
-    leoC.g.position.set(22.15, B - 0.3, -8.25); leoC.g.rotation.y = -Math.PI * 0.5 + 0.35; leoC.boca(bL * 1.2); leoC.piscaAuto(t, 2.1); leoC.cenho(t > E('t7') ? -0.1 : -0.4);
+    { const u = T.janela(t, E('SENTA') + 1.0, E('SENTA') + 1.6); leoC.g.position.set(T.lerp(21.7, 22.15, u), B - 0.3 + 0.25 * (1 - u), T.lerp(-8.8, -8.25, u)); } leoC.g.rotation.y = -Math.PI * 0.5 + 0.35; leoC.boca(bL * 1.2); leoC.piscaAuto(t, 2.1); leoC.cenho(t > E('t7') ? -0.1 : -0.4);
     leoC.mao('E', [0.12, 0.9, 0.35], [1, -0.5, -0.3]); leoC.mao('D', [-0.12, 0.9, 0.35], [-1, -0.5, -0.3]);
     leoC.cabeca.rotation.set(t < E('t7') ? 0.15 : 0, t > E('t7') - 0.3 && t < E('l7') + EV.l7.d ? 0.45 : 0, 0);
     if (t > E('l8') - 0.4) { leoEmPe.cenho(0); leoEmPe.pisca(0); leoEmPe.olhar(0, 0.2); } // olhar parado, sem piscar
