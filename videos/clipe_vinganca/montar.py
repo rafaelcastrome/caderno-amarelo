@@ -41,7 +41,7 @@ for i, (D, falas) in enumerate(CENAS):
 S = INI
 # 1 depósito: zumbido de galpão, pulinhos de metal, gemido
 laco(sfx, lp(ruido(3), 300) * 0.6 + 0.2 * np.sin(2 * np.pi * 60 * tt(3)).astype(np.float32), S[0], S[2], 0.18)
-for k in range(int((CENAS[0][0] - 0.6) / 0.35)): poe(sfx, tink(1900 + (k % 2) * 200), S[0] + 0.1 + k * 0.35, 0.25)
+for k in range(int((CENAS[0][0] - 0.6) / 0.35)): poe(sfx, lp(tink(1900 + (k % 2) * 200), 1200), S[0] + 0.1 + k * 0.35, 0.06)
 for k in range(5): poe(mus, tom([196, 175, 165, 147, 131][k], 1.6, 1.6, (1, 0.4, 0.15)), S[0] + 0.3 + k * 1.4, 0.16)
 # 2 a caixa cai, crachá
 poe(sfx, batida(1.2, 60), S[1] + 0.75, 0.8); poe(sfx, bp(ruido(0.3), 300, 2500) * env(int(0.3 * SR), 0.005, 0.25), S[1] + 0.75, 0.35)
