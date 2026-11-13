@@ -6,7 +6,7 @@ AQ = os.path.dirname(os.path.abspath(__file__)); os.chdir(AQ)
 import importlib.util
 spec = importlib.util.spec_from_file_location('b', 'build.py'); b = importlib.util.module_from_spec(spec); spec.loader.exec_module(b)
 CENAS = b.CENAS; SR = 48000
-HK0, HK = 15.3, 2.2  # gancho: o puxão do cabo (cena 6) logo no começo
+HK0, HK = 11.35, 5.65  # gancho: narrador + o puxão do cabo (cena 6) logo no começo
 OFF = HK
 INI = (OFF + np.cumsum([0] + [d for d, _ in CENAS])).tolist(); TOTAL = INI[-1]
 LEG = {'C1': 'Ai... minha coluna... mais uma caixa... só mais uma...', 'C2': 'Peraí... que que é isso? Meu crachá... da Microsoft.',
@@ -64,8 +64,9 @@ poe(mus, drone(CENAS[4][0] + 0.3, 49), S[4], 0.35)
 for k in range(6): poe(sfx, batida(0.4, 50) * 0.8, S[4] + 0.5 + k * 0.62, 0.45)
 x = tt(2.2); poe(mus, (bp(ruido(2.2), 500, 4000) * (x / 2.2) ** 2).astype(np.float32), S[4] + 2.2, 0.25)
 # 6 servidores: ventoinhas + bipes; puxão, faísca, tudo desliga
-# gancho (0..HK): tensão, puxão, faísca, apagão
+# gancho (0..HK): narrador, tensão, puxão, faísca, apagão
 TH = 16.2 - HK0
+n0 = wav('audio/N0.wav'); poe(voz, n0 / (np.abs(n0).max() + 1e-9) * 0.85, 0.15)
 poe(mus, drone(TH + 0.2, 41), 0, 0.35); poe(sfx, batida(0.3, 120), TH, 0.5)
 crh = bp(ruido(0.7), 2000, 9000) * (rng.random(int(0.7 * SR)) > 0.85) * env(int(0.7 * SR), 0.005, 0.3); poe(sfx, crh.astype(np.float32), TH + 0.08, 0.6)
 x = tt(1.2); poe(sfx, (np.sin(2 * np.pi * np.cumsum(420 * np.exp(-x * 2.2) + 30) / SR) * env(len(x), 0.01, 0.3)).astype(np.float32), TH + 0.12, 0.35)
@@ -110,7 +111,7 @@ for i, (a, c, quem, x, cena) in enumerate(legs):
         open(f'leg/{i}_{j}.txt', 'w').write(l)
         fil.append(f"drawtext=fontfile={FB}:textfile=leg/{i}_{j}.txt:fontsize=32:fontcolor={COR[quem]}:borderw=4:bordercolor=0x111111:x=(w-tw)/2:y=h*{y0}+{j * 42}:enable='between(t,{a:.2f},{c:.2f})'")
 # título (gancho do quadro 0) e etiquetas de tempo
-ETQ = [('Descobriram quem', 0, HK, 60, 0.07), ('derrubou o Outlook...', 0, HK, 60, 0.07 + 0.065),
+ETQ = [('A Microsoft não caiu', 0, HK, 60, 0.07), ('por ataque hacker...', 0, HK, 60, 0.07 + 0.065),
        ('O Clippy da Microsoft...', OFF, OFF + 3.4, 54, 0.06), ('20 anos depois', OFF + 0.5, OFF + 3.4, 44, 0.06 + 0.055),
        ('1997', S[2] + 0.05, S[4] - 0.1, 50, 0.07), ('Hoje', S[4] + 0.05, S[4] + 2.2, 50, 0.07)]
 for k, (txt, a, c, fs, y) in enumerate(ETQ):
