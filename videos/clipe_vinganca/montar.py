@@ -113,10 +113,10 @@ for i, (a, c, quem, x, cena) in enumerate(legs):
 # título (gancho do quadro 0) e etiquetas de tempo
 ETQ = [('A Microsoft não caiu', 0, HK, 60, 0.07), ('por ataque hacker...', 0, HK, 60, 0.07 + 0.065),
        ('O Clippy da Microsoft...', OFF, OFF + 3.4, 54, 0.06), ('20 anos depois', OFF + 0.5, OFF + 3.4, 44, 0.06 + 0.055),
-       ('1997', S[2] + 0.05, S[4] - 0.1, 50, 0.07), ('Hoje', S[4] + 0.05, S[4] + 2.2, 50, 0.07)]
+       ('1997', S[2] + 0.05, S[4] - 0.1, 110, 0.05), ('Hoje', S[4] + 0.05, S[4] + 2.2, 50, 0.07)]
 for k, (txt, a, c, fs, y) in enumerate(ETQ):
     open(f'leg/etq{k}.txt', 'w').write(txt)
-    fil.append(f"drawtext=fontfile={CAV}:textfile=leg/etq{k}.txt:fontsize={fs}:fontcolor=0x2b2622:box=1:boxcolor=0xfffaf0@0.92:boxborderw=14:x=(w-tw)/2:y=h*{y}:enable='between(t,{a:.2f},{c:.2f})'")
+    fil.append(f"drawtext=fontfile={CAV}:textfile=leg/etq{k}.txt:fontsize={fs}:fontcolor=0x2b2622:box=1:boxcolor={'0xf2c230@0.97' if txt == '1997' else '0xfffaf0@0.92'}:boxborderw={22 if txt == '1997' else 14}:x=(w-tw)/2:y=h*{y}:enable='between(t,{a:.2f},{c:.2f})'")
 fil.append(f"drawtext=fontfile={FB}:text='@Cardeno_Amarelo':fontsize=22:fontcolor=white@0.6:borderw=2:bordercolor=0x000000@0.4:x=40+(w-tw-80)*(0.5+0.5*sin(t*0.37)):y=h*0.93+14*sin(t*0.5)")
 open('filtro.txt', 'w').write(','.join(fil))
 subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', 'junto.mp4', '-f', 'f32le', '-ar', str(SR), '-ac', '1', '-i', 'mix.f32',
