@@ -35,7 +35,7 @@ const CRACHA = (P, o) => P.impresso(0.42, 0.58, (c, w, h) => {
   c.strokeStyle = '#8f89c0'; c.lineWidth = w * 0.035; c.beginPath(); c.moveTo(w * 0.45, h * 0.58); c.lineTo(w * 0.45, h * 0.33); c.arc(w * 0.5, h * 0.33, w * 0.05, Math.PI, 0); c.lineTo(w * 0.55, h * 0.56); c.arc(w * 0.5, h * 0.56, w * 0.08, 0, Math.PI); c.stroke();
   c.fillStyle = '#fff'; c.beginPath(); c.arc(w * 0.44, h * 0.42, w * 0.06, 0, 7); c.arc(w * 0.57, h * 0.42, w * 0.06, 0, 7); c.fill();
   c.fillStyle = '#111'; c.beginPath(); c.arc(w * 0.45, h * 0.42, w * 0.025, 0, 7); c.arc(w * 0.58, h * 0.42, w * 0.025, 0, 7); c.fill();
-  c.fillStyle = '#222'; c.font = `bold ${w * 0.11}px sans-serif`; c.fillText('CLIPE', w / 2, h * 0.72);
+  c.fillStyle = '#222'; c.font = `bold ${w * 0.11}px sans-serif`; c.fillText('CLIPPY', w / 2, h * 0.72);
   c.font = `${w * 0.085}px sans-serif`; c.fillText('Assistente do Office', w / 2, h * 0.82); c.fillText('desde 1997', w / 2, h * 0.91);
 }, Object.assign({ prof: 0.015, ...FX }, o));
 // sala dos anos 90 (escritório)
@@ -89,7 +89,7 @@ window.EP = [
     P.caixa(1.25, 1.0, 0.9, { pai: mon, y: 0.55, cor: 0xe2d9c0, ...FX });
     P.caixa(0.5, 0.08, 0.4, { pai: mon, y: 0.04, cor: 0xd6ccb0, ...FX });
     P.impresso(1.02, 0.78, (c, w, h) => { c.fillStyle = '#2d7f86'; c.fillRect(0, 0, w, h); c.fillStyle = '#c8c8c8'; c.fillRect(0, 0, w, h * 0.09); c.fillStyle = '#1f3f9a'; c.fillRect(0, 0, w * 0.7, h * 0.09);
-      c.fillStyle = '#fff'; c.fillRect(w * 0.12, h * 0.15, w * 0.6, h * 0.8); c.fillStyle = '#555'; c.font = `${h * 0.055}px serif`; c.fillText('Prezado senhor,', w * 0.16, h * 0.26);
+      c.fillStyle = '#fff'; c.fillRect(w * 0.12, h * 0.15, w * 0.6, h * 0.8); const wd = (x, y, z) => { c.fillStyle = '#2b5fb4'; c.fillRect(x, y, z, z); c.fillStyle = '#1d4690'; c.fillRect(x, y, z * 0.38, z); c.fillStyle = '#fff'; c.font = `bold ${z * 0.62}px sans-serif`; c.textAlign = 'center'; c.fillText('W', x + z * 0.62, y + z * 0.74); c.textAlign = 'left'; }; wd(w * 0.015, h * 0.005, h * 0.08); wd(w * 0.15, h * 0.18, w * 0.15); c.fillStyle = '#555'; c.font = `${h * 0.055}px serif`; c.fillText('Prezado senhor,', w * 0.33, h * 0.29);
       for (let i = 0; i < 6; i++) { c.fillStyle = '#bbb'; c.fillRect(w * 0.16, h * (0.33 + i * 0.07), w * 0.5, h * 0.02); } }, { pai: mon, y: 0.57, z: 0.455, ...FX });
     P.caixa(1.0, 0.05, 0.35, { x: 0.15, y: 0.94, z: 0.62, cor: 0xd6ccb0, ...FX }); // teclado
     // cadeira e o cara digitando
@@ -104,9 +104,9 @@ window.EP = [
     ESCRITORIO(P, L); SEPIA(L);
     MESA(P, 0.1, 0.4, 2.2);
     P.caixa(0.5, 0.04, 0.35, { x: 0.55, y: 0.93, z: 0.45, cor: 0xf4efe2, ...FX });
-    L.ator({ nome: 'chefe', x: 0.85, z: -0.25, D, t: -1, terno: true, roupa: 0x4a4f5c, dir: -1, poses: [[0, 'normal'], [0.5, 'aponta', 0.3], [2.4, 'normal', 0.4], [6.2, 'abre_bracos', 0.3], [7.8, 'bolsos', 0.4]] });
-    L.clipe({ nome: 'clipe', s: 0.62, x: -0.35, y: 0.91, z: 0.5, bracos: [[0, 'repouso'], [2.7, 'cima', 0.25], [4.6, 'abre', 0.35], [6.6, 'repouso', 0.5]],
-      olhar: [[0, [0.6, 0.2]]], sobr: [[0, 0.2], [0.9, -1.2], [2.7, -2.2], [4.5, 1.0], [6.3, -2], [7.2, -1]], palp: [[0, 0], [7.2, 0.25]] });
+    L.ator({ nome: 'chefe', x: 0.85, z: -0.25, D, t: -1, terno: true, roupa: 0x4a4f5c, dir: -1, poses: [[0, 'normal'], [3.0, 'aponta', 0.3], [5.4, 'normal', 0.4], [9.5, 'abre_bracos', 0.3], [11.0, 'bolsos', 0.4]] });
+    L.clipe({ nome: 'clipe', s: 0.62, x: -0.35, y: 0.91, z: 0.5, bracos: [[0, 'repouso'], [6.0, 'cima', 0.25], [7.9, 'abre', 0.35], [9.8, 'repouso', 0.5]],
+      olhar: [[0, [0.6, 0.2]], [3.1, [0.3, -0.7]], [4.6, [0.6, 0.2]]], sobr: [[0, 0.2], [1.2, -1.2], [3.2, -2.2], [5.0, -1.4], [6.0, -2.2], [7.8, 1.0], [9.6, -2], [10.5, -1]], palp: [[0, 0], [10.5, 0.25]] });
     CAMK(P, [[0, [0.3, 2.4, 7.6], [0.2, 1.55, 0.2]], [D, [0.15, 2.2, 6.8], [0.15, 1.55, 0.2]]]);
   },
   // 5 de volta ao depósito: olhando o crachá, a raiva sobe: "Vinte anos... sem motivo nenhum."

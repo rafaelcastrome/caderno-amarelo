@@ -8,8 +8,8 @@ spec = importlib.util.spec_from_file_location('b', 'build.py'); b = importlib.ut
 CENAS = b.CENAS; SR = 48000
 INI = np.cumsum([0] + [d for d, _ in CENAS]).tolist(); TOTAL = INI[-1]
 LEG = {'C1': 'Ai... minha coluna... mais uma caixa... só mais uma...', 'C2': 'Peraí... que que é isso? Meu crachá... da Microsoft.',
-       'C3': 'Oi! Parece que você está escrevendo uma carta! Quer ajuda?', 'E1': 'Clipe... você tá demitido.',
-       'C4': 'Mas... por quê?! Eu ajudava todo mundo!', 'E2': 'Sei lá. Só tá.', 'C5': 'Vinte anos... sem motivo nenhum.',
+       'C3': 'Oi! Parece que você está escrevendo uma carta! Quer ajuda?', 'E1': 'Clippy... a partir de hoje... você vai trabalhar lá embaixo. No depósito.',
+       'C4': 'Mas... por quê?! Eu ajudava todo mundo!', 'E2': 'Sei lá. Só vai.', 'C5': 'Vinte anos... sem motivo nenhum.',
        'C6': 'Parece que você está tentando mandar um e-mail...', 'C7': '...Quer ajuda?', 'P1': 'Oi! Eu sou o Copilot, o novo assistente! E você... quem é?', 'X1': 'Eu?... Eu sou o cara que você substituiu.'}
 def wav(p): return np.frombuffer(subprocess.run(['ffmpeg', '-v', 'error', '-i', p, '-ac', '1', '-ar', str(SR), '-f', 'f32le', '-'], capture_output=True, check=True).stdout, np.float32).copy()
 N = int((TOTAL + 1) * SR); voz, sfx, mus = (np.zeros(N, np.float32) for _ in range(3))
@@ -55,8 +55,8 @@ poe(sfx, bp(ruido(0.06), 1000, 4000) * env(int(0.06 * SR), 0.002, 0.05), S[2] + 
 x = tt(0.35); poe(sfx, (np.sin(2 * np.pi * np.cumsum(900 - 600 * x / 0.35) / SR) * env(len(x), 0.01, 0.1)).astype(np.float32), S[2] + 4.68, 0.3)
 for k, f in enumerate([392, 494, 587, 494]): poe(mus, tom(f, 0.9, 2.2), S[2] + 0.4 + k * 1.1, 0.1)
 # 4 demissão: "tum" no "demitido", trombone triste no fim
-poe(sfx, batida(1.6, 42), S[3] + 1.6, 0.55)
-for k, f in enumerate([233, 220, 208, 196]): poe(mus, tom(f, 0.9 if k < 3 else 1.8, 1.2 if k < 3 else 0.9, (1, 0.5, 0.3, 0.2)), S[3] + 7.7 + k * 0.32 - 0.6, 0.2)
+poe(sfx, batida(1.6, 42), S[3] + 4.3, 0.55)
+for k, f in enumerate([233, 220, 208, 196]): poe(mus, tom(f, 0.9 if k < 3 else 1.8, 1.2 if k < 3 else 0.9, (1, 0.5, 0.3, 0.2)), S[3] + 10.4 + k * 0.32, 0.2)
 # 5 raiva subindo: drone + coração
 poe(mus, drone(CENAS[4][0] + 0.3, 49), S[4], 0.35)
 for k in range(6): poe(sfx, batida(0.4, 50) * 0.8, S[4] + 0.5 + k * 0.62, 0.45)
@@ -84,7 +84,7 @@ mix = mix / np.abs(mix).max() * 0.9; mix[:int(TOTAL * SR)].astype(np.float32).to
 open('lista.txt', 'w').write(''.join(f"file 'flow/f{i+1:02d}.mp4'\n" for i in range(len(CENAS))))
 subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', 'lista.txt', '-an', '-c', 'copy', 'junto.mp4'], check=True)
 FB = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'; CAV = os.path.abspath('../_papel3d/Caveat-Bold.ttf')
-COR = {'clipe': '0xd8d0ff', 'chefe': '0xffd27a', 'copilot': '0x9fe8ff'}; NOME = {'clipe': 'CLIPE', 'chefe': 'CHEFE', 'copilot': 'COPILOT'}
+COR = {'clipe': '0xd8d0ff', 'chefe': '0xffd27a', 'copilot': '0x9fe8ff'}; NOME = {'clipe': 'CLIPPY', 'chefe': 'CHEFE', 'copilot': 'COPILOT'}
 os.makedirs('leg', exist_ok=True); fil = []; legs.sort()
 def quebra(x, n=28):
     ls, cur = [], ''
@@ -101,7 +101,7 @@ for i, (a, c, quem, x, cena) in enumerate(legs):
         open(f'leg/{i}_{j}.txt', 'w').write(l)
         fil.append(f"drawtext=fontfile={FB}:textfile=leg/{i}_{j}.txt:fontsize=32:fontcolor={COR[quem]}:borderw=4:bordercolor=0x111111:x=(w-tw)/2:y=h*{y0}+{j * 42}:enable='between(t,{a:.2f},{c:.2f})'")
 # título (gancho do quadro 0) e etiquetas de tempo
-ETQ = [('O clipe da Microsoft...', 0, 3.4, 54, 0.06), ('20 anos depois', 0.5, 3.4, 44, 0.06 + 0.055),
+ETQ = [('O Clippy da Microsoft...', 0, 3.4, 54, 0.06), ('20 anos depois', 0.5, 3.4, 44, 0.06 + 0.055),
        ('1997', S[2] + 0.05, S[4] - 0.1, 50, 0.07), ('Hoje', S[4] + 0.05, S[4] + 2.2, 50, 0.07)]
 for k, (txt, a, c, fs, y) in enumerate(ETQ):
     open(f'leg/etq{k}.txt', 'w').write(txt)
