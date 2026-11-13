@@ -64,7 +64,7 @@ window.CENAS = function (WB) {
   rest(s4 + d4 * 0.68 + 1.0, S[4].start - 0.05);
   const s5 = S[4].start, d5 = S[4].fala;
   aviso(s5 + 0.2, s5 + 1.3, S[5].start + 0.4, 'chegou no 20?', 540, 1470, 96, INK.blue);
-  const para = aviso(s5 + d5 * 0.35, s5 + d5 * 0.35 + 0.8, S[5].start + 0.4, 'PARA!', 540, 1640, 170, INK.red);
+  const para = aviso(s5 + d5 * 0.35, s5 + d5 * 0.35 + 0.8, S[5].start + 0.4, 'PAUSA O VÍDEO!', 540, 1630, 124, INK.red);
   pulsar(para, 540, 1590, s5 + d5 * 0.35 + 0.8, 0.08);
   const val = aviso(fim(5) - 0.7, fim(5) - 0.1, S[5].start + 0.4, 'VALENDO!', 540, 1790, 100, INK.green);
   rest(fim(5), S[4].end - 0.05);
