@@ -321,12 +321,12 @@ window.CENA = (T) => {
   S[9] = (u, d, t) => {
     luz(0.55, 0.15, '#05070c'); quartoNoite(t);
     pe(VO, 1.0, 0, -12.0, 0.4); respira(VO, t);
-    const f = u / d; const bat = (a) => Math.exp(-Math.pow((f - a) * 60, 2)); const b = bat(0.16) + bat(0.24);
+    const f = u / d; const TK = D.toc10 || []; const bt = (k) => TK[k] === undefined ? 0 : Math.exp(-Math.pow((t - TK[k]) * 9, 2)); const bat = () => 0; const b = bt(0) + bt(1);
     VO.mao('D', [-0.12, 1.4 + b * 0.1, 0.08], [-0.6, -1, 0]); VO.cabeca.rotation.x = -0.35; VO.olhar(0, 1);
     const w = new V3(); VO.br.D.mao.getWorldPosition(w); bengala.position.set(w.x, w.y + 1.22, w.z); bengala.visible = true;
-    const resp = bat(0.42) + bat(0.5); Qlustre.rotation.z = 0.12 * Math.sin(u * 7) * T.janela(f, 0.42, 0.45) * (1 - T.janela(f, 0.6, 0.8)); poeiraCai(t, f > 0.42 && f < 0.8, 1.0, -12.3);
+    const resp = bt(2) + bt(3); const tr = TK[2] || (INI[9] + d * 0.42); Qlustre.rotation.z = 0.12 * Math.sin(u * 7) * T.janela(t, tr, tr + 0.2) * (1 - T.janela(t, tr + 2, tr + 3)); poeiraCai(t, t > tr && t < tr + 3, 1.0, -12.3);
     pe(MAE, -0.6, 0, -10.6, Math.PI + 0.3); respira(MAE, t, 3); MAE.g.visible = f > 0.66; MAE.mao('D', [-0.2, 1.0, 0.2]); MAE.cabeca.rotation.z = 0.15; MAE.boca(f > 0.7 && f < 0.92 ? 0.3 * Math.abs(Math.sin(t * 10)) : 0);
-    const sh = resp * 0.02; camK(u, [[0, 0.1 + sh, 1.0, -9.6, 1.0, 1.9, -12.3, 55], [d, 0.2, 0.95, -9.9, 0.9, 1.7, -12.3, 52]]);
+    const sh = resp * 0.02; camK(u, [[0, -0.7 + sh, 1.25, -9.0, 0.9, 1.45, -12.1, 66], [d, -0.6, 1.2, -9.3, 0.9, 1.45, -12.1, 62]]);
   };
   // 11 · vó canta na cama, mãe dá de ombros na porta
   S[10] = (u, d, t) => {
@@ -411,9 +411,9 @@ window.CENA = (T) => {
     luz(0.4, 0.1, '#03040a'); quartoNoite(t);
     pe(MENINO, -1.15, 0.55, -11.7, 0); MENINO.g.rotation.x = -1.4; MENINO.g.position.z = -12.4; respira(MENINO, t); MENINO.olhar(0, 1); MENINO.cenho(-0.8);
     CAMA_M.cob.scale.y = 3; CAMA_M.cob.position.z = 0.25; CAMA_M.cob.scale.z = 1.15; const f = u / d;
-    const bat = (a) => Math.exp(-Math.pow((f - a) * 50, 2)); const b = bat(0.18) + bat(0.25) + bat(0.48) + bat(0.55) + bat(0.66) + bat(0.73) + bat(0.8) + bat(0.87);
-    Qlustre.rotation.z = 0.25 * b + 0.05 * Math.sin(u * 8) * T.janela(f, 0.45, 0.5); poeiraCai(t, f > 0.45, -0.5, -12.4);
-    const sh = b * 0.03 * (f > 0.6 ? 1.8 : 1);
+    const TK = D.toc20 || []; let b = 0; TK.forEach((x) => { b += Math.exp(-Math.pow((t - x) * 10, 2)); }); const t2 = TK[2] || (INI[19] + d * 0.45);
+    Qlustre.rotation.z = 0.25 * b + 0.05 * Math.sin(u * 8) * T.janela(t, t2, t2 + 0.3); poeiraCai(t, t > t2, -0.5, -12.4);
+    const sh = b * 0.03 * (t > t2 ? 1.8 : 1);
     camK(u, [[0, -1.0 + sh, 0.75, -11.0, -0.2, 2.7, -12.4, 60], [d, -1.0 + sh, 0.7, -11.2, -0.1, 2.75, -12.5, 52]]);
   };
   // 21 · apagão

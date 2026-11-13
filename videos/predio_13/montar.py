@@ -116,8 +116,8 @@ x = tt(Dp(6)); poe(sfx, (bp(ruido(Dp(6)), 400, 3000) * 0.08 * (0.5 + 0.5 * np.si
 tique(I(8), I(8) + 1.3, 0.35); passos(I(8) + 1.3, I(8) + 1.3 + (Dp(8) - 1.3) * 0.32, 0.45, 0.35, 1500)
 x = tt(0.4); poe(sfx, (np.sin(2 * np.pi * 2100 * x) * np.exp(-x * 18) * 0.4).astype(np.float32), I(8) + 1.3 + (Dp(8) - 1.3) * 0.55, 0.5)  # prato no chão
 poe(sfx, vidro(1.2, 2637) * 2, I(9) + Dp(9) * 0.45, 0.3)                                    # brilho
-for f in (0.16, 0.24): poe(sfx, TOC, I(10) + Dp(10) * f, 0.9)                              # vó bate
-for f in (0.42, 0.5): poe(sfx, TOC_CIMA, I(10) + Dp(10) * f, 1.0)                          # bate de volta
+T10 = TL.get('toc10', []); T20 = TL.get('toc20', [])
+for k, x in enumerate(T10): poe(sfx, TOC if k < 2 else TOC_CIMA, x - 0.03, 0.9 if k < 2 else 1.0)  # vó bate / bate de volta
 poe(cx, VO_CANTA, I(11) + 0.2, 0.55)
 x = tt(Dp(13)); poe(sfx, bp(ruido(Dp(13)), 3500, 6000) * (np.sin(2 * np.pi * 9 * x) > 0.6) * 0.08, I(13), 0.5); clique(I(13) + 0.2, 0.4)  # grilos
 x = tt(0.7); poe(sfx, bp(ruido(0.7), 1500, 6000) * env(len(x), 0.05, 0.5) * 0.4, I(14) + Dp(14) * 0.5, 0.5)  # papel
@@ -126,7 +126,7 @@ x = tt(Dp(16) + Dp(17)); sir = np.sign(np.sin(2 * np.pi * np.where((x * 1.2) % 1
 poe(sfx, lp(sir.astype(np.float32), 2500) * env(len(x), 0.4, 1.0), I(16), 0.35)
 passos(I(18), I(18) + Dp(18) * 0.8, 0.5, 0.35, 1800)
 tique(I(19), I(20), 0.35)
-for f in (0.18, 0.25, 0.48, 0.55, 0.66, 0.73, 0.8, 0.87): poe(sfx, TOC_CIMA, I(20) + Dp(20) * f, 1.2 if f > 0.6 else 1.0)
+for k, x in enumerate(T20): poe(sfx, TOC_CIMA, x - 0.03, 1.0 + 0.06 * k)
 x = tt(1.5); poe(sfx, (lp(ruido(1.5), 300) * np.exp(-x * 3) + np.sin(2 * np.pi * 60 * x * np.exp(-x)) * np.exp(-x * 2)).astype(np.float32), I(21) + 0.5, 0.8)  # apagão
 passos(I(22) + 0.2, I(22) + Dp(22) * 0.9, 0.42, 0.45, 1200); clique(I(22) + 0.1, 0.5)
 x = tt(Dp(22)); poe(sfx, bp(ruido(Dp(22)), 500, 2500) * np.maximum(0, np.sin(2 * np.pi * 0.9 * x)) ** 2 * 0.25, I(22), 0.5)  # respiração

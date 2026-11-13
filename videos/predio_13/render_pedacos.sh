@@ -7,7 +7,7 @@ pids=()
 for ((i=0; i<N; i+=300)); do
   f=$P/p_$(printf %05d $i).mp4
   if [ -z "$(ffprobe -v 0 -show_entries format=duration -of csv=p=0 $f 2>/dev/null)" ]; then
-    node ../../_toon3d/render.js cena.js $f --dados dados.json --de $i --ate $((i+300)) > /dev/null &
+    node ../_toon3d/render.js cena.js $f --dados dados.json --de $i --ate $((i+300)) > /dev/null &
     pids+=($!); if [ ${#pids[@]} -ge 3 ]; then wait ${pids[0]}; pids=("${pids[@]:1}"); fi
   fi
   echo "file '$(basename $f)'" >> $P/lista.txt

@@ -20,7 +20,11 @@ for i, txt in enumerate(TXT, 1):
 t += 0.2; cenas.append({'n': 32, 't': round(t, 3), 'd': 3.2, 'txt': ''}); t += 3.2
 # corte de imagem: cada cena começa um pouco antes da fala
 ini = [max(0, c['t'] - (0.25 if c['n'] > 1 else c['t'])) for c in cenas]
-dados = {'dur': round(t, 3), 'ini': [round(x, 3) for x in ini], 'fala': [c['t'] for c in cenas], 'fd': [c['d'] for c in cenas]}
+def tocs(n):
+    jf = os.path.join(F, f'c{n:02d}_w.json')
+    if not os.path.exists(jf): return []
+    c = cenas[n - 1]; return [round(c['t'] + x['a'] / TEMPO, 3) for x in json.load(open(jf)) if 'oq' in x['w'].lower() or 'toc' in x['w'].lower()]
+dados = {'toc10': tocs(10), 'toc20': tocs(20), 'dur': round(t, 3), 'ini': [round(x, 3) for x in ini], 'fala': [c['t'] for c in cenas], 'fd': [c['d'] for c in cenas]}
 json.dump(dados, open(os.path.join(AQ, 'dados.json'), 'w'))
-json.dump({'dur': round(t, 3), 'cenas': cenas}, open(os.path.join(AQ, 'tl.json'), 'w'), ensure_ascii=False, indent=1)
+json.dump({'dur': round(t, 3), 'cenas': cenas, 'toc10': dados['toc10'], 'toc20': dados['toc20']}, open(os.path.join(AQ, 'tl.json'), 'w'), ensure_ascii=False, indent=1)
 print('total', round(t, 1), 's; estimadas:', est)

@@ -51,7 +51,7 @@ open('legenda.ass', 'w', encoding='utf-8').write('\n'.join(ASS) + '\n')
 marca = ("drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:text='@Cardeno_Amarelo':fontsize=24:fontcolor=white@0.55:"
          "x='40+(w-tw-80)*(0.5+0.5*sin(t/9))':y='60+(h*0.42)*(0.5+0.5*sin(t/13+1))'")
 vf = f"ass=legenda.ass,{marca}"
-br = int((9.6 * 8 * 1024) / DUR - 96)  # kbps de vídeo pra ficar < ~9.8 MB
+br = int((8.9 * 8 * 1024) / DUR - 96)  # kbps de vídeo pra ficar < ~9.8 MB
 for passo in (1, 2):
     cmd = ['ffmpeg', '-v', 'error', '-y', '-i', 'video.mp4', '-i', 'audio.wav', '-vf', vf, '-c:v', 'libx264', '-preset', 'slow', '-b:v', f'{br}k', '-pass', str(passo), '-passlogfile', '/tmp/p13']
     cmd += (['-an', '-f', 'mp4', '/dev/null'] if passo == 1 else ['-c:a', 'aac', '-b:a', '96k', '-shortest', '-movflags', '+faststart', 'predio_13.mp4'])
