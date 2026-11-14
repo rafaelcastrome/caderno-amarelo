@@ -77,8 +77,8 @@ window.CENAS = function (WB) {
 
   // ---------------- topo ----------------
   const tit = WB.group();
-  WB.showNow(WB.textStrokes('TEM UMA MENINA AQUI', 540, 175, 104, INK.red, tit, 'middle').strokes);
-  WB.showNow(WB.textStrokes('e tu vai ver ela...', 540, 280, 76, INK.black, tit, 'middle').strokes);
+  WB.showNow(WB.textStrokes('OLHA BEM PRA ELA...', 540, 175, 110, INK.red, tit, 'middle').strokes);
+  WB.showNow(WB.textStrokes('ela vai aparecer no teu quarto', 540, 280, 72, INK.black, tit, 'middle').strokes);
 
   // ---------------- cena 1/2: instrução ----------------
   rest(0.2, 0.3);

@@ -2,12 +2,12 @@
 """montagem.json com as falas do encarar batendo com 15 s de contagem, drone de suspense e impacto na troca."""
 import json, subprocess, numpy as np
 from scipy.io import wavfile
-CUTS = [7.8, 15.8, 18.9, 21.5, 25.2, 31.2, 36.7, 43.0]
+CUTS = [10.145, 18.895, 21.995, 24.595, 28.295, 34.295, 39.795, 46.095]   # take2 = fala 0 nova (sem 'menina escondida') + resto do take1
 ALVO = {2: 5.0, 3: 10.0, 4: 15.0}   # segundos depois do início do encarar
 FIXA = {0: 0.4, 4: 0.9, 5: 0.7, 6: 0.9, 7: 0.7, 8: 2.4}
 SR = 44100
 def montar(p, fundo=False):
-    M = {"take": "falas/take1.wav", "voz": "Algieba", "cortes": CUTS, "cenas": [{"fala": i, "pausa": round(p[i], 3)} for i in range(9)]}
+    M = {"take": "falas/take2.wav", "voz": "Algieba", "cortes": CUTS, "cenas": [{"fala": i, "pausa": round(p[i], 3)} for i in range(9)]}
     if fundo: M["fundo"] = {"arquivo": "sfx/fundo.wav", "volume": [[0, 1.0], [999, 1.0]]}
     json.dump(M, open("montagem.json", "w"), indent=1)
     subprocess.check_call(["python3", "../_comum/montar.py", "."], stdout=subprocess.DEVNULL)
