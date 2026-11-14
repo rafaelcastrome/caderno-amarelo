@@ -1,0 +1,47 @@
+{
+ "titulo": "Olha pra parede",
+ "marca": {
+  "handle": "Cardeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único, tom de suspense)"
+ },
+ "fontes": [
+  {
+   "fato": "Pós-imagem negativa: depois de encarar cores por ~15 s, os cones cansam e ao olhar para uma superfície clara vê-se a imagem nas cores opostas",
+   "fonte": "Fisiologia da visão (afterimage)",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Tem uma menina escondida nesse vídeo... e tu vai ver ela com os teus próprios olhos."
+  },
+  {
+   "fala": "Olha fixo pro pontinho vermelho no nariz dela... não tira o olho, nem pisca."
+  },
+  {
+   "fala": "Continua olhando..."
+  },
+  {
+   "fala": "Não pisca..."
+  },
+  {
+   "fala": "Agora olha pro papel branco!"
+  },
+  {
+   "fala": "Tá vendo ela? De cabelo preto... olhando pra ti."
+  },
+  {
+   "fala": "Pisca rápido... ela some... e volta."
+  },
+  {
+   "fala": "Agora olha pra parede do teu quarto... ela foi junto contigo."
+  },
+  {
+   "fala": "Comenta VI se tu viu ela... e manda pra quem tem medo!"
+  }
+ ]
+}
