@@ -1,0 +1,68 @@
+{
+ "titulo": "Acha do 1 ao 25",
+ "marca": {
+  "handle": "Cardeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [
+  {
+   "fato": "Tabela de Schulte: grade de números embaralhados criada pelo psiquiatra alemão Walter Schulte para avaliar a atenção; usada em treinos de atenção e leitura rápida",
+   "fonte": "Literatura de psicologia (Schulte tables)",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Tu consegue achar do um ao vinte e cinco... em só vinte e cinco segundos? Duvido!"
+  },
+  {
+   "fala": "É simples: acha o um... depois o dois... o três... sempre na ordem, até o vinte e cinco."
+  },
+  {
+   "fala": "Vou embaralhar tudo... Preparado? Três... dois... um... Valendo!"
+  },
+  {
+   "fala": "Vai, vai, vai!"
+  },
+  {
+   "fala": "Metade do tempo!"
+  },
+  {
+   "fala": "Dez segundos!"
+  },
+  {
+   "fala": "Cinco..."
+  },
+  {
+   "fala": "quatro..."
+  },
+  {
+   "fala": "três..."
+  },
+  {
+   "fala": "dois..."
+  },
+  {
+   "fala": "um..."
+  },
+  {
+   "fala": "TEMPO! Para tudo!"
+  },
+  {
+   "fala": "Até qual número tu chegou? Até dez... tá normal. Até vinte... tá rápido. Achou todos? Cérebro de foguete!"
+  },
+  {
+   "fala": "Comenta teu número aqui embaixo!"
+  },
+  {
+   "fala": "Isso se chama Tabela de Schulte... um psiquiatra alemão criou pra medir a atenção das pessoas... e hoje tem gente que usa até pra treinar leitura rápida."
+  },
+  {
+   "fala": "Salva o vídeo e tenta de novo amanhã... aposto que tu vai mais longe!"
+  }
+ ]
+}
