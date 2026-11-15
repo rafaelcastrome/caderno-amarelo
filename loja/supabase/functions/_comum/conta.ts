@@ -33,12 +33,19 @@ export async function emailDaSessao(token: unknown) {
 }
 
 // Junta dois progressos: melhor tempo e mais estrelas de cada fase.
-export function juntar(a: Record<string, { t: number; e: number }>, b: Record<string, { t: number; e: number }>) {
-  const r: Record<string, { t: number; e: number }> = { ...(a || {}) };
+type Fase = { t: number; e: number; n?: number; r?: number | null };
+// junta o progresso: menor tempo (com a tentativa em que foi feito), mais estrelas, mais tentativas
+export function juntar(a: Record<string, Fase>, b: Record<string, Fase>) {
+  const r: Record<string, Fase> = { ...(a || {}) };
+  const int = (x: unknown) => (typeof x === 'number' && x > 0 ? Math.min(99999, Math.round(x)) : 0);
   for (const [k, v] of Object.entries(b || {})) {
     if (!/^\d{1,2}$/.test(k) || typeof v?.t !== 'number' || typeof v?.e !== 'number') continue;
     const t = Math.max(0.5, Math.min(9999, v.t)), e = Math.max(0, Math.min(3, Math.round(v.e)));
-    r[k] = r[k] ? { t: Math.min(r[k].t, t), e: Math.max(r[k].e, e) } : { t, e };
+    const n = int(v.n), tr = int(v.r) || null;
+    const o = r[k];
+    r[k] = o
+      ? { t: Math.min(o.t, t), e: Math.max(o.e, e), n: Math.max(int(o.n), n), r: t < o.t ? tr : (o.r ?? null) }
+      : { t, e, n, r: tr };
   }
   return r;
 }

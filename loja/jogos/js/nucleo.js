@@ -189,7 +189,7 @@
 
   // Card original de cada partida: tempo, estrelas, a grade que a pessoa jogou com o
   // caminho da caneta passando pelos números na ordem, e o link + como jogar no rodapé.
-  CA.gerarCard = async function ({ jogo, linha1, valor, linha3, cor, estrelas, quadro, regra, comoJoga }) {
+  CA.gerarCard = async function ({ jogo, linha1, valor, linha3, cor, estrelas, quadro, regra, comoJoga, tentativa }) {
     await carregarFonte();
     const W = 1080, H = 1920;
     const c = document.createElement('canvas');
@@ -242,6 +242,16 @@
       g.strokeStyle = '#ffd23f'; g.lineWidth = 22; g.lineCap = 'round';
       g.beginPath(); g.moveTo(330, 600); g.quadraticCurveTo(540, 578, 750, 604); g.stroke();
       y = 650;
+    }
+    if (tentativa) {
+      // carimbo da tentativa (de primeira / na 3ª tentativa)
+      const txt = tentativa === 'de primeira' ? 'DE PRIMEIRA!' : tentativa.replace(/^na /, '').toUpperCase();
+      g.save(); g.translate(205, 430); g.rotate(-0.16);
+      g.font = F(46); const lw = Math.min(330, g.measureText(txt).width + 40);
+      caber(txt, 46, lw - 30);
+      g.strokeStyle = '#d62828'; g.lineWidth = 6; g.strokeRect(-lw / 2, -40, lw, 72);
+      g.fillStyle = '#d62828'; g.fillText(txt, 0, 12);
+      g.restore();
     }
     if (ouro) {
       g.save(); g.translate(850, 420); g.rotate(0.18);

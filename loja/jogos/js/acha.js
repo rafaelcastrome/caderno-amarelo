@@ -79,10 +79,16 @@
   function salvarFase(num, t, est) {
     const p = CA.progressoFases();
     const a = p[num];
-    p[num] = { t: a ? Math.min(a.t, t) : t, e: Math.max(est, a ? a.e : 0) };
+    const n = ((a && a.n) || 0) + 1;            // quantas vezes já terminou essa fase
+    const bateu = !a || t < a.t;
+    p[num] = { t: bateu ? t : a.t, e: Math.max(est, a ? a.e : 0), n, r: bateu ? n : (a.r || null) };
     CA.gravar('fases', p);
     if (CA.sincronizar) CA.sincronizar(); // salva na conta, se tiver entrado
+    return n;
   }
+  // "de primeira", "na 3ª tentativa"
+  const naTentativa = n => !n ? '' : n === 1 ? 'de primeira' : `na ${n}ª tentativa`;
+  CA.naTentativa = naTentativa;
   // Liberada: fase 1, ou a anterior concluída; e Premium da 7 em diante.
   CA.faseLiberada = function (num) {
     const f = FASES[num - 1];
@@ -134,7 +140,7 @@
           <div class="relogio">0,0 s</div>
         </div>
         <p class="meta-fase">${cfg.titulo}${f.regras.length ? ' · <b>' + descFase(f) + '</b>' : ''}</p>
-        ${cfg.amigo ? `<p class="meta-amigo">Teu amigo fez <b>${CA.fmtSeg(cfg.amigo)}</b>. Bate ele!</p>` : ''}
+        ${cfg.amigo ? `<p class="meta-amigo">Teu amigo fez <b>${CA.fmtSeg(cfg.amigo)}</b>${cfg.amigoTent ? ' ' + CA.naTentativa(cfg.amigoTent) : ''}. Bate ele!</p>` : ''}
         <div class="grade ${R.has('espelho') ? 'espelho' : ''}" style="--n:${n}">
           ${nums.map((v, i) => {
             const lab = rotulo(v);
@@ -204,10 +210,10 @@
   // ---------- duelo com amigo ----------
   // O link leva o tempo do desafiante em cada fase que ele passou; o amigo joga fase por fase
   // contra esses tempos, com a mesma grade (semente) em cada fase, e o placar vai somando.
-  const codDuelo = tempos => Object.keys(tempos).sort((a, b) => a - b).map(f => f + '-' + Math.round(tempos[f] * 10)).join('.');
+  const codDuelo = tempos => Object.keys(tempos).sort((a, b) => a - b).map(f => f + '-' + Math.round(tempos[f].t * 10) + (tempos[f].r ? '-' + tempos[f].r : '')).join('.');
   function lerDuelo(dz) {
     const o = {};
-    String(dz || '').split('.').forEach(x => { const [f, t] = x.split('-'); if (+f > 0 && +f <= FASES.length && +t > 0) o[+f] = +t / 10; });
+    String(dz || '').split('.').forEach(x => { const [f, t, r] = x.split('-'); if (+f > 0 && +f <= FASES.length && +t > 0) o[+f] = { t: +t / 10, r: +r || null }; });
     return o;
   }
   const sementeDuelo = (s, f) => ((+s >>> 0) ^ Math.imul(f, 2654435761)) >>> 0;
@@ -220,18 +226,23 @@
   }
 
   // ---------- telas ----------
-  function telaResultado(palco, { fase, t, multa, quadro, semente, amigo, duelo, ehDia, ehHoje, data, rejogar }) {
+  function telaResultado(palco, { fase, t, multa, quadro, semente, amigo, amigoTent, duelo, ehDia, ehHoje, data, rejogar }) {
     const txtT = CA.fmtSeg(t);
-    let estrelas = null, proxima = null, rec;
+    let estrelas = null, proxima = null, rec, tent, tentRec;
     if (ehDia) {
+      tent = CA.ler('tent:dia:' + data, 0) + 1;
+      CA.gravar('tent:dia:' + data, tent);
       rec = CA.recorde('dia:' + data, t, true);
+      if (rec.bateu) CA.gravar('tentrec:dia:' + data, tent);
+      tentRec = CA.ler('tentrec:dia:' + data, null);
       if (ehHoje) CA.marcarDia('acha', txtT);
     } else {
       estrelas = estrelasPor(fase, t);
       rec = CA.recorde('fase' + fase.num, t, true);
-      salvarFase(fase.num, t, estrelas);
+      tent = salvarFase(fase.num, t, estrelas);
+      tentRec = (CA.progressoFases()[fase.num] || {}).r;
       const prox = FASES[fase.num];
-      const tProx = duelo && duelo.tempos[prox ? prox.num : 0];
+      const dProx = duelo && duelo.tempos[prox ? prox.num : 0], tProx = dProx && dProx.t;
       if (prox && tProx) {
         // no duelo a próxima fase continua valendo contra o amigo
         const livre = !prox.premium || CA.ehPremium();
@@ -246,9 +257,9 @@
     const melhor = ehDia ? CA.ler('rec:dia:' + data, t) : (CA.progressoFases()[fase.num] || {}).t;
     // o desafio leva os tempos de TODAS as fases que a pessoa já passou (começa da fase 1)
     const meus = {};
-    if (!ehDia) Object.entries(CA.progressoFases()).forEach(([f, x]) => { if (x && x.t) meus[f] = x.t; });
+    if (!ehDia) Object.entries(CA.progressoFases()).forEach(([f, x]) => { if (x && x.t) meus[f] = { t: x.t, r: x.r }; });
     const nMinhas = Object.keys(meus).length;
-    const linkParams = ehDia ? { d: data, v: t } : { f: 1, s: CA.novaSemente(), dz: codDuelo(meus) };
+    const linkParams = ehDia ? { d: data, v: t, r: tent } : { f: 1, s: CA.novaSemente(), dz: codDuelo(meus) };
     let placar = null;
     if (duelo && amigo) {
       const pl = placarDuelo(duelo.s + duelo.dz, fase.num, t < amigo);
@@ -260,23 +271,23 @@
       titulo: ehDia ? (ehHoje ? 'Desafio do dia em' : 'Desafio de ' + CA.fmtData(data) + ' em') : `Fase ${fase.num} em`,
       valorTxt: txtT,
       estrelas,
-      detalhe: (estrelas && estrelas < 3 ? `Pra 3 estrelas: até ${fase.a3} s. ` : '') + (multa ? `Contando ${multa} s de multa por toque errado.` : 'Sem errar nenhum! 👏'),
+      detalhe: `${tent === 1 ? 'De primeira! ' : `Tentativa nº ${tent}. `}` + (estrelas && estrelas < 3 ? `Pra 3 estrelas: até ${fase.a3} s. ` : '') + (multa ? `Contando ${multa} s de multa por toque errado.` : 'Sem errar nenhum! 👏'),
       recorde: rec,
-      recordeTxt: melhor != null ? CA.fmtSeg(melhor) : '',
-      amigo: amigo ? { valorTxt: CA.fmtSeg(amigo) + (duelo ? ' nessa fase' : ''), ganhou: t < amigo, placar } : null,
+      recordeTxt: melhor != null ? CA.fmtSeg(melhor) + (tentRec ? ' (' + naTentativa(tentRec) + ')' : '') : '',
+      amigo: amigo ? { valorTxt: CA.fmtSeg(amigo) + (duelo ? ' nessa fase' : '') + (amigoTent ? ', ' + naTentativa(amigoTent) : ''), ganhou: t < amigo, placar } : null,
       proxima,
       desafio: {
         texto: ehDia
-          ? `Fiz o desafio do dia do Acha do 1 ao 25 em ${txtT} 😎 Duvido tu fazer mais rápido!`
+          ? `Fiz o desafio do dia do Acha do 1 ao 25 em ${txtT}, ${naTentativa(tent)} 😎 Duvido tu fazer mais rápido!`
           : `Passei ${nMinhas > 1 ? nMinhas + ' fases' : 'a fase 1'} do Acha do 1 ao 25 😎 Duvido tu bater meus tempos em todas!`,
         url: CA.linkDesafio(ehDia ? 'acha' : 'fase', linkParams),
       },
       card: {
         jogo: 'Acha do 1 ao 25',
         linha1: ehDia ? (ehHoje ? 'Desafio do dia · ' : 'Desafio de ') + CA.fmtData(data) : `Fase ${fase.num} · ${fase.nome}`,
-        valor: txtT.replace(' s', 's'), estrelas, cor: '#1d4ed8', quadro,
+        valor: txtT.replace(' s', 's'), estrelas, cor: '#1d4ed8', quadro, tentativa: naTentativa(tent),
         regra: fase.regras.length ? descFase(fase) : '',
-        comoJoga: 'Toca do 1 ao 25 em ordem, o mais rápido que tu conseguir',
+        comoJoga: 'Toca os números em ordem, o mais rápido que tu conseguir',
       },
       jogarDeNovo: rejogar,
     }));
@@ -306,7 +317,9 @@
       const vivo = () => ativo;
       const f = FASES[(+p.f || 1) - 1] || FASES[0];
       const duelo = p.dz ? { s: +p.s >>> 0, dz: p.dz, tempos: lerDuelo(p.dz) } : null;
-      const amigo = duelo ? (duelo.tempos[f.num] || null) : (p.v ? parseFloat(p.v) : null);
+      const dAmigo = duelo && duelo.tempos[f.num];
+      const amigo = duelo ? (dAmigo ? dAmigo.t : null) : (p.v ? parseFloat(p.v) : null);
+      const amigoTent = dAmigo ? dAmigo.r : (+p.r || null);
       const deAmigo = p.s != null;
       if (duelo && f.premium && !CA.ehPremium()) { telaTrancada(palco, f, amigo); return () => { ativo = false; }; }
       if (!deAmigo && !CA.faseLiberada(f.num)) {
@@ -317,11 +330,11 @@
       const rodar = semente => {
         if (parar) parar();
         parar = jogar(palco, {
-          fase: f, semente, amigo: deAmigo ? amigo : null,
+          fase: f, semente, amigo: deAmigo ? amigo : null, amigoTent,
           titulo: `Fase ${f.num} · ${f.nome}`,
           onFim: (t, multa, quadro) => setTimeout(() => {
             if (!ativo) return;
-            telaResultado(palco, { fase: f, t, multa, quadro, semente, amigo: deAmigo ? amigo : null, duelo,
+            telaResultado(palco, { fase: f, t, multa, quadro, semente, amigo: deAmigo ? amigo : null, amigoTent, duelo,
               rejogar: () => duelo ? rodar(semente) : deAmigo ? (location.hash = '#/fase?f=' + f.num) : rodar(CA.novaSemente()) });
           }, 350),
         }, vivo);
@@ -350,11 +363,11 @@
       const rodar = () => {
         if (parar) parar();
         parar = jogar(palco, {
-          fase: f, semente: CA.sementeDoDia('acha', data), amigo,
+          fase: f, semente: CA.sementeDoDia('acha', data), amigo, amigoTent: +p.r || null,
           titulo: ehHoje ? 'Desafio do dia' : 'Desafio de ' + CA.fmtData(data),
           onFim: (t, multa, quadro) => setTimeout(() => {
             if (!ativo) return;
-            telaResultado(palco, { fase: f, t, multa, quadro, amigo, ehDia: true, ehHoje, data, rejogar: rodar });
+            telaResultado(palco, { fase: f, t, multa, quadro, amigo, amigoTent: +p.r || null, ehDia: true, ehHoje, data, rejogar: rodar });
           }, 350),
         }, vivo);
       };
