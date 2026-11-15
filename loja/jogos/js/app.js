@@ -29,7 +29,7 @@
   }
 
   // Link do nosso Reels do Acha do 1 ao 25 (Instagram). Vazio = não mostra o vídeo.
-  const REELS = '';
+  const REELS = 'https://www.instagram.com/reel/DfuG6lkSIzZ/';
 
   function inicio(palco) {
     document.title = 'Acha do 1 ao 25 · Caderno Amarelo';
