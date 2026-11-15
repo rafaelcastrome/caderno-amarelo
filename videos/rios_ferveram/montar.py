@@ -60,6 +60,15 @@ for x in np.arange(S(10), S(10) + 5.5, 0.16):
 i = int(S(12) * SR); n = int(5 * SR); w = rng.normal(0, 1, n); w = np.convolve(w, np.ones(60) / 60, 'same'); tt = np.arange(n) / SR
 fx[i:i + n] += (w * np.sin(np.pi * np.clip(tt / 5, 0, 1)) ** 2 * 0.35)[:max(0, N - i)]
 pancada(S(12) + 5.0, 40, 2.5, 0.6)
+# bolhas de ar entregues nas casas (tomada 4): "plop" suave
+for i in range(6):
+    n = 0
+    while True:
+        at = S(4) + 0.6 + i * 0.55 + n * 2.3 + 0.85
+        if at > E(4) - 0.1: break
+        j = int(at * SR); m = int(0.12 * SR); tt = np.arange(m) / SR
+        fx[j:j + m] += (np.sin(2 * np.pi * (500 + 900 * tt / 0.12) * tt) * np.exp(-tt * 35) * 0.15)[:max(0, N - j)]
+        n += 1
 # mix com ducking da trilha sob a voz
 vs = np.abs(voz); k = int(0.25 * SR); envv = np.convolve(vs, np.ones(k) / k, 'same'); duck = 1 - 0.45 * np.clip(envv / 0.05, 0, 1)
 mix = np.zeros((N, 2))

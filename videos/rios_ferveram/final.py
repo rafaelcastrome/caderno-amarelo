@@ -4,7 +4,7 @@ import json, os, re, subprocess, difflib, unicodedata
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 TL = json.load(open('dados.json'))['tl']; DUR = TL[-1]['ini'] + TL[-1]['dur'] + 2.8
 open('pedacos/lista.txt', 'w').write(''.join(f"file 'p{k}.mp4'\n" for k in range(4)))
-subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', 'pedacos/lista.txt', '-c', 'copy', 'video.mp4'], check=True)
+if not os.environ.get('SEMCONCAT'): subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', 'pedacos/lista.txt', '-c', 'copy', 'video.mp4'], check=True)
 norm = lambda s: ''.join(ch for ch in unicodedata.normalize('NFD', s.lower()) if ch.isalnum())
 txt = open('audio/falas.txt', encoding='utf-8').read().split('\n\n')
 W = json.load(open('voz_w.json')); wn = [norm(w['text']) for w in W]

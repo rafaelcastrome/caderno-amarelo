@@ -131,21 +131,32 @@ window.CENA = (T) => {
     };
   });
 
-  // 4 glóbulos vermelhos navegando com ar
+  // 4 glóbulos vermelhos navegando e jogando bolhas de ar pras casas das margens
   tomada({ bg: '#f5c0b6', fog: '#f5c0b6', hemi: '#ffffff', sol: '#ffffff', hi: 1.55 }, (g, ox) => {
-    terreno(g); cidade(g, 8, [-6, 10, -8, -3.5]);
+    terreno(g); cidade(g, 8, [-8, 10, -9, -4.5]);
     const r = rio(g, [[-14, 0], [-4, 0.2], [4, -0.2], [14, 0.1]], 3.0);
-    const destino = casa(g, 4.6, -2.4, 1.3, '#9fe0c9');
-    const doca = T.caixa(1.2, 0.08, 0.7, '#b9805a', g, { w: 0.004 }); doca.position.set(4.6, 0.08, -1.3);
-    const hs = []; for (let i = 0; i < 6; i++) { const h = POV.hemacia(g, { s: 1.05 }); h.ud2 = { x0: -7 - i * 1.9, z: (i % 2 ? 0.55 : -0.45), f: rnd() * 6 }; hs.push(h); }
-    const lider = hs[0];
+    const casas = []; for (let x = -8.5; x <= 9; x += 1.9) casas.push(casa(g, x + R(-0.3, 0.3), -2.5 + R(-0.2, 0.2), R(0.9, 1.15)));
+    const hs = []; for (let i = 0; i < 6; i++) { const h = POV.hemacia(g, { s: 1.05 }); h.ud2 = { x0: -4.2 - i * 1.6, z: (i % 2 ? 0.55 : -0.45), f: rnd() * 6, off: 0.6 + i * 0.55 }; hs.push(h); }
+    const matB = new THREE.MeshToonMaterial({ color: '#7fd0ff', transparent: true, opacity: 0.85 });
+    const voo = hs.map(() => { const b = T.m(new THREE.SphereGeometry(0.19 * 1.05, 20, 14), matB, g, { w: 0.004 }); b.visible = false; const s = POV.brilho(g, '170,230,255', 1.2); s.visible = false; return { b, s }; });
+    const PER = 2.3, VOO = 0.85;
     return (u, D) => {
       r.tex.offset.y = -u * 0.9;
-      hs.forEach((h, i) => { let x = h.ud2.x0 + u * 1.6; if (i === 0) x = Math.min(x, 4.6); h.position.set(x, 0.3 + Math.sin(u * 2 + h.ud2.f) * 0.04, h.ud2.z); h.rotation.y = Math.sin(u * 1.3 + h.ud2.f) * 0.15; h.rotation.z = Math.sin(u * 1.7 + h.ud2.f) * 0.05; });
-      // a bolha do líder voa pra janela da casa
-      const k = J(u, D * 0.62, D * 0.85); const B = lider.ud.bolha;
-      if (B) { B.position.set(K([[0, 0], [1, (4.6 - lider.position.x) * 0 + 0.0]], k), 0.24 * 1.05 + Math.sin(k * Math.PI) * 1.2 + k * 0.3, -0.02 - k * 2.3); B.scale.setScalar(1 - k * 0.7); B.visible = k < 0.99; }
-      cam(ox, K([[0, [-6.5, 2.2, 5.2]], [D * 0.6, [1.5, 2.0, 4.6]], [D, [3.6, 2.4, 4.4]]], u), [K([[0, -5.5], [D * 0.6, 2.2], [D, 4.4]], u), 0.6, -0.6]);
+      hs.forEach((h, i) => {
+        const x = h.ud2.x0 + u * 1.5; h.position.set(x, 0.3 + Math.sin(u * 2 + h.ud2.f) * 0.04, h.ud2.z); h.rotation.y = Math.sin(u * 1.3 + h.ud2.f) * 0.15; h.rotation.z = Math.sin(u * 1.7 + h.ud2.f) * 0.05;
+        // ciclo: joga a bolha, ela voa até a janela de uma casa, e uma bolha nova cresce em cima dele
+        const c = u - h.ud2.off, n = Math.floor(c / PER), f = c - n * PER, B = h.ud.bolha, VB = voo[i];
+        if (c < 0) { B.scale.setScalar(1); VB.b.visible = VB.s.visible = false; return; }
+        const t0 = h.ud2.off + n * PER, xs = h.ud2.x0 + t0 * 1.5; // onde ele estava ao jogar
+        const alvo = casas.reduce((m, k) => Math.abs(k.position.x - (xs + 1.4)) < Math.abs(m.position.x - (xs + 1.4)) ? k : m, casas[0]);
+        const A = new V(xs, 0.3 + 0.26, h.ud2.z), Bp = new V(alvo.position.x, 0.75, alvo.position.z + 0.45);
+        if (f < VOO) { const k = T.suave(f / VOO); VB.b.visible = true; VB.b.position.lerpVectors(A, Bp, k); VB.b.position.y += Math.sin(k * Math.PI) * 1.5; VB.b.scale.setScalar(1 - k * 0.35); }
+        else VB.b.visible = false;
+        const fl = (f - VOO) / 0.35; VB.s.visible = fl > 0 && fl < 1; VB.s.position.copy(Bp); VB.s.scale.setScalar(0.4 + fl * 1.4); VB.s.material.opacity = 1 - fl;
+        B.scale.setScalar(Math.max(0.001, J(f, VOO + 0.2, VOO + 0.9))); // bolha nova
+        if (f < 0.12) { h.rotation.x = -f * 2; } // tranquinho ao jogar
+      });
+      cam(ox, K([[0, [-4.8, 2.4, 6.0]], [D, [5.6, 2.4, 6.0]]], u), [K([[0, -4.6], [D, 5.8]], u), 0.6, -1.0]);
     };
   });
 
@@ -154,40 +165,47 @@ window.CENA = (T) => {
     terreno(g, '#e99c94'); [[-6, -10, 5], [2, -12, 6], [8, -10, 5]].forEach(([x, z, h]) => morro(g, x, z, h));
     // muralha de pedrinhas da fronteira
     for (let i = 0; i < 26; i++) { const p = T.esfera(R(0.35, 0.55), i % 2 ? '#d98a84' : '#cf7f79', g); p.position.set(-9 + i * 0.72, 0.25, -1.6 + R(-0.15, 0.15)); p.scale.y = R(0.8, 1.2); }
-    const pedra = T.esfera(0.5, '#c97670', g); pedra.position.set(1.5, 0.25, -0.1); pedra.scale.set(1.2, 0.9, 1);
-    const est = T.grupo(g, 1.9, 0, 0.9); const eb = T.esfera(0.28, '#8f9aa0', est); eb.position.y = 0.3; eb.scale.set(1.1, 0.9, 1);
+    const pedra = T.esfera(0.5, '#c97670', g); pedra.position.set(0.3, 0.25, -0.1); pedra.scale.set(1.2, 0.9, 1);
+    const est = T.grupo(g, 0.7, 0, 0.9); const eb = T.esfera(0.28, '#8f9aa0', est); eb.position.y = 0.3; eb.scale.set(1.1, 0.9, 1);
     const eo = T.esfera(0.09, '#ffffff', eb, { w: 0.003 }); eo.position.set(0.0, 0.05, 0.25); const ep = T.esfera(0.045, '#15151c', eo, { sem: true }); ep.position.z = 0.06;
     const ls = []; for (let i = 0; i < 4; i++) { const l = POV.leucocito(g, { s: 0.95 }); l.rotation.y = Math.PI / 2 - 0.35; ls.push(l); }
     return (u, D) => {
       const pega = J(u, D * 0.6, D * 0.74);
-      ls.forEach((l, i) => { const x = -2.6 - i * 1.0 + Math.min(u, D * 0.6) * 0.75; l.position.set(x, 0, 0.6 + (i % 2) * 0.15); l.userData.anda(Math.min(u, D * 0.6) * 1.6, u < D * 0.6 ? 1 : 0); });
+      ls.forEach((l, i) => { const x = -3.2 - i * 0.95 + Math.min(u, D * 0.6) * 0.62; l.position.set(x, 0, 0.6 + (i % 2) * 0.15); l.userData.anda(Math.min(u, D * 0.6) * 1.6, u < D * 0.6 ? 1 : 0); });
       const L0 = ls[0]; const x0 = L0.position.x;
       // o estranho espia e o primeiro pula em cima
-      est.position.y = K([[0, -0.6], [D * 0.35, -0.6], [D * 0.45, 0.2]], u); est.position.x = 2.0 + Math.sin(u * 3) * 0.05;
-      if (pega > 0) { L0.position.set(T.lerp(x0, 1.95, pega), Math.sin(pega * Math.PI) * 1.0, T.lerp(0.6, 1.0, pega)); L0.rotation.y = T.lerp(Math.PI / 2 - 0.35, 0.4, pega); }
+      est.position.y = K([[0, -0.6], [D * 0.35, -0.6], [D * 0.45, 0.2]], u); est.position.x = 0.7 + Math.sin(u * 3) * 0.05;
+      if (pega > 0) { L0.position.set(T.lerp(x0, 0.65, pega), Math.sin(pega * Math.PI) * 1.0, T.lerp(0.6, 1.0, pega)); L0.rotation.y = T.lerp(Math.PI / 2 - 0.35, 0.4, pega); }
       const some = J(u, D * 0.74, D * 0.86); est.scale.setScalar(Math.max(0.001, 1 - some)); L0.ud.corpo.scale.set(1 + some * 0.25 * (1 - J(u, D * 0.9, D)), 1 - some * 0.1, 1 + some * 0.25 * (1 - J(u, D * 0.9, D)));
-      cam(ox, K([[0, [-1.6, 1.9, 7.6]], [D * 0.55, [-0.4, 1.8, 7.2]], [D, [1.0, 1.6, 6.2]]], u), [K([[0, -1.8], [D * 0.55, -0.2], [D, 1.4]], u), 0.7, 0]);
+      cam(ox, K([[0, [-1.6, 1.9, 7.6]], [D * 0.5, [-0.3, 1.7, 6.6]], [D, [0.4, 1.4, 5.2]]], u), [K([[0, -1.6], [D * 0.5, 0.0], [D, 0.5]], u), K([[0, 0.7], [D, 0.6]], u), K([[0, 0], [D, 0.7]], u)]);
     };
   });
 
-  // 6 plaquetas constroem a casa e fecham o chão rachado
+  // 6 plaquetas constroem uma casinha nova (igual às outras) e fecham o chão rachado
   tomada({ bg: '#f6c6bb', fog: '#f6c6bb', hemi: '#ffffff', sol: '#ffffff', hi: 1.55 }, (g, ox) => {
-    terreno(g); cidade(g, 7, [-7, 7, -10, -5]);
-    // parede de tijolos que vai subindo
-    const tij = []; for (let lin = 0; lin < 6; lin++) for (let c = 0; c < 6; c++) { const t = T.caixa(0.38, 0.17, 0.2, lin % 2 ? '#c8553d' : '#d5654a', g, { w: 0.004 }); t.ud = { x: -1.5 + c * 0.4 + (lin % 2) * 0.2, y: 0.09 + lin * 0.18, k: lin * 6 + c }; tij.push(t); }
+    terreno(g); cidade(g, 8, [-7, 7, -10, -4.5]); casa(g, -2.3, -2.6, 1.2, '#b8a4f0'); casa(g, 2.4, -2.9, 1.1, '#ffa98a');
+    // casinha nova: cúpula em 6 anéis que vão sendo encaixados de baixo pra cima, depois porta, janelas e chaminé
+    const nova = T.grupo(g, 0, 0, -0.9), S6 = 1.55, RR = 0.6 * S6, COR = '#9fe0c9';
+    const aneis = []; for (let k = 0; k < 6; k++) { const a0 = Math.PI / 2 - (k + 1) * Math.PI / 12; const m = T.m(new THREE.SphereGeometry(RR, 32, 3, 0, Math.PI * 2, a0, Math.PI / 12), k % 2 ? COR : '#8fd6bd', nova, { w: 0.004 }); m.scale.y = 1.15; aneis.push(m); }
+    const porta = T.m(new THREE.CircleGeometry(0.17 * S6, 20, 0, Math.PI), T.basico('#5a2a3a'), nova, { sem: true }); porta.position.set(0, 0, RR + 0.01);
+    const jan = [-1, 1].map((k) => { const j = T.m(new THREE.CircleGeometry(0.075 * S6, 16), T.basico('#fff3b0'), nova, { sem: true }); j.position.set(k * 0.3 * S6, 0.38 * S6, 0.5 * S6 + 0.02); j.lookAt(new V(k * 0.9, 1.5, 4)); return j; });
+    const cham = T.cilindro(0.07 * S6, 0.07 * S6, 0.3 * S6, '#8c5a6a', nova, { w: 0.004 }); cham.position.set(0.25 * S6, 0.68 * S6, -0.1 * S6);
     // rachadura no chão
     const sh = new THREE.Shape(); const zz = [[-1.6, 0], [-1.1, 0.12], [-0.6, -0.08], [-0.1, 0.14], [0.4, -0.06], [0.9, 0.12], [1.5, 0]];
     sh.moveTo(...zz[0]); zz.forEach((p) => sh.lineTo(p[0], p[1] + 0.12)); for (let i = zz.length - 1; i >= 0; i--) sh.lineTo(zz[i][0], zz[i][1] - 0.12);
-    const rach = new THREE.Mesh(new THREE.ShapeGeometry(sh), T.basico('#5c1620')); rach.rotation.x = -Math.PI / 2; rach.position.set(1.6, 0.06, 1.4); g.add(rach);
-    const ps = []; for (let i = 0; i < 5; i++) { const p = POV.plaqueta(g, { s: 1.1 }); ps.push(p); }
+    const rach = new THREE.Mesh(new THREE.ShapeGeometry(sh), T.basico('#5c1620')); rach.rotation.x = -Math.PI / 2; rach.position.set(0.9, 0.06, 1.6); rach.scale.set(0.7, 1, 1); g.add(rach);
+    const ps = []; for (let i = 0; i < 6; i++) { const p = POV.plaqueta(g, { s: 1.0 }); p.ud.tijolo.material = T.mat(COR); ps.push(p); }
     return (u, D) => {
-      const n = Math.floor(J(u, 0, D * 0.62) * 36);
-      tij.forEach((t) => { const k = t.ud.k; const a = k < n ? 1 : (k === n ? (J(u, 0, D * 0.62) * 36) % 1 : 0); t.visible = a > 0; t.position.set(t.ud.x, t.ud.y + (1 - a) * 0.8, 0); });
-      // 3 plaquetas no muro, 2 na rachadura
-      [[-2.1, 0.5], [1.0, 0.55], [-0.4, 0.75]].forEach(([x, z], i) => { const p = ps[i]; p.position.set(x + Math.sin(u * 2 + i) * 0.15, 0, z); p.rotation.y = Math.sin(u + i) * 0.4; p.ud.corpo.position.y = 0.26 * 1.1 + Math.abs(Math.sin(u * 5 + i)) * 0.08; p.ud.tijolo.visible = Math.sin(u * 2.5 + i * 2) > -0.2; });
-      const fecha = J(u, D * 0.5, D * 0.95); rach.scale.set(1, 1 - fecha, 1);
-      [[0.9, 2.2], [2.4, 2.2]].forEach(([x, z], i) => { const p = ps[3 + i]; p.position.set(x, 0, z); p.rotation.y = (i ? -0.5 : 0.5); p.ud.tijolo.visible = fecha < 0.6; p.ud.corpo.rotation.x = -0.25 + Math.sin(u * 8 + i) * 0.1 * (fecha < 1 ? 1 : 0); });
-      cam(ox, K([[0, [-1.2, 2.2, 6.4]], [D * 0.55, [-0.4, 2.0, 5.6]], [D, [1.5, 2.8, 5.2]]], u), [K([[0, -0.5], [D * 0.55, 0], [D, 1.4]], u), K([[0, 0.7], [D, 0.5]], u), K([[0, 0], [D, 1.0]], u)]);
+      const B = D * 0.62; // fim da construção dos anéis
+      aneis.forEach((m, k) => { const a = J(u, k * B / 6, (k + 0.8) * B / 6); m.visible = a > 0.01; m.position.y = (1 - a) * 0.9; m.rotation.y = (1 - a) * 0.6; });
+      const fim = J(u, B, B + 0.5); porta.visible = jan[0].visible = jan[1].visible = cham.visible = fim > 0.01; porta.scale.setScalar(Math.max(0.01, fim)); jan.forEach((j) => j.scale.setScalar(Math.max(0.01, fim))); cham.scale.set(1, Math.max(0.01, fim), 1);
+      // 4 plaquetas em volta da casa: levantam o pedaço e encaixam (pulinho), 2 no chão rachado
+      [[-1.25, -0.3, 0.6], [1.25, -0.3, -0.6], [-0.7, 0.35, 0.3], [0.7, 0.4, -0.3]].forEach(([x, z, ry], i) => { const p = ps[i]; const ph = (u * 1.3 + i * 0.25) % 1;
+        p.position.set(x, Math.sin(ph * Math.PI) * 0.35 * (u < B ? 1 : 0), z); p.rotation.y = ry; p.ud.tijolo.visible = u < B && ph < 0.7;
+        p.ud.bracos.forEach((b, k) => { b.rotation.z = (k ? 1 : -1) * (u < B ? 0.15 : 0.9 + Math.sin(u * 10 + i) * 0.3); }); });
+      const fecha = J(u, D * 0.45, D * 0.95); rach.scale.set(0.7, 1 - fecha, 1);
+      [[0.3, 2.2], [1.6, 2.2]].forEach(([x, z], i) => { const p = ps[4 + i]; p.position.set(x, 0, z); p.rotation.y = (i ? -0.5 : 0.5); p.ud.tijolo.visible = false; p.ud.corpo.rotation.x = -0.25 + Math.sin(u * 8 + i) * 0.12 * (fecha < 1 ? 1 : 0); });
+      cam(ox, K([[0, [0, 2.4, 6.2]], [D * 0.6, [0.2, 2.1, 5.6]], [D, [0.6, 2.4, 5.9]]], u), [0, K([[0, 0.7], [D, 0.6]], u), K([[0, -0.6], [D * 0.6, -0.4], [D, 0.4]], u)]);
     };
   });
 
