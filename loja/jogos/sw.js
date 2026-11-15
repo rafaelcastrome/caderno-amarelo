@@ -1,6 +1,6 @@
 /* Guarda o app no celular pra abrir rápido e até sem internet.
    Ao mudar qualquer arquivo do app, sobe a VERSAO. */
-const VERSAO = 'ca-jogos-v4';
+const VERSAO = 'ca-jogos-v5';
 const ARQUIVOS = [
   './', 'index.html', 'jogos.css', 'manifest.webmanifest',
   'js/nucleo.js', 'js/acha.js', 'js/premium.js', 'js/app.js', '../assets/js/config.js',

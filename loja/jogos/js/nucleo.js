@@ -338,6 +338,7 @@
       <div class="placar-amigo ${r.amigo.ganhou ? 'ganhou' : 'perdeu'}">
         ${r.amigo.ganhou ? 'Tu ganhou do teu amigo! 🏆' : 'Teu amigo ganhou dessa vez 😅'}
         <small>Ele fez ${r.amigo.valorTxt}</small>
+        ${r.amigo.placar ? `<b class="placar-duelo">${r.amigo.placar}</b>` : ''}
       </div>` : '';
     const rec = r.recorde && r.recorde.bateu && r.recorde.antigo != null
       ? '<div class="recorde-novo">NOVO RECORDE!</div>'
