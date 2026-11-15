@@ -33,11 +33,33 @@
   // ---------- conta ----------
   CA.conta = () => CA.ler('conta', null);              // { email, token, premium, ate }
   CA.ehPremium = () => { const c = CA.conta(); return !!(c && c.premium && (!c.ate || Date.parse(c.ate) > Date.now())); };
+  CA.chamar = chamar;
+  CA.perfil = () => (CA.conta() || {}).perfil || null;   // { apelido, arroba, mostrar_arroba, arroba_confirmado, id_publico }
   function guardarConta(d) {
-    CA.gravar('conta', { email: d.email, token: d.token || (CA.conta() || {}).token, premium: !!d.premium, ate: d.ate || null });
+    const antes = CA.conta() || {};
+    CA.gravar('conta', { email: d.email || antes.email, token: d.token || antes.token, premium: !!d.premium, ate: d.ate || null, perfil: d.perfil || antes.perfil || null });
+    amigoPendente();
     if (d.progresso) CA.gravar('fases', d.progresso);
     if (d.premium) { try { localStorage.setItem('desafios:jogo', JSON.stringify({ isPremium: true })); } catch (e) {} }
   }
+  // link de duelo de alguém: vira amigo (agora, ou quando entrar na conta)
+  CA.virarAmigo = function (id) {
+    if (!id || (CA.perfil() || {}).id_publico === id) return;
+    CA.gravar('amigoPend', id);
+    amigoPendente();
+  };
+  function amigoPendente() {
+    const id = CA.ler('amigoPend', null), c = CA.conta();
+    if (!id || !c || !c.token) return;
+    CA.gravar('amigoPend', null);
+    chamar('jogo-ranking', { acao: 'amigo', token: c.token, id }).catch(() => {});
+  }
+  // manda o tempo pro ranking (só com conta)
+  CA.enviarRecorde = function (chave, t, tentativa) {
+    const c = CA.conta();
+    if (!c || !c.token) return Promise.resolve(false);
+    return chamar('jogo-ranking', { acao: 'enviar', token: c.token, chave, t, tentativa }).then(() => true).catch(() => false);
+  };
   CA.sairConta = async function () {
     const c = CA.conta();
     if (c) chamar('jogo-conta', { token: c.token, sair: true }).catch(() => {});
@@ -98,10 +120,80 @@
       try {
         const d = await chamar('jogo-entrar', { email, codigo: fC.querySelector('input').value.trim(), progresso: CA.ler('fases', {}) });
         guardarConta(d);
-        onPronto(CA.conta());
+        if (d.perfil && d.perfil.apelido) onPronto(CA.conta());
+        else formPerfil(alvo, { titulo: 'Como tu quer aparecer no ranking?', onPronto: () => onPronto(CA.conta()) });
       } catch (x) { erro(fC, x.message); b.disabled = false; b.textContent = 'Entrar'; }
     });
     fC.querySelector('[data-a=outro]').addEventListener('click', () => { fC.hidden = true; fE.hidden = false; });
+  }
+
+  // Perfil do ranking: apelido (obrigatório), @ do Instagram (opcional) e se mostra o @.
+  // O @ só ganha o ✓ depois de confirmar pela direct (o bot confere o código de 4 números).
+  function formPerfil(alvo, { titulo, onPronto, botao }) {
+    const p = CA.perfil() || {};
+    alvo.innerHTML = `
+      <div class="caixa-conta">
+        <strong>${titulo}</strong>
+        <small>É assim que teu nome aparece no ranking e pros teus amigos. Teu e-mail nunca aparece.</small>
+        <form class="f-perfil">
+          <label for="apelido">Apelido</label>
+          <input id="apelido" maxlength="20" required autocomplete="nickname" placeholder="Ex.: Rafa" value="${(p.apelido || '').replace(/"/g, '&quot;')}">
+          <label for="arroba">Teu @ do Instagram <span class="opcional">(se quiser)</span></label>
+          <div class="campo-arroba"><span>@</span><input id="arroba" maxlength="31" autocapitalize="none" autocomplete="off" spellcheck="false" placeholder="seu.arroba" value="${p.arroba || ''}"></div>
+          <label class="marcar"><input type="checkbox" id="mostrar" ${p.mostrar_arroba ? 'checked' : ''}> Mostrar meu @ no ranking</label>
+          <button class="btn btn-grande" type="submit">${botao || 'Salvar e continuar'}</button>
+          <p class="erro-form" role="alert" hidden></p>
+        </form>
+      </div>`;
+    const f = alvo.querySelector('.f-perfil'), err = f.querySelector('.erro-form');
+    const arroba = f.querySelector('#arroba'), mostrar = f.querySelector('#mostrar');
+    arroba.addEventListener('input', () => { arroba.value = arroba.value.replace(/^@+/, '').replace(/\s/g, '').toLowerCase(); if (arroba.value && !p.arroba) mostrar.checked = true; });
+    f.addEventListener('submit', async e => {
+      e.preventDefault(); err.hidden = true;
+      const b = f.querySelector('button'); b.disabled = true;
+      try {
+        const d = await chamar('jogo-perfil', { token: CA.conta().token, apelido: f.querySelector('#apelido').value, arroba: arroba.value, mostrar: mostrar.checked && !!arroba.value });
+        guardarConta({ ...CA.conta(), perfil: d.perfil });
+        if (d.perfil.arroba && !d.perfil.arroba_confirmado) confirmarArroba(alvo, onPronto);
+        else onPronto();
+      } catch (x) { err.textContent = x.message; err.hidden = false; b.disabled = false; }
+    });
+  }
+  CA.formPerfil = formPerfil;
+
+  // Mostra o código de 4 números pra mandar na direct e espera o bot confirmar.
+  function confirmarArroba(alvo, onPronto) {
+    let vivo = true, timer = 0;
+    const p = CA.perfil();
+    alvo.innerHTML = `
+      <div class="caixa-conta confirmar-arroba">
+        <strong>Confirma que o @${p.arroba} é teu</strong>
+        <small>Assim teu @ ganha o ✓ no ranking e ninguém usa ele no teu lugar.</small>
+        <div class="codigo-grande" aria-live="polite">····</div>
+        <ol class="passos-arroba">
+          <li>Copia o código</li>
+          <li>Manda na direct do <b>@Cardeno_Amarelo</b> (ou comenta num post nosso)</li>
+          <li>Volta aqui: confirma sozinho</li>
+        </ol>
+        <a class="btn btn-grande" href="https://ig.me/m/Cardeno_Amarelo" target="_blank" rel="noopener" data-a="direct">Copiar e abrir a direct</a>
+        <p class="esperando"><span class="pontinho"></span> Esperando a mensagem... vale 30 minutos.</p>
+        <button class="link-voltar" type="button" data-a="depois">Confirmar depois</button>
+        <p class="erro-form" role="alert" hidden></p>
+      </div>`;
+    const cx = alvo.querySelector('.codigo-grande'), err = alvo.querySelector('.erro-form');
+    const fim = ok => { vivo = false; clearInterval(timer); if (ok) { CA.som('recorde'); CA.aviso('@' + p.arroba + ' confirmado ✓'); } onPronto(); };
+    alvo.querySelector('[data-a=depois]').addEventListener('click', () => fim(false));
+    chamar('jogo-perfil', { token: CA.conta().token, pedirCodigo: true }).then(d => {
+      cx.textContent = d.codigo;
+      alvo.querySelector('[data-a=direct]').addEventListener('click', () => {
+        try { navigator.clipboard.writeText(d.codigo).catch(() => {}); } catch (e) {}
+      });
+      timer = setInterval(async () => {
+        if (!vivo || !alvo.isConnected) { clearInterval(timer); return; }
+        await CA.sincronizar();
+        if ((CA.perfil() || {}).arroba_confirmado) fim(true);
+      }, 5000);
+    }).catch(x => { err.textContent = x.message; err.hidden = false; });
   }
 
   const BENEFICIOS = [
@@ -223,6 +315,14 @@
     },
   };
 
+  // nome que a pessoa tem no ranking (igual ao servidor)
+  function nomeRanking() {
+    const p = CA.perfil() || {};
+    if (p.mostrar_arroba && p.arroba) return '@' + p.arroba + (p.arroba_confirmado ? ' ✓' : '');
+    return p.apelido || 'sem apelido';
+  }
+  CA.nomeRanking = nomeRanking;
+
   // #/conta: entrar ou ver quem tá conectado
   CA.jogos.conta = {
     nome: 'Minha conta',
@@ -247,10 +347,18 @@
           <div class="caixa-conta">
             <strong>${c.email}</strong>
             <small>${CA.ehPremium() ? '★ Premium ativo' + (c.ate ? ' até ' + fmtDia(c.ate) : '') : 'Plano grátis'} · ${est} estrelas</small>
+            <div class="perfil-linha">
+              <span>No ranking: <b>${nomeRanking()}</b>${(c.perfil || {}).arroba && !(c.perfil || {}).arroba_confirmado ? ' <em class="sem-ok">@ não confirmado</em>' : ''}</span>
+              <button class="link-mini" type="button" data-a="perfil">editar</button>
+            </div>
+            ${(c.perfil || {}).arroba && !(c.perfil || {}).arroba_confirmado ? '<button class="btn btn-claro" type="button" data-a="confirmar">Confirmar meu @</button>' : ''}
             <a class="btn btn-grande ${CA.ehPremium() ? 'btn-claro' : ''}" href="#/premium">${CA.ehPremium() ? 'Renovar o Premium' : 'Ver o Premium'}</a>
             <button class="btn btn-claro" type="button" data-a="sair">Sair da conta</button>
           </div>`;
         miolo.querySelector('[data-a=sair]').addEventListener('click', async () => { await CA.sairConta(); if (vivo) mostrar(); });
+        miolo.querySelector('[data-a=perfil]').addEventListener('click', () => formPerfil(miolo, { titulo: 'Teu nome no ranking', botao: 'Salvar', onPronto: () => vivo && mostrar() }));
+        const bc = miolo.querySelector('[data-a=confirmar]');
+        if (bc) bc.addEventListener('click', () => confirmarArroba(miolo, () => vivo && mostrar()));
       };
       mostrar();
       return () => { vivo = false; };

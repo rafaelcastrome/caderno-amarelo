@@ -74,6 +74,7 @@
           <small>${feitoHoje ? 'Tu fez ' + feitoHoje.txt + ' hoje. Tenta bater!' : 'A mesma grade pra todo mundo hoje. Bora?'}</small>
           <span class="btn">Jogar o desafio do dia</span>
         </a>
+        <a class="podio" href="#/ranking" hidden></a>
 
         <h2 class="secao">Fases</h2>
         <div class="grade-fases">${tiles}</div>
@@ -106,6 +107,7 @@
       e.currentTarget.textContent = CA.somLigado() ? '🔊' : '🔇';
     });
     mostrarInstalar(palco);
+    if (CA.podioHoje) CA.podioHoje(palco.querySelector('.podio'));
   }
 
   // Últimos 30 dias de desafio do dia (só Premium joga; os outros veem o cadeado).

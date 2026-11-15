@@ -260,6 +260,10 @@
     if (!ehDia) Object.entries(CA.progressoFases()).forEach(([f, x]) => { if (x && x.t) meus[f] = { t: x.t, r: x.r }; });
     const nMinhas = Object.keys(meus).length;
     const linkParams = ehDia ? { d: data, v: t, r: tent } : { f: 1, s: CA.novaSemente(), dz: codDuelo(meus) };
+    // quem abrir o link vira amigo no ranking
+    const meuId = CA.perfil && (CA.perfil() || {}).id_publico;
+    if (meuId) linkParams.de = meuId;
+    const envio = CA.enviarRecorde ? CA.enviarRecorde(ehDia ? 'dia:' + data : 'fase:' + fase.num, t, tent) : Promise.resolve(false);
     let placar = null;
     if (duelo && amigo) {
       const pl = placarDuelo(duelo.s + duelo.dz, fase.num, t < amigo);
@@ -291,6 +295,28 @@
       },
       jogarDeNovo: rejogar,
     }));
+    if (ehDia) caixaRankingDia(palco, data, envio);
+  }
+
+  // No resultado do desafio do dia: tua posição e o top 3, ou o convite pra entrar no ranking.
+  function caixaRankingDia(palco, data, envio) {
+    const folha = palco.querySelector('.folha');
+    if (!folha || !CA.verRanking) return;
+    const cx = CA.el(`<a class="podio res-ranking" href="#/ranking?d=${data}" hidden></a>`);
+    folha.after(cx);
+    if (!(CA.conta && CA.conta())) {
+      cx.innerHTML = '<div class="cab-ranking"><strong>Ranking de hoje</strong></div><p class="vazio">Entra com teu e-mail pra aparecer no ranking (e com teu @, se quiser).</p><span class="ver-mais">Entrar e aparecer →</span>';
+      cx.href = '#/conta'; cx.hidden = false;
+      return;
+    }
+    envio.then(() => CA.verRanking('dia:' + data)).then(d => {
+      if (!cx.isConnected) return;
+      cx.innerHTML = `
+        <div class="cab-ranking"><strong>${d.meu ? 'Tu tá em ' + d.meu.pos + 'º lugar' : 'Ranking de hoje'}</strong><span>${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}</span></div>
+        <ol class="lista-ranking">${d.top.slice(0, 3).map(CA.linhaRanking).join('')}</ol>
+        <span class="ver-mais">Ver ranking completo →</span>`;
+      cx.hidden = false;
+    }).catch(() => {});
   }
 
   function telaTrancada(palco, f, tAmigo) {
@@ -317,6 +343,7 @@
       const vivo = () => ativo;
       const f = FASES[(+p.f || 1) - 1] || FASES[0];
       const duelo = p.dz ? { s: +p.s >>> 0, dz: p.dz, tempos: lerDuelo(p.dz) } : null;
+      if (p.de && CA.virarAmigo) CA.virarAmigo(p.de);
       const dAmigo = duelo && duelo.tempos[f.num];
       const amigo = duelo ? (dAmigo ? dAmigo.t : null) : (p.v ? parseFloat(p.v) : null);
       const amigoTent = dAmigo ? dAmigo.r : (+p.r || null);
@@ -357,6 +384,7 @@
       }
       const data = CA.dataDoDesafio(p);
       if (data === false) return null;
+      if (p.de && CA.virarAmigo) CA.virarAmigo(p.de);
       const ehHoje = data === CA.hojeBR();
       const f = faseDoDia(data);
       const amigo = p.v ? parseFloat(p.v) : null;

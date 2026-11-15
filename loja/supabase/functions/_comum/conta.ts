@@ -49,3 +49,21 @@ export function juntar(a: Record<string, Fase>, b: Record<string, Fase>) {
   }
   return r;
 }
+
+// ---------- perfil público e ranking ----------
+export const APELIDO_OK = /^[\p{L}\p{N} ._-]{2,20}$/u;
+export const ARROBA_OK = /^[a-z0-9._]{1,30}$/;
+export const normArroba = (x: unknown) => (typeof x === 'string' ? x.trim().replace(/^@+/, '').toLowerCase() : '');
+// nome que aparece no ranking: @ só com autorização; senão apelido; senão "Jogador xxxx"
+export function nomePublico(c: { apelido?: string | null; arroba?: string | null; mostrar_arroba?: boolean; arroba_confirmado?: boolean; id_publico?: string | null }) {
+  if (c.mostrar_arroba && c.arroba) return '@' + c.arroba;
+  return c.apelido || 'Jogador ' + String(c.id_publico || '').slice(0, 4);
+}
+export const perfilDe = (c: Record<string, unknown> | null) => c ? {
+  apelido: c.apelido ?? null, arroba: c.arroba ?? null, mostrar_arroba: !!c.mostrar_arroba,
+  arroba_confirmado: !!c.arroba_confirmado, id_publico: c.id_publico ?? null,
+} : null;
+export const CAMPOS_PERFIL = 'apelido, arroba, mostrar_arroba, arroba_confirmado, id_publico';
+// selo ✓ só pra @ confirmado pela direct e que a pessoa deixou aparecer
+export const confirmado = (c: { mostrar_arroba?: boolean; arroba?: string | null; arroba_confirmado?: boolean }) =>
+  !!(c.mostrar_arroba && c.arroba && c.arroba_confirmado);

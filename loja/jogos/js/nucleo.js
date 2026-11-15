@@ -163,6 +163,7 @@
   };
 
   CA.aviso = function (texto) {
+    document.querySelectorAll('.aviso').forEach(x => x.remove()); // um aviso por vez, sem empilhar
     const a = CA.el(`<div class="aviso" role="status">${texto}</div>`);
     document.body.appendChild(a);
     setTimeout(() => a.classList.add('some'), 2200);
