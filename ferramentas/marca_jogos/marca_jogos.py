@@ -9,7 +9,7 @@ three.js, PIL...). Não mexe na skill whiteboard-video.
 
 Regras do desenho (pedido do Rafael, thread 71, 15/11/2026):
 - faixa fixa no rodapé do CONTEÚDO (y ~1635-1735 num 1080x1920), acima do @ da marca;
-- longe da coluna de botões do Reels/TikTok (fica entre x 60 e 930);
+- centralizada na horizontal (x 160-920);
 - some sozinha (fade de 0,2 s) quando o próprio vídeo desenha algo nessa faixa,
   pra nunca cobrir conteúdo; volta quando a faixa fica livre.
 """
@@ -23,7 +23,7 @@ LINK_PADRAO = 'caderno-amarelo-loja.pages.dev'
 TEXTO_PADRAO = 'Quer jogar esse jogo?'
 
 # Caixa da faixa no quadro 1080x1920 (escala junto se o vídeo tiver outro tamanho).
-CX, CY, LARG, ALT = 495, 1685, 760, 100
+CX, CY, LARG, ALT = 540, 1685, 760, 100
 
 
 def desenhar_faixa(texto, link, escala):

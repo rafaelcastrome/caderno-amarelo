@@ -10,6 +10,6 @@ python3 ferramentas/marca_jogos/marca_jogos.py video.mp4 video_com_marca.mp4
 python3 ferramentas/marca_jogos/marca_jogos.py video.mp4 saida.mp4 --texto "Quer jogar mais desafios?"
 ```
 
-- Posição: y ~1635-1735 (1080x1920), acima do @ e longe dos botões da direita.
+- Posição: y ~1635-1735 (1080x1920), acima do @, centralizada na horizontal.
 - Some sozinha (fade) quando o vídeo desenha algo na faixa; `--sempre` desliga isso.
 - `--link` troca o endereço (ex.: se um dia tiver domínio próprio). `--inicio 2` faz aparecer só depois do gancho.
