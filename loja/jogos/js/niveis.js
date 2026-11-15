@@ -50,8 +50,8 @@
         <span class="card-jogo-icone" aria-hidden="true">${j.icone}</span>
         <span class="card-jogo-txt"><strong>${j.nome}</strong><small>${j.desc}</small>
           <span class="card-jogo-prog"><i style="width:${Math.round(est / max * 100)}%"></i></span>
-          <small class="card-jogo-est">${est} de ${max} ★ · ${j.total} níveis</small></span>
-        <em>${j.id === atualId ? 'Tu tá aqui' : j.feitos() ? 'Continuar' : 'Jogar'}</em>
+          <span class="card-jogo-rodape"><small class="card-jogo-est">${est} de ${max} ★ · ${j.total} níveis</small>
+          <em>${j.id === atualId ? 'Tu tá aqui' : j.feitos() ? 'Continuar' : 'Jogar'}</em></span></span>
       </a>`;
     }).join('')}</div>`;
   };

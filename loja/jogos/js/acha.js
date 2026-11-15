@@ -392,6 +392,42 @@
       const ehHoje = data === CA.hojeBR();
       const f = faseDoDia(data);
       const amigo = p.v ? parseFloat(p.v) : null;
+      // antes de jogar: tela do desafio com a regra, o vídeo do Instagram e o ranking do dia
+      const telaDia = () => {
+        const meu = CA.ler('rec:dia:' + data, null);
+        const conta = CA.conta && CA.conta();
+        palco.innerHTML = '';
+        palco.appendChild(CA.el(`
+          <section class="intro intro-dia">
+            <div class="barra-topo"><a class="voltar" href="#/" aria-label="Voltar">‹</a>
+              <span class="nivel-tag">${ehHoje ? 'Desafio do dia · ' + CA.fmtData(data) : 'Desafio de ' + CA.fmtData(data)}</span></div>
+            <h1>Acha do 1 ao 25</h1>
+            <p class="regra-grande">${descFase(f)}</p>
+            <ul class="regras-nivel">
+              <li>Toca os números <b>em ordem</b>, o mais rápido que tu conseguir</li>
+              <li>A <b>mesma grade pra todo mundo</b> ${ehHoje ? 'hoje' : 'nesse dia'}: o ranking é justo</li>
+              <li>Tocou errado, ganha 1 segundo de multa</li>
+            </ul>
+            ${amigo ? `<p class="meta-amigo">Teu amigo fez <b>${CA.fmtSeg(amigo)}</b>. Bate ele!</p>` : ''}
+            ${meu != null ? `<p class="placar-estrelas">Teu melhor ${ehHoje ? 'hoje' : ''}: ${CA.fmtSeg(meu)}</p>` : ''}
+            <button class="btn btn-grande" data-a="ir">${meu != null ? 'Jogar de novo e bater meu tempo' : 'Começar o desafio'}</button>
+            <a class="podio rank-dia" href="#/ranking?${ehHoje ? 'aba=hoje' : 'd=' + data}">
+              <div class="cab-ranking"><strong>Ranking ${ehHoje ? 'de hoje' : 'de ' + CA.fmtData(data)}</strong></div><p class="vazio">Carregando...</p></a>
+            ${CA.reelsHtml('acha', 'Como é o jogo 👇 (vídeo do nosso Instagram)')}
+          </section>`));
+        palco.querySelector('[data-a=ir]').addEventListener('click', rodar);
+        const cx = palco.querySelector('.rank-dia');
+        if (!CA.verRanking) { cx.hidden = true; return; }
+        CA.verRanking('dia:' + data).then(d => {
+          if (!ativo || !cx.isConnected) return;
+          cx.innerHTML = `
+            <div class="cab-ranking"><strong>Ranking ${ehHoje ? 'de hoje' : 'de ' + CA.fmtData(data)}</strong><span>${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}</span></div>
+            ${d.top.length ? `<ol class="lista-ranking">${d.top.slice(0, 10).map(CA.linhaRanking).join('')}</ol>` : '<p class="vazio">Ninguém jogou ainda. Bora ser o 1º?</p>'}
+            ${d.meu && d.meu.pos > 10 ? `<p class="reticencias">···</p><ol class="lista-ranking">${CA.linhaRanking(d.meu)}</ol>` : ''}
+            ${conta ? '' : '<p class="vazio">Entra com teu e-mail (e teu @, se quiser) pra aparecer aqui.</p>'}
+            <span class="ver-mais">Ver ranking completo e dos amigos →</span>`;
+        }).catch(() => { if (cx.isConnected) cx.innerHTML = '<div class="cab-ranking"><strong>Ranking de hoje</strong></div><p class="vazio">Sem internet agora. O ranking volta quando a conexão voltar.</p>'; });
+      };
       const rodar = () => {
         if (parar) parar();
         parar = jogar(palco, {
@@ -403,7 +439,7 @@
           }, 350),
         }, vivo);
       };
-      rodar();
+      telaDia();
       return () => { ativo = false; parar && parar(); };
     },
   };

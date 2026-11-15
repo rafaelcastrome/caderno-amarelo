@@ -186,6 +186,15 @@
   CA.fonteCard = carregarFonte;
 
   // Endereço do jogo escrito por extenso no card (quem vê o story acha fácil).
+  // Vídeos dos jogos no nosso Instagram (Reels). Jogo sem vídeo = não mostra nada.
+  CA.REELS = { acha: 'https://www.instagram.com/reel/DfuG6lkSIzZ/' };
+  CA.reelsHtml = function (jogo, titulo) {
+    const id = ((CA.REELS[jogo] || '').match(/instagram\.com\/(?:reel|reels|p)\/([\w-]+)/) || [])[1];
+    if (!id) return '';
+    return `<div class="reels"><p class="reels-titulo">${titulo}</p>
+      <div class="reels-caixa"><iframe src="https://www.instagram.com/reel/${id}/embed" title="Vídeo do jogo no Instagram" loading="lazy" allowfullscreen scrolling="no"></iframe></div></div>`;
+  };
+
   CA.enderecoJogo = () => (location.host.replace(/^www\./, '') + location.pathname.replace(/index\.html$/, '')).replace(/\/$/, '');
 
   // Card original de cada partida: tempo, estrelas, a grade que a pessoa jogou com o

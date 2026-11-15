@@ -27,16 +27,12 @@
     limpar = jogo.iniciar(palco, p) || null;
   }
 
-  // Link do nosso Reels do Acha do 1 ao 25 (Instagram). Vazio = não mostra o vídeo.
-  const REELS = 'https://www.instagram.com/reel/DfuG6lkSIzZ/';
-
   // Página inicial: todos os jogos (cada um com 3 níveis grátis), desafio do dia e ranking geral.
   function inicio(palco) {
     document.title = 'Jogos do Caderno Amarelo';
     const feitoHoje = CA.ler('dia:' + CA.hojeBR(), null);
     const conta = CA.conta && CA.conta();
     const est = CA.estrelasGerais(), max = CA.JOGOS.reduce((s, j) => s + j.total * 3, 0);
-    const reelsId = (REELS.match(/instagram\.com\/(?:reel|reels|p)\/([\w-]+)/) || [])[1];
 
     palco.appendChild(CA.el(`
       <div class="inicio">
@@ -64,10 +60,7 @@
 
         <a class="podio" href="#/ranking" hidden></a>
 
-        ${reelsId ? `<div class="reels">
-          <p class="reels-titulo">O Acha do 1 ao 25 no nosso Instagram 👇</p>
-          <div class="reels-caixa"><iframe src="https://www.instagram.com/reel/${reelsId}/embed" title="Vídeo do Acha do 1 ao 25 no Instagram" loading="lazy" allowfullscreen scrolling="no"></iframe></div>
-        </div>` : ''}
+        ${CA.reelsHtml('acha', 'O Acha do 1 ao 25 no nosso Instagram 👇')}
 
         ${CA.ehPremium()
           ? '<a class="chamada-premium ativo" href="#/conta"><strong>★ Premium ativo</strong><span>Todos os níveis de todos os jogos, desafios anteriores e card dourado.</span></a>'
