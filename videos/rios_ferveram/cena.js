@@ -223,18 +223,57 @@ window.CENA = (T) => {
     };
   });
 
-  // 9 a guerra: glóbulos brancos marcham, o mundo esquenta, rios fervem
-  tomada({ bg: '#d9503e', fog: '#d9503e', hemi: '#ffc2a0', sol: '#ff8a50', hi: 1.45 }, (g, ox) => {
+  // 9 a guerra: glóbulos brancos lutam contra os vírus (socos, engolidas, vírus voando), mais vírus caindo, rio fervendo
+  tomada({ bg: '#d9503e', fog: '#d9503e', hemi: '#ffc2a0', sol: '#ffe2d0', hi: 1.45 }, (g, ox) => {
     terreno(g, '#df7f6c'); [[-7, -12, 5], [0, -14, 6], [7, -12, 5]].forEach(([x, z, h]) => morro(g, x, z, h, '#cf6a5c'));
-    const r = rio(g, [[-12, -0.3], [0, 0], [12, -0.2]], 1.8, '#a8101a', '#ff6a3c'); const ferve = bolhas(g, r.curva, 50, 1.8, '#ff7050'); const vap = vapor(g, r.curva, 22, 1.8);
-    const ls = []; for (let i = 0; i < 9; i++) { const l = POV.leucocito(g, { s: 0.9 }); l.ud2 = { x0: -3.6 - (i % 3) * 0.9, z: 0.9 + Math.floor(i / 3) * 0.55 }; l.rotation.y = Math.PI / 2 - 0.75; ls.push(l); }
-    const vs = []; for (let i = 0; i < 10; i++) { const v = POV.virus(g, { s: 0.6 }); v.ud2 = { x: R(0.2, 2.4), y: R(0.6, 2.6), z: R(-2.5, 0.2), f: rnd() * 6 }; vs.push(v); }
+    const r = rio(g, [[-12, -3.2], [0, -2.9], [12, -3.3]], 1.8, '#a8101a', '#ff6a3c'); const ferve = bolhas(g, r.curva, 50, 1.8, '#ff7050'); const vap = vapor(g, r.curva, 22, 1.8);
+    // estrela de impacto (POW)
+    const cvs = document.createElement('canvas'); cvs.width = cvs.height = 256; const cs = cvs.getContext('2d');
+    cs.beginPath(); for (let i = 0; i < 20; i++) { const a = i / 20 * 6.283, rr = i % 2 ? 60 : 122; cs.lineTo(128 + Math.cos(a) * rr, 128 + Math.sin(a) * rr); } cs.closePath();
+    cs.fillStyle = '#ffe14a'; cs.fill(); cs.lineWidth = 10; cs.strokeStyle = '#d6302a'; cs.stroke();
+    cs.fillStyle = '#d6302a'; cs.font = 'bold 64px sans-serif'; cs.textAlign = 'center'; cs.fillText('POW', 128, 150);
+    const texPow = new THREE.CanvasTexture(cvs);
+    const pow = () => { const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: texPow, transparent: true, depthWrite: false, depthTest: false })); s.renderOrder = 10; g.add(s); return s; };
+    // 6 duelos: leucócito x vírus. tipo 0 = soco (vírus voa girando), 1 = engole
+    const P = [];
+    for (let k = 0; k < 6; k++) {
+      const z = [0.9, -0.4, 1.4, 0.2, -0.9, 0.5][k], xv = [-0.5, 0.9, 1.2, -1.0, 0.3, 0.6][k];
+      const l = POV.leucocito(g, { s: 0.9 }); const v = POV.virus(g, { s: 0.55 });
+      P.push({ l, v, z, xv, tk: 1.8 + k * 0.85, tipo: k % 3 === 1 ? 1 : 0, x0: -3.2 - (k % 3) * 0.7, pw: pow(), ang: R(-0.3, 0.3) });
+    }
+    // reforços de vírus caindo do céu e pairando ao fundo
+    const extras = []; for (let i = 0; i < 9; i++) { const v = POV.virus(g, { s: 0.5 }); v.ud2 = { x: R(-1.5, 2.8), z: R(-1.8, -0.6), y: R(0.7, 2.4), t0: R(0.5, 7), f: rnd() * 6 }; POV.brilho(v, '140,255,90', 0.7); extras.push(v); }
     return (u, D) => {
-      r.tex.offset.y = -u * 1.2; const quente = J(u, D * 0.35, D * 0.75); ferve(u, quente * 1.4); vap(u, quente);
-      ls.forEach((l, i) => { const x = l.ud2.x0 + Math.min(u * 0.6, 3.2); l.position.set(x, 0, l.ud2.z); l.userData.anda(u * 1.8, u * 0.6 < 3.2 ? 1.2 : 0.3); });
-      vs.forEach((v, i) => { v.position.set(v.ud2.x + Math.sin(u * 2 + v.ud2.f) * 0.3, v.ud2.y + Math.sin(u * 3 + v.ud2.f) * 0.2, v.ud2.z); v.rotation.y = Math.sin(u + i) * 0.6 - 0.6; });
+      r.tex.offset.y = -u * 1.2; const quente = J(u, D * 0.3, D * 0.75); ferve(u, 0.5 + quente); vap(u, 0.4 + quente * 0.6);
+      let choque = 0;
+      P.forEach((p) => {
+        const { l, v, z, xv, tk } = p, xm = xv - 0.72, d = u - tk;
+        // aproximação
+        const a = J(u, 0, tk - 0.25); const xl = T.lerp(p.x0, xm, a);
+        l.position.set(xl, 0, z); l.rotation.y = Math.PI / 2 - 0.85; l.userData.anda(u * 2.2, a < 1 ? 1.2 : 0.2);
+        const [b0, b1] = l.ud.bracos; b0.rotation.x = 0; b1.rotation.x = 0; l.ud.corpo.rotation.z = 0; l.ud.corpo.scale.set(1, 1, 1);
+        // vírus parado pairando, dá um bote antes do golpe
+        let vx = xv, vy = 0.55 + Math.sin(u * 3 + tk) * 0.08, vz = z - 0.05, vs = 1; v.rotation.set(0, -0.9 + Math.sin(u * 2 + tk) * 0.3, 0);
+        vx -= J(u, tk - 0.45, tk - 0.15) * 0.25 * (1 - J(u, tk - 0.15, tk));
+        if (p.tipo === 0) {
+          // soco: braço da frente vai pra frente, corpo inclina; vírus sai voando girando
+          const s = Math.max(0, Math.sin(T.clamp((d + 0.2) / 0.5) * Math.PI)); b1.rotation.x = -1.5 * s; b0.rotation.x = 0.4 * s; l.ud.corpo.rotation.z = -0.25 * s;
+          if (d > 0) { const f = Math.min(d, 1.4); vx += f * 3.2; vy += Math.sin(Math.min(f / 1.4, 1) * Math.PI) * 1.4 + f * 0.3; vz -= f * 1.2; v.rotation.z = -d * 12; vs = 1 - J(u, tk + 1.0, tk + 1.4); }
+        } else {
+          // engole: pula em cima, vírus encolhe dentro dele
+          const pj = J(u, tk - 0.2, tk + 0.15); l.position.set(T.lerp(xl, xv - 0.05, pj), Math.sin(pj * Math.PI) * 0.7, T.lerp(z, z + 0.05, pj));
+          const sm = J(u, tk + 0.1, tk + 0.6); vs = 1 - sm; vx = xv; vy = 0.5;
+          const sq = sm * (1 - J(u, tk + 0.8, tk + 1.3)); l.ud.corpo.scale.set(1 + sq * 0.3, 1 - sq * 0.12, 1 + sq * 0.3); b0.rotation.x = b1.rotation.x = -1.2 * Math.sin(pj * Math.PI);
+        }
+        v.position.set(vx, vy, vz); v.scale.setScalar(Math.max(0.001, vs)); v.visible = vs > 0.01;
+        // POW no impacto
+        const pw = J(u, tk - 0.03, tk + 0.08) * (1 - J(u, tk + 0.45, tk + 0.7)); p.pw.visible = pw > 0.01;
+        p.pw.position.set(xv - 0.3, 0.9, z + 0.35); p.pw.scale.setScalar(1.25 * pw); p.pw.material.rotation = p.ang;
+        if (d > -0.03 && d < 0.25) choque = Math.max(choque, 1 - d / 0.25);
+      });
+      extras.forEach((v, i) => { const k = u - v.ud2.t0; v.visible = k > 0; const y = Math.max(v.ud2.y, 8 - k * 6); v.position.set(v.ud2.x + Math.sin(u * 2 + v.ud2.f) * 0.2, y + Math.sin(u * 3 + v.ud2.f) * 0.1, v.ud2.z); v.rotation.y = -0.6 + Math.sin(u + i) * 0.4; });
       hemi.color.set(quente > 0.5 ? '#ffb090' : '#ffc2a0'); T.cena.background.lerpColors(new THREE.Color('#d9503e'), new THREE.Color('#b02a22'), quente); T.cena.fog.color.copy(T.cena.background);
-      cam(ox, K([[0, [-0.2, 2.8, 9.2]], [D, [0.1, 2.3, 7.8]]], u), [0, 0.9, -0.3]); treme(0.015 + quente * 0.05);
+      cam(ox, K([[0, [0.0, 1.4, 7.8]], [D, [0.15, 1.25, 6.9]]], u), [0.15, 0.85, 0.2]); treme(0.012 + quente * 0.025 + choque * 0.07); hemi.color.set('#ffe4d6');
     };
   });
 

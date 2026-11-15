@@ -9,11 +9,18 @@ for p in ini:
     ws = [re.sub(r'[^\wà-ú]', '', x.lower()) for x in p.split()]
     while txt[k:k+len(ws)] != ws: k += 1
     starts.append(k); k += 1
+import subprocess as _sp
+_o = _sp.run(["ffmpeg", "-i", "take1.wav", "-af", "silencedetect=n=-40dB:d=0.25", "-f", "null", "-"], capture_output=True, text=True).stderr
+_ss = [float(x) for x in re.findall(r'silence_start: ([0-9.]+)', _o)]; _se = [float(x) for x in re.findall(r'silence_end: ([0-9.]+)', _o)]
+SIL = list(zip(_ss, _se))
+def silencio_antes(t):  # silêncio que termina mais perto (antes ou logo depois) do início da palavra
+    return min(SIL, key=lambda p: abs(p[1] - t))
 seg = []
 for i, s in enumerate(starts):
     e = (starts[i+1] if i+1 < len(starts) else len(W)) - 1
-    t0 = W[s]['timestamp'][0] - 0.12; t1 = W[e]['timestamp'][1] + 0.35
-    if i+1 < len(starts): t1 = min(t1, W[starts[i+1]]['timestamp'][0] - 0.1)
+    a0, b0 = silencio_antes(W[s]['timestamp'][0]); t0 = max(a0, b0 - 0.1) if i else max(0, W[s]['timestamp'][0] - 0.12)
+    if i+1 < len(starts): a1, b1 = silencio_antes(W[starts[i+1]]['timestamp'][0]); t1 = min(a1 + 0.2, b1 - 0.1)
+    else: t1 = W[e]['timestamp'][1] + 0.35
     seg.append((round(t0, 2), round(t1, 2)))
 import wave, numpy as np
 _w = wave.open("take1.wav"); SR = _w.getframerate(); X = np.frombuffer(_w.readframes(_w.getnframes()), np.int16)

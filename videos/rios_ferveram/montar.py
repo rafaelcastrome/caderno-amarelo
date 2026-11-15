@@ -40,7 +40,8 @@ mus[:, 0] = p; mus[:, 1] = np.roll(p, 240)
 def pancada(at, f0=60, d=0.5, vol=0.5):
     i = int(at * SR); n = int(d * SR); tt = np.arange(n) / SR; y = np.sin(2 * np.pi * (f0 * np.exp(-tt * 4)) * tt) * np.exp(-tt * 7) * vol
     fx[i:i + n] += y[:max(0, N - i)]
-for x in np.arange(S(9), E(9), 0.47): pancada(x, 70, 0.4, 0.35)
+for x in np.arange(S(9), S(9) + 1.8, 0.47): pancada(x, 70, 0.4, 0.35)
+for k in range(6): pancada(S(9) + 1.8 + k * 0.85, 95, 0.35, 0.7); pancada(S(9) + 1.8 + k * 0.85 + 0.02, 300, 0.08, 0.25)
 for x in np.arange(S(8) + 0.4, S(8) + 3.0, 0.5): pancada(x, 110, 0.6, 0.18)  # quedas dos vírus
 # coração batendo (tomada 3) — tum-tum
 for x in np.arange(S(3), E(3), 1.15): pancada(x + 0.06, 55, 0.35, 0.55); pancada(x + 0.25, 50, 0.3, 0.35)
