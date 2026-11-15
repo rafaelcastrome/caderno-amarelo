@@ -390,7 +390,10 @@
           ${r.proxima ? `<a class="btn btn-grande ${r.proxima.tranca ? 'btn-ouro' : ''}" href="${r.proxima.href}">${r.proxima.txt}</a>` : ''}
           ${r.desafio ? `<button class="btn btn-grande ${r.proxima ? 'btn-claro' : ''}" data-a="desafiar">Desafiar um amigo</button>` : ''}
           ${r.card ? `<button class="btn btn-grande btn-claro" data-a="card">Postar nos stories</button>
-          <p class="dica-card">Posta e me marca <b>@Cardeno_Amarelo</b> que eu reposto ✨</p>` : ''}
+          <p class="dica-card">Posta e me marca <b>@Cardeno_Amarelo</b> que eu reposto ✨</p>
+          ${CA.conta && CA.conta() ? '' : `<a class="convite-conta" href="#/conta?volta=${encodeURIComponent(r.voltaConta || (r.linkVoltar || {}).href || '#/')}">
+            <span class="convite-medalha" aria-hidden="true">🥇</span>
+            <span><strong>Quer tua colocação na arte?</strong><small>Cria tua conta grátis, só com o e-mail, e entra no ranking com teu @. Esse resultado já conta!</small></span></a>`}` : ''}
           <button class="btn btn-grande btn-claro" data-a="denovo">Jogar de novo</button>
           <a class="link-voltar" href="${(r.linkVoltar || {}).href || '#/jogo?id=acha'}">${(r.linkVoltar || {}).txt || 'Ver todas as fases'}</a>
         </div>

@@ -405,3 +405,7 @@ button { font: inherit; color: inherit; }
 .intro-dia .regra-grande { font-family: var(--mao); font-size: 32px; line-height: 1.05; margin-bottom: 12px; }
 .intro-dia .rank-dia { margin-top: 20px; }
 .intro .reels-titulo { font-size: 26px; margin-bottom: 6px; }
+.convite-conta { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: center; padding: 12px 14px; background: var(--ouro-claro); border: 2px solid var(--ouro); border-radius: 16px; box-shadow: 3px 3px 0 var(--ouro); text-decoration: none; color: var(--tinta); text-align: left; }
+.convite-medalha { font-size: 34px; text-align: center; }
+.convite-conta strong { display: block; font-family: var(--mao); font-size: 26px; line-height: 1; }
+.convite-conta small { display: block; margin-top: 2px; font-size: 14px; font-weight: 600; color: var(--tinta-suave); line-height: 1.3; }

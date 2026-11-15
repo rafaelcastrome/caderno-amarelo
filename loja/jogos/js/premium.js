@@ -83,6 +83,17 @@
     return enviando;
   };
 
+  // Quem jogou sem conta e entrou depois: manda pro ranking os tempos que já fez (desafio de hoje e ontem, fases grátis).
+  function enviarPendentes() {
+    const hoje = CA.hojeBR(), ontem = new Date(Date.parse(hoje + 'T12:00:00Z') - 864e5).toISOString().slice(0, 10);
+    [hoje, ontem].forEach(d => {
+      const t = CA.ler('rec:dia:' + d, null);
+      if (t) CA.enviarRecorde('dia:' + d, t, CA.ler('tentrec:dia:' + d, null));
+    });
+    const fases = CA.ler('fases', {});
+    for (let f = 1; f <= (CA.FASES_GRATIS || 3); f++) if (fases[f] && fases[f].t) CA.enviarRecorde('fase:' + f, fases[f].t, fases[f].r || null);
+  }
+
   // Formulário de entrar (usado no Premium e na tela de conta). onPronto(conta) quando entra.
   function formEntrar(alvo, { titulo, texto, onPronto }) {
     alvo.innerHTML = `
@@ -125,6 +136,7 @@
       try {
         const d = await chamar('jogo-entrar', { email, codigo: fC.querySelector('input').value.trim(), progresso: { ...CA.ler('fases', {}), ...CA.ler('niveis', {}) } });
         guardarConta(d);
+        enviarPendentes();
         if (d.perfil && d.perfil.apelido) onPronto(CA.conta());
         else formPerfil(alvo, { titulo: 'Como tu quer aparecer no ranking?', onPronto: () => onPronto(CA.conta()) });
       } catch (x) { erro(fC, x.message); b.disabled = false; b.textContent = 'Entrar'; }
@@ -330,19 +342,21 @@
   // #/conta: entrar ou ver quem tá conectado
   CA.jogos.conta = {
     nome: 'Minha conta',
-    iniciar(palco) {
+    iniciar(palco, p) {
       let vivo = true;
+      const volta = p && /^#\/[\w?=&.:-]*$/.test(p.volta || '') ? p.volta : null; // volta pro jogo depois de entrar
       palco.innerHTML = '';
-      const tela = CA.el('<section class="intro"><a class="voltar" href="#/" aria-label="Voltar">‹</a><h1>Minha conta</h1><div class="miolo"></div></section>');
+      const tela = CA.el(`<section class="intro"><a class="voltar" href="${volta || '#/'}" aria-label="Voltar">‹</a><h1>Minha conta</h1><div class="miolo"></div></section>`);
       palco.appendChild(tela);
       const miolo = tela.querySelector('.miolo');
       const mostrar = () => {
         const c = CA.conta();
         if (!c) {
           formEntrar(miolo, {
-            titulo: 'Entra com teu e-mail',
-            texto: 'Pra salvar tuas fases e teu Premium e continuar em qualquer celular. Sem senha.',
-            onPronto: () => { if (vivo) { CA.aviso('Pronto, tu entrou!'); mostrar(); } },
+            titulo: volta ? 'Cria tua conta grátis' : 'Entra com teu e-mail',
+            texto: volta ? 'Aí tu entra no ranking (com teu @, se quiser) e tua colocação aparece na arte dos stories. Teus tempos de hoje já contam. Sem senha.'
+              : 'Pra entrar no ranking, salvar tuas fases e teu Premium e continuar em qualquer celular. Sem senha.',
+            onPronto: () => { if (!vivo) return; CA.aviso('Pronto, tu entrou!'); if (volta) location.hash = volta; else mostrar(); },
           });
           return;
         }

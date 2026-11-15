@@ -295,6 +295,7 @@
         url: CA.linkDesafio(ehDia ? 'acha' : 'fase', linkParams),
       },
       card: dadosCard,
+      voltaConta: ehDia ? '#/acha?d=' + data : '#/jogo?id=acha',
       jogarDeNovo: rejogar,
     }));
     if (ehDia) caixaRanking(palco, 'dia:' + data, '#/ranking?d=' + data, 'Ranking de hoje', envio, dadosCard);
