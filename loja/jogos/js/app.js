@@ -28,50 +28,62 @@
     limpar = jogo.iniciar(palco, p) || null;
   }
 
+  // Link do nosso Reels do Acha do 1 ao 25 (Instagram). Vazio = não mostra o vídeo.
+  const REELS = '';
+
   function inicio(palco) {
-    document.title = 'Jogos do Caderno Amarelo';
-    const idDia = jogoDoDia();
-    const dia = CA.jogos[idDia];
+    document.title = 'Acha do 1 ao 25 · Caderno Amarelo';
     const feitoHoje = CA.ler('dia:' + CA.hojeBR(), null);
-    const cards = ORDEM.map(id => {
-      const j = CA.jogos[id];
-      const rec = j.recordeTxt && j.recordeTxt();
-      return `
-        <a class="card-jogo" href="#/${id}" style="--cor:${j.cor}">
-          <span class="card-icone">${j.icone}</span>
-          <span class="card-txt">
-            <strong>${j.nome}</strong>
-            <small>${j.desc}</small>
-            ${rec ? `<em>Teu recorde: ${rec}</em>` : ''}
-          </span>
-          <span class="card-seta" aria-hidden="true">›</span>
-        </a>`;
+    const prog = CA.progressoFases();
+    const prox = CA.proximaFase();
+    const conta = CA.conta && CA.conta();
+    const est = CA.estrelasTotais();
+    const reelsId = (REELS.match(/instagram\.com\/(?:reel|reels|p)\/([\w-]+)/) || [])[1];
+    const tiles = CA.FASES.map(f => {
+      const feito = prog[f.num];
+      const livre = CA.faseLiberada(f.num);
+      const cls = feito ? 'feita' : livre ? 'livre' : f.premium && !CA.ehPremium() ? 'premium' : 'trancada';
+      const estr = feito ? '★'.repeat(feito.e) + '☆'.repeat(3 - feito.e) : (cls === 'premium' ? '🔒' : cls === 'trancada' ? '·' : '');
+      return `<a class="tile-fase ${cls} ${f.num === prox ? 'atual' : ''}" href="#/fase?f=${f.num}" aria-label="Fase ${f.num}">
+        <b>${f.num}</b><small>${estr}</small></a>`;
     }).join('');
 
     palco.appendChild(CA.el(`
       <div class="inicio">
         <header class="cabeca">
           <div class="logo-app"><span class="logo-caderno" aria-hidden="true"></span>Caderno Amarelo</div>
-          <button class="som" type="button" aria-label="Som">${CA.somLigado() ? '🔊' : '🔇'}</button>
+          <div class="cabeca-botoes">
+            <a class="som conta-btn" href="#/conta" aria-label="Minha conta">${conta ? (conta.premium ? '★' : '👤') : 'Entrar'}</a>
+            <button class="som" type="button" aria-label="Som">${CA.somLigado() ? '🔊' : '🔇'}</button>
+          </div>
         </header>
-        <h1 class="titulo-app">Jogos que <span class="marca">enganam</span> o teu cérebro</h1>
-        <p class="sub-app">Grátis, sem instalar nada. Cada partida é diferente.</p>
+        <h1 class="titulo-app">Acha do <span class="marca">1 ao 25</span></h1>
+        <p class="sub-app">30 fases, cada uma com uma regra nova. Duvido tu chegar na última.</p>
 
-        <a class="dia" href="#/${idDia}?d=1">
+        ${reelsId ? `<div class="reels">
+          <p class="reels-titulo">Viu no vídeo? Agora é tua vez 👇</p>
+          <div class="reels-caixa"><iframe src="https://www.instagram.com/reel/${reelsId}/embed" title="Vídeo do Acha do 1 ao 25 no Instagram" loading="lazy" allowfullscreen scrolling="no"></iframe></div>
+        </div>` : ''}
+
+        <a class="btn btn-grande btn-continuar" href="#/fase?f=${prox}">${Object.keys(prog).length ? 'Continuar: fase ' + prox : 'Começar pela fase 1'}</a>
+        <p class="placar-estrelas">${est} de ${CA.FASES.length * 3} estrelas</p>
+
+        <a class="dia" href="#/acha?d=1">
           <span class="dia-fita">Desafio do dia</span>
-          <strong>${dia.nome}</strong>
-          <small>${feitoHoje ? 'Tu já jogou hoje: ' + feitoHoje.txt + '. Tenta bater!' : 'A mesma partida pra todo mundo hoje. Bora?'}</small>
+          <strong>${CA.regraDoDia(CA.hojeBR())}</strong>
+          <small>${feitoHoje ? 'Tu fez ' + feitoHoje.txt + ' hoje. Tenta bater!' : 'A mesma grade pra todo mundo hoje. Bora?'}</small>
           <span class="btn">Jogar o desafio do dia</span>
         </a>
 
-        <h2 class="secao">Escolhe um jogo</h2>
-        <div class="lista-jogos">${cards}</div>
+        <h2 class="secao">Fases</h2>
+        <div class="grade-fases">${tiles}</div>
+        ${CA.ehPremium() ? '' : `<p class="legenda-fases">Fases 1 a ${CA.FASES_GRATIS} grátis · 🔒 Premium</p>`}
 
         <h2 class="secao">Desafios dos dias anteriores</h2>
         <div class="arquivo">${arquivo()}</div>
         ${CA.ehPremium()
-          ? '<a class="chamada-premium ativo" href="#/premium"><strong>★ Premium ativo</strong><span>Modo impossível, desafios anteriores, card dourado e 66 Desafios liberados.</span></a>'
-          : '<a class="chamada-premium" href="#/premium"><strong>Caderno Premium</strong><span>Modo impossível, desafios dos dias anteriores, card dourado e os 66 Desafios. R$ 9,90 uma vez só.</span></a>'}
+          ? '<a class="chamada-premium ativo" href="#/conta"><strong>★ Premium ativo</strong><span>Todas as fases, desafios anteriores, card dourado e 66 Desafios liberados.</span></a>'
+          : '<a class="chamada-premium" href="#/premium"><strong>Caderno Premium</strong><span>Todas as 30 fases, desafios dos dias anteriores, card dourado e os 66 Desafios. R$ 9,90 uma vez só, fica no teu e-mail.</span></a>'}
 
         <div class="instalar" hidden>
           <strong>Coloca na tela inicial</strong>
@@ -89,7 +101,7 @@
         <p class="rodape">@Cardeno_Amarelo</p>
       </div>`));
 
-    palco.querySelector('.som').addEventListener('click', e => {
+    palco.querySelector('button.som').addEventListener('click', e => {
       CA.gravar('som', !CA.somLigado());
       e.currentTarget.textContent = CA.somLigado() ? '🔊' : '🔇';
     });
@@ -103,9 +115,8 @@
     let h = '';
     for (let i = 1; i <= 30; i++) {
       const d = new Date(hoje - i * 864e5).toISOString().slice(0, 10);
-      const j = CA.jogos[CA.jogoDoDia(d)];
-      h += `<a class="dia-antigo" href="#/${CA.jogoDoDia(d)}?d=${d}" style="--cor:${j.cor}">
-        <b>${CA.fmtData(d)}</b><span>${j.nome}</span>${premium ? '' : '<i aria-label="Premium">🔒</i>'}</a>`;
+      h += `<a class="dia-antigo" href="#/acha?d=${d}">
+        <b>${CA.fmtData(d)}</b><span>${CA.regraDoDia(d)}</span>${premium ? '' : '<i aria-label="Premium">🔒</i>'}</a>`;
     }
     return h;
   }
@@ -145,6 +156,8 @@
   window.addEventListener('DOMContentLoaded', () => {
     render();
     CA.fonteCard();
+    // confere Premium e progresso na conta (se tiver entrado) e redesenha o início
+    if (CA.sincronizar) CA.sincronizar().then(() => { if (!lerRota().nome) render(); });
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
   });
 })();

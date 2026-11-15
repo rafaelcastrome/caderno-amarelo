@@ -46,7 +46,7 @@
   };
 
   // Qual jogo é o desafio de um dia (roda entre os jogos, um por dia).
-  CA.ORDEM = ['acha', 'cor', 'rapido'];
+  CA.ORDEM = ['acha']; // os jogos cor e rapido ficam guardados (arquivos cor.js e rapido.js) pra usar depois
   CA.jogoDoDia = function (data) {
     const dia = Math.floor(Date.parse((data || CA.hojeBR()) + 'T12:00:00Z') / 864e5);
     return CA.ORDEM[dia % CA.ORDEM.length];
@@ -81,19 +81,8 @@
     return { antigo, bateu };
   };
 
-  // ---------- Caderno Premium ----------
-  // Liberado neste celular quando o Pix é pago. O código (número do pedido) libera em outro celular.
-  CA.ehPremium = () => !!(CA.ler('premium', null) || {}).pedido;
-  CA.ativarPremium = function (pedido) {
-    CA.gravar('premium', { pedido, desde: new Date().toISOString() });
-    // também libera os 66 Desafios (mesmo endereço, mesma chave que o jogo usa)
-    try { localStorage.setItem('desafios:jogo', JSON.stringify({ isPremium: true })); } catch (e) {}
-  };
-  CA.botaoImpossivel = function (jogo, desc) {
-    const ok = CA.ehPremium();
-    return `<a class="btn btn-grande btn-impossivel" href="${ok ? '#/' + jogo + '?m=x' : '#/premium'}">
-      Modo impossível ${ok ? '' : '🔒'}<small>${desc}</small></a>`;
-  };
+  // Conta e Premium ficam em premium.js (CA.conta, CA.ehPremium, CA.sincronizar).
+  CA.ehPremium = () => false;
 
   // ---------- sons (curtinhos, gerados na hora) ----------
   let ctx = null;
@@ -281,22 +270,24 @@
       <section class="resultado">
         <div class="folha ${CA.ehPremium() ? 'folha-ouro' : ''}">
           <p class="res-titulo">${r.titulo}</p>
+          ${r.estrelas ? `<p class="res-estrelas" aria-label="${r.estrelas} de 3 estrelas">${'<i class="cheia">★</i>'.repeat(r.estrelas)}${'<i>★</i>'.repeat(3 - r.estrelas)}</p>` : ''}
           <p class="res-valor">${r.valorTxt}</p>
           ${r.detalhe ? `<p class="res-detalhe">${r.detalhe}</p>` : ''}
           ${rec}
           ${amigo}
         </div>
         <div class="acoes">
-          <button class="btn btn-grande" data-a="desafiar">Desafiar um amigo</button>
+          ${r.proxima ? `<a class="btn btn-grande ${r.proxima.tranca ? 'btn-ouro' : ''}" href="${r.proxima.href}">${r.proxima.txt}</a>` : ''}
+          <button class="btn btn-grande ${r.proxima ? 'btn-claro' : ''}" data-a="desafiar">Desafiar um amigo</button>
           <button class="btn btn-grande btn-claro" data-a="card">Postar nos stories</button>
           <button class="btn btn-grande btn-claro" data-a="denovo">Jogar de novo</button>
-          <a class="link-voltar" href="#/">Ver os outros jogos</a>
+          <a class="link-voltar" href="#/">Ver todas as fases</a>
         </div>
         ${CA.ehPremium() ? `<a class="mais-desafios" href="../desafios.html">
           <strong>Teus 66 Desafios tão liberados.</strong> Bora? →
         </a>` : `<a class="chamada-premium" href="#/premium">
           <strong>Caderno Premium</strong>
-          <span>Modo impossível, desafios dos dias anteriores, card dourado e os 66 Desafios. R$ 9,90 uma vez só.</span>
+          <span>Todas as 30 fases, desafios dos dias anteriores, card dourado e os 66 Desafios. R$ 9,90 uma vez só.</span>
         </a>`}
       </section>`);
     tela.addEventListener('click', e => {

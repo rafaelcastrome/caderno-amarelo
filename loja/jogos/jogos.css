@@ -214,3 +214,54 @@ button { font: inherit; color: inherit; }
 .esperando { margin-top: 14px; text-align: center; font-weight: 700; color: var(--tinta-suave); }
 .pontinho { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--verde); margin-right: 6px; animation: pisca 1s infinite; }
 @keyframes pisca { 50% { opacity: .2; } }
+
+/* ---------- Acha do 1 ao 25 em fases ---------- */
+.cabeca-botoes { display: flex; gap: 8px; }
+.conta-btn { width: auto; min-width: 44px; padding: 0 10px; display: inline-grid; place-items: center; text-decoration: none; font-weight: 800; font-size: 15px; }
+.btn-continuar { margin-top: 22px; font-size: 21px; }
+.placar-estrelas { text-align: center; margin-top: 8px; font-weight: 800; color: var(--tinta-suave); }
+.placar-estrelas::before { content: '★ '; color: var(--ouro); }
+.dia strong { font-size: 32px; }
+.grade-fases { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.tile-fase { aspect-ratio: 1; display: grid; place-items: center; align-content: center; gap: 0; border: 2px solid var(--tinta); border-radius: 12px; background: var(--papel-claro); text-decoration: none; box-shadow: 2px 2px 0 var(--tinta); }
+.tile-fase b { font-family: var(--mao); font-size: 30px; line-height: 1; }
+.tile-fase small { font-size: 11px; line-height: 1; color: var(--ouro); letter-spacing: -1px; min-height: 11px; }
+.tile-fase.feita { background: #fff; }
+.tile-fase.livre { background: var(--amarelo); }
+.tile-fase.atual { outline: 3px solid var(--vermelho); outline-offset: 2px; }
+.tile-fase.premium { background: var(--ouro-claro); border-color: var(--ouro); box-shadow: 2px 2px 0 var(--ouro); }
+.tile-fase.premium small { color: inherit; letter-spacing: 0; }
+.tile-fase.trancada { opacity: .5; box-shadow: none; }
+.legenda-fases { margin-top: 10px; font-size: 13px; color: var(--tinta-suave); font-weight: 700; }
+.dia-antigo { --cor: var(--azul); }
+.reels { margin-top: 20px; }
+.reels-titulo { font-family: var(--mao); font-size: 26px; margin-bottom: 6px; }
+.reels-caixa { border: 3px solid var(--tinta); border-radius: 18px; overflow: hidden; background: #fff; box-shadow: 4px 5px 0 var(--tinta); }
+.reels-caixa iframe { display: block; width: 100%; height: min(640px, 150vw); border: 0; }
+
+.meta-fase { text-align: center; margin-top: 10px; font-size: 14px; color: var(--tinta-suave); font-weight: 700; }
+.meta-fase b { color: var(--vermelho); }
+.cel .txt { display: inline-block; transform: rotate(var(--rot, 0deg)); transition: opacity .15s; }
+.cel .txt.sub { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 4px; }
+.grade.espelho .cel .txt { transform: rotate(var(--rot, 0deg)) scaleX(-1); }
+.grade.apagada .cel:not(.feito) .txt { opacity: 0; }
+.grade.mexendo { animation: mexe .3s ease; }
+@keyframes mexe { 30% { transform: scale(.96) rotate(-1deg); } 60% { transform: scale(1.02) rotate(1deg); } }
+.res-estrelas { font-size: 44px; line-height: 1; letter-spacing: 4px; margin: 4px 0; }
+.res-estrelas i { font-style: normal; color: rgba(31,31,36,.18); }
+.res-estrelas i.cheia { color: var(--ouro); text-shadow: 2px 2px 0 var(--tinta); }
+.btn-ouro { background: var(--ouro-claro); border-color: var(--ouro); box-shadow: 3px 3px 0 var(--ouro); }
+.trancada .regra-grande { font-family: var(--mao); font-size: 32px; line-height: 1.05; color: var(--vermelho); }
+.previa-fases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 4px 0 18px; }
+.previa-fases span { padding: 8px 6px; text-align: center; background: var(--ouro-claro); border: 2px solid var(--ouro); border-radius: 12px; font-family: var(--mao); font-size: 28px; line-height: 1; display: grid; gap: 2px; }
+.previa-fases small { font-family: var(--texto); font-size: 11px; font-weight: 700; color: var(--tinta-suave); }
+.caixa-conta { display: grid; gap: 10px; padding: 16px; background: #fff; border: 2px solid var(--tinta); border-radius: 16px; margin-bottom: 8px; }
+.caixa-conta > strong { font-family: var(--mao); font-size: 30px; line-height: 1; word-break: break-word; }
+.caixa-conta > small { color: var(--tinta-suave); font-weight: 600; }
+.caixa-conta form { display: grid; gap: 8px; }
+.caixa-conta form[hidden] { display: none; }
+.caixa-conta label { font-weight: 800; font-size: 14px; }
+.caixa-conta input { font: inherit; font-size: 18px; padding: 12px 14px; border: 2px solid var(--tinta); border-radius: 12px; background: var(--papel-claro); color: var(--tinta); width: 100%; }
+#codigo-conta { letter-spacing: 8px; font-weight: 900; text-align: center; font-size: 26px; }
+.caixa-conta .link-voltar { background: none; border: 0; cursor: pointer; text-decoration: underline; }
+.link-mini { background: none; border: 0; padding: 0; font: inherit; color: var(--azul); text-decoration: underline; cursor: pointer; font-weight: 700; }
