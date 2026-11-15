@@ -265,3 +265,19 @@ button { font: inherit; color: inherit; }
 #codigo-conta { letter-spacing: 8px; font-weight: 900; text-align: center; font-size: 26px; }
 .caixa-conta .link-voltar { background: none; border: 0; cursor: pointer; text-decoration: underline; }
 .link-mini { background: none; border: 0; padding: 0; font: inherit; color: var(--azul); text-decoration: underline; cursor: pointer; font-weight: 700; }
+.planos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.plano { position: relative; display: grid; gap: 2px; padding: 16px 8px 12px; border: 2px solid var(--tinta); border-radius: 14px; background: var(--papel-claro); cursor: pointer; text-align: center; box-shadow: 3px 3px 0 var(--tinta); }
+.plano span { font-weight: 800; }
+.plano strong { font-family: var(--mao); font-size: 34px; line-height: 1; }
+.plano small { font-size: 12px; color: var(--tinta-suave); font-weight: 700; }
+.plano.destaque { background: var(--amarelo); }
+.plano em { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-style: normal; font-size: 11px; font-weight: 900; color: #fff; background: var(--vermelho); padding: 2px 8px; border-radius: 999px; }
+.plano:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--tinta); }
+.plano.gerando { opacity: .6; }
+.plano.gerando::after { content: 'Gerando Pix...'; font-size: 12px; font-weight: 800; }
+.preco > span:first-child { width: 100%; margin-bottom: -6px; }
+.renovar { margin-top: 18px; }
+
+/* dica embaixo do "Postar nos stories" */
+.dica-card { margin: -4px 0 4px; font-size: 15px; color: #55555c; text-align: center; }
+.dica-card b { color: #1f1f24; }

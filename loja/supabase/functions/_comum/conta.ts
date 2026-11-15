@@ -9,10 +9,20 @@ export async function sha256(txt: string) {
   return Array.from(new Uint8Array(b)).map((x) => x.toString(16).padStart(2, '0')).join('');
 }
 
-export async function ehPremium(email: string) {
-  const { count } = await db.from('pedidos').select('id', { count: 'exact', head: true })
-    .eq('email', email).eq('produto', 'caderno-premium').eq('status', 'pago');
-  return (count ?? 0) > 0;
+// Planos (slug do produto -> dias liberados por pagamento).
+export const PLANOS: Record<string, number> = { 'passe-mensal': 30, 'passe-anual': 365 };
+
+// Premium = soma dos passes pagos desse e-mail, contando a partir do pagamento
+// (renovar antes de acabar soma os dias, não perde nada). Devolve a data de validade ou null.
+export async function validadePremium(email: string) {
+  const { data } = await db.from('pedidos').select('produto, pago_em')
+    .eq('email', email).eq('status', 'pago').in('produto', Object.keys(PLANOS)).order('pago_em', { ascending: true });
+  let fim = 0;
+  for (const p of data ?? []) {
+    const ini = Math.max(new Date(p.pago_em).getTime(), fim);
+    fim = ini + PLANOS[p.produto] * 864e5;
+  }
+  return fim > Date.now() ? new Date(fim).toISOString() : null;
 }
 
 // Devolve o e-mail da sessão ou null.

@@ -1,14 +1,19 @@
 /* Conta e Caderno Premium.
    Conta: entra com e-mail + código de 6 números que chega no e-mail (sem senha).
-   Premium: R$ 9,90, pagamento único no Pix da loja, preso ao E-MAIL da conta,
-   então vale em qualquer celular. O progresso das fases também fica salvo na conta. */
+   Premium: passe no Pix da loja (mensal R$ 4,90 = 30 dias, anual R$ 29,90 = 1 ano), preso ao
+   E-MAIL da conta, então vale em qualquer celular. Pix não renova sozinho: a pessoa renova quando
+   quiser e os dias somam. Libera TODOS os jogos. O progresso das fases também fica salvo na conta. */
 (function () {
   'use strict';
   const CA = window.CA;
   const CFG = window.LOJA_CONFIG || {};
   const API = CFG.supabaseUrl ? CFG.supabaseUrl + '/functions/v1' : null;
-  const PRODUTO = 'caderno-premium';
-  const PRECO = 'R$ 9,90'; // só pra mostrar; o valor cobrado vem sempre do banco
+  // só pra mostrar; o valor cobrado vem sempre do banco
+  const PLANOS = [
+    { slug: 'passe-anual', nome: 'Anual', preco: 'R$ 29,90', detalhe: 'R$ 2,49 por mês · economiza 49%', destaque: true },
+    { slug: 'passe-mensal', nome: 'Mensal', preco: 'R$ 4,90', detalhe: '30 dias' },
+  ];
+  const fmtDia = iso => new Date(iso).toLocaleDateString('pt-BR');
 
   async function chamar(fn, corpo) {
     if (!API) throw new Error('Sem conexão com a loja agora.');
@@ -26,10 +31,10 @@
   }
 
   // ---------- conta ----------
-  CA.conta = () => CA.ler('conta', null);              // { email, token, premium }
-  CA.ehPremium = () => !!(CA.conta() || {}).premium;
+  CA.conta = () => CA.ler('conta', null);              // { email, token, premium, ate }
+  CA.ehPremium = () => { const c = CA.conta(); return !!(c && c.premium && (!c.ate || Date.parse(c.ate) > Date.now())); };
   function guardarConta(d) {
-    CA.gravar('conta', { email: d.email, token: d.token || (CA.conta() || {}).token, premium: !!d.premium });
+    CA.gravar('conta', { email: d.email, token: d.token || (CA.conta() || {}).token, premium: !!d.premium, ate: d.ate || null });
     if (d.progresso) CA.gravar('fases', d.progresso);
     if (d.premium) { try { localStorage.setItem('desafios:jogo', JSON.stringify({ isPremium: true })); } catch (e) {} }
   }
@@ -100,7 +105,7 @@
   }
 
   const BENEFICIOS = [
-    ['Todas as 30 fases', 'Da fase 7 à fase final: grade que embaralha, números girados, letras, pisca-pisca, 7x7...'],
+    ['Todos os jogos liberados', 'No Acha do 1 ao 25, da fase 7 à fase final. E cada jogo novo que chegar já vem liberado'],
     ['Desafios dos dias anteriores', 'Perdeu um desafio do dia? Joga qualquer um dos últimos 30 dias'],
     ['Card dourado', 'Teu resultado com moldura dourada e selo Premium pros stories'],
     ['66 Desafios liberados', 'Os enigmas e pegadinhas do jogo completo, sem pagar de novo'],
@@ -127,9 +132,11 @@
         const c = CA.conta() || {};
         miolo.innerHTML = `
           <h1 class="ativo-ok">${recemPago ? 'Liberado! 🎉' : 'Teu Premium tá ativo'}</h1>
-          <p>Todas as fases, desafios anteriores, card dourado e os 66 Desafios tão liberados na conta <b>${c.email || ''}</b>.</p>
-          <p class="pequeno">Em outro celular é só entrar com esse mesmo e-mail.</p>
-          <a class="btn btn-grande" href="#/">Bora jogar</a>`;
+          <p>Todos os jogos, desafios anteriores, card dourado e os 66 Desafios tão liberados na conta <b>${c.email || ''}</b>${c.ate ? ' até <b>' + fmtDia(c.ate) + '</b>' : ''}.</p>
+          <p class="pequeno">Em outro celular é só entrar com esse mesmo e-mail. Pode renovar quando quiser: os dias somam.</p>
+          <a class="btn btn-grande" href="#/">Bora jogar</a>
+          <div class="passo renovar"></div>`;
+        if (c.token) pagar(miolo.querySelector('.renovar'), c, 'Renovar');
       }
 
       function oferta() {
@@ -141,7 +148,7 @@
           <ul class="beneficios">
             ${BENEFICIOS.map(([t, d]) => `<li><strong>${t}</strong><span>${d}</span></li>`).join('')}
           </ul>
-          <div class="preco"><strong>${PRECO}</strong><span>uma vez só, no Pix. Sem mensalidade.</span></div>
+          <div class="preco"><span>a partir de</span><strong>R$ 2,49</strong><span>por mês, no Pix. Sem cobrança automática.</span></div>
           <div class="passo"></div>
           <p class="nota">O Premium fica na tua conta (teu e-mail), vale em qualquer celular. Pagamento por Pix, processado pelo Mercado Pago. Dúvida? ${CFG.contato || ''}</p>`;
         const passo = miolo.querySelector('.passo');
@@ -154,23 +161,34 @@
         } else pagar(passo, c);
       }
 
-      function pagar(passo, c) {
+      function pagar(passo, c, titulo) {
         passo.innerHTML = `
           <div class="caixa-conta">
-            <strong>2. Paga no Pix</strong>
+            <strong>${titulo || '2. Escolhe o plano'}</strong>
             <small>Conta: <b>${c.email}</b> · <button class="link-mini" type="button" data-a="sair">trocar</button></small>
-            <button class="btn btn-grande" type="button" data-a="pix">Pagar ${PRECO} no Pix</button>
+            <div class="planos">
+              ${PLANOS.map(pl => `<button class="plano ${pl.destaque ? 'destaque' : ''}" type="button" data-slug="${pl.slug}">
+                ${pl.destaque ? '<em>Mais vantajoso</em>' : ''}
+                <span>${pl.nome}</span><strong>${pl.preco}</strong><small>${pl.detalhe}</small>
+              </button>`).join('')}
+            </div>
             <p class="erro-form" role="alert" hidden></p>
           </div>`;
         passo.querySelector('[data-a=sair]').addEventListener('click', async () => { await CA.sairConta(); if (vivo) oferta(); });
-        const b = passo.querySelector('[data-a=pix]'), err = passo.querySelector('.erro-form');
-        b.addEventListener('click', async () => {
-          err.hidden = true; b.disabled = true; b.textContent = 'Gerando Pix...';
+        const err = passo.querySelector('.erro-form');
+        passo.querySelectorAll('.plano').forEach(b => b.addEventListener('click', async () => {
+          err.hidden = true;
+          passo.querySelectorAll('.plano').forEach(x => { x.disabled = true; });
+          b.classList.add('gerando');
           try {
-            const pix = await chamar('criar-pix', { produto: PRODUTO, email: c.email });
+            const pix = await chamar('criar-pix', { produto: b.dataset.slug, email: c.email });
             if (vivo) telaPix(pix);
-          } catch (x) { err.textContent = x.message; err.hidden = false; b.disabled = false; b.textContent = `Pagar ${PRECO} no Pix`; }
-        });
+          } catch (x) {
+            err.textContent = x.message; err.hidden = false;
+            passo.querySelectorAll('.plano').forEach(y => { y.disabled = false; });
+            b.classList.remove('gerando');
+          }
+        }));
       }
 
       function telaPix(pix) {
@@ -193,7 +211,7 @@
             if (st.status === 'pago') {
               clearInterval(timer);
               await CA.sincronizar();
-              if (!CA.ehPremium()) guardarConta({ ...CA.conta(), premium: true });
+              if (!CA.ehPremium()) guardarConta({ ...CA.conta(), premium: true, ate: null });
               CA.som('recorde');
               if (vivo) ativo(true);
             }
@@ -228,8 +246,8 @@
         miolo.innerHTML = `
           <div class="caixa-conta">
             <strong>${c.email}</strong>
-            <small>${c.premium ? '★ Premium ativo' : 'Plano grátis'} · ${est} estrelas</small>
-            ${c.premium ? '' : '<a class="btn btn-grande" href="#/premium">Ver o Premium</a>'}
+            <small>${CA.ehPremium() ? '★ Premium ativo' + (c.ate ? ' até ' + fmtDia(c.ate) : '') : 'Plano grátis'} · ${est} estrelas</small>
+            <a class="btn btn-grande ${CA.ehPremium() ? 'btn-claro' : ''}" href="#/premium">${CA.ehPremium() ? 'Renovar o Premium' : 'Ver o Premium'}</a>
             <button class="btn btn-claro" type="button" data-a="sair">Sair da conta</button>
           </div>`;
         miolo.querySelector('[data-a=sair]').addEventListener('click', async () => { await CA.sairConta(); if (vivo) mostrar(); });

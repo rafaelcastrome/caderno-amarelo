@@ -82,8 +82,8 @@
         <h2 class="secao">Desafios dos dias anteriores</h2>
         <div class="arquivo">${arquivo()}</div>
         ${CA.ehPremium()
-          ? '<a class="chamada-premium ativo" href="#/conta"><strong>★ Premium ativo</strong><span>Todas as fases, desafios anteriores, card dourado e 66 Desafios liberados.</span></a>'
-          : '<a class="chamada-premium" href="#/premium"><strong>Caderno Premium</strong><span>Todas as 30 fases, desafios dos dias anteriores, card dourado e os 66 Desafios. R$ 9,90 uma vez só, fica no teu e-mail.</span></a>'}
+          ? '<a class="chamada-premium ativo" href="#/conta"><strong>★ Premium ativo</strong><span>Todos os jogos, desafios anteriores, card dourado e 66 Desafios liberados.</span></a>'
+          : '<a class="chamada-premium" href="#/premium"><strong>Caderno Premium</strong><span>Todos os jogos e fases, desafios dos dias anteriores, card dourado e os 66 Desafios. Mensal R$ 4,90 ou anual R$ 29,90.</span></a>'}
 
         <div class="instalar" hidden>
           <strong>Coloca na tela inicial</strong>

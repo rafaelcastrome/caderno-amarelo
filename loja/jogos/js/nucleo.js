@@ -184,55 +184,131 @@
   }
   CA.fonteCard = carregarFonte;
 
-  CA.gerarCard = async function ({ jogo, linha1, valor, linha3, cor }) {
+  // Endereço do jogo escrito por extenso no card (quem vê o story acha fácil).
+  CA.enderecoJogo = () => (location.host.replace(/^www\./, '') + location.pathname.replace(/index\.html$/, '')).replace(/\/$/, '');
+
+  // Card original de cada partida: tempo, estrelas, a grade que a pessoa jogou com o
+  // caminho da caneta passando pelos números na ordem, e o link + como jogar no rodapé.
+  CA.gerarCard = async function ({ jogo, linha1, valor, linha3, cor, estrelas, quadro, regra, comoJoga }) {
     await carregarFonte();
+    const W = 1080, H = 1920;
     const c = document.createElement('canvas');
-    c.width = 1080; c.height = 1920;
+    c.width = W; c.height = H;
     const g = c.getContext('2d');
+    const F = s => `700 ${s}px CaveatCard, Caveat, 'Comic Sans MS', cursive`;
+    const caber = (txt, tam, larg) => { g.font = F(tam); while (tam > 30 && g.measureText(txt).width > larg) g.font = F(--tam); return tam; };
     // papel quadriculado
-    g.fillStyle = '#fbf5df'; g.fillRect(0, 0, 1080, 1920);
-    for (let x = 0; x <= 1080; x += 54) {
-      g.strokeStyle = x % 216 === 0 ? 'rgba(70,130,200,.26)' : 'rgba(70,130,200,.14)';
-      g.lineWidth = 2; g.beginPath(); g.moveTo(x, 0); g.lineTo(x, 1920); g.stroke();
+    g.fillStyle = '#fbf5df'; g.fillRect(0, 0, W, H);
+    for (let x = 0; x <= W; x += 54) {
+      g.strokeStyle = x % 216 === 0 ? 'rgba(70,130,200,.24)' : 'rgba(70,130,200,.12)';
+      g.lineWidth = 2; g.beginPath(); g.moveTo(x, 0); g.lineTo(x, H); g.stroke();
     }
-    for (let y = 0; y <= 1920; y += 54) {
-      g.strokeStyle = y % 216 === 0 ? 'rgba(70,130,200,.26)' : 'rgba(70,130,200,.14)';
-      g.lineWidth = 2; g.beginPath(); g.moveTo(0, y); g.lineTo(1080, y); g.stroke();
+    for (let y = 0; y <= H; y += 54) {
+      g.strokeStyle = y % 216 === 0 ? 'rgba(70,130,200,.24)' : 'rgba(70,130,200,.12)';
+      g.lineWidth = 2; g.beginPath(); g.moveTo(0, y); g.lineTo(W, y); g.stroke();
     }
     const ouro = CA.ehPremium();
     if (ouro) {
-      g.strokeStyle = '#c99a1b'; g.lineWidth = 26; g.strokeRect(30, 30, 1020, 1860);
-      g.strokeStyle = '#ffd23f'; g.lineWidth = 8; g.strokeRect(62, 62, 956, 1796);
+      g.strokeStyle = '#c99a1b'; g.lineWidth = 26; g.strokeRect(30, 30, W - 60, H - 60);
+      g.strokeStyle = '#ffd23f'; g.lineWidth = 8; g.strokeRect(62, 62, W - 124, H - 124);
     }
-    // margem vermelha
-    g.strokeStyle = 'rgba(214,40,40,.55)'; g.lineWidth = 4;
-    g.beginPath(); g.moveTo(130, 0); g.lineTo(130, 1920); g.stroke();
+    g.textAlign = 'center'; g.textBaseline = 'alphabetic';
 
-    const F = s => `700 ${s}px CaveatCard, Caveat, 'Comic Sans MS', cursive`;
-    g.textAlign = 'center'; g.fillStyle = '#1f1f24';
-    // fita amarela + nome do jogo
-    g.save(); g.translate(540, 330); g.rotate(-0.04);
-    g.fillStyle = 'rgba(255,210,63,.9)'; g.fillRect(-380, -80, 760, 140);
-    g.fillStyle = '#1f1f24'; g.font = F(104); g.fillText(jogo, 0, 22);
+    // fita amarela com o nome do jogo
+    g.save(); g.translate(540, 210); g.rotate(-0.035);
+    g.fillStyle = 'rgba(255,210,63,.92)'; g.fillRect(-420, -78, 840, 136);
+    g.fillStyle = '#1f1f24'; caber(jogo, 104, 780); g.fillText(jogo, 0, 24);
     g.restore();
+    g.fillStyle = '#55555c'; caber(linha1, 64, 900); g.fillText(linha1, 540, 352);
 
-    g.font = F(84); g.fillStyle = '#55555c'; g.fillText(linha1, 540, 640);
-    // valor grande com sombra de caneta
-    g.font = F(330); g.fillStyle = '#1f1f24'; g.fillText(valor, 548, 1018);
-    g.fillStyle = cor || '#d62828'; g.fillText(valor, 540, 1010);
-    // sublinhado à mão
-    g.strokeStyle = '#ffd23f'; g.lineWidth = 26; g.lineCap = 'round';
-    g.beginPath(); g.moveTo(250, 1080); g.quadraticCurveTo(540, 1050, 830, 1086); g.stroke();
-
-    g.fillStyle = '#1f1f24'; g.font = F(96); g.fillText(linha3 || 'Duvido tu bater! 👀', 540, 1290);
+    // tempo grande com sombra de caneta + estrelas
+    g.font = F(230); g.fillStyle = '#1f1f24'; g.fillText(valor, 548, 553);
+    g.fillStyle = cor || '#d62828'; g.fillText(valor, 540, 545);
+    let y = 600;
+    if (estrelas != null) {
+      const est = (cx, cy, r, cheia) => {
+        g.beginPath();
+        for (let i = 0; i < 10; i++) {
+          const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * 0.45 : r;
+          g.lineTo(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr);
+        }
+        g.closePath();
+        g.fillStyle = cheia ? '#ffd23f' : 'rgba(31,31,36,.08)'; g.fill();
+        g.lineWidth = 6; g.lineJoin = 'round'; g.strokeStyle = '#1f1f24'; g.stroke();
+      };
+      for (let i = 0; i < 3; i++) est(540 + (i - 1) * 110, 630, 42, i < estrelas);
+      y = 680;
+    } else {
+      g.strokeStyle = '#ffd23f'; g.lineWidth = 22; g.lineCap = 'round';
+      g.beginPath(); g.moveTo(330, 600); g.quadraticCurveTo(540, 578, 750, 604); g.stroke();
+      y = 650;
+    }
     if (ouro) {
-      g.save(); g.translate(540, 1450); g.rotate(-0.05);
-      g.fillStyle = '#c99a1b'; g.fillRect(-260, -60, 520, 96);
-      g.fillStyle = '#fff'; g.font = F(70); g.fillText('★ PREMIUM ★', 0, 10);
+      g.save(); g.translate(850, 420); g.rotate(0.18);
+      g.fillStyle = '#c99a1b'; g.fillRect(-150, -42, 300, 70);
+      g.fillStyle = '#fff'; g.font = F(52); g.fillText('★ PREMIUM', 0, 10);
       g.restore();
     }
-    g.font = F(70); g.fillStyle = '#55555c'; g.fillText('joga de graça no link da bio', 540, 1600);
-    g.font = F(92); g.fillStyle = '#1f1f24'; g.fillText('@Cardeno_Amarelo', 540, 1720);
+
+    // a grade que a pessoa jogou, com o caminho da caneta
+    if (quadro) {
+      const n = quadro.n, lado = 540, x0 = (W - lado) / 2, y0 = y + 20, cel = lado / n, pad = cel * 0.07;
+      g.save(); g.translate(540, y0 + lado / 2); g.rotate(0.012); g.translate(-540, -(y0 + lado / 2));
+      g.fillStyle = 'rgba(31,31,36,.12)'; g.fillRect(x0 + 10, y0 + 12, lado, lado);
+      g.fillStyle = '#fff'; g.fillRect(x0 - 12, y0 - 12, lado + 24, lado + 24);
+      const centro = i => [x0 + (i % n + 0.5) * cel, y0 + (Math.floor(i / n) + 0.5) * cel];
+      quadro.nomes.forEach((nome, i) => {
+        const [cx, cy] = centro(i);
+        g.fillStyle = quadro.cores[i]; g.strokeStyle = quadro.bordas[i]; g.lineWidth = 3;
+        g.fillRect(cx - cel / 2 + pad, cy - cel / 2 + pad, cel - 2 * pad, cel - 2 * pad);
+        g.strokeRect(cx - cel / 2 + pad, cy - cel / 2 + pad, cel - 2 * pad, cel - 2 * pad);
+        g.fillStyle = 'rgba(31,31,36,.55)'; g.font = F(Math.round(cel * 0.5));
+        g.fillText(nome, cx, cy + cel * 0.17);
+      });
+      // traço de caneta (meio tremido, como feito à mão)
+      const pts = quadro.caminho.map(centro);
+      g.strokeStyle = n > 4 ? 'rgba(214,40,40,.7)' : 'rgba(214,40,40,.85)'; g.lineWidth = Math.max(4, cel * 0.055); g.lineCap = 'round'; g.lineJoin = 'round';
+      g.beginPath();
+      pts.forEach(([px, py], k) => {
+        const tx = px + Math.sin(k * 2.3) * cel * 0.08, ty = py + Math.cos(k * 1.7) * cel * 0.08;
+        if (!k) g.moveTo(tx, ty);
+        else {
+          const [qx, qy] = pts[k - 1];
+          g.quadraticCurveTo((qx + px) / 2 + Math.cos(k) * cel * 0.12, (qy + py) / 2 + Math.sin(k) * cel * 0.12, tx, ty);
+        }
+      });
+      g.stroke();
+      const bola = ([px, py], txt) => {
+        g.fillStyle = '#d62828'; g.beginPath(); g.arc(px, py, cel * 0.26, 0, Math.PI * 2); g.fill();
+        g.fillStyle = '#fff'; g.font = F(Math.round(cel * 0.34)); g.fillText(txt, px, py + cel * 0.11);
+      };
+      if (pts.length) { bola(pts[0], quadro.nomes[quadro.caminho[0]]); bola(pts[pts.length - 1], quadro.nomes[quadro.caminho[pts.length - 1]]); }
+      g.restore();
+      y = y0 + lado + 20;
+      if (regra) { g.fillStyle = '#55555c'; caber('Regra: ' + regra, 48, 900); g.fillText('Regra: ' + regra, 540, y + 45); y += 50; }
+    }
+
+    g.fillStyle = '#1f1f24'; caber(linha3 || 'Duvido tu bater!', 92, 900);
+    g.fillText(linha3 || 'Duvido tu bater!', 540, Math.min(y + 95, 1405));
+
+    // rodapé: onde jogar + como jogar + me marca
+    const bx = 110, bw = W - 220, by = 1475, bh = 330;
+    g.save(); g.translate(540, by + bh / 2); g.rotate(-0.012); g.translate(-540, -(by + bh / 2));
+    g.fillStyle = 'rgba(31,31,36,.14)'; g.fillRect(bx + 10, by + 12, bw, bh);
+    g.fillStyle = '#fff'; g.fillRect(bx, by, bw, bh);
+    g.strokeStyle = '#1f1f24'; g.lineWidth = 5; g.strokeRect(bx, by, bw, bh);
+    g.fillStyle = 'rgba(255,210,63,.9)'; g.fillRect(540 - 120, by - 30, 240, 56);
+    g.fillStyle = '#1f1f24'; g.font = F(46); g.fillText('JOGA GRÁTIS', 540, by + 12);
+    const end = CA.enderecoJogo();
+    g.fillStyle = '#1d4ed8'; caber(end, 68, bw - 50); g.fillText(end, 540, by + 115);
+    g.strokeStyle = 'rgba(29,78,216,.5)'; g.lineWidth = 4;
+    const lw = Math.min(g.measureText(end).width, bw - 50);
+    g.beginPath(); g.moveTo(540 - lw / 2, by + 130); g.lineTo(540 + lw / 2, by + 130); g.stroke();
+    const como = comoJoga || 'Abre o link e tenta bater meu tempo';
+    g.fillStyle = '#55555c'; caber(como, 50, bw - 60); g.fillText(como, 540, by + 205);
+    g.fillStyle = '#1f1f24'; caber('Me marca @Cardeno_Amarelo que eu reposto!', 58, bw - 60);
+    g.fillText('Me marca @Cardeno_Amarelo que eu reposto!', 540, by + 285);
+    g.restore();
     return c;
   };
 
@@ -250,7 +326,7 @@
     a.href = URL.createObjectURL(blob);
     a.download = arq.name;
     document.body.appendChild(a); a.click(); a.remove();
-    CA.aviso('Imagem salva! Posta nos stories 📸');
+    CA.aviso('Imagem salva! Link copiado: cola no adesivo de link 📸');
   };
 
   // ---------- tela de resultado (igual pra todos os jogos) ----------
@@ -280,6 +356,7 @@
           ${r.proxima ? `<a class="btn btn-grande ${r.proxima.tranca ? 'btn-ouro' : ''}" href="${r.proxima.href}">${r.proxima.txt}</a>` : ''}
           <button class="btn btn-grande ${r.proxima ? 'btn-claro' : ''}" data-a="desafiar">Desafiar um amigo</button>
           <button class="btn btn-grande btn-claro" data-a="card">Postar nos stories</button>
+          <p class="dica-card">Posta e me marca <b>@Cardeno_Amarelo</b> que eu reposto ✨</p>
           <button class="btn btn-grande btn-claro" data-a="denovo">Jogar de novo</button>
           <a class="link-voltar" href="#/">Ver todas as fases</a>
         </div>
@@ -287,14 +364,19 @@
           <strong>Teus 66 Desafios tão liberados.</strong> Bora? →
         </a>` : `<a class="chamada-premium" href="#/premium">
           <strong>Caderno Premium</strong>
-          <span>Todas as 30 fases, desafios dos dias anteriores, card dourado e os 66 Desafios. R$ 9,90 uma vez só.</span>
+          <span>Todos os jogos e fases, desafios dos dias anteriores, card dourado e os 66 Desafios. Mensal R$ 4,90 ou anual R$ 29,90.</span>
         </a>`}
       </section>`);
     tela.addEventListener('click', e => {
       const b = e.target.closest('[data-a]');
       if (!b) return;
       if (b.dataset.a === 'desafiar') CA.compartilhar(r.desafio.texto, r.desafio.url);
-      if (b.dataset.a === 'card') { b.disabled = true; CA.mandarCard(r.card).finally(() => { b.disabled = false; }); }
+      if (b.dataset.a === 'card') {
+        b.disabled = true;
+        // copia o link junto, pra colar no adesivo de link do Instagram
+        try { navigator.clipboard.writeText('https://' + CA.enderecoJogo() + '/').catch(() => {}); } catch (e) {}
+        CA.mandarCard(r.card).finally(() => { b.disabled = false; });
+      }
       if (b.dataset.a === 'denovo') r.jogarDeNovo();
     });
     return tela;

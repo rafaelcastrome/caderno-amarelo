@@ -120,6 +120,9 @@
     const giro = nums.map(() => (r() * 6 - 3).toFixed(1));
     const giroTxt = nums.map(() => R.has('giro') ? r.pick([90, 180, 270, 45, 135, 225, 315]) : 0);
     const tinta = nums.map(() => R.has('cores') ? r.pick(TINTAS) : '');
+    // desenho da grade pro card dos stories: o caminho da caneta passa pelos números na ordem tocada
+    const quadro = { n, nomes: nums.map(rotulo), cores: cores.map(c => c[0]), bordas: cores.map(c => c[1]),
+      caminho: alvos.map(v => nums.indexOf(v)) };
     // com a regra de girar, todo número ganha um tracinho embaixo (como em dado e bola de bilhar), pra 6 e 9 não confundirem
 
     palco.innerHTML = '';
@@ -176,7 +179,7 @@
           c.classList.add('feito');
           CA.som('certo');
           idx++;
-          if (idx >= alvos.length) { parar(); cfg.onFim(Math.round(tempo() * 10) / 10, multa); return; }
+          if (idx >= alvos.length) { parar(); cfg.onFim(Math.round(tempo() * 10) / 10, multa, quadro); return; }
           elAlvo.textContent = rotulo(alvos[idx]);
           elAlvo.parentElement.classList.remove('pula'); void elAlvo.offsetWidth; elAlvo.parentElement.classList.add('pula');
           if (R.has('embaralha') && idx % 5 === 0) embaralhar();
@@ -199,7 +202,7 @@
   }
 
   // ---------- telas ----------
-  function telaResultado(palco, { fase, t, multa, semente, amigo, ehDia, ehHoje, data, rejogar }) {
+  function telaResultado(palco, { fase, t, multa, quadro, semente, amigo, ehDia, ehHoje, data, rejogar }) {
     const txtT = CA.fmtSeg(t);
     let estrelas = null, proxima = null, rec;
     if (ehDia) {
@@ -235,9 +238,11 @@
         url: CA.linkDesafio(ehDia ? 'acha' : 'fase', linkParams),
       },
       card: {
-        jogo: ehDia ? 'Desafio do dia' : `Fase ${fase.num}`,
-        linha1: estrelas ? '★'.repeat(estrelas) + '☆'.repeat(3 - estrelas) : 'Acha do 1 ao 25 em',
-        valor: txtT.replace(' s', 's'), cor: '#1d4ed8',
+        jogo: 'Acha do 1 ao 25',
+        linha1: ehDia ? (ehHoje ? 'Desafio do dia · ' : 'Desafio de ') + CA.fmtData(data) : `Fase ${fase.num} · ${fase.nome}`,
+        valor: txtT.replace(' s', 's'), estrelas, cor: '#1d4ed8', quadro,
+        regra: fase.regras.length ? descFase(fase) : '',
+        comoJoga: 'Toca do 1 ao 25 em ordem, o mais rápido que tu conseguir',
       },
       jogarDeNovo: rejogar,
     }));
@@ -253,7 +258,7 @@
         <p class="regra-grande">${descFase(f)}</p>
         <p>Da fase 7 em diante o jogo fica difícil de verdade: a grade embaralha, os números giram, piscam, viram letras... São <b>24 fases novas</b>, até a fase final.</p>
         <div class="previa-fases">${FASES.slice(GRATIS, GRATIS + 6).map(x => `<span>${x.num}<small>${x.nome}</small></span>`).join('')}</div>
-        <a class="btn btn-grande" href="#/premium">Liberar todas as fases · R$ 9,90</a>
+        <a class="btn btn-grande" href="#/premium">Liberar todas as fases · a partir de R$ 2,49/mês</a>
         <a class="link-voltar" href="#/">Voltar pras fases</a>
       </section>`));
   }
@@ -277,9 +282,9 @@
         parar = jogar(palco, {
           fase: f, semente, amigo: deAmigo ? amigo : null,
           titulo: `Fase ${f.num} · ${f.nome}`,
-          onFim: (t, multa) => setTimeout(() => {
+          onFim: (t, multa, quadro) => setTimeout(() => {
             if (!ativo) return;
-            telaResultado(palco, { fase: f, t, multa, semente, amigo: deAmigo ? amigo : null,
+            telaResultado(palco, { fase: f, t, multa, quadro, semente, amigo: deAmigo ? amigo : null,
               rejogar: () => deAmigo ? (location.hash = '#/fase?f=' + f.num) : rodar(CA.novaSemente()) });
           }, 350),
         }, vivo);
@@ -310,9 +315,9 @@
         parar = jogar(palco, {
           fase: f, semente: CA.sementeDoDia('acha', data), amigo,
           titulo: ehHoje ? 'Desafio do dia' : 'Desafio de ' + CA.fmtData(data),
-          onFim: (t, multa) => setTimeout(() => {
+          onFim: (t, multa, quadro) => setTimeout(() => {
             if (!ativo) return;
-            telaResultado(palco, { fase: f, t, multa, amigo, ehDia: true, ehHoje, data, rejogar: rodar });
+            telaResultado(palco, { fase: f, t, multa, quadro, amigo, ehDia: true, ehHoje, data, rejogar: rodar });
           }, 350),
         }, vivo);
       };
