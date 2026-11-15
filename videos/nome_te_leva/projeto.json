@@ -1,0 +1,41 @@
+{
+ "titulo": "Teu nome te leva",
+ "marca": {
+  "handle": "Cardeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [
+  {
+   "fato": "Contagem de Kruskal: caminhos que começam em casas diferentes se juntam e terminam na mesma casa; grade verificada por força bruta para nomes de 2 a 12 letras",
+   "fonte": "Matemática do truque (gerar_grade.py)",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Teu nome vai te levar até um desenho... e eu já sei qual é!"
+  },
+  {
+   "fala": "Conta quantas letras tem teu primeiro nome. Começa no primeiro quadradinho e anda esse tanto de casas."
+  },
+  {
+   "fala": "Tipo... Ana tem três letras: um, dois, três... caiu no quatro. Aí anda mais quatro casas... e assim vai."
+  },
+  {
+   "fala": "Para quando cair num desenho. Pausa o vídeo e faz com calma... eu espero!"
+  },
+  {
+   "fala": "Pronto? Tu caiu no..."
+  },
+  {
+   "fala": "Cocô!"
+  },
+  {
+   "fala": "Duvida? Faz com o nome do teu amigo... e manda pra ele!"
+  }
+ ]
+}

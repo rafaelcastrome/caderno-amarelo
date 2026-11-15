@@ -1,0 +1,62 @@
+{
+ "titulo": "Tu vai cair na pegadinha",
+ "marca": {
+  "handle": "Cardeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [
+  {
+   "fato": "Pegadinhas clássicas de voz alta (priming): vaca bebe água, sinal verde, pai do Pedro, soma 4100, todos os meses têm dia 28",
+   "fonte": "domínio público",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Responde em voz alta... aposto que tu cai em pelo menos três!"
+  },
+  {
+   "fala": "Fala branco cinco vezes, rápido!"
+  },
+  {
+   "fala": "O que a vaca bebe?"
+  },
+  {
+   "fala": "Leite? Vaca bebe água!"
+  },
+  {
+   "fala": "Agora fala para, cinco vezes!"
+  },
+  {
+   "fala": "No sinal verde, tu faz o quê?"
+  },
+  {
+   "fala": "Para? No verde tu anda!"
+  },
+  {
+   "fala": "O pai do Pedro tem cinco filhos: Lala, Lele, Lili, Lolo... e o quinto?"
+  },
+  {
+   "fala": "Lulu? É o Pedro!"
+  },
+  {
+   "fala": "Soma comigo: mil... mais quarenta... mais mil... mais trinta... mais mil... mais vinte... mais mil... mais dez!"
+  },
+  {
+   "fala": "Cinco mil? Deu quatro mil e cem!"
+  },
+  {
+   "fala": "Última: quantos meses têm vinte e oito dias?"
+  },
+  {
+   "fala": "Um? Todos têm!"
+  },
+  {
+   "fala": "Comenta quantas tu acertou... e manda pro teu amigo cair também!"
+  }
+ ]
+}

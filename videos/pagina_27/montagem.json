@@ -1,0 +1,50 @@
+{
+ "take": "falas/take1.wav",
+ "voz": "Algieba",
+ "cortes": [
+  4.04,
+  8.6,
+  14.6,
+  19.0,
+  22.6
+ ],
+ "cenas": [
+  {
+   "fala": 0,
+   "pausa": 0.3
+  },
+  {
+   "fala": 1,
+   "pausa": 0.9
+  },
+  {
+   "fala": 2,
+   "pausa": 3.0
+  },
+  {
+   "fala": 3,
+   "pausa": 1.6
+  },
+  {
+   "fala": 4,
+   "pausa": 0.7
+  },
+  {
+   "fala": 5,
+   "pausa": 2.3
+  }
+ ],
+ "fundo": {
+  "arquivo": "sfx/fundo.wav",
+  "volume": [
+   [
+    0,
+    1.0
+   ],
+   [
+    999,
+    1.0
+   ]
+  ]
+ }
+}

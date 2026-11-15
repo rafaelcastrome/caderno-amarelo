@@ -1,0 +1,38 @@
+{
+ "titulo": "Página 27",
+ "marca": {
+  "handle": "Cardeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [
+  {
+   "fato": "Quadrado forçado: cada casa = linha + coluna, então um número de cada fileira e de cada cor sempre soma 27 (24 caminhos)",
+   "fonte": "Matemática do truque (grade.py)",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Escolhe quatro números aqui... e eu já sei quanto vai dar!"
+  },
+  {
+   "fala": "Um de cada fileira... e cada um de uma cor diferente. Tipo assim."
+  },
+  {
+   "fala": "Agora escolhe os teus... e soma os quatro. Pausa o vídeo se precisar... eu espero!"
+  },
+  {
+   "fala": "Pronto? Agora olha o número dessa página do caderno..."
+  },
+  {
+   "fala": "Vinte e sete! Tava aí desde o começo."
+  },
+  {
+   "fala": "Duvida? Volta e escolhe outros números... vai dar vinte e sete de novo!"
+  }
+ ]
+}
