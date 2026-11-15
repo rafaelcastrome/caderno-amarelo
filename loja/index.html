@@ -3,117 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Desafios do Caderno Amarelo · Jogo e loja</title>
-<meta name="description" content="Jogos, brincadeiras, coisas pra colorir e montar e truques de mente do Caderno Amarelo. PDF na hora, no Pix, pra imprimir em casa.">
-<meta property="og:title" content="Desafios do Caderno Amarelo: duvido tu zerar!">
-<meta property="og:description" content="66 charadas, pegadinhas e ilusões que enganam o teu cérebro. Começa de graça.">
-<meta property="og:image" content="assets/img/capa-natal-fofo-colorir.png">
+<title>Jogos do Caderno Amarelo</title>
+<meta name="description" content="Jogos grátis do Caderno Amarelo: Acha do 1 ao 25, 66 Desafios e ranking da galera.">
 <meta name="theme-color" content="#ffd23f">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📒</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/loja.css">
+<script>
+  // O endereço principal abre nos jogos. Link antigo da loja com #seção (ex.: #produtos) vai pra loja.
+  location.replace(location.hash && location.hash.length > 1 ? 'loja.html' + location.hash : 'jogos/');
+</script>
+<meta http-equiv="refresh" content="0; url=jogos/">
 </head>
-<body class="entrando">
-
-<div class="fundo-animado" aria-hidden="true"></div>
-
-<header class="topo">
-  <div class="wrap">
-    <a class="logo" href="index.html"><span class="logo-icone">📒</span>Caderno Amarelo</a>
-  </div>
-</header>
-
-<section class="hero hero-jogo">
-  <div class="wrap">
-    <div class="hero-texto">
-      <span class="etiqueta">jogo grátis 🧠</span>
-      <h1>Desafios do <span class="sublinhado">Caderno Amarelo<svg viewBox="0 0 300 24" preserveAspectRatio="none"><path d="M4 16 C 60 4, 120 22, 180 10 S 270 8, 296 14"/></svg></span></h1>
-      <p>66 charadas, pegadinhas e ilusões que enganam o teu cérebro. Joga no celular, sem cadastro. Duvido tu zerar!</p>
-      <div class="hero-acoes">
-        <a class="btn btn-jogar" href="desafios.html">Jogar agora →</a>
-        <a class="link-sutil" href="#produtos">Ver a loja</a>
-      </div>
-      <div class="provas">
-        <span>🆓 Começa de graça</span>
-        <span>🧩 66 desafios</span>
-        <span>📱 Direto no navegador</span>
-      </div>
-    </div>
-    <a class="jogo-teaser" href="desafios.html" aria-label="Começar o desafio 1">
-      <span class="etiqueta">desafio 01</span>
-      <strong>Esquenta</strong>
-      <span class="jt-pergunta">O que é, o que é: quanto mais tu tira, maior fica?</span>
-      <span class="jt-campo">Tua resposta<span class="jt-cursor"></span></span>
-      <span class="jt-barra"><span></span></span>
-      <span class="jt-rodape">Desafio 1 de 66</span>
-    </a>
-  </div>
-</section>
-
-<div class="letreiro" aria-hidden="true"><div class="letreiro-trilho">
-  <span>⚡ download na hora</span><span>✂️ recorta e monta</span><span>🎲 jogos pra família</span><span>🎄 especial de Natal</span><span>🧠 truques de mente</span><span>🖍️ pra colorir</span><span>🔒 Pix seguro</span>
-  <span>⚡ download na hora</span><span>✂️ recorta e monta</span><span>🎲 jogos pra família</span><span>🎄 especial de Natal</span><span>🧠 truques de mente</span><span>🖍️ pra colorir</span><span>🔒 Pix seguro</span>
-</div></div>
-
-<main id="produtos">
-  <section class="natal-destaque revela" id="natal" hidden>
-    <div class="wrap">
-      <div class="natal-cabeca">
-        <div>
-          <span class="etiqueta etiqueta-vermelha">🎄 especial de Natal</span>
-          <h2 class="titulo-secao">O Natal mais divertido começa aqui</h2>
-          <p class="sub-secao">Jogos pra ceia, coisas pra montar e colorir em família. Imprime em casa.</p>
-        </div>
-        <div class="contagem" id="contagem">
-          <div><b id="cd-d">00</b><small>dias</small></div>
-          <div><b id="cd-h">00</b><small>horas</small></div>
-          <div><b id="cd-m">00</b><small>min</small></div>
-          <div><b id="cd-s">00</b><small>seg</small></div>
-        </div>
-      </div>
-    </div>
-    <div class="trilho-wrap"><div class="trilho" data-categoria="Natal"></div></div>
-  </section>
-
-  <div id="outras-secoes"></div>
-</main>
-
-<section class="bloco revela" id="como-funciona">
-  <div class="wrap">
-    <h2 class="titulo-secao">Como funciona</h2>
-    <p class="sub-secao">Simples e rápido, sem cadastro.</p>
-    <div class="passos">
-      <div class="passo revela"><div class="num">1</div><h4>Escolhe o produto</h4><p>Toca em "Quero" e coloca teu e-mail.</p></div>
-      <div class="passo revela"><div class="num">2</div><h4>Paga no Pix</h4><p>Lê o QR Code ou copia o código no app do banco.</p></div>
-      <div class="passo revela"><div class="num">3</div><h4>Baixa e imprime</h4><p>O download aparece na tela e o link chega no teu e-mail.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="bloco faq revela" id="duvidas">
-  <div class="wrap" style="max-width:760px">
-    <h2 class="titulo-secao">Dúvidas</h2>
-    <p class="sub-secao">Se ficar alguma, chama a gente no Instagram.</p>
-    <details><summary>Como eu recebo o produto?</summary><p>Assim que o Pix é aprovado, o botão de download aparece na tela. A gente também manda o link pro teu e-mail.</p></details>
-    <details><summary>Quanto tempo o Pix demora?</summary><p>Normalmente poucos segundos. Deixa a tela aberta que o download aparece sozinho.</p></details>
-    <details><summary>Paguei e fechei a página. E agora?</summary><p>Volta na página do produto no mesmo celular que o download aparece, ou procura o e-mail que a gente te mandou. Se não achar, chama no Instagram.</p></details>
-    <details><summary>Posso imprimir mais de uma vez?</summary><p>Pode. Imprime quantas vezes quiser pra usar em casa, com a família e na escola. Só não pode revender o arquivo.</p></details>
-    <details><summary>Precisa de impressora colorida?</summary><p>Não. Os jogos e as coisas pra colorir são feitos em preto e branco, pensados pra gastar pouca tinta.</p></details>
-  </div>
-</section>
-
-<footer class="rodape">
-  <div class="wrap">
-    <span>© Caderno Amarelo · <a href="https://instagram.com/cardeno_amarelo">@Cardeno_Amarelo</a> · <span id="contato"></span></span>
-    <span>Pagamento processado pelo Mercado Pago</span>
-  </div>
-</footer>
-
-<script src="assets/js/config.js"></script>
-<script src="assets/js/efeitos.js"></script>
-<script src="assets/js/menu.js"></script>
-<script src="assets/js/loja.js"></script>
-<script>Loja.iniciarHome();</script>
+<body style="background:#fbf5df;font-family:sans-serif;padding:24px">
+<p><a href="jogos/">Abrir os jogos</a> · <a href="loja.html">Loja</a></p>
 </body>
 </html>

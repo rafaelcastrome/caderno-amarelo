@@ -8,7 +8,7 @@ import { cors, db, json } from '../_comum/comum.ts';
 import { emailDaSessao, nomePublico, confirmado } from '../_comum/conta.ts';
 
 // tamanho da grade de cada fase (igual ao jogos/js/acha.js), pra barrar tempo impossível
-const N = [3, 4, 5, 5, 5, 6, 5, 5, 6, 5, 6, 5, 6, 6, 7, 5, 6, 7, 6, 7, 5, 6, 7, 6, 7, 6, 7, 7, 7, 7];
+const N = [5, 5, 6, 5, 5, 5, 6, 5, 6, 5, 6, 6, 7, 5, 6, 7, 6, 7, 5, 6, 7, 6, 7, 6, 7, 7, 7, 6, 7, 7];
 const CHAVE_OK = /^(dia:\d{4}-\d{2}-\d{2}|fase:([1-9]|[12]\d|30))$/;
 const minimo = (chave: string) => chave.startsWith('dia:') ? 25 * 0.12 : (N[+chave.slice(5) - 1] ** 2) * 0.07;
 const CAMPOS = 'email, apelido, arroba, mostrar_arroba, arroba_confirmado, id_publico';

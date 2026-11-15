@@ -2,10 +2,10 @@
    O jogo é sempre o mesmo (tocar na ordem o mais rápido possível), mas cada fase
    muda uma regra: tamanho da grade, números girados, de trás pra frente, só os pares,
    letras, grade que embaralha, números que piscam... As fases 1 a 6 são grátis,
-   da 7 à 30 são do Caderno Premium. Cada fase dá de 1 a 3 estrelas pelo tempo.
+   da 4 à 30 são do Caderno Premium. Cada fase dá de 1 a 3 estrelas pelo tempo.
 
    Rotas:
-     #/fase?f=7                 joga a fase 7 (se liberada)
+     #/fase?f=4                 joga a fase 4 (se liberada)
      #/fase?f=7&s=123&v=21.4    desafio de amigo: mesma fase e mesma grade (abre mesmo sem Premium)
      #/acha?d=1 | d=AAAA-MM-DD  desafio do dia (5x5 com uma regra sorteada pelo dia) */
 (function () {
@@ -19,7 +19,7 @@
   ];
   const TINTAS = ['#d62828', '#1d4ed8', '#15803d', '#d97706', '#7c3aed', '#be185d'];
   const PENALIDADE = 1;
-  const GRATIS = 6;
+  const GRATIS = 3;
 
   // O que cada regra faz, em palavras de quem joga.
   const REGRAS = {
@@ -35,13 +35,12 @@
 
   // [tamanho, regras, segundos pra 3 estrelas, segundos pra 2 estrelas, nome]
   const F = [
-    [3, [], 5, 9, 'Aquecimento'],
-    [4, [], 9, 15, 'Pegando o jeito'],
+    // ---- 3 fases grátis (já de verdade: cada uma tem ranking) ----
     [5, [], 16, 26, 'Igual ao vídeo'],
     [5, ['reverso'], 18, 28, 'Contagem regressiva'],
-    [5, ['giro'], 20, 30, 'Tonteira'],
     [6, [], 26, 40, 'Grade grande'],
     // ---- daqui pra frente, Premium ----
+    [5, ['giro'], 20, 30, 'Tonteira'],
     [5, ['embaralha'], 22, 34, 'Mudou tudo!'],
     [5, ['letras'], 20, 30, 'ABC'],
     [6, ['pares'], 18, 28, 'Só os pares'],
@@ -65,6 +64,8 @@
     [7, ['espelho'], 50, 72, 'Espelho gigante'],
     [7, ['piscam'], 50, 72, 'Apagão'],
     [7, ['embaralha', 'giro'], 54, 78, 'Caos'],
+    [6, ['letras', 'giro'], 34, 50, 'ABC tonto'],
+    [7, ['cores', 'reverso'], 50, 72, 'Arco-íris ao contrário'],
     [7, ['giro', 'embaralha', 'piscam'], 60, 88, 'Fase final'],
   ];
   const FASES = F.map(([n, regras, a3, a2, nome], i) => ({ num: i + 1, n, regras, a3, a2, nome, premium: i >= GRATIS }));
@@ -89,7 +90,7 @@
   // "de primeira", "na 3ª tentativa"
   const naTentativa = n => !n ? '' : n === 1 ? 'de primeira' : `na ${n}ª tentativa`;
   CA.naTentativa = naTentativa;
-  // Liberada: fase 1, ou a anterior concluída; e Premium da 7 em diante.
+  // Liberada: fase 1, ou a anterior concluída; e Premium da 4 em diante.
   CA.faseLiberada = function (num) {
     const f = FASES[num - 1];
     if (!f) return false;
@@ -295,24 +296,25 @@
       },
       jogarDeNovo: rejogar,
     }));
-    if (ehDia) caixaRankingDia(palco, data, envio);
+    if (ehDia) caixaRanking(palco, 'dia:' + data, '#/ranking?d=' + data, 'Ranking de hoje', envio);
+    else if (fase.num <= GRATIS) caixaRanking(palco, 'fase:' + fase.num, '#/ranking?aba=f' + fase.num, 'Ranking da fase ' + fase.num, envio);
   }
 
-  // No resultado do desafio do dia: tua posição e o top 3, ou o convite pra entrar no ranking.
-  function caixaRankingDia(palco, data, envio) {
+  // No resultado (desafio do dia e fases grátis): tua posição e o top 3, ou o convite pra entrar no ranking.
+  function caixaRanking(palco, chave, href, titulo, envio) {
     const folha = palco.querySelector('.folha');
     if (!folha || !CA.verRanking) return;
-    const cx = CA.el(`<a class="podio res-ranking" href="#/ranking?d=${data}" hidden></a>`);
+    const cx = CA.el(`<a class="podio res-ranking" href="${href}" hidden></a>`);
     folha.after(cx);
     if (!(CA.conta && CA.conta())) {
-      cx.innerHTML = '<div class="cab-ranking"><strong>Ranking de hoje</strong></div><p class="vazio">Entra com teu e-mail pra aparecer no ranking (e com teu @, se quiser).</p><span class="ver-mais">Entrar e aparecer →</span>';
+      cx.innerHTML = `<div class="cab-ranking"><strong>${titulo}</strong></div><p class="vazio">Entra com teu e-mail pra aparecer no ranking (e com teu @, se quiser).</p><span class="ver-mais">Entrar e aparecer →</span>`;
       cx.href = '#/conta'; cx.hidden = false;
       return;
     }
-    envio.then(() => CA.verRanking('dia:' + data)).then(d => {
+    envio.then(() => CA.verRanking(chave)).then(d => {
       if (!cx.isConnected) return;
       cx.innerHTML = `
-        <div class="cab-ranking"><strong>${d.meu ? 'Tu tá em ' + d.meu.pos + 'º lugar' : 'Ranking de hoje'}</strong><span>${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}</span></div>
+        <div class="cab-ranking"><strong>${d.meu ? 'Tu tá em ' + d.meu.pos + 'º lugar' : titulo}</strong><span>${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}</span></div>
         <ol class="lista-ranking">${d.top.slice(0, 3).map(CA.linhaRanking).join('')}</ol>
         <span class="ver-mais">Ver ranking completo →</span>`;
       cx.hidden = false;
@@ -328,7 +330,7 @@
         <h1>Fase ${f.num}: ${f.nome}</h1>
         <p class="regra-grande">${descFase(f)}</p>
         ${tAmigo ? `<p class="meta-amigo">Teu amigo passou essa fase em <b>${CA.fmtSeg(tAmigo)}</b>. Libera pra tentar bater ele!</p>` : ''}
-        <p>Da fase 7 em diante o jogo fica difícil de verdade: a grade embaralha, os números giram, piscam, viram letras... São <b>24 fases novas</b>, até a fase final.</p>
+        <p>Da fase 4 em diante o jogo fica difícil de verdade: a grade embaralha, os números giram, piscam, viram letras... São <b>${FASES.length - GRATIS} fases novas</b>, até a fase final.</p>
         <div class="previa-fases">${FASES.slice(GRATIS, GRATIS + 6).map(x => `<span>${x.num}<small>${x.nome}</small></span>`).join('')}</div>
         <a class="btn btn-grande" href="#/premium">Liberar todas as fases · a partir de R$ 2,49/mês</a>
         <a class="link-voltar" href="#/">Voltar pras fases</a>

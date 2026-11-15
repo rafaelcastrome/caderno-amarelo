@@ -9,7 +9,7 @@
 //   respostaCorreta resposta principal; é ela que aparece no "revelar"
 //   aceitas         outras respostas que também valem (opcional)
 //   explicacao      texto que aparece junto com a resposta, depois de acertar
-//   isPremium       true = só abre depois do Pix (do desafio 3 em diante; posto automaticamente)
+//   isPremium       true = só abre depois do Pix (do desafio 4 em diante; posto automaticamente)
 //
 // A checagem ignora maiúsculas, acentos, pontuação e espaços extras
 // (ver normalizar() em desafios.js), então não precisa repetir variações assim aqui.
@@ -401,6 +401,6 @@
       explicacao: 'AMARELO, de Caderno Amarelo! Tu zerou todos os desafios. Manda pra um amigo e vê se ele consegue.' }
   ];
 
-  const GRATIS = 2; // desafios grátis antes do paywall
+  const GRATIS = 3; // desafios grátis antes do paywall (todo jogo: 3 níveis grátis)
   window.DESAFIOS = LISTA.map((d, i) => ({ id: i + 1, ...d, isPremium: i >= GRATIS }));
 })();

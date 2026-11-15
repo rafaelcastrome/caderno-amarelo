@@ -259,7 +259,7 @@
     const premium = DESAFIOS.filter(d => d.isPremium).length;
     $('#paywall-corpo').innerHTML = `
       <div class="pw-cadeado" aria-hidden="true">🔒</div>
-      <p class="pw-sobre">Mandou bem nos 2 primeiros!</p>
+      <p class="pw-sobre">Mandou bem nos 3 primeiros!</p>
       <h3>Desbloqueie os ${premium} desafios secretos!</h3>
       <div class="pw-preco">
         ${JOGO.precoAntigo ? `<span class="pw-de">De <s>${brl(JOGO.precoAntigo)}</s> por apenas</span>` : '<span class="pw-de">Todos de uma vez por apenas</span>'}

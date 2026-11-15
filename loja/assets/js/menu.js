@@ -23,12 +23,12 @@
   const dias = Math.ceil((new Date(hoje.getFullYear(), 11, 25) - hoje) / 864e5);
   const natalAncora = dias >= 0 && dias <= 60 ? 'natal' : ancora('Natal');
 
-  const naHome = /(^|\/)(index\.html)?$/.test(location.pathname);
-  const home = naHome ? '' : 'index.html';
+  const naHome = /(^|\/)loja\.html$/.test(location.pathname);
+  const home = naHome ? '' : 'loja.html';
   const pagina = location.pathname.split('/').pop();
 
   const ITENS = [
-    { id: 'desafios', rotulo: 'Desafios', href: 'desafios.html', ativo: pagina === 'desafios.html' },
+    { id: 'desafios', rotulo: 'Jogos', href: 'jogos/', ativo: pagina === 'desafios.html' },
     { id: 'natal', rotulo: 'Natal', href: home + '#' + natalAncora },
     { id: 'imprimir', rotulo: 'Brincadeiras', href: home + '#' + ancora('Jogos') },
     { id: 'mente', rotulo: 'Mente', href: home + '#' + ancora('Mente e mágica') },

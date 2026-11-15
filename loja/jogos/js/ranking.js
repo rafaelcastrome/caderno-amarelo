@@ -41,7 +41,11 @@
     nome: 'Ranking',
     iniciar(palco, p) {
       let vivo = true;
-      const aba = p.aba === 'amigos' ? 'amigos' : 'hoje';
+      // abas: desafio de hoje, cada fase grátis (1 a 3) e amigos
+      const GR = CA.FASES_GRATIS || 3;
+      const fasesAbas = Array.from({ length: GR }, (_, i) => 'f' + (i + 1));
+      const aba = p.aba === 'amigos' || fasesAbas.includes(p.aba) ? p.aba : 'hoje';
+      const numFase = aba[0] === 'f' && aba !== 'hoje' ? +aba.slice(1) : 0;
       const data = /^\d{4}-\d{2}-\d{2}$/.test(p.d || '') ? p.d : CA.hojeBR();
       const conta = CA.conta && CA.conta();
       palco.innerHTML = '';
@@ -49,8 +53,9 @@
         <section class="intro ranking">
           <a class="voltar" href="#/" aria-label="Voltar">‹</a>
           <h1>Ranking</h1>
-          <nav class="abas" aria-label="Rankings">
-            <a href="#/ranking" class="${aba === 'hoje' ? 'ativa' : ''}">Desafio de hoje</a>
+          <nav class="abas" aria-label="Rankings" style="--k:${GR + 2}">
+            <a href="#/ranking" class="${aba === 'hoje' ? 'ativa' : ''}">Hoje</a>
+            ${fasesAbas.map((f, i) => `<a href="#/ranking?aba=${f}" class="${aba === f ? 'ativa' : ''}">Fase ${i + 1}</a>`).join('')}
             <a href="#/ranking?aba=amigos" class="${aba === 'amigos' ? 'ativa' : ''}">Amigos</a>
           </nav>
           <div class="miolo"><p class="carregando">Carregando...</p></div>
@@ -61,16 +66,16 @@
       const entrar = txt => `<a class="chamada-conta" href="#/conta"><strong>Entra pra aparecer aqui</strong><span>${txt}</span></a>`;
       const falha = () => { if (vivo) miolo.innerHTML = '<p class="vazio">Sem internet agora. Tenta de novo daqui a pouco.</p>'; };
 
-      if (aba === 'hoje') {
-        ver('dia:' + data).then(d => {
+      if (aba !== 'amigos') {
+        ver(numFase ? 'fase:' + numFase : 'dia:' + data).then(d => {
           if (!vivo) return;
           const meuForaTop = d.meu && d.meu.pos > 10;
           miolo.innerHTML = `
-            <p class="sub-ranking">${data === CA.hojeBR() ? 'Mesma grade pra todo mundo hoje' : 'Desafio de ' + CA.fmtData(data)} · ${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}</p>
+            <p class="sub-ranking">${numFase ? `Fase ${numFase} · ${CA.FASES[numFase - 1].nome} · melhor tempo de cada um` : data === CA.hojeBR() ? 'Desafio do dia: mesma grade pra todo mundo' : 'Desafio de ' + CA.fmtData(data)} · ${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}</p>
             ${d.top.length ? `<ol class="lista-ranking">${d.top.map(linhaTempo).join('')}</ol>` : '<p class="vazio">Ninguém jogou ainda. Bora ser o 1º?</p>'}
             ${meuForaTop ? `<p class="reticencias">···</p><ol class="lista-ranking">${linhaTempo(d.meu)}</ol>` : ''}
             ${d.amigos.length > 1 ? `<h2 class="secao">Entre teus amigos</h2><ol class="lista-ranking">${d.amigos.map(linhaTempo).join('')}</ol>` : ''}
-            <a class="btn btn-grande" href="#/acha?d=1">${d.meu ? 'Tentar melhorar meu tempo' : 'Jogar o desafio do dia'}</a>
+            <a class="btn btn-grande" href="${numFase ? '#/fase?f=' + numFase : '#/acha?d=1'}">${d.meu ? 'Tentar melhorar meu tempo' : numFase ? 'Jogar a fase ' + numFase : 'Jogar o desafio do dia'}</a>
             ${conta ? '' : entrar('Só quem tem conta entra no ranking. É só o e-mail, sem senha.')}`;
         }).catch(falha);
       } else {

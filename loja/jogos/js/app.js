@@ -28,11 +28,17 @@
     limpar = jogo.iniciar(palco, p) || null;
   }
 
+  // Todos os jogos do Caderno (aparecem embaixo do jogo). Cada jogo: 3 níveis grátis, o resto Premium.
+  const JOGOS = [
+    { nome: 'Acha do 1 ao 25', desc: 'Toca os números em ordem, o mais rápido possível. 3 fases grátis + desafio do dia.', href: '#/', cor: '#1d4ed8', icone: '🔢', atual: true },
+    { nome: '66 Desafios', desc: 'Charadas, pegadinhas e ilusões que enganam o cérebro. 3 grátis pra provar.', href: '../desafios.html', cor: '#d62828', icone: '🧠' },
+  ];
+
   // Link do nosso Reels do Acha do 1 ao 25 (Instagram). Vazio = não mostra o vídeo.
   const REELS = 'https://www.instagram.com/reel/DfuG6lkSIzZ/';
 
   function inicio(palco) {
-    document.title = 'Acha do 1 ao 25 · Caderno Amarelo';
+    document.title = 'Jogos do Caderno Amarelo · Acha do 1 ao 25';
     const feitoHoje = CA.ler('dia:' + CA.hojeBR(), null);
     const prog = CA.progressoFases();
     const prox = CA.proximaFase();
@@ -53,12 +59,13 @@
         <header class="cabeca">
           <div class="logo-app"><span class="logo-caderno" aria-hidden="true"></span>Caderno Amarelo</div>
           <div class="cabeca-botoes">
+            <a class="som loja-btn" href="../loja.html">Loja</a>
             <a class="som conta-btn" href="#/conta" aria-label="Minha conta">${conta ? (conta.premium ? '★' : '👤') : 'Entrar'}</a>
             <button class="som" type="button" aria-label="Som">${CA.somLigado() ? '🔊' : '🔇'}</button>
           </div>
         </header>
         <h1 class="titulo-app">Acha do <span class="marca">1 ao 25</span></h1>
-        <p class="sub-app">30 fases, cada uma com uma regra nova. Duvido tu chegar na última.</p>
+        <p class="sub-app">${CA.FASES.length} fases, cada uma com uma regra nova. As 3 primeiras são grátis e têm ranking. Duvido tu chegar na última.</p>
 
         ${reelsId ? `<div class="reels">
           <p class="reels-titulo">Viu no vídeo? Agora é tua vez 👇</p>
@@ -80,6 +87,16 @@
         <div class="grade-fases">${tiles}</div>
         ${CA.ehPremium() ? '' : `<p class="legenda-fases">Fases 1 a ${CA.FASES_GRATIS} grátis · 🔒 Premium</p>`}
 
+        <h2 class="secao">Todos os jogos</h2>
+        <div class="lista-jogos">${JOGOS.map(j => `
+          <a class="card-jogo ${j.atual ? 'atual' : ''}" href="${j.href}" style="--cor:${j.cor}">
+            <span class="card-jogo-icone" aria-hidden="true">${j.icone}</span>
+            <span class="card-jogo-txt"><strong>${j.nome}</strong><small>${j.desc}</small></span>
+            <em>${j.atual ? 'Tu tá aqui' : 'Jogar'}</em>
+          </a>`).join('')}
+        </div>
+        <a class="mais" href="../loja.html"><strong>Loja do Caderno</strong><small>Brincadeiras pra imprimir, livros de colorir e mágicas pra fazer em família.</small></a>
+
         <h2 class="secao">Desafios dos dias anteriores</h2>
         <div class="arquivo">${arquivo()}</div>
         ${CA.ehPremium()
@@ -96,9 +113,6 @@
           <small>Toca em <b>Compartilhar</b> e depois em <b>Adicionar à Tela de Início</b>.</small>
         </div>
 
-        <h2 class="secao">Quer mais?</h2>
-        <a class="mais" href="../desafios.html"><strong>66 Desafios</strong><small>Enigmas e pegadinhas que enganam o cérebro. 2 grátis pra provar.</small></a>
-        <a class="mais" href="../index.html"><strong>Loja do Caderno</strong><small>Brincadeiras pra imprimir e jogar em família.</small></a>
         <p class="rodape">@Cardeno_Amarelo</p>
       </div>`));
 

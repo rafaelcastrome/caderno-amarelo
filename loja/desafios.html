@@ -82,6 +82,15 @@
   .pw-ok { text-align: center; padding: 14px 0; }
   .pw-ok-icone { font-size: 56px; animation: sobe .4s ease; }
 
+  .mais-jogos-titulo { font-family: var(--mao); font-size: 2.2rem; margin: 34px 0 10px; }
+  .mais-jogos { display: grid; gap: 10px; }
+  .card-jogo { display: grid; grid-template-columns: 52px 1fr auto; align-items: center; gap: 12px; padding: 12px 14px; background: #fff; border: 3px solid var(--tinta); border-left: 10px solid var(--cor); border-radius: 16px; box-shadow: 4px 5px 0 var(--tinta); text-decoration: none; color: var(--tinta); }
+  .card-jogo .ic { width: 52px; height: 52px; display: grid; place-items: center; font-size: 30px; background: var(--papel-claro); border: 2px solid var(--tinta); border-radius: 12px; }
+  .card-jogo .tx { display: grid; gap: 2px; min-width: 0; }
+  .card-jogo strong { font-family: var(--mao); font-size: 1.75rem; line-height: 1; }
+  .card-jogo small { color: var(--tinta-suave); font-weight: 600; font-size: 13px; line-height: 1.3; }
+  .card-jogo em { font-style: normal; font-weight: 800; font-size: 13px; padding: 6px 10px; border: 2px solid var(--tinta); border-radius: 999px; background: var(--amarelo); white-space: nowrap; }
+  .card-jogo.atual em { background: var(--papel-claro); }
   .toggle { display: flex !important; align-items: center; gap: 12px; margin-top: 18px !important; padding: 12px; border: 2px dashed var(--tinta);
             border-radius: 12px; background: var(--papel-claro); cursor: pointer; font-weight: 800; }
   .toggle input { position: absolute; opacity: 0; width: 1px; height: 1px; }
@@ -100,7 +109,7 @@
 
 <header class="topo">
   <div class="wrap">
-    <a class="logo" href="index.html"><span class="logo-icone">📒</span>Caderno Amarelo</a>
+    <a class="logo" href="jogos/"><span class="logo-icone">📒</span>Caderno Amarelo</a>
   </div>
 </header>
 
@@ -109,6 +118,12 @@
   <p class="lead">Responde e vê se o teu cérebro não te engana.</p>
   <div class="progresso" id="progresso" aria-label="Progresso"></div>
   <section id="jogo" aria-live="polite"></section>
+
+  <h2 class="mais-jogos-titulo">Todos os jogos</h2>
+  <div class="mais-jogos">
+    <a class="card-jogo atual" href="desafios.html" style="--cor:#d62828"><span class="ic" aria-hidden="true">🧠</span><span class="tx"><strong>66 Desafios</strong><small>Charadas, pegadinhas e ilusões. 3 grátis pra provar.</small></span><em>Tu tá aqui</em></a>
+    <a class="card-jogo" href="jogos/" style="--cor:#1d4ed8"><span class="ic" aria-hidden="true">🔢</span><span class="tx"><strong>Acha do 1 ao 25</strong><small>Toca os números em ordem, o mais rápido possível. 3 fases grátis com ranking.</small></span><em>Jogar</em></a>
+  </div>
 </main>
 
 <div class="pw-fundo" id="paywall" role="dialog" aria-modal="true" aria-label="Desbloquear desafios" aria-hidden="true">

@@ -135,7 +135,7 @@
     const slug = new URLSearchParams(location.search).get('p');
     const produtos = await carregarProdutos();
     const p = produtos.find(x => x.slug === slug && x.ativo);
-    if (!p) { location.href = 'index.html'; return; }
+    if (!p) { location.href = 'loja.html'; return; }
     document.title = `${p.nome} · Caderno Amarelo`;
     $('#capa').src = p.capa; $('#capa').alt = `Capa: ${p.nome}`;
     $('#nome').textContent = p.nome;

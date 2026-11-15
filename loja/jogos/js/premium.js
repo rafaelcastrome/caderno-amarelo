@@ -197,7 +197,7 @@
   }
 
   const BENEFICIOS = [
-    ['Todos os jogos liberados', 'No Acha do 1 ao 25, da fase 7 à fase final. E cada jogo novo que chegar já vem liberado'],
+    ['Todos os jogos liberados', 'No Acha do 1 ao 25, da fase 4 à fase final. Nos 66 Desafios, do 4º ao último. E cada jogo novo que chegar já vem liberado'],
     ['Desafios dos dias anteriores', 'Perdeu um desafio do dia? Joga qualquer um dos últimos 30 dias'],
     ['Card dourado', 'Teu resultado com moldura dourada e selo Premium pros stories'],
     ['66 Desafios liberados', 'Os enigmas e pegadinhas do jogo completo, sem pagar de novo'],
@@ -236,7 +236,7 @@
         miolo.innerHTML = `
           <span class="selo-premium">★ Premium</span>
           <h1>Caderno Premium</h1>
-          <p>As 6 primeiras fases e o desafio do dia são de graça pra sempre. O Premium é pra quem quer ir até o fim:</p>
+          <p>Em cada jogo, os 3 primeiros níveis e o desafio do dia são de graça pra sempre. O Premium é pra quem quer ir até o fim:</p>
           <ul class="beneficios">
             ${BENEFICIOS.map(([t, d]) => `<li><strong>${t}</strong><span>${d}</span></li>`).join('')}
           </ul>
