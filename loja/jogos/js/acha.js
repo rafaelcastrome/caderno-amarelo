@@ -271,6 +271,13 @@
       const ultima = !Object.keys(duelo.tempos).some(f => +f > fase.num);
       placar = (ultima ? 'Fim do duelo! ' : 'Placar do duelo: ') + `tu ${pl.eu} x ${pl.ele} teu amigo`;
     }
+    const dadosCard = {
+        jogo: 'Acha do 1 ao 25',
+        linha1: ehDia ? (ehHoje ? 'Desafio do dia · ' : 'Desafio de ') + CA.fmtData(data) : `Fase ${fase.num} · ${fase.nome}`,
+        valor: txtT.replace(' s', 's'), estrelas, cor: '#1d4ed8', quadro, tentativa: naTentativa(tent),
+        regra: fase.regras.length ? descFase(fase) : '',
+        comoJoga: 'Toca os números em ordem, o mais rápido que tu conseguir',
+    };
     palco.innerHTML = '';
     palco.appendChild(CA.resultado({
       titulo: ehDia ? (ehHoje ? 'Desafio do dia em' : 'Desafio de ' + CA.fmtData(data) + ' em') : `Fase ${fase.num} em`,
@@ -287,23 +294,17 @@
           : `Passei ${nMinhas > 1 ? nMinhas + ' fases' : 'a fase 1'} do Acha do 1 ao 25 😎 Duvido tu bater meus tempos em todas!`,
         url: CA.linkDesafio(ehDia ? 'acha' : 'fase', linkParams),
       },
-      card: {
-        jogo: 'Acha do 1 ao 25',
-        linha1: ehDia ? (ehHoje ? 'Desafio do dia · ' : 'Desafio de ') + CA.fmtData(data) : `Fase ${fase.num} · ${fase.nome}`,
-        valor: txtT.replace(' s', 's'), estrelas, cor: '#1d4ed8', quadro, tentativa: naTentativa(tent),
-        regra: fase.regras.length ? descFase(fase) : '',
-        comoJoga: 'Toca os números em ordem, o mais rápido que tu conseguir',
-      },
+      card: dadosCard,
       jogarDeNovo: rejogar,
     }));
-    if (ehDia) caixaRanking(palco, 'dia:' + data, '#/ranking?d=' + data, 'Ranking de hoje', envio);
-    else if (fase.num <= GRATIS) caixaRanking(palco, 'fase:' + fase.num, '#/ranking?aba=f' + fase.num, 'Ranking da fase ' + fase.num, envio);
+    if (ehDia) caixaRanking(palco, 'dia:' + data, '#/ranking?d=' + data, 'Ranking de hoje', envio, dadosCard);
+    else if (fase.num <= GRATIS) caixaRanking(palco, 'fase:' + fase.num, '#/ranking?aba=f' + fase.num, 'Ranking da fase ' + fase.num, envio, dadosCard);
     const res = palco.querySelector('.resultado');
     if (res && CA.cardsJogos) res.appendChild(CA.el(`<div class="outros-jogos"><h2 class="secao">Todos os jogos</h2>${CA.cardsJogos('acha')}</div>`));
   }
 
   // No resultado (desafio do dia e fases grátis): tua posição e o top 3, ou o convite pra entrar no ranking.
-  function caixaRanking(palco, chave, href, titulo, envio) {
+  function caixaRanking(palco, chave, href, titulo, envio, card) {
     const folha = palco.querySelector('.folha');
     if (!folha || !CA.verRanking) return;
     const cx = CA.el(`<a class="podio res-ranking" href="${href}" hidden></a>`);
@@ -314,6 +315,8 @@
       return;
     }
     envio.then(() => CA.verRanking(chave)).then(d => {
+      // a colocação vai pra arte dos stories
+      if (d.meu && card) card.ranking = { pos: d.meu.pos, txt: chave.startsWith('dia:') ? 'LUGAR HOJE' : 'NA FASE ' + chave.slice(5) };
       if (!cx.isConnected) return;
       cx.innerHTML = `
         <div class="cab-ranking"><strong>${d.meu ? 'Tu tá em ' + d.meu.pos + 'º lugar' : titulo}</strong><span>${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}</span></div>

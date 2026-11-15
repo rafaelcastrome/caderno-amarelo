@@ -199,7 +199,7 @@
 
   // Card original de cada partida: tempo, estrelas, a grade que a pessoa jogou com o
   // caminho da caneta passando pelos números na ordem, e o link + como jogar no rodapé.
-  CA.gerarCard = async function ({ jogo, linha1, valor, linha3, cor, estrelas, quadro, regra, comoJoga, tentativa }) {
+  CA.gerarCard = async function ({ jogo, linha1, valor, linha3, cor, estrelas, quadro, regra, comoJoga, tentativa, ranking }) {
     await carregarFonte();
     const W = 1080, H = 1920;
     const c = document.createElement('canvas');
@@ -232,8 +232,9 @@
     g.fillStyle = '#55555c'; caber(linha1, 64, 900); g.fillText(linha1, 540, 352);
 
     // tempo grande com sombra de caneta + estrelas
-    g.font = F(230); g.fillStyle = '#1f1f24'; g.fillText(valor, 548, 553);
-    g.fillStyle = cor || '#d62828'; g.fillText(valor, 540, 545);
+    const comMedalha = !!(ranking && ranking.pos), vx = comMedalha ? 560 : 540; // com medalha, o tempo fica um pouco menor pra caber entre o carimbo e a medalha
+    g.font = F(comMedalha ? 196 : 230); g.fillStyle = '#1f1f24'; g.fillText(valor, vx + 8, 553);
+    g.fillStyle = cor || '#d62828'; g.fillText(valor, vx, 545);
     let y = 600;
     if (estrelas != null) {
       const est = (cx, cy, r, cheia) => {
@@ -263,10 +264,22 @@
       g.fillStyle = '#d62828'; g.fillText(txt, 0, 12);
       g.restore();
     }
+    // medalha com a colocação no ranking (só quem tem conta e entrou no ranking)
+    if (ranking && ranking.pos) {
+      const med = ranking.pos === 1 ? '#ffd23f' : ranking.pos === 2 ? '#d9dde3' : ranking.pos === 3 ? '#e8a46a' : '#ffffff';
+      g.save(); g.translate(910, 470); g.rotate(0.12);
+      g.beginPath(); g.arc(0, 0, 94, 0, Math.PI * 2); g.fillStyle = med; g.fill();
+      g.lineWidth = 7; g.strokeStyle = '#1f1f24'; g.stroke();
+      g.fillStyle = '#1f1f24'; g.font = F(ranking.pos > 99 ? 66 : 88); g.fillText(ranking.pos + 'º', 0, 18);
+      g.font = F(26); g.fillText(ranking.txt || 'NO RANKING', 0, 56);
+      g.restore();
+    }
     if (ouro) {
-      g.save(); g.translate(850, 420); g.rotate(0.18);
-      g.fillStyle = '#c99a1b'; g.fillRect(-150, -42, 300, 70);
-      g.fillStyle = '#fff'; g.font = F(52); g.fillText('★ PREMIUM', 0, 10);
+      const comMed = ranking && ranking.pos;
+      g.save(); g.translate(comMed ? 175 : 850, comMed ? 560 : 420); g.rotate(comMed ? -0.12 : 0.18);
+      const bw = comMed ? 240 : 300;
+      g.fillStyle = '#c99a1b'; g.fillRect(-bw / 2, -42, bw, 70);
+      g.fillStyle = '#fff'; g.font = F(comMed ? 44 : 52); g.fillText('★ PREMIUM', 0, 10);
       g.restore();
     }
 

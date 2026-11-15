@@ -68,10 +68,11 @@
   }
 
   // ranking de estrelas de um jogo (ou geral, sem jogo), preenchido quando chega do servidor
-  CA.caixaRankingEstrelas = function (alvo, jogoId, titulo, href) {
+  CA.caixaRankingEstrelas = function (alvo, jogoId, titulo, href, card) {
     if (!CA.chamar) return;
     const c = CA.conta && CA.conta();
     CA.chamar('jogo-ranking', { acao: 'estrelas', jogo: jogoId || null, token: c && c.token }).then(d => {
+      if (card && d.meu) card.ranking = { pos: d.meu.pos, txt: 'NO RANKING' };
       if (!alvo.isConnected) return;
       const linha = r => `<li class="lr ${r.eu ? 'eu' : ''}">${r.pos <= 3 ? `<span class="medalha">${['🥇', '🥈', '🥉'][r.pos - 1]}</span>` : `<span class="pos">${r.pos}º</span>`}
         <span class="nome">${String(r.nome).replace(/[<>&"]/g, '')}${r.ok ? ' <i class="ok" aria-label="@ confirmado">✓</i>' : ''}${r.eu ? ' <small>(tu)</small>' : ''}</span>
@@ -147,7 +148,7 @@
     const folha = palco.querySelector('.folha');
     const cx = CA.el('<a class="podio res-ranking" hidden></a>');
     folha.after(cx);
-    CA.caixaRankingEstrelas(cx, j.id, 'Ranking de ' + j.nome, '#/ranking?jogo=' + j.id);
+    setTimeout(() => CA.caixaRankingEstrelas(cx, j.id, 'Ranking de ' + j.nome, '#/ranking?jogo=' + j.id, r.card), 1500); // espera o progresso subir pra conta
     palco.querySelector('.resultado').appendChild(CA.el(`<div class="outros-jogos"><h2 class="secao">Todos os jogos</h2>${CA.cardsJogos(j.id)}</div>`));
   };
 })();
