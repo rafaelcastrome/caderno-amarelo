@@ -47,10 +47,12 @@ marca = ("drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf
          "x='40+(w-tw-80)*(0.5+0.5*sin(t/9))':y='330+(h*0.3)*(0.5+0.5*sin(t/13+1))'")
 fc = (f"[1:v]format=rgba,fade=t=out:st={T1 - 0.6}:d=0.6:alpha=1[ti];"
       f"[0:v][ti]overlay=x=0:y=60:enable='lt(t,{T1})'[v1];"
-      f"[v1]ass=legenda.ass,{marca}[v]")
+      f"[3:v]format=rgba,fade=t=in:st={DUR - 4.5}:d=0.4:alpha=1[ct];"
+      f"[v1][ct]overlay=x=0:y=110:enable='gte(t,{DUR - 4.5})'[v2];"
+      f"[v2]ass=legenda.ass,{marca}[v]")
 br = int((9.2 * 8 * 1024) / DUR - 96)
 for passo in (1, 2):
-    cmd = ['ffmpeg', '-v', 'error', '-y', '-i', 'video.mp4', '-loop', '1', '-t', str(DUR), '-i', 'titulo.png', '-i', 'audio.wav', '-filter_complex', fc, '-map', '[v]',
+    cmd = ['ffmpeg', '-v', 'error', '-y', '-i', 'video.mp4', '-loop', '1', '-t', str(DUR), '-i', 'titulo.png', '-i', 'audio.wav', '-loop', '1', '-t', str(DUR), '-i', 'cta.png', '-filter_complex', fc, '-map', '[v]',
            '-c:v', 'libx264', '-preset', 'slow', '-b:v', f'{br}k', '-pass', str(passo), '-passlogfile', '/tmp/claude-0/rf']
     cmd += (['-an', '-f', 'mp4', '/dev/null'] if passo == 1 else ['-map', '2:a', '-c:a', 'aac', '-b:a', '96k', '-shortest', '-movflags', '+faststart', 'rios_ferveram.mp4'])
     subprocess.run(cmd, check=True)
