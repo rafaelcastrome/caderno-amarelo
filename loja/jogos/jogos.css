@@ -171,3 +171,46 @@ button { font: inherit; color: inherit; }
 .aviso.some { opacity: 0; }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* ---------- Caderno Premium ---------- */
+:root { --ouro: #c99a1b; --ouro-claro: #fff4cc; }
+.btn-impossivel { margin-top: 12px; flex-direction: column; gap: 2px; background: var(--tinta); color: #fff; text-decoration: none; }
+.btn-impossivel small { font-weight: 600; font-size: 13px; opacity: .8; }
+.nivel-premium { grid-column: 1 / -1; background: var(--ouro-claro); border-color: var(--ouro); }
+.folha-ouro { border-color: var(--ouro); box-shadow: 5px 6px 0 var(--ouro); }
+.folha-ouro::after { content: '★ PREMIUM'; position: absolute; top: 12px; right: 12px; font-size: 11px; font-weight: 900; letter-spacing: .06em; color: #fff; background: var(--ouro); padding: 2px 8px; border-radius: 999px; }
+.chamada-premium { display: grid; gap: 4px; margin-top: 16px; padding: 14px 16px; border: 2px solid var(--ouro); border-radius: 16px; background: var(--ouro-claro); text-decoration: none; box-shadow: 3px 3px 0 var(--ouro); }
+.chamada-premium strong { font-family: var(--mao); font-size: 28px; line-height: 1; }
+.chamada-premium span { font-size: 14px; color: var(--tinta-suave); }
+.arquivo { display: flex; gap: 10px; overflow-x: auto; padding: 4px 2px 10px; scroll-snap-type: x mandatory; }
+.dia-antigo { flex: none; scroll-snap-align: start; width: 112px; padding: 10px; background: var(--papel-claro); border: 2px solid var(--tinta); border-top: 6px solid var(--cor); border-radius: 12px; text-decoration: none; display: grid; gap: 2px; position: relative; }
+.dia-antigo b { font-family: var(--mao); font-size: 26px; line-height: 1; }
+.dia-antigo span { font-size: 12px; color: var(--tinta-suave); line-height: 1.2; }
+.dia-antigo i { position: absolute; top: 6px; right: 6px; font-style: normal; font-size: 14px; }
+.premium h1 { margin-top: 12px; }
+.selo-premium { display: inline-block; margin-top: 16px; font-weight: 900; font-size: 13px; letter-spacing: .06em; color: #fff; background: var(--ouro); padding: 3px 10px; border-radius: 999px; }
+.beneficios { list-style: none; display: grid; gap: 10px; margin: 6px 0 18px; }
+.beneficios li { padding: 10px 12px 10px 40px; background: #fff; border: 2px solid var(--tinta); border-radius: 14px; position: relative; display: grid; }
+.beneficios li::before { content: '★'; position: absolute; left: 12px; top: 9px; color: var(--ouro); font-size: 20px; }
+.beneficios strong { font-weight: 800; }
+.beneficios span { font-size: 14px; color: var(--tinta-suave); }
+.preco { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+.preco strong { font-family: var(--mao); font-size: 52px; line-height: 1; color: var(--vermelho); }
+.preco span { font-weight: 700; color: var(--tinta-suave); }
+.form-premium, #form-codigo { display: grid; gap: 8px; }
+.form-premium label, #form-codigo label { font-weight: 800; font-size: 14px; }
+.form-premium input, #form-codigo input { font: inherit; font-size: 17px; padding: 12px 14px; border: 2px solid var(--tinta); border-radius: 12px; background: var(--papel-claro); color: var(--tinta); width: 100%; }
+.form-premium input:focus-visible, #form-codigo input:focus-visible, .btn:focus-visible, a:focus-visible { outline: 3px solid var(--azul); outline-offset: 2px; }
+.erro-form { color: var(--vermelho); font-weight: 700; font-size: 14px; }
+.ja-comprei { margin-top: 18px; padding: 12px 14px; border: 2px dashed var(--tinta); border-radius: 14px; background: rgba(255,255,255,.6); }
+.ja-comprei summary { font-weight: 800; cursor: pointer; }
+.ja-comprei form { margin-top: 10px; }
+.nota { margin-top: 16px; font-size: 13px; color: var(--tinta-suave); }
+.codigo-caixa { display: grid; gap: 8px; padding: 14px; background: #fff; border: 2px solid var(--ouro); border-radius: 14px; margin: 6px 0 16px; }
+.codigo-caixa small { color: var(--tinta-suave); font-weight: 700; }
+.codigo-caixa code { font-size: 14px; word-break: break-all; background: var(--ouro-claro); padding: 8px; border-radius: 8px; user-select: all; }
+.qr { width: min(260px, 70vw); aspect-ratio: 1; margin: 6px auto 14px; display: block; border: 2px solid var(--tinta); border-radius: 12px; background: #fff; padding: 8px; }
+.copia-cola { width: 100%; font: 12px/1.4 ui-monospace, monospace; padding: 10px; border: 2px solid var(--tinta); border-radius: 12px; background: var(--papel-claro); resize: none; margin-bottom: 10px; color: var(--tinta); }
+.esperando { margin-top: 14px; text-align: center; font-weight: 700; color: var(--tinta-suave); }
+.pontinho { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--verde); margin-right: 6px; animation: pisca 1s infinite; }
+@keyframes pisca { 50% { opacity: .2; } }

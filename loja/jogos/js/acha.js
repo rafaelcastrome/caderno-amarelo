@@ -14,6 +14,7 @@
     { n: 4, nome: 'Fácil', desc: '1 ao 16' },
     { n: 5, nome: 'Igual ao vídeo', desc: '1 ao 25' },
     { n: 6, nome: 'Difícil', desc: '1 ao 36' },
+    { n: 7, nome: 'Impossível', desc: '1 ao 49', premium: true },
   ];
   const PENALIDADE = 1; // segundos por toque errado
 
@@ -28,15 +29,19 @@
     },
     iniciar(palco, p) {
       let vivo = true, raf = 0;
-      const doDia = p.d === '1';
+      const dataDia = CA.dataDoDesafio(p);
+      if (dataDia === false) return;
+      const doDia = !!dataDia, ehHoje = dataDia === CA.hojeBR();
+      const imp = p.m === 'x';
+      if (imp && !CA.ehPremium()) { location.hash = '#/premium'; return; }
       const amigo = p.v ? parseFloat(p.v) : null;
       const fixo = p.s != null;
 
-      if (doDia) jogar(5, CA.sementeDoDia('acha'));
+      if (doDia) jogar(5, CA.sementeDoDia('acha', dataDia));
       else if (fixo) jogar(clampN(+p.n || 5), +p.s >>> 0);
       else escolherNivel();
 
-      function clampN(n) { return Math.min(6, Math.max(3, n)); }
+      function clampN(n) { return Math.min(CA.ehPremium() ? 7 : 6, Math.max(3, n)); }
 
       function escolherNivel() {
         palco.innerHTML = '';
@@ -49,13 +54,15 @@
             <div class="niveis">
               ${NIVEIS.map(nv => {
                 const r = CA.ler('rec:acha' + nv.n, null);
-                return `<button class="nivel ${nv.n === ult ? 'atual' : ''}" data-n="${nv.n}">
-                  <strong>${nv.n}x${nv.n}</strong><span>${nv.nome}</span><small>${nv.desc}${r != null ? ' · recorde ' + CA.fmtSeg(r) : ''}</small>
+                const tranca = nv.premium && !CA.ehPremium();
+                return `<button class="nivel ${nv.n === ult ? 'atual' : ''} ${nv.premium ? 'nivel-premium' : ''}" data-n="${nv.n}" data-tranca="${tranca ? 1 : ''}">
+                  <strong>${nv.n}x${nv.n}${tranca ? ' 🔒' : ''}</strong><span>${nv.nome}</span><small>${nv.desc}${r != null ? ' · recorde ' + CA.fmtSeg(r) : ''}</small>
                 </button>`;
               }).join('')}
             </div>
           </section>`));
         palco.querySelectorAll('.nivel').forEach(b => b.addEventListener('click', () => {
+          if (b.dataset.tranca) { location.hash = '#/premium'; return; }
           const n = +b.dataset.n;
           CA.gravar('acha:nivel', n);
           jogar(n, CA.novaSemente());
@@ -78,7 +85,7 @@
               <div class="relogio">0,0 s</div>
             </div>
             ${amigo ? `<p class="meta-amigo">Teu amigo fez <b>${CA.fmtSeg(amigo)}</b>. Bate ele!</p>` : ''}
-            ${doDia ? '<p class="meta-amigo">Desafio do dia: a mesma grade pra todo mundo hoje</p>' : ''}
+            ${doDia ? `<p class="meta-amigo">${ehHoje ? 'Desafio do dia: a mesma grade pra todo mundo hoje' : 'Desafio do dia ' + CA.fmtData(dataDia)}</p>` : ''}
             <div class="grade" style="--n:${n}">
               ${nums.map((v, i) => `<button class="cel" data-v="${v}" style="--fundo:${cores[i][0]};--borda:${cores[i][1]};--giro:${giro[i]}deg">${v}</button>`).join('')}
             </div>
@@ -126,7 +133,7 @@
           const t = Math.round(tempo() * 10) / 10;
           const rec = CA.recorde('acha' + n, t, true);
           const txtT = CA.fmtSeg(t);
-          if (n === 5) CA.marcarDia('acha', txtT);
+          if (n === 5 && ehHoje) CA.marcarDia('acha', txtT);
           const recAtual = CA.ler('rec:acha' + n, t);
           setTimeout(() => {
             if (!vivo) return;

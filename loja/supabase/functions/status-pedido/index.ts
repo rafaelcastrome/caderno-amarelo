@@ -16,7 +16,7 @@ Deno.serve(async (req) => {
     if (pedido.status === 'pendente' && pedido.mp_order) pedido = (await sincronizarOrder(pedido.mp_order)) ?? pedido;
 
     if (pedido.status !== 'pago') return json({ status: pedido.status });
-    return json({ status: 'pago', download: await linkDownload(pedido.produto) });
+    return json({ status: 'pago', produto: pedido.produto, download: await linkDownload(pedido.produto) });
   } catch (e) {
     console.error(e);
     return json({ erro: 'Falha ao consultar o pedido.' }, 500);

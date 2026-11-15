@@ -11,7 +11,7 @@
     { id: 'amarelo', nome: 'AMARELO', hex: '#f2b705' },
     { id: 'roxo', nome: 'ROXO', hex: '#7c3aed' },
   ];
-  const DURACAO = 30, MULTA = 2, ROXO_APOS = 8;
+  const ROXO_APOS = 8;
 
   CA.jogos.cor = {
     nome: 'Fala a cor',
@@ -24,11 +24,16 @@
     },
     iniciar(palco, p) {
       let vivo = true, raf = 0;
-      const doDia = p.d === '1';
+      const dataDia = CA.dataDoDesafio(p);
+      if (dataDia === false) return;
+      const doDia = !!dataDia, ehHoje = dataDia === CA.hojeBR();
+      const imp = p.m === 'x';
+      if (imp && !CA.ehPremium()) { location.hash = '#/premium'; return; }
+      const DURACAO = imp ? 20 : 30, MULTA = imp ? 3 : 2;
       const amigo = p.v != null ? parseInt(p.v, 10) : null;
       const fixo = p.s != null;
 
-      if (doDia || fixo) jogar(doDia ? CA.sementeDoDia('cor') : (+p.s >>> 0));
+      if (doDia || fixo) jogar(doDia ? CA.sementeDoDia('cor', dataDia) : (+p.s >>> 0));
       else intro();
 
       function intro() {
@@ -42,6 +47,7 @@
             <div class="exemplo-cor"><span style="color:#d62828">AZUL</span> → toca no <i class="bola" style="background:#d62828"></i></div>
             <p class="pequeno">30 segundos. Errou, perde 2 segundos.${rec != null ? ` Teu recorde: <b>${rec}</b>.` : ''}</p>
             <button class="btn btn-grande" data-a="ir">Começar</button>
+            ${CA.botaoImpossivel('cor', '20 segundos, 5 cores e 3 segundos de multa')}
           </section>`));
         palco.querySelector('[data-a=ir]').addEventListener('click', () => jogar(CA.novaSemente()));
       }
@@ -54,11 +60,11 @@
             <div class="barra">
               <a class="voltar" href="#/" aria-label="Sair">‹</a>
               <div class="pontos"><b>0</b> acertos</div>
-              <div class="relogio">30 s</div>
+              <div class="relogio">${DURACAO} s</div>
             </div>
             <div class="tempo"><i></i></div>
             ${amigo != null ? `<p class="meta-amigo">Teu amigo fez <b>${amigo}</b>. Bate ele!</p>` : ''}
-            ${doDia ? '<p class="meta-amigo">Desafio do dia: a mesma sequência pra todo mundo hoje</p>' : ''}
+            ${doDia ? `<p class="meta-amigo">${ehHoje ? 'Desafio do dia: a mesma sequência pra todo mundo hoje' : 'Desafio do dia ' + CA.fmtData(dataDia)}</p>` : ''}
             <div class="cartao-palavra"><span class="palavra"></span><small class="combo"></small></div>
             <div class="botoes-cor"></div>
           </section>`);
@@ -70,7 +76,7 @@
         const elCombo = tela.querySelector('.combo');
         const caixa = tela.querySelector('.botoes-cor');
 
-        let pontos = 0, erros = 0, seguidos = 0, melhorSeq = 0, tinta = null, ativas = 4, ultimaPal = null;
+        let pontos = 0, erros = 0, seguidos = 0, melhorSeq = 0, tinta = null, ativas = imp ? 5 : 4, ultimaPal = null;
         function montarBotoes() {
           // ordem dos botões também sorteada, pra não decorar a posição
           const lista = r.shuffle(CORES.slice(0, ativas));
@@ -128,8 +134,8 @@
           cancelAnimationFrame(raf);
           tinta = null;
           elPal.textContent = 'TEMPO!'; elPal.style.color = '#1f1f24';
-          const rec = CA.recorde('cor', pontos, false);
-          CA.marcarDia('cor', pontos + ' acertos');
+          const rec = CA.recorde(imp ? 'corx' : 'cor', pontos, false);
+          if (ehHoje) CA.marcarDia('cor', pontos + ' acertos');
           setTimeout(() => {
             if (!vivo) return;
             palco.innerHTML = '';
@@ -138,14 +144,15 @@
               valorTxt: pontos + (pontos === 1 ? ' cor' : ' cores'),
               detalhe: `${erros} ${erros === 1 ? 'erro' : 'erros'} · melhor sequência: ${melhorSeq}`,
               recorde: rec,
-              recordeTxt: CA.ler('rec:cor', pontos) + ' acertos',
+              recordeTxt: CA.ler(imp ? 'rec:corx' : 'rec:cor', pontos) + ' acertos',
               amigo: amigo != null ? { valorTxt: amigo + ' acertos', ganhou: pontos > amigo } : null,
               desafio: {
-                texto: `Acertei ${pontos} cores em 30 segundos no Fala a cor 🧠 Duvido tu não se enrolar!`,
-                url: CA.linkDesafio('cor', { s: semente, v: pontos }),
+                texto: `Acertei ${pontos} cores em ${DURACAO} segundos no Fala a cor${imp ? ' (modo impossível)' : ''} 🧠 Duvido tu não se enrolar!`,
+                url: CA.linkDesafio('cor', imp ? { s: semente, v: pontos, m: 'x' } : { s: semente, v: pontos }),
               },
-              card: { jogo: 'Fala a cor', linha1: 'Acertei em 30 segundos', valor: String(pontos), linha3: 'Duvido tu não se enrolar! 👀', cor: '#15803d' },
+              card: { jogo: 'Fala a cor', linha1: imp ? 'Modo impossível: acertei' : 'Acertei em 30 segundos', valor: String(pontos), linha3: 'Duvido tu não se enrolar! 👀', cor: '#15803d' },
               jogarDeNovo: () => (fixo || doDia) ? (location.hash = '#/cor') : jogar(CA.novaSemente()),
+              imp,
             }));
           }, 900);
         }

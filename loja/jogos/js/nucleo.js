@@ -38,11 +38,28 @@
     const d = new Date(Date.now() - 3 * 3600e3);
     return d.toISOString().slice(0, 10); // AAAA-MM-DD
   };
-  CA.sementeDoDia = function (extra) {
-    const s = CA.hojeBR() + '|' + (extra || '');
+  CA.sementeDoDia = function (extra, data) {
+    const s = (data || CA.hojeBR()) + '|' + (extra || '');
     let h = 2166136261;
     for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619);
     return h >>> 0;
+  };
+
+  // Qual jogo é o desafio de um dia (roda entre os jogos, um por dia).
+  CA.ORDEM = ['acha', 'cor', 'rapido'];
+  CA.jogoDoDia = function (data) {
+    const dia = Math.floor(Date.parse((data || CA.hojeBR()) + 'T12:00:00Z') / 864e5);
+    return CA.ORDEM[dia % CA.ORDEM.length];
+  };
+  CA.fmtData = d => d.slice(8, 10) + '/' + d.slice(5, 7);
+  // Lê o parâmetro d da rota: '1' = hoje, 'AAAA-MM-DD' = dia anterior (só Premium).
+  // Devolve a data, null (não é desafio do dia) ou false (bloqueado: já mandou pro Premium).
+  CA.dataDoDesafio = function (p) {
+    if (!p.d) return null;
+    if (p.d === '1') return CA.hojeBR();
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(p.d) || p.d >= CA.hojeBR()) return CA.hojeBR();
+    if (!CA.ehPremium()) { location.hash = '#/premium'; return false; }
+    return p.d;
   };
 
   // ---------- guardar no celular (pode falhar em aba anônima) ----------
@@ -62,6 +79,20 @@
     const bateu = antigo == null || (menorMelhor ? valor < antigo : valor > antigo);
     if (bateu) CA.gravar('rec:' + chave, valor);
     return { antigo, bateu };
+  };
+
+  // ---------- Caderno Premium ----------
+  // Liberado neste celular quando o Pix é pago. O código (número do pedido) libera em outro celular.
+  CA.ehPremium = () => !!(CA.ler('premium', null) || {}).pedido;
+  CA.ativarPremium = function (pedido) {
+    CA.gravar('premium', { pedido, desde: new Date().toISOString() });
+    // também libera os 66 Desafios (mesmo endereço, mesma chave que o jogo usa)
+    try { localStorage.setItem('desafios:jogo', JSON.stringify({ isPremium: true })); } catch (e) {}
+  };
+  CA.botaoImpossivel = function (jogo, desc) {
+    const ok = CA.ehPremium();
+    return `<a class="btn btn-grande btn-impossivel" href="${ok ? '#/' + jogo + '?m=x' : '#/premium'}">
+      Modo impossível ${ok ? '' : '🔒'}<small>${desc}</small></a>`;
   };
 
   // ---------- sons (curtinhos, gerados na hora) ----------
@@ -179,6 +210,11 @@
       g.strokeStyle = y % 216 === 0 ? 'rgba(70,130,200,.26)' : 'rgba(70,130,200,.14)';
       g.lineWidth = 2; g.beginPath(); g.moveTo(0, y); g.lineTo(1080, y); g.stroke();
     }
+    const ouro = CA.ehPremium();
+    if (ouro) {
+      g.strokeStyle = '#c99a1b'; g.lineWidth = 26; g.strokeRect(30, 30, 1020, 1860);
+      g.strokeStyle = '#ffd23f'; g.lineWidth = 8; g.strokeRect(62, 62, 956, 1796);
+    }
     // margem vermelha
     g.strokeStyle = 'rgba(214,40,40,.55)'; g.lineWidth = 4;
     g.beginPath(); g.moveTo(130, 0); g.lineTo(130, 1920); g.stroke();
@@ -200,6 +236,12 @@
     g.beginPath(); g.moveTo(250, 1080); g.quadraticCurveTo(540, 1050, 830, 1086); g.stroke();
 
     g.fillStyle = '#1f1f24'; g.font = F(96); g.fillText(linha3 || 'Duvido tu bater! 👀', 540, 1290);
+    if (ouro) {
+      g.save(); g.translate(540, 1450); g.rotate(-0.05);
+      g.fillStyle = '#c99a1b'; g.fillRect(-260, -60, 520, 96);
+      g.fillStyle = '#fff'; g.font = F(70); g.fillText('★ PREMIUM ★', 0, 10);
+      g.restore();
+    }
     g.font = F(70); g.fillStyle = '#55555c'; g.fillText('joga de graça no link da bio', 540, 1600);
     g.font = F(92); g.fillStyle = '#1f1f24'; g.fillText('@Cardeno_Amarelo', 540, 1720);
     return c;
@@ -237,7 +279,7 @@
       : (r.recordeTxt ? `<div class="recorde">Teu recorde: ${r.recordeTxt}</div>` : '');
     const tela = CA.el(`
       <section class="resultado">
-        <div class="folha">
+        <div class="folha ${CA.ehPremium() ? 'folha-ouro' : ''}">
           <p class="res-titulo">${r.titulo}</p>
           <p class="res-valor">${r.valorTxt}</p>
           ${r.detalhe ? `<p class="res-detalhe">${r.detalhe}</p>` : ''}
@@ -250,9 +292,12 @@
           <button class="btn btn-grande btn-claro" data-a="denovo">Jogar de novo</button>
           <a class="link-voltar" href="#/">Ver os outros jogos</a>
         </div>
-        <a class="mais-desafios" href="../desafios.html">
-          <strong>Curtiu?</strong> Tem mais 66 desafios que enganam o teu cérebro →
-        </a>
+        ${CA.ehPremium() ? `<a class="mais-desafios" href="../desafios.html">
+          <strong>Teus 66 Desafios tão liberados.</strong> Bora? →
+        </a>` : `<a class="chamada-premium" href="#/premium">
+          <strong>Caderno Premium</strong>
+          <span>Modo impossível, desafios dos dias anteriores, card dourado e os 66 Desafios. R$ 9,90 uma vez só.</span>
+        </a>`}
       </section>`);
     tela.addEventListener('click', e => {
       const b = e.target.closest('[data-a]');

@@ -4,7 +4,6 @@
 (function () {
   'use strict';
   const CA = window.CA;
-  const DURACAO = 30, MULTA = 2;
 
   // [frase, é certo?]
   const PEGADINHAS = [
@@ -88,11 +87,16 @@
     },
     iniciar(palco, p) {
       let vivo = true, raf = 0;
-      const doDia = p.d === '1';
+      const dataDia = CA.dataDoDesafio(p);
+      if (dataDia === false) return;
+      const doDia = !!dataDia, ehHoje = dataDia === CA.hojeBR();
+      const imp = p.m === 'x';
+      if (imp && !CA.ehPremium()) { location.hash = '#/premium'; return; }
+      const DURACAO = imp ? 20 : 30, MULTA = imp ? 3 : 2;
       const amigo = p.v != null ? parseInt(p.v, 10) : null;
       const fixo = p.s != null;
 
-      if (doDia || fixo) jogar(doDia ? CA.sementeDoDia('rapido') : (+p.s >>> 0));
+      if (doDia || fixo) jogar(doDia ? CA.sementeDoDia('rapido', dataDia) : (+p.s >>> 0));
       else intro();
 
       function intro() {
@@ -105,6 +109,7 @@
             <p>Vai aparecer uma conta ou uma frase. Tu responde <b>CERTO</b> ou <b>ERRADO</b>, o mais rápido possível. Cuidado com as pegadinhas!</p>
             <p class="pequeno">30 segundos. Errou, perde 2 segundos.${rec != null ? ` Teu recorde: <b>${rec}</b>.` : ''}</p>
             <button class="btn btn-grande" data-a="ir">Começar</button>
+            ${CA.botaoImpossivel('rapido', '20 segundos, contas difíceis desde o começo e 3 segundos de multa')}
           </section>`));
         palco.querySelector('[data-a=ir]').addEventListener('click', () => jogar(CA.novaSemente()));
       }
@@ -118,11 +123,11 @@
             <div class="barra">
               <a class="voltar" href="#/" aria-label="Sair">‹</a>
               <div class="pontos"><b>0</b> acertos</div>
-              <div class="relogio">30 s</div>
+              <div class="relogio">${DURACAO} s</div>
             </div>
             <div class="tempo"><i></i></div>
             ${amigo != null ? `<p class="meta-amigo">Teu amigo fez <b>${amigo}</b>. Bate ele!</p>` : ''}
-            ${doDia ? '<p class="meta-amigo">Desafio do dia: as mesmas perguntas pra todo mundo hoje</p>' : ''}
+            ${doDia ? `<p class="meta-amigo">${ehHoje ? 'Desafio do dia: as mesmas perguntas pra todo mundo hoje' : 'Desafio do dia ' + CA.fmtData(dataDia)}</p>` : ''}
             <div class="cartao-pergunta"><span class="pergunta"></span></div>
             <div class="botoes-sn">
               <button class="sn sn-certo" data-r="1">CERTO</button>
@@ -143,7 +148,7 @@
           if (n >= 4 && pi < pool.length && r() < 0.34) {
             const [txt, certo] = pool[pi++];
             atual = { txt, certo };
-          } else atual = gerarConta(r, n);
+          } else atual = gerarConta(r, imp ? n + 10 : n);
           elQ.textContent = atual.txt;
           elQ.classList.toggle('longa', atual.txt.length > 22);
           elCartao.classList.remove('entra'); void elCartao.offsetWidth; elCartao.classList.add('entra');
@@ -185,24 +190,25 @@
           cancelAnimationFrame(raf);
           atual = null;
           elQ.textContent = 'TEMPO!';
-          const rec = CA.recorde('rapido', pontos, false);
-          CA.marcarDia('rapido', pontos + ' acertos');
+          const rec = CA.recorde(imp ? 'rapidox' : 'rapido', pontos, false);
+          if (ehHoje) CA.marcarDia('rapido', pontos + ' acertos');
           setTimeout(() => {
             if (!vivo) return;
             palco.innerHTML = '';
             palco.appendChild(CA.resultado({
               titulo: 'Tu acertou',
               valorTxt: pontos + (pontos === 1 ? ' resposta' : ' respostas'),
-              detalhe: `${erros} ${erros === 1 ? 'erro' : 'erros'} em 30 segundos`,
+              detalhe: `${erros} ${erros === 1 ? 'erro' : 'erros'} em ${DURACAO} segundos`,
               recorde: rec,
-              recordeTxt: CA.ler('rec:rapido', pontos) + ' acertos',
+              recordeTxt: CA.ler(imp ? 'rec:rapidox' : 'rec:rapido', pontos) + ' acertos',
               amigo: amigo != null ? { valorTxt: amigo + ' acertos', ganhou: pontos > amigo } : null,
               desafio: {
-                texto: `Acertei ${pontos} no Responde rápido em 30 segundos ⏱️ Duvido tu cair em menos pegadinha!`,
-                url: CA.linkDesafio('rapido', { s: semente, v: pontos }),
+                texto: `Acertei ${pontos} no Responde rápido${imp ? ' (modo impossível)' : ''} em ${DURACAO} segundos ⏱️ Duvido tu cair em menos pegadinha!`,
+                url: CA.linkDesafio('rapido', imp ? { s: semente, v: pontos, m: 'x' } : { s: semente, v: pontos }),
               },
-              card: { jogo: 'Responde rápido', linha1: 'Acertei em 30 segundos', valor: String(pontos), linha3: 'Duvido tu não cair na pegadinha!', cor: '#d62828' },
+              card: { jogo: 'Responde rápido', linha1: imp ? 'Modo impossível: acertei' : 'Acertei em 30 segundos', valor: String(pontos), linha3: 'Duvido tu não cair na pegadinha!', cor: '#d62828' },
               jogarDeNovo: () => (fixo || doDia) ? (location.hash = '#/rapido') : jogar(CA.novaSemente()),
+              imp,
             }));
           }, 900);
         }
