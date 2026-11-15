@@ -76,40 +76,55 @@
     return { txt, certo };
   }
 
+  // níveis: [segundos, dificuldade das contas, multa, pegadinhas?, acertos pra 1/2/3 estrelas]
+  const NIV = [
+    [30, 1, 2, false, [10, 14, 18]],
+    [30, 3, 2, true, [10, 14, 18]],
+    [25, 5, 2, true, [9, 13, 16]],
+    [30, 8, 2, true, [10, 14, 17]],
+    [25, 10, 2, true, [9, 12, 15]],
+    [25, 12, 3, true, [9, 12, 15]],
+    [20, 12, 3, true, [8, 11, 14]],
+    [20, 14, 3, true, [8, 11, 14]],
+    [20, 16, 3, true, [9, 12, 15]],
+    [15, 18, 3, true, [7, 10, 12]],
+  ];
+
+  const jogo = CA.registrarJogo({
+    id: 'rapido', nome: 'Responde rápido', icone: '⏱️', cor: '#15803d', total: NIV.length,
+    desc: 'Certo ou errado? Contas e pegadinhas contra o relógio.',
+    href: n => '#/rapido?n=' + n,
+  });
+
   CA.jogos.rapido = {
     nome: 'Responde rápido',
-    desc: 'Certo ou errado? Contas e pegadinhas em 30 segundos.',
-    cor: '#15803d',
-    icone: '<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="26" r="17" fill="#dcfce7" stroke="#1f1f24" stroke-width="3"/><path d="M24 26V15M24 26l7 5" stroke="#1f1f24" stroke-width="3" stroke-linecap="round"/><rect x="19" y="3" width="10" height="6" rx="2" fill="#1f1f24"/></svg>',
-    recordeTxt: () => {
-      const r = CA.ler('rec:rapido', null);
-      return r == null ? '' : r + ' acertos';
-    },
     iniciar(palco, p) {
       let vivo = true, raf = 0;
-      const dataDia = CA.dataDoDesafio(p);
-      if (dataDia === false) return;
-      const doDia = !!dataDia, ehHoje = dataDia === CA.hojeBR();
-      const imp = p.m === 'x';
-      if (imp && !CA.ehPremium()) { location.hash = '#/premium'; return; }
-      const DURACAO = imp ? 20 : 30, MULTA = imp ? 3 : 2;
+      const n = Math.max(1, Math.min(+p.n || jogo.proximo(), NIV.length));
       const amigo = p.v != null ? parseInt(p.v, 10) : null;
-      const fixo = p.s != null;
-
-      if (doDia || fixo) jogar(doDia ? CA.sementeDoDia('rapido', dataDia) : (+p.s >>> 0));
-      else intro();
+      const deAmigo = p.s != null;
+      if (!jogo.liberado(n) && !(deAmigo && n <= CA.NIVEIS_GRATIS)) {
+        if (n > CA.NIVEIS_GRATIS && !jogo.acesso()) CA.telaNivelTrancado(palco, jogo, n);
+        else location.hash = jogo.href(jogo.proximo());
+        return null;
+      }
+      const [DURACAO, DIF, MULTA, PEGA, ALVO] = NIV[n - 1];
+      if (deAmigo) jogar(+p.s >>> 0); else intro();
 
       function intro() {
         palco.innerHTML = '';
-        const rec = CA.ler('rec:rapido', null);
         palco.appendChild(CA.el(`
           <section class="intro">
-            <a class="voltar" href="#/" aria-label="Voltar">‹</a>
+            <a class="voltar" href="#/jogo?id=rapido" aria-label="Voltar">‹</a>
+            <span class="nivel-tag">Responde rápido · nível ${n} de ${NIV.length}</span>
             <h1>Responde rápido</h1>
-            <p>Vai aparecer uma conta ou uma frase. Tu responde <b>CERTO</b> ou <b>ERRADO</b>, o mais rápido possível. Cuidado com as pegadinhas!</p>
-            <p class="pequeno">30 segundos. Errou, perde 2 segundos.${rec != null ? ` Teu recorde: <b>${rec}</b>.` : ''}</p>
-            <button class="btn btn-grande" data-a="ir">Começar</button>
-            ${CA.botaoImpossivel('rapido', '20 segundos, contas difíceis desde o começo e 3 segundos de multa')}
+            <p>Vai aparecer uma conta${PEGA ? ' ou uma frase' : ''}. Tu responde <b>CERTO</b> ou <b>ERRADO</b>, o mais rápido possível.${PEGA ? ' Cuidado com as pegadinhas!' : ''}</p>
+            <ul class="regras-nivel">
+              <li><b>${DURACAO} segundos</b>${DIF >= 4 ? ', com vezes, metade, dobro e vírgula' : ', só somar e diminuir'}</li>
+              <li>Errou, perde ${MULTA} segundos</li>
+              <li>★ ${ALVO[0]} acertos · ★★ ${ALVO[1]} · ★★★ ${ALVO[2]}</li>
+            </ul>
+            <button class="btn btn-grande" data-a="ir">Começar o nível ${n}</button>
           </section>`));
         palco.querySelector('[data-a=ir]').addEventListener('click', () => jogar(CA.novaSemente()));
       }
@@ -121,13 +136,12 @@
         const tela = CA.el(`
           <section class="jogo jogo-rapido">
             <div class="barra">
-              <a class="voltar" href="#/" aria-label="Sair">‹</a>
-              <div class="pontos"><b>0</b> acertos</div>
+              <a class="voltar" href="#/jogo?id=rapido" aria-label="Sair">‹</a>
+              <div class="pontos"><b>0</b> / ${ALVO[0]}</div>
               <div class="relogio">${DURACAO} s</div>
             </div>
             <div class="tempo"><i></i></div>
-            ${amigo != null ? `<p class="meta-amigo">Teu amigo fez <b>${amigo}</b>. Bate ele!</p>` : ''}
-            ${doDia ? `<p class="meta-amigo">${ehHoje ? 'Desafio do dia: as mesmas perguntas pra todo mundo hoje' : 'Desafio do dia ' + CA.fmtData(dataDia)}</p>` : ''}
+            <p class="meta-amigo">${amigo != null ? `Teu amigo fez <b>${amigo}</b>. Bate ele!` : `Nível ${n}: acerta ${ALVO[0]} pra passar`}</p>
             <div class="cartao-pergunta"><span class="pergunta"></span></div>
             <div class="botoes-sn">
               <button class="sn sn-certo" data-r="1">CERTO</button>
@@ -135,26 +149,22 @@
             </div>
           </section>`);
         palco.appendChild(tela);
-        const elQ = tela.querySelector('.pergunta');
-        const elCartao = tela.querySelector('.cartao-pergunta');
-        const elPts = tela.querySelector('.pontos b');
-        const elRel = tela.querySelector('.relogio');
+        const elQ = tela.querySelector('.pergunta'), elCartao = tela.querySelector('.cartao-pergunta');
+        const elPts = tela.querySelector('.pontos b'), elRel = tela.querySelector('.relogio');
         const elBarra = tela.querySelector('.tempo i');
 
-        let pontos = 0, erros = 0, n = 0, atual = null, pi = 0;
+        let pontos = 0, erros = 0, k = 0, atual = null, pi = 0;
         function proxima() {
-          n++;
-          // a partir da 4ª, 1 em cada 3 é pegadinha
-          if (n >= 4 && pi < pool.length && r() < 0.34) {
+          k++;
+          if (PEGA && k >= 3 && pi < pool.length && r() < 0.34) {
             const [txt, certo] = pool[pi++];
             atual = { txt, certo };
-          } else atual = gerarConta(r, imp ? n + 10 : n);
+          } else atual = gerarConta(r, DIF + Math.floor(k / 4));
           elQ.textContent = atual.txt;
           elQ.classList.toggle('longa', atual.txt.length > 22);
           elCartao.classList.remove('entra'); void elCartao.offsetWidth; elCartao.classList.add('entra');
         }
         elQ.textContent = '...';
-
         await CA.contagem(tela);
         if (!vivo) return;
         proxima();
@@ -162,8 +172,7 @@
         let fim = performance.now() + DURACAO * 1000, ultimoSeg = DURACAO;
         (function tick() {
           if (!vivo) return;
-          const resta = Math.max(0, (fim - performance.now()) / 1000);
-          const s = Math.ceil(resta);
+          const resta = Math.max(0, (fim - performance.now()) / 1000), s = Math.ceil(resta);
           elRel.textContent = s + ' s';
           elBarra.style.width = (resta / DURACAO * 100) + '%';
           if (s !== ultimoSeg) { ultimoSeg = s; if (s <= 5 && s > 0) CA.som('tique'); }
@@ -174,8 +183,7 @@
         tela.querySelector('.botoes-sn').addEventListener('pointerdown', e => {
           const b = e.target.closest('.sn');
           if (!b || !atual) return;
-          const resp = b.dataset.r === '1';
-          if (resp === atual.certo) {
+          if ((b.dataset.r === '1') === atual.certo) {
             pontos++; elPts.textContent = pontos; CA.som('certo');
             elCartao.dataset.fx = 'certo';
           } else {
@@ -190,30 +198,29 @@
           cancelAnimationFrame(raf);
           atual = null;
           elQ.textContent = 'TEMPO!';
-          const rec = CA.recorde(imp ? 'rapidox' : 'rapido', pontos, false);
-          if (ehHoje) CA.marcarDia('rapido', pontos + ' acertos');
+          const est = pontos >= ALVO[2] ? 3 : pontos >= ALVO[1] ? 2 : pontos >= ALVO[0] ? 1 : 0;
+          const melhorAntes = (jogo.prog()[n] || {}).p;
+          const tent = est ? CA.salvarNivel('rapido', n, { e: est, p: pontos }) : null;
           setTimeout(() => {
             if (!vivo) return;
-            palco.innerHTML = '';
-            palco.appendChild(CA.resultado({
-              titulo: 'Tu acertou',
+            CA.resultadoNivel(palco, jogo, n, {
+              titulo: est ? `Nível ${n}: tu acertou` : `Faltou pouco! Precisava de ${ALVO[0]}`,
               valorTxt: pontos + (pontos === 1 ? ' resposta' : ' respostas'),
-              detalhe: `${erros} ${erros === 1 ? 'erro' : 'erros'} em ${DURACAO} segundos`,
-              recorde: rec,
-              recordeTxt: CA.ler(imp ? 'rec:rapidox' : 'rec:rapido', pontos) + ' acertos',
+              estrelas: est,
+              detalhe: (tent ? (tent === 1 ? 'De primeira! ' : `Tentativa nº ${tent}. `) : '') + `${erros} ${erros === 1 ? 'erro' : 'erros'} em ${DURACAO} segundos`,
+              recordeTxt: melhorAntes != null ? Math.max(melhorAntes, pontos) + ' acertos' : '',
               amigo: amigo != null ? { valorTxt: amigo + ' acertos', ganhou: pontos > amigo } : null,
               desafio: {
-                texto: `Acertei ${pontos} no Responde rápido${imp ? ' (modo impossível)' : ''} em ${DURACAO} segundos ⏱️ Duvido tu cair em menos pegadinha!`,
-                url: CA.linkDesafio('rapido', imp ? { s: semente, v: pontos, m: 'x' } : { s: semente, v: pontos }),
+                texto: `Acertei ${pontos} no nível ${n} do Responde rápido ⏱️ Duvido tu cair em menos pegadinha!`,
+                url: CA.linkDesafio('rapido', { n, s: semente, v: pontos }),
               },
-              card: { jogo: 'Responde rápido', linha1: imp ? 'Modo impossível: acertei' : 'Acertei em 30 segundos', valor: String(pontos), linha3: 'Duvido tu não cair na pegadinha!', cor: '#d62828' },
-              jogarDeNovo: () => (fixo || doDia) ? (location.hash = '#/rapido') : jogar(CA.novaSemente()),
-              imp,
-            }));
+              card: { jogo: 'Responde rápido', linha1: `Nível ${n} · ${DURACAO} segundos`, valor: String(pontos), estrelas: est, linha3: 'Duvido tu não cair na pegadinha!', cor: '#15803d',
+                comoJoga: 'Certo ou errado? Responde antes do tempo acabar', tentativa: tent ? CA.naTentativa(tent) : '' },
+              jogarDeNovo: () => jogar(CA.novaSemente()),
+            });
           }, 900);
         }
       }
-
       return () => { vivo = false; cancelAnimationFrame(raf); };
     },
   };

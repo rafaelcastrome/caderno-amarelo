@@ -366,17 +366,15 @@
         </div>
         <div class="acoes">
           ${r.proxima ? `<a class="btn btn-grande ${r.proxima.tranca ? 'btn-ouro' : ''}" href="${r.proxima.href}">${r.proxima.txt}</a>` : ''}
-          <button class="btn btn-grande ${r.proxima ? 'btn-claro' : ''}" data-a="desafiar">Desafiar um amigo</button>
-          <button class="btn btn-grande btn-claro" data-a="card">Postar nos stories</button>
-          <p class="dica-card">Posta e me marca <b>@Cardeno_Amarelo</b> que eu reposto ✨</p>
+          ${r.desafio ? `<button class="btn btn-grande ${r.proxima ? 'btn-claro' : ''}" data-a="desafiar">Desafiar um amigo</button>` : ''}
+          ${r.card ? `<button class="btn btn-grande btn-claro" data-a="card">Postar nos stories</button>
+          <p class="dica-card">Posta e me marca <b>@Cardeno_Amarelo</b> que eu reposto ✨</p>` : ''}
           <button class="btn btn-grande btn-claro" data-a="denovo">Jogar de novo</button>
-          <a class="link-voltar" href="#/">Ver todas as fases</a>
+          <a class="link-voltar" href="${(r.linkVoltar || {}).href || '#/jogo?id=acha'}">${(r.linkVoltar || {}).txt || 'Ver todas as fases'}</a>
         </div>
-        ${CA.ehPremium() ? `<a class="mais-desafios" href="../desafios.html">
-          <strong>Teus 66 Desafios tão liberados.</strong> Bora? →
-        </a>` : `<a class="chamada-premium" href="#/premium">
+        ${CA.ehPremium() ? '' : `<a class="chamada-premium" href="#/premium">
           <strong>Caderno Premium</strong>
-          <span>Todos os jogos e fases, desafios dos dias anteriores, card dourado e os 66 Desafios. Mensal R$ 4,90 ou anual R$ 29,90.</span>
+          <span>Libera todos os níveis de todos os jogos, os desafios dos dias anteriores e o card dourado. Mensal R$ 4,90 ou anual R$ 29,90.</span>
         </a>`}
       </section>`);
     tela.addEventListener('click', e => {

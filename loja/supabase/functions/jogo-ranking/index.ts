@@ -2,10 +2,11 @@
 // { acao: 'ver', chave, token? }            -> top 10 + tua posição + teus amigos nesse ranking
 // { acao: 'enviar', token, chave, t, tentativa } -> guarda o tempo se for teu melhor
 // { acao: 'amigo', token, id }              -> vira amigo de quem mandou o link de duelo
-// { acao: 'amigos', token }                 -> teus amigos com estrelas e fases
+// { acao: 'amigos', token }                 -> teus amigos com estrelas (de todos os jogos) e níveis
+// { acao: 'estrelas', jogo?, token? }       -> ranking de estrelas de um jogo, ou geral (todos os jogos somados)
 // chave: 'dia:AAAA-MM-DD' (desafio do dia, mesma grade pra todos) ou 'fase:N'.
 import { cors, db, json } from '../_comum/comum.ts';
-import { emailDaSessao, nomePublico, confirmado } from '../_comum/conta.ts';
+import { emailDaSessao, nomePublico, confirmado, estrelasDe } from '../_comum/conta.ts';
 
 // tamanho da grade de cada fase (igual ao jogos/js/acha.js), pra barrar tempo impossível
 const N = [5, 5, 6, 5, 5, 5, 6, 5, 6, 5, 6, 6, 7, 5, 6, 7, 6, 7, 5, 6, 7, 6, 7, 6, 7, 7, 7, 6, 7, 7];
@@ -56,10 +57,22 @@ Deno.serve(async (req) => {
       const emails = [eu, ...(await amigosDe(eu))].slice(0, 200);
       const { data } = await db.from('contas_jogo').select(CAMPOS + ', progresso').in('email', emails);
       const lista = (data ?? []).map((c: any) => {
-        const p = Object.values(c.progresso || {}) as any[];
-        return { nome: nomePublico(c), ok: confirmado(c), estrelas: p.reduce((s, x) => s + (x.e || 0), 0), fases: p.length, eu: c.email === eu };
-      }).sort((x, y) => y.estrelas - x.estrelas || y.fases - x.fases);
+        const { estrelas, niveis } = estrelasDe(c.progresso, null);
+        return { nome: nomePublico(c), ok: confirmado(c), estrelas, niveis, fases: niveis, eu: c.email === eu };
+      }).sort((x, y) => y.estrelas - x.estrelas || y.niveis - x.niveis);
       return json({ amigos: lista.map((x, i) => ({ pos: i + 1, ...x })) });
+    }
+
+    if (b.acao === 'estrelas') {
+      // soma as estrelas guardadas no progresso de cada conta (quem tem 0 não entra)
+      const jogo = typeof b.jogo === 'string' && /^[a-z]{2,12}$/.test(b.jogo) ? b.jogo : null;
+      const { data } = await db.from('contas_jogo').select(CAMPOS + ', progresso').limit(20000);
+      const lista = (data ?? []).map((c: any) => ({ c, ...estrelasDe(c.progresso, jogo) }))
+        .filter((x) => x.estrelas > 0)
+        .sort((x, y) => y.estrelas - x.estrelas || y.niveis - x.niveis);
+      const fmt = (x: any, i: number) => ({ pos: i + 1, nome: nomePublico(x.c), ok: confirmado(x.c), estrelas: x.estrelas, niveis: x.niveis, eu: x.c.email === eu });
+      const iMeu = eu ? lista.findIndex((x) => x.c.email === eu) : -1;
+      return json({ jogo, total: lista.length, top: lista.slice(0, 10).map(fmt), meu: iMeu >= 0 ? fmt(lista[iMeu], iMeu) : null });
     }
 
     // ver

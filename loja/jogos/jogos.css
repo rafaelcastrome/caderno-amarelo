@@ -339,3 +339,58 @@ button { font: inherit; color: inherit; }
 .card-jogo.atual em { background: var(--papel-claro); }
 .loja-btn, .conta-btn { display: inline-grid; place-items: center; color: var(--tinta); }
 @media (max-width: 430px) { .logo-app { font-size: 21px; gap: 6px; } .logo-app .logo-caderno { width: 28px; height: 34px; } .loja-btn { padding: 0 10px; } }
+
+/* ---------- vários jogos com níveis ---------- */
+.barra-topo { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.barra-topo .nivel-tag { margin-left: auto; text-align: right; }
+.nivel-tag { display: inline-block; font-size: 13px; font-weight: 800; color: var(--tinta-suave); background: var(--papel-claro); border: 2px solid rgba(31,31,36,.25); border-radius: 999px; padding: 4px 10px; }
+.intro > .nivel-tag { margin-left: 8px; vertical-align: middle; }
+.cab-jogo { display: grid; grid-template-columns: 64px 1fr; gap: 14px; align-items: center; margin: 18px 0 6px; }
+.cab-jogo .card-jogo-icone { width: 64px; height: 64px; font-size: 38px; border: 3px solid var(--tinta); border-left: 8px solid var(--cor); }
+.cab-jogo h1 { font-family: var(--mao); font-size: clamp(38px, 11vw, 50px); line-height: 1; }
+.cab-jogo p { color: var(--tinta-suave); font-weight: 600; font-size: 15px; }
+.tela-jogo .dia { margin-top: 26px; }
+.tela-jogo .btn-continuar { width: 100%; }
+.btn-continuar { display: flex; width: 100%; }
+.regras-nivel { list-style: none; display: grid; gap: 6px; margin: 0 0 18px; padding: 12px 14px; background: #fff; border: 2px dashed rgba(31,31,36,.35); border-radius: 14px; font-size: 16px; }
+.regras-nivel li::before { content: '✏️ '; }
+.intro .btn-grande { width: 100%; }
+.card-jogo-prog { display: block; height: 8px; margin-top: 6px; border: 2px solid var(--tinta); border-radius: 999px; background: var(--papel-claro); overflow: hidden; }
+.card-jogo-prog i { display: block; height: 100%; background: var(--ouro); }
+.card-jogo-txt .card-jogo-est { font-size: 12px; font-weight: 800; color: var(--tinta-suave); }
+.card-jogo.atual { background: var(--papel-claro); }
+.outros-jogos { margin-top: 10px; }
+.ver-mais { display: block; margin-top: 8px; font-weight: 800; font-size: 14px; color: var(--azul); }
+.vazio { color: var(--tinta-suave); font-weight: 600; font-size: 15px; }
+
+/* charadas (66 Desafios em 5 jogos) */
+.tela-charada { padding-bottom: 10px; }
+.desafio-card { margin-top: 16px; padding: 22px 18px 18px; background: #fff; border: 3px solid var(--tinta); border-top: 10px solid var(--cor); border-radius: 20px; box-shadow: 5px 6px 0 var(--tinta); }
+.desafio-card h1 { font-family: var(--mao); font-size: clamp(36px, 10vw, 46px); line-height: 1; margin-bottom: 8px; }
+.desafio-pergunta { font-size: 19px; font-weight: 700; margin-bottom: 14px; }
+.desafio-img { margin: 0 0 16px; display: grid; place-items: center; background: var(--papel-claro); border: 2px solid rgba(31,31,36,.2); border-radius: 14px; padding: 8px; }
+.desafio-img svg { width: 100%; max-width: 360px; height: auto; display: block; }
+.f-resposta { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+.f-resposta input { min-width: 0; font: inherit; font-size: 18px; font-weight: 700; padding: 12px 14px; border: 2px solid var(--tinta); border-radius: 14px; background: var(--papel-claro); }
+.f-resposta input:focus { outline: 3px solid var(--amarelo); outline-offset: 1px; }
+.f-resposta[hidden] { display: none; }
+.msg-erro { min-height: 22px; margin-top: 8px; color: var(--vermelho); font-weight: 800; }
+.ver-resp { display: block; width: 100%; background: none; border: 0; cursor: pointer; text-decoration: underline; font: inherit; font-weight: 800; color: var(--tinta-suave); }
+.ver-resp[hidden], .revela[hidden] { display: none; }
+.revela { text-align: center; }
+.revela .certo { font-family: var(--mao); font-size: 40px; line-height: 1; }
+.resposta-completa { font-size: 22px; margin: 6px 0; }
+.explicacao { background: var(--papel-claro); border-radius: 12px; padding: 10px 12px; text-align: left; font-size: 16px; }
+.revela .pequeno { margin-top: 8px; color: var(--tinta-suave); font-size: 14px; }
+.pos-charada .acoes { margin-top: 18px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.treme { animation: treme .35s; }
+@keyframes treme { 25% { transform: translateX(-6px); } 50% { transform: translateX(6px); } 75% { transform: translateX(-3px); } }
+
+/* ranking: escolher o jogo */
+.ranking .chips { display: flex; gap: 8px; overflow-x: auto; margin: -4px -16px 14px; padding: 2px 16px 6px; scrollbar-width: none; }
+.ranking .chips::-webkit-scrollbar { display: none; }
+.ranking .chips a { flex: none; padding: 7px 12px; border: 2px solid var(--tinta); border-radius: 999px; background: var(--papel-claro); font-weight: 800; font-size: 14px; text-decoration: none; color: var(--tinta); white-space: nowrap; }
+.ranking .chips a.ativa { background: var(--tinta); color: #fff; }
+.lr .val { display: grid; justify-items: end; line-height: 1.1; }
+.lr .val small { font-size: 11px; color: var(--tinta-suave); font-weight: 700; }

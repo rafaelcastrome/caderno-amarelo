@@ -1,6 +1,6 @@
 // Confere o código do e-mail, cria a conta (se não existir) e devolve um token de sessão.
 import { cors, db, json } from '../_comum/comum.ts';
-import { EMAIL_OK, validadePremium, juntar, normEmail, sha256, perfilDe, CAMPOS_PERFIL } from '../_comum/conta.ts';
+import { EMAIL_OK, validadePremium, juntar, normEmail, sha256, perfilDe, CAMPOS_PERFIL, comprouDesafios } from '../_comum/conta.ts';
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
@@ -27,7 +27,7 @@ Deno.serve(async (req) => {
     const token = Array.from(crypto.getRandomValues(new Uint8Array(32))).map((x) => x.toString(16).padStart(2, '0')).join('');
     await db.from('sessoes_jogo').insert({ token_hash: await sha256(token), email });
     const ate = await validadePremium(email);
-    return json({ token, email, premium: !!ate, ate, progresso: prog, perfil: perfilDe(perfil) });
+    return json({ token, email, premium: !!ate, ate, progresso: prog, perfil: perfilDe(perfil), desafios: await comprouDesafios(email) });
   } catch (e) {
     console.error(e);
     return json({ erro: 'Falha ao entrar.' }, 500);

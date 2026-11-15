@@ -136,7 +136,7 @@
     const tela = CA.el(`
       <section class="jogo jogo-acha">
         <div class="barra">
-          <a class="voltar" href="#/" aria-label="Sair">‹</a>
+          <a class="voltar" href="#/jogo?id=acha" aria-label="Sair">‹</a>
           <div class="alvo">Acha o <b>${rotulo(alvos[0])}</b></div>
           <div class="relogio">0,0 s</div>
         </div>
@@ -298,6 +298,8 @@
     }));
     if (ehDia) caixaRanking(palco, 'dia:' + data, '#/ranking?d=' + data, 'Ranking de hoje', envio);
     else if (fase.num <= GRATIS) caixaRanking(palco, 'fase:' + fase.num, '#/ranking?aba=f' + fase.num, 'Ranking da fase ' + fase.num, envio);
+    const res = palco.querySelector('.resultado');
+    if (res && CA.cardsJogos) res.appendChild(CA.el(`<div class="outros-jogos"><h2 class="secao">Todos os jogos</h2>${CA.cardsJogos('acha')}</div>`));
   }
 
   // No resultado (desafio do dia e fases grátis): tua posição e o top 3, ou o convite pra entrar no ranking.
@@ -325,7 +327,7 @@
     palco.innerHTML = '';
     palco.appendChild(CA.el(`
       <section class="intro trancada">
-        <a class="voltar" href="#/" aria-label="Voltar">‹</a>
+        <a class="voltar" href="#/jogo?id=acha" aria-label="Voltar">‹</a>
         <span class="selo-premium">★ Premium</span>
         <h1>Fase ${f.num}: ${f.nome}</h1>
         <p class="regra-grande">${descFase(f)}</p>
@@ -333,7 +335,7 @@
         <p>Da fase 4 em diante o jogo fica difícil de verdade: a grade embaralha, os números giram, piscam, viram letras... São <b>${FASES.length - GRATIS} fases novas</b>, até a fase final.</p>
         <div class="previa-fases">${FASES.slice(GRATIS, GRATIS + 6).map(x => `<span>${x.num}<small>${x.nome}</small></span>`).join('')}</div>
         <a class="btn btn-grande" href="#/premium">Liberar todas as fases · a partir de R$ 2,49/mês</a>
-        <a class="link-voltar" href="#/">Voltar pras fases</a>
+        <a class="link-voltar" href="#/jogo?id=acha">Voltar pras fases</a>
       </section>`));
   }
 
@@ -408,4 +410,20 @@
 
   CA.descFase = descFase;
   CA.regraDoDia = data => descFase(faseDoDia(data));
+
+  // entra na lista de jogos (progresso fica em 'fases', que já existia antes dos outros jogos)
+  CA.registrarJogo({
+    id: 'acha', nome: 'Acha do 1 ao 25', icone: '🔢', cor: '#1d4ed8', total: FASES.length,
+    desc: 'Toca os números em ordem, o mais rápido possível. Cada fase tem uma regra nova.',
+    nomeNivel: n => `Fase ${n}: ${FASES[n - 1].nome}`, href: n => '#/fase?f=' + n,
+    prog: CA.progressoFases, liberado: CA.faseLiberada,
+    extraFim: () => CA.arquivoDias ? CA.arquivoDias() : '',
+    extraTopo: () => {
+      const feito = CA.ler('dia:' + CA.hojeBR(), null);
+      return `<a class="dia" href="#/acha?d=1"><span class="dia-fita">Desafio do dia</span>
+        <strong>${CA.regraDoDia(CA.hojeBR())}</strong>
+        <small>${feito ? 'Tu fez ' + feito.txt + ' hoje. Tenta bater!' : 'A mesma grade pra todo mundo hoje, com ranking.'}</small>
+        <span class="btn">Jogar o desafio do dia</span></a>`;
+    },
+  });
 })();

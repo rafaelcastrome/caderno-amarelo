@@ -39,8 +39,13 @@
     const antes = CA.conta() || {};
     CA.gravar('conta', { email: d.email || antes.email, token: d.token || antes.token, premium: !!d.premium, ate: d.ate || null, perfil: d.perfil || antes.perfil || null });
     amigoPendente();
-    if (d.progresso) CA.gravar('fases', d.progresso);
-    if (d.premium) { try { localStorage.setItem('desafios:jogo', JSON.stringify({ isPremium: true })); } catch (e) {} }
+    if (d.progresso) {
+      // chaves "1".."30" = fases do Acha; "cor:2" = níveis dos outros jogos
+      const fases = {}, niveis = {};
+      for (const k in d.progresso) (k.includes(':') ? niveis : fases)[k] = d.progresso[k];
+      CA.gravar('fases', fases); CA.gravar('niveis', niveis);
+    }
+    if (d.desafios) { try { localStorage.setItem('desafios:jogo', JSON.stringify({ isPremium: true })); } catch (e) {} }
   }
   // link de duelo de alguém: vira amigo (agora, ou quando entrar na conta)
   CA.virarAmigo = function (id) {
@@ -71,7 +76,7 @@
     const c = CA.conta();
     if (!c || !c.token) return Promise.resolve();
     if (enviando) return enviando;
-    enviando = chamar('jogo-conta', { token: c.token, progresso: CA.ler('fases', {}) })
+    enviando = chamar('jogo-conta', { token: c.token, progresso: { ...CA.ler('fases', {}), ...CA.ler('niveis', {}) } })
       .then(d => guardarConta(d))
       .catch(e => { if (e.status === 401) CA.gravar('conta', null); })
       .finally(() => { enviando = null; });
@@ -118,7 +123,7 @@
       e.preventDefault(); erro(fC, '');
       const b = fC.querySelector('button[type=submit]'); b.disabled = true; b.textContent = 'Entrando...';
       try {
-        const d = await chamar('jogo-entrar', { email, codigo: fC.querySelector('input').value.trim(), progresso: CA.ler('fases', {}) });
+        const d = await chamar('jogo-entrar', { email, codigo: fC.querySelector('input').value.trim(), progresso: { ...CA.ler('fases', {}), ...CA.ler('niveis', {}) } });
         guardarConta(d);
         if (d.perfil && d.perfil.apelido) onPronto(CA.conta());
         else formPerfil(alvo, { titulo: 'Como tu quer aparecer no ranking?', onPronto: () => onPronto(CA.conta()) });
@@ -197,10 +202,9 @@
   }
 
   const BENEFICIOS = [
-    ['Todos os jogos liberados', 'No Acha do 1 ao 25, da fase 4 à fase final. Nos 66 Desafios, do 4º ao último. E cada jogo novo que chegar já vem liberado'],
+    ['Todos os níveis de todos os jogos', 'Do nível 4 até o último em cada jogo: Acha do 1 ao 25, Fala a cor, Responde rápido, charadas, pegadinhas... E cada jogo novo que chegar já vem liberado'],
     ['Desafios dos dias anteriores', 'Perdeu um desafio do dia? Joga qualquer um dos últimos 30 dias'],
     ['Card dourado', 'Teu resultado com moldura dourada e selo Premium pros stories'],
-    ['66 Desafios liberados', 'Os enigmas e pegadinhas do jogo completo, sem pagar de novo'],
   ];
 
   // #/premium
@@ -224,7 +228,7 @@
         const c = CA.conta() || {};
         miolo.innerHTML = `
           <h1 class="ativo-ok">${recemPago ? 'Liberado! 🎉' : 'Teu Premium tá ativo'}</h1>
-          <p>Todos os jogos, desafios anteriores, card dourado e os 66 Desafios tão liberados na conta <b>${c.email || ''}</b>${c.ate ? ' até <b>' + fmtDia(c.ate) + '</b>' : ''}.</p>
+          <p>Todos os níveis de todos os jogos, desafios anteriores e card dourado tão liberados na conta <b>${c.email || ''}</b>${c.ate ? ' até <b>' + fmtDia(c.ate) + '</b>' : ''}.</p>
           <p class="pequeno">Em outro celular é só entrar com esse mesmo e-mail. Pode renovar quando quiser: os dias somam.</p>
           <a class="btn btn-grande" href="#/">Bora jogar</a>
           <div class="passo renovar"></div>`;

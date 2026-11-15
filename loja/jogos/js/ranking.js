@@ -1,5 +1,6 @@
-/* Ranking: desafio do dia (mesma grade pra todo mundo) e ranking dos amigos.
-   Rotas: #/ranking (hoje), #/ranking?aba=amigos, #/ranking?d=AAAA-MM-DD.
+/* Ranking: geral (estrelas de todos os jogos, ou de um jogo com ?jogo=), desafio do dia e amigos.
+   Rotas: #/ranking (geral), #/ranking?jogo=cor, #/ranking?aba=hoje, #/ranking?d=AAAA-MM-DD,
+   #/ranking?aba=f1..f3 (tempo nas fases grátis do Acha), #/ranking?aba=amigos.
    Só aparece no ranking quem tem conta. O @ só aparece se a pessoa deixou, e ganha ✓
    quando foi confirmado pela direct do @Cardeno_Amarelo. */
 (function () {
@@ -41,32 +42,53 @@
     nome: 'Ranking',
     iniciar(palco, p) {
       let vivo = true;
-      // abas: desafio de hoje, cada fase grátis (1 a 3) e amigos
+      // abas: geral (estrelas), hoje (desafio do dia) e amigos. As fases grátis do Acha abrem pelo resultado da fase.
       const GR = CA.FASES_GRATIS || 3;
       const fasesAbas = Array.from({ length: GR }, (_, i) => 'f' + (i + 1));
-      const aba = p.aba === 'amigos' || fasesAbas.includes(p.aba) ? p.aba : 'hoje';
-      const numFase = aba[0] === 'f' && aba !== 'hoje' ? +aba.slice(1) : 0;
       const data = /^\d{4}-\d{2}-\d{2}$/.test(p.d || '') ? p.d : CA.hojeBR();
+      const aba = p.aba === 'amigos' || p.aba === 'hoje' || fasesAbas.includes(p.aba) ? p.aba : p.d ? 'hoje' : 'geral';
+      const numFase = /^f\d$/.test(aba) ? +aba.slice(1) : 0;
+      const jogoSel = aba === 'geral' && CA.jogo(p.jogo) ? p.jogo : null;
       const conta = CA.conta && CA.conta();
       palco.innerHTML = '';
       const tela = CA.el(`
         <section class="intro ranking">
-          <a class="voltar" href="#/" aria-label="Voltar">‹</a>
+          <a class="voltar" href="${jogoSel ? '#/jogo?id=' + jogoSel : '#/'}" aria-label="Voltar">‹</a>
           <h1>Ranking</h1>
-          <nav class="abas" aria-label="Rankings" style="--k:${GR + 2}">
-            <a href="#/ranking" class="${aba === 'hoje' ? 'ativa' : ''}">Hoje</a>
-            ${fasesAbas.map((f, i) => `<a href="#/ranking?aba=${f}" class="${aba === f ? 'ativa' : ''}">Fase ${i + 1}</a>`).join('')}
+          <nav class="abas" aria-label="Rankings" style="--k:3">
+            <a href="#/ranking" class="${aba === 'geral' ? 'ativa' : ''}">Geral</a>
+            <a href="#/ranking?aba=hoje" class="${aba === 'hoje' || numFase ? 'ativa' : ''}">Desafio do dia</a>
             <a href="#/ranking?aba=amigos" class="${aba === 'amigos' ? 'ativa' : ''}">Amigos</a>
           </nav>
+          ${aba === 'geral' ? `<nav class="chips" aria-label="Escolher jogo">
+            <a href="#/ranking" class="${jogoSel ? '' : 'ativa'}">Todos</a>
+            ${CA.JOGOS.map(j => `<a href="#/ranking?jogo=${j.id}" class="${jogoSel === j.id ? 'ativa' : ''}">${j.icone} ${j.nome}</a>`).join('')}
+          </nav>` : ''}
           <div class="miolo"><p class="carregando">Carregando...</p></div>
           ${conta ? `<p class="nota">Tu aparece como <b>${esc(CA.nomeRanking())}</b> · <a href="#/conta">mudar</a></p>` : ''}
         </section>`);
       palco.appendChild(tela);
+      const ch = tela.querySelector('.chips .ativa');
+      if (ch) ch.scrollIntoView({ inline: 'center', block: 'nearest' });
       const miolo = tela.querySelector('.miolo');
       const entrar = txt => `<a class="chamada-conta" href="#/conta"><strong>Entra pra aparecer aqui</strong><span>${txt}</span></a>`;
       const falha = () => { if (vivo) miolo.innerHTML = '<p class="vazio">Sem internet agora. Tenta de novo daqui a pouco.</p>'; };
 
-      if (aba !== 'amigos') {
+      const linhaEst = r => `<li class="lr ${r.eu ? 'eu' : ''}">${posTxt(r.pos)}<span class="nome">${nomeTxt(r)}${r.eu ? ' <small>(tu)</small>' : ''}</span>
+        <span class="val"><b>${r.estrelas} ★</b><small>${r.niveis} ${r.niveis === 1 ? 'nível' : 'níveis'}</small></span></li>`;
+
+      if (aba === 'geral') {
+        const j = jogoSel && CA.jogo(jogoSel);
+        CA.chamar('jogo-ranking', { acao: 'estrelas', jogo: jogoSel, token: conta && conta.token }).then(d => {
+          if (!vivo) return;
+          miolo.innerHTML = `
+            <p class="sub-ranking">${j ? `${j.nome}: quem tem mais estrelas nos ${j.total} níveis` : 'Estrelas de todos os jogos somadas'} · ${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}</p>
+            ${d.top.length ? `<ol class="lista-ranking">${d.top.map(linhaEst).join('')}</ol>` : '<p class="vazio">Ninguém ainda. Bora ser o 1º?</p>'}
+            ${d.meu && d.meu.pos > 10 ? `<p class="reticencias">···</p><ol class="lista-ranking">${linhaEst(d.meu)}</ol>` : ''}
+            <a class="btn btn-grande" href="${j ? '#/jogo?id=' + j.id : '#/'}">${j ? 'Jogar ' + j.nome : 'Jogar pra subir'}</a>
+            ${conta ? '' : entrar('Só quem tem conta entra no ranking. É só o e-mail, sem senha.')}`;
+        }).catch(falha);
+      } else if (aba !== 'amigos') {
         ver(numFase ? 'fase:' + numFase : 'dia:' + data).then(d => {
           if (!vivo) return;
           const meuForaTop = d.meu && d.meu.pos > 10;
@@ -84,11 +106,10 @@
           if (!vivo) return;
           const lista = d.amigos || [];
           miolo.innerHTML = `
-            <p class="sub-ranking">Quem tem mais estrelas nas fases</p>
-            <ol class="lista-ranking">${lista.map(r => `<li class="lr ${r.eu ? 'eu' : ''}">${posTxt(r.pos)}<span class="nome">${nomeTxt(r)}${r.eu ? ' <small>(tu)</small>' : ''}</span>
-              <span class="val"><b>${r.estrelas} ★</b><small>${r.fases} ${r.fases === 1 ? 'fase' : 'fases'}</small></span></li>`).join('')}</ol>
+            <p class="sub-ranking">Quem tem mais estrelas em todos os jogos</p>
+            <ol class="lista-ranking">${lista.map(r => linhaEst({ ...r, niveis: r.niveis ?? r.fases })).join('')}</ol>
             ${lista.length < 2 ? '<p class="vazio">Ainda não tem amigo aqui. Manda teu link de desafio: quem abrir entra na tua lista.</p>' : ''}
-            <a class="btn btn-grande" href="#/fase?f=${CA.proximaFase()}">Jogar pra subir</a>`;
+            <a class="btn btn-grande" href="#/">Jogar pra subir</a>`;
         }).catch(falha);
       }
       return () => { vivo = false; };
