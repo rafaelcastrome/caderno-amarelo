@@ -1,0 +1,173 @@
+/* App de jogos do Caderno Amarelo. Mesmas cores e papel da loja (loja.css). */
+@font-face { font-family: Caveat; src: url('../assets/fonts/Caveat-Bold.ttf'); font-display: swap; }
+
+:root {
+  --papel: #fbf5df;
+  --papel-claro: #fffaf0;
+  --tinta: #1f1f24;
+  --tinta-suave: #55555c;
+  --amarelo: #ffd23f;
+  --vermelho: #d62828;
+  --azul: #1d4ed8;
+  --verde: #15803d;
+  --grade: rgba(70, 130, 200, 0.14);
+  --grade-forte: rgba(70, 130, 200, 0.24);
+  --mao: Caveat, 'Comic Sans MS', cursive;
+  --texto: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { min-height: 100%; }
+body {
+  font-family: var(--texto); color: var(--tinta); line-height: 1.45; font-size: 16px;
+  background-color: var(--papel);
+  background-image:
+    linear-gradient(var(--grade-forte) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grade-forte) 1px, transparent 1px),
+    linear-gradient(var(--grade) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grade) 1px, transparent 1px);
+  background-size: 96px 96px, 96px 96px, 24px 24px, 24px 24px;
+  overflow-x: hidden;
+}
+body.em-jogo { overscroll-behavior: none; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+
+#palco { max-width: 520px; margin: 0 auto; padding: max(14px, env(safe-area-inset-top)) 16px max(28px, env(safe-area-inset-bottom)); min-height: 100vh; min-height: 100dvh; }
+
+/* ---------- botões ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 800; font-size: 17px; padding: 14px 22px; border: 2px solid var(--tinta); border-radius: 14px; background: var(--amarelo); color: var(--tinta); text-decoration: none; cursor: pointer; box-shadow: 3px 3px 0 var(--tinta); transition: transform .1s, box-shadow .1s; }
+.btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--tinta); }
+.btn[disabled] { opacity: .55; }
+.btn-claro { background: var(--papel-claro); }
+.btn-grande { width: 100%; font-size: 19px; padding: 16px; }
+
+/* ---------- início ---------- */
+.cabeca { display: flex; align-items: center; justify-content: space-between; }
+.logo-app { display: flex; align-items: center; gap: 10px; font-family: var(--mao); font-size: 28px; }
+.logo-caderno { width: 34px; height: 40px; border-radius: 4px 8px 8px 4px; background: var(--amarelo); border: 2px solid var(--tinta); position: relative; box-shadow: 2px 2px 0 var(--tinta); }
+.logo-caderno::before { content: ''; position: absolute; left: 5px; top: 3px; bottom: 3px; border-left: 2px dashed var(--tinta); }
+.logo-caderno::after { content: ''; position: absolute; right: 5px; top: -2px; width: 7px; height: 14px; background: var(--vermelho); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 75%, 0 100%); }
+.som { background: none; border: 2px solid var(--tinta); border-radius: 12px; width: 44px; height: 44px; font-size: 20px; cursor: pointer; background: var(--papel-claro); }
+.titulo-app { font-family: var(--mao); font-size: clamp(40px, 12vw, 54px); line-height: .98; margin: 22px 0 8px; }
+.marca { background: linear-gradient(transparent 58%, var(--amarelo) 58%); }
+.sub-app { color: var(--tinta-suave); font-weight: 600; }
+
+.dia { display: block; position: relative; margin: 26px 0 8px; padding: 26px 18px 18px; background: #fff; border: 3px solid var(--tinta); border-radius: 20px; box-shadow: 5px 6px 0 var(--tinta); text-decoration: none; transform: rotate(-.6deg); }
+.dia-fita { position: absolute; top: -15px; left: 16px; font-family: var(--mao); font-size: 24px; background: var(--vermelho); color: #fff; padding: 0 12px; border-radius: 8px; transform: rotate(-3deg); border: 2px solid var(--tinta); }
+.dia strong { display: block; font-family: var(--mao); font-size: 40px; line-height: 1; }
+.dia small { display: block; color: var(--tinta-suave); margin: 6px 0 14px; font-weight: 600; }
+.dia .btn { width: 100%; }
+
+.secao { font-family: var(--mao); font-size: 34px; margin: 30px 0 10px; }
+.lista-jogos { display: grid; gap: 14px; }
+.card-jogo { display: flex; align-items: center; gap: 14px; padding: 14px; background: var(--papel-claro); border: 2px solid var(--tinta); border-left: 10px solid var(--cor); border-radius: 16px; box-shadow: 3px 3px 0 var(--tinta); text-decoration: none; }
+.card-jogo:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--tinta); }
+.card-icone svg { width: 56px; height: 56px; display: block; }
+.card-txt { flex: 1; min-width: 0; }
+.card-txt strong { display: block; font-family: var(--mao); font-size: 30px; line-height: 1; }
+.card-txt small { display: block; color: var(--tinta-suave); font-size: 14px; margin-top: 3px; }
+.card-txt em { display: inline-block; margin-top: 6px; font-style: normal; font-size: 13px; font-weight: 800; background: var(--amarelo); padding: 1px 8px; border-radius: 6px; }
+.card-seta { font-size: 34px; font-weight: 800; color: var(--tinta-suave); }
+
+.instalar, .instalar-ios { margin-top: 22px; padding: 14px 16px; border: 2px dashed var(--tinta); border-radius: 16px; display: grid; gap: 6px; background: rgba(255, 255, 255, .6); }
+.instalar[hidden], .instalar-ios[hidden] { display: none; }
+.instalar small, .instalar-ios small { color: var(--tinta-suave); }
+.mais { display: block; padding: 14px 16px; margin-bottom: 12px; background: #fff; border: 2px solid var(--tinta); border-radius: 16px; text-decoration: none; box-shadow: 3px 3px 0 var(--tinta); }
+.mais strong { font-family: var(--mao); font-size: 28px; display: block; line-height: 1; }
+.mais small { color: var(--tinta-suave); }
+.rodape { text-align: center; font-family: var(--mao); font-size: 24px; margin-top: 26px; color: var(--tinta-suave); }
+
+/* ---------- intro dos jogos ---------- */
+.voltar { display: inline-grid; place-items: center; width: 44px; height: 44px; border: 2px solid var(--tinta); border-radius: 12px; background: var(--papel-claro); text-decoration: none; font-size: 30px; font-weight: 800; line-height: 1; padding-bottom: 4px; flex: none; }
+.intro h1 { font-family: var(--mao); font-size: clamp(46px, 13vw, 60px); line-height: 1; margin: 18px 0 10px; }
+.intro p { font-size: 17px; margin-bottom: 14px; }
+.intro .pequeno { color: var(--tinta-suave); font-size: 15px; }
+.niveis { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+.nivel { padding: 14px 10px; background: var(--papel-claro); border: 2px solid var(--tinta); border-radius: 16px; box-shadow: 3px 3px 0 var(--tinta); cursor: pointer; display: grid; gap: 2px; text-align: center; }
+.nivel strong { font-family: var(--mao); font-size: 40px; line-height: 1; }
+.nivel span { font-weight: 800; }
+.nivel small { color: var(--tinta-suave); font-size: 13px; }
+.nivel.atual { background: var(--amarelo); }
+.nivel:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--tinta); }
+.exemplo-cor { display: flex; align-items: center; gap: 10px; justify-content: center; font-weight: 800; font-size: 18px; background: #fff; border: 2px dashed rgba(31,31,36,.35); border-radius: 14px; padding: 12px; margin-bottom: 14px; }
+.exemplo-cor span { font-family: var(--mao); font-size: 44px; line-height: 1; }
+.bola { display: inline-block; width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--tinta); }
+
+/* ---------- tela de jogo ---------- */
+.jogo { position: relative; display: flex; flex-direction: column; min-height: calc(100dvh - 42px); }
+.barra { display: flex; align-items: center; gap: 10px; }
+.barra .alvo, .barra .pontos { flex: 1; text-align: center; font-family: var(--mao); font-size: 30px; line-height: 1; }
+.barra .alvo b { font-size: 46px; color: var(--vermelho); display: inline-block; min-width: 1.2em; }
+.barra .pontos b { font-size: 40px; }
+.relogio { min-width: 84px; text-align: right; font-weight: 900; font-size: 22px; font-variant-numeric: tabular-nums; }
+.pula { animation: pula .25s ease; }
+@keyframes pula { 50% { transform: scale(1.25); } }
+.meta-amigo { text-align: center; margin: 10px 0 0; font-weight: 700; color: var(--tinta-suave); font-size: 15px; }
+.tempo { height: 12px; border: 2px solid var(--tinta); border-radius: 999px; overflow: hidden; background: var(--papel-claro); margin-top: 12px; }
+.tempo i { display: block; height: 100%; width: 100%; background: var(--amarelo); border-right: 2px solid var(--tinta); }
+.jogo.erro { animation: erro .3s; }
+@keyframes erro { 0%, 100% { background: transparent; } 30% { background: rgba(214, 40, 40, .14); } }
+
+/* Acha do 1 ao 25 */
+.grade { --gap: clamp(6px, 2vw, 10px); display: grid; grid-template-columns: repeat(var(--n), 1fr); gap: var(--gap); margin: auto 0; padding: 18px 4px; transition: filter .3s; }
+.grade.tampada { filter: blur(10px); pointer-events: none; }
+.cel { aspect-ratio: 1; border: 3px solid var(--borda); background: var(--fundo); border-radius: 12px; font-family: var(--mao); font-weight: 700; font-size: calc(min(88vw, 480px) / var(--n) * .5); line-height: 1; color: var(--tinta); cursor: pointer; transform: rotate(var(--giro)); box-shadow: 2px 2px 0 rgba(31,31,36,.25); position: relative; touch-action: manipulation; user-select: none; }
+.cel.feito { opacity: .28; transform: rotate(var(--giro)) scale(.9); }
+.cel.feito::after { content: ''; position: absolute; inset: 14%; border: 3px solid var(--tinta); border-radius: 50%; }
+.cel.treme { animation: treme .3s; }
+@keyframes treme { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+.multa { position: absolute; left: 50%; top: -6px; transform: translateX(-50%); font-family: var(--texto); font-size: 15px; font-weight: 900; color: var(--vermelho); animation: sobe .7s forwards; pointer-events: none; white-space: nowrap; }
+@keyframes sobe { to { transform: translate(-50%, -30px); opacity: 0; } }
+
+/* Fala a cor */
+.cartao-palavra, .cartao-pergunta { margin: auto 0; min-height: 190px; display: grid; place-items: center; background: #fff; border: 3px solid var(--tinta); border-radius: 22px; box-shadow: 5px 6px 0 rgba(0,0,0,.16); position: relative; padding: 18px; text-align: center; }
+.cartao-palavra::before, .cartao-pergunta::before { content: ''; position: absolute; top: -12px; left: 50%; width: 90px; height: 24px; margin-left: -45px; background: rgba(255, 210, 63, .8); transform: rotate(-3deg); }
+.palavra { font-family: var(--mao); font-weight: 700; font-size: clamp(54px, 16vw, 90px); line-height: 1; }
+.entra { animation: entra .18s ease; }
+@keyframes entra { from { transform: scale(.85); opacity: .3; } }
+.combo { position: absolute; bottom: 10px; font-weight: 800; color: var(--tinta-suave); }
+.botoes-cor { display: grid; grid-template-columns: repeat(var(--k, 4), 1fr); justify-items: center; gap: 12px; padding: 22px 0 8px; }
+.bola-btn { width: 100%; max-width: 92px; aspect-ratio: 1; border-radius: 50%; background: var(--c); border: 3px solid var(--tinta); box-shadow: 3px 4px 0 var(--tinta); cursor: pointer; touch-action: manipulation; }
+.bola-btn:active { transform: translate(2px, 3px); box-shadow: 1px 1px 0 var(--tinta); }
+
+/* Responde rápido */
+.pergunta { font-family: var(--mao); font-weight: 700; font-size: clamp(46px, 13vw, 64px); line-height: 1.05; }
+.pergunta.longa { font-size: clamp(34px, 9.5vw, 46px); }
+.cartao-pergunta[data-fx=certo] { box-shadow: 5px 6px 0 rgba(21, 128, 61, .45); }
+.cartao-pergunta[data-fx=errado] { box-shadow: 5px 6px 0 rgba(214, 40, 40, .45); }
+.botoes-sn { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 22px 0 8px; }
+.sn { padding: 22px 8px; border: 3px solid var(--tinta); border-radius: 18px; font-weight: 900; font-size: 22px; letter-spacing: .03em; color: #fff; cursor: pointer; box-shadow: 3px 4px 0 var(--tinta); touch-action: manipulation; }
+.sn-certo { background: var(--verde); }
+.sn-errado { background: var(--vermelho); }
+.sn:active { transform: translate(2px, 3px); box-shadow: 1px 1px 0 var(--tinta); }
+
+/* contagem */
+.contagem { position: absolute; inset: 0; display: grid; place-items: center; z-index: 5; background: rgba(251, 245, 223, .72); }
+.contagem span { font-family: var(--mao); font-size: 56px; text-align: center; }
+.contagem .num { font-size: 150px; color: var(--vermelho); line-height: 1; }
+.contagem .valendo { font-size: 84px; color: var(--verde); }
+.contagem .pula { animation: estoura .5s ease; }
+@keyframes estoura { from { transform: scale(1.8); opacity: 0; } }
+
+/* ---------- resultado ---------- */
+.resultado { padding-top: 10px; }
+.folha { background: #fff; border: 3px solid var(--tinta); border-radius: 22px; box-shadow: 5px 6px 0 var(--tinta); padding: 26px 18px 22px; text-align: center; position: relative; margin-bottom: 20px; }
+.folha::before { content: ''; position: absolute; top: -12px; left: 50%; width: 90px; height: 24px; margin-left: -45px; background: rgba(255, 210, 63, .85); transform: rotate(-3deg); }
+.res-titulo { font-family: var(--mao); font-size: 30px; color: var(--tinta-suave); }
+.res-valor { font-family: var(--mao); font-size: clamp(66px, 20vw, 92px); line-height: 1; color: var(--vermelho); margin: 4px 0 6px; }
+.res-detalhe { color: var(--tinta-suave); font-weight: 600; }
+.recorde { margin-top: 10px; font-weight: 800; }
+.recorde-novo { display: inline-block; margin-top: 12px; font-family: var(--mao); font-size: 34px; background: var(--amarelo); padding: 0 14px; border-radius: 10px; transform: rotate(-3deg); border: 2px solid var(--tinta); animation: estoura .5s ease; }
+.placar-amigo { margin-top: 14px; padding: 12px; border-radius: 14px; border: 2px solid var(--tinta); font-weight: 800; font-size: 18px; }
+.placar-amigo small { display: block; font-weight: 600; color: var(--tinta-suave); font-size: 14px; }
+.placar-amigo.ganhou { background: #dcfce7; }
+.placar-amigo.perdeu { background: #fde2e4; }
+.acoes { display: grid; gap: 12px; }
+.link-voltar { text-align: center; font-weight: 800; padding: 10px; }
+.mais-desafios { display: block; margin-top: 16px; padding: 14px 16px; border: 2px dashed var(--tinta); border-radius: 16px; text-decoration: none; background: rgba(255,255,255,.65); font-size: 15px; }
+
+.aviso { position: fixed; left: 50%; bottom: max(24px, env(safe-area-inset-bottom)); transform: translateX(-50%); background: var(--tinta); color: #fff; padding: 12px 18px; border-radius: 14px; font-weight: 700; z-index: 20; transition: opacity .4s; max-width: calc(100vw - 32px); text-align: center; }
+.aviso.some { opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
