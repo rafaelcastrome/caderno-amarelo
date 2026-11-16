@@ -105,6 +105,7 @@
           <input id="email-conta" type="email" required autocomplete="email" placeholder="nome@email.com">
           <button class="btn btn-grande" type="submit">Mandar código pro e-mail</button>
           <p class="erro-form" role="alert" hidden></p>
+          <p class="nota">Esqueceu qual e-mail usou? Manda direct pro <a href="https://ig.me/m/Cardeno_Amarelo" target="_blank" rel="noopener">@Cardeno_Amarelo</a> que a gente te ajuda.</p>
         </form>
         <form class="f-codigo" hidden>
           <label for="codigo-conta">Código de 6 números que chegou no e-mail</label>
