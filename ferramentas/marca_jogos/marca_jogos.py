@@ -19,7 +19,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 FONTE = os.path.join(AQUI, '..', '..', '.claude', 'skills', 'whiteboard-video', 'assets', 'Caveat-Bold.ttf')
-LINK_PADRAO = 'caderno-amarelo-loja.pages.dev'
+LINK_PADRAO = 'cadernoamarelo.netlify.app'
 TEXTO_PADRAO = 'Quer jogar esse jogo?'
 
 # Caixa da faixa no quadro 1080x1920 (escala junto se o vídeo tiver outro tamanho).
