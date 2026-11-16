@@ -7,7 +7,7 @@
    Rotas:
      #/fase?f=4                 joga o nível 4 (se liberado)
      #/fase?f=7&s=123&v=21.4    desafio de amigo: mesmo nível e mesma grade (abre mesmo sem Premium)
-     #/acha?d=1 | d=AAAA-MM-DD  desafio do dia (do 1 ao 25, com uma regra sorteada pelo dia) */
+     #/acha?d=...               link antigo do desafio do dia: vai pro #/dia (dia.js) */
 (function () {
   'use strict';
   const CA = window.CA;
@@ -122,13 +122,6 @@
     return FASES.length;
   };
 
-  // Desafio do dia: 5x5 com uma regra (ou nenhuma) sorteada pela data.
-  function faseDoDia(data) {
-    const r = CA.rng(CA.sementeDoDia('acha-regra', data));
-    const opcoes = [[], ['reverso'], ['giro'], ['embaralha'], ['letras'], ['espelho'], ['piscam'], ['cores']];
-    return { num: 0, q: 25, c: 5, l: 5, regras: r.pick(opcoes), a3: 20, a2: 32, nome: 'Desafio do dia' };
-  }
-
   // ---------- motor do jogo ----------
   // cfg = { fase, semente, amigo, titulo, onFim(t, multa) }
   function jogar(palco, cfg, vivo) {
@@ -154,7 +147,7 @@
     const tela = CA.el(`
       <section class="jogo jogo-acha">
         <div class="barra">
-          <a class="voltar" href="#/jogo?id=acha" aria-label="Sair">‹</a>
+          <a class="voltar" href="${cfg.voltar || '#/jogo?id=acha'}" aria-label="Sair">‹</a>
           <div class="alvo">Acha o <b>${rotulo(alvos[0])}</b></div>
           <div class="relogio">0,0 s</div>
         </div>
@@ -254,7 +247,6 @@
       rec = CA.recorde('dia:' + data, t, true);
       if (rec.bateu) CA.gravar('tentrec:dia:' + data, tent);
       tentRec = CA.ler('tentrec:dia:' + data, null);
-      if (ehHoje) CA.marcarDia('acha', txtT);
     } else {
       estrelas = estrelasPor(fase, t);
       rec = CA.recorde('nivel' + fase.num, t, true);
@@ -397,77 +389,20 @@
     },
   };
 
-  // #/acha: desafio do dia. Links antigos sem d caem nas fases.
+  // #/acha: links antigos. Com d (desafio do dia antigo) vai pro desafio do dia novo (dia.js); sem d cai nos níveis.
   CA.jogos.acha = {
     nome: NOME,
     iniciar(palco, p) {
-      let ativo = true, parar = null;
-      const vivo = () => ativo;
-      if (!p.d) {
-        const alvo = p.n ? FASES.findIndex(x => x.q === (+p.n) * (+p.n) && !x.regras.length) + 1 : CA.proximaFase();
-        location.hash = '#/fase?f=' + Math.max(1, alvo) + (p.s ? `&s=${p.s}&v=${p.v || ''}` : '');
-        return null;
-      }
-      const data = CA.dataDoDesafio(p);
-      if (data === false) return null;
-      if (p.de && CA.virarAmigo) CA.virarAmigo(p.de);
-      const ehHoje = data === CA.hojeBR();
-      const f = faseDoDia(data);
-      const amigo = p.v ? parseFloat(p.v) : null;
-      // antes de jogar: tela do desafio com a regra, o vídeo do Instagram e o ranking do dia
-      const telaDia = () => {
-        const meu = CA.ler('rec:dia:' + data, null);
-        const conta = CA.conta && CA.conta();
-        palco.innerHTML = '';
-        palco.appendChild(CA.el(`
-          <section class="intro intro-dia">
-            <div class="barra-topo"><a class="voltar" href="#/" aria-label="Voltar">‹</a>
-              <span class="nivel-tag">${ehHoje ? 'Desafio do dia · ' + CA.fmtData(data) : 'Desafio de ' + CA.fmtData(data)}</span></div>
-            <h1>${NOME}</h1>
-            <p class="regra-grande">${descFase(f)}</p>
-            <ul class="regras-nivel">
-              <li>Toca os números <b>em ordem</b>, o mais rápido que tu conseguir</li>
-              <li>A <b>mesma grade pra todo mundo</b> ${ehHoje ? 'hoje' : 'nesse dia'}: o ranking é justo</li>
-              <li>Tocou errado, ganha 1 segundo de multa</li>
-            </ul>
-            ${amigo ? `<p class="meta-amigo">Teu amigo fez <b>${CA.fmtSeg(amigo)}</b>. Bate ele!</p>` : ''}
-            ${meu != null ? `<p class="placar-estrelas">Teu melhor ${ehHoje ? 'hoje' : ''}: ${CA.fmtSeg(meu)}</p>` : ''}
-            <button class="btn btn-grande" data-a="ir">${meu != null ? 'Jogar de novo e bater meu tempo' : 'Começar o desafio'}</button>
-            <a class="podio rank-dia" href="#/ranking?${ehHoje ? 'aba=hoje' : 'd=' + data}">
-              <div class="cab-ranking"><strong>Ranking ${ehHoje ? 'de hoje' : 'de ' + CA.fmtData(data)}</strong></div><p class="vazio">Carregando...</p></a>
-          </section>`));
-        palco.querySelector('[data-a=ir]').addEventListener('click', rodar);
-        const cx = palco.querySelector('.rank-dia');
-        if (!CA.verRanking) { cx.hidden = true; return; }
-        CA.verRanking('dia:' + data).then(d => {
-          if (!ativo || !cx.isConnected) return;
-          cx.innerHTML = `
-            <div class="cab-ranking"><strong>Ranking ${ehHoje ? 'de hoje' : 'de ' + CA.fmtData(data)}</strong><span>${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}</span></div>
-            ${d.top.length ? `<ol class="lista-ranking">${d.top.slice(0, 10).map(CA.linhaRanking).join('')}</ol>` : '<p class="vazio">Ninguém jogou ainda. Bora ser o 1º?</p>'}
-            ${d.meu && d.meu.pos > 10 ? `<p class="reticencias">···</p><ol class="lista-ranking">${CA.linhaRanking(d.meu)}</ol>` : ''}
-            ${conta ? '' : '<p class="vazio">Entra com teu e-mail (e teu @, se quiser) pra aparecer aqui.</p>'}
-            <span class="ver-mais">Ver ranking completo e dos amigos →</span>`;
-        }).catch(() => { if (cx.isConnected) cx.innerHTML = '<div class="cab-ranking"><strong>Ranking de hoje</strong></div><p class="vazio">Sem internet agora. O ranking volta quando a conexão voltar.</p>'; });
-      };
-      const rodar = () => {
-        if (CA.pedirCadastro && CA.pedirCadastro()) return; // jogador novo cria a conta antes
-        if (parar) parar();
-        parar = jogar(palco, {
-          fase: f, semente: CA.sementeDoDia('acha', data), amigo, amigoTent: +p.r || null,
-          titulo: ehHoje ? 'Desafio do dia' : 'Desafio de ' + CA.fmtData(data),
-          onFim: (t, multa, quadro) => setTimeout(() => {
-            if (!ativo) return;
-            telaResultado(palco, { fase: f, t, multa, quadro, amigo, amigoTent: +p.r || null, ehDia: true, ehHoje, data, rejogar: rodar });
-          }, 350),
-        }, vivo);
-      };
-      telaDia();
-      return () => { ativo = false; parar && parar(); };
+      if (p.d) { location.replace('#/dia?d=' + p.d + (p.de ? '&de=' + p.de : '')); return null; }
+      const alvo = p.n ? FASES.findIndex(x => x.q === (+p.n) * (+p.n) && !x.regras.length) + 1 : CA.proximaFase();
+      location.hash = '#/fase?f=' + Math.max(1, alvo) + (p.s ? `&s=${p.s}&v=${p.v || ''}` : '');
+      return null;
     },
   };
 
   CA.descFase = descFase;
-  CA.regraDoDia = data => descFase(faseDoDia(data));
+  // pro desafio do dia (dia.js): joga um nível com a semente do dia e guarda no progresso normal
+  CA.acha = { jogar, FASES, estrelasPor, salvarFase, descFase };
 
   // entra na lista de jogos (progresso em 'niveis', chaves "acha:N")
   CA.registrarJogo({
@@ -475,13 +410,5 @@
     desc: 'Toca os números em ordem, o mais rápido possível. A cada nível a grade cresce: começa com 9 e vai até 64.',
     nomeNivel: n => `Nível ${n}: ${FASES[n - 1].nome}`, href: n => '#/fase?f=' + n,
     prog: CA.progressoFases, liberado: CA.faseLiberada,
-    extraFim: () => CA.arquivoDias ? CA.arquivoDias() : '',
-    extraTopo: () => {
-      const feito = CA.ler('dia:' + CA.hojeBR(), null);
-      return `<a class="dia" href="#/acha?d=1"><span class="dia-fita">Desafio do dia</span>
-        <strong>${CA.regraDoDia(CA.hojeBR())}</strong>
-        <small>${feito ? 'Tu fez ' + feito.txt + ' hoje. Tenta bater!' : 'A mesma grade pra todo mundo hoje, com ranking.'}</small>
-        <span class="btn">Jogar o desafio do dia</span></a>`;
-    },
   });
 })();

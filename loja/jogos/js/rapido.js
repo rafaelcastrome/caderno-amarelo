@@ -133,6 +133,8 @@
     href: n => '#/rapido?n=' + n,
   });
 
+  CA.CONTEUDO_RAPIDO = CONTEUDO; // pro desafio do dia (dia.js)
+
   CA.jogos.rapido = {
     nome: 'Responde rápido',
     iniciar(palco, p) {
@@ -173,12 +175,12 @@
         const tela = CA.el(`
           <section class="jogo jogo-rapido">
             <div class="barra">
-              <a class="voltar" href="#/jogo?id=rapido" aria-label="Sair">‹</a>
+              <a class="voltar" href="${p.voltar || '#/jogo?id=rapido'}" aria-label="Sair">‹</a>
               <div class="pontos"><b>0</b> / ${ALVO[0]}</div>
               <div class="relogio">${DURACAO} s</div>
             </div>
             <div class="tempo"><i></i></div>
-            <p class="meta-amigo">${amigo != null ? `Teu amigo fez <b>${amigo}</b>. Bate ele!` : `Nível ${n}: acerta ${ALVO[0]} pra passar`}</p>
+            <p class="meta-amigo">${p.meta ? p.meta : amigo != null ? `Teu amigo fez <b>${amigo}</b>. Bate ele!` : `Nível ${n}: acerta ${ALVO[0]} pra passar`}</p>
             <div class="cartao-pergunta"><span class="pergunta"></span></div>
             <div class="botoes-sn">
               <button class="sn sn-certo" data-r="1">CERTO</button>
@@ -236,6 +238,8 @@
           atual = null;
           elQ.textContent = 'TEMPO!';
           const est = pontos >= ALVO[2] ? 3 : pontos >= ALVO[1] ? 2 : pontos >= ALVO[0] ? 1 : 0;
+          // desafio do dia (dia.js): quem controla a rodada guarda o resultado e chama o próximo nível
+          if (p.onFim) { setTimeout(() => { if (vivo) p.onFim({ p: pontos, e: est, erros, semente }); }, 900); return; }
           const melhorAntes = (jogo.prog()[n] || {}).p;
           const tent = est ? CA.salvarNivel('rapido', n, { e: est, p: pontos }) : null;
           setTimeout(() => {

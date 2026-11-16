@@ -3,7 +3,7 @@
 const VERSAO = 'ca-jogos-v33';
 const ARQUIVOS = [
   './', 'index.html', 'jogos.css', 'manifest.webmanifest',
-  'js/nucleo.js', 'js/niveis.js', 'js/acha.js', 'js/cor.js', 'js/rapido.js', 'js/pegadinhas-dados.js', 'js/pegadinhas.js', 'js/charadas.js', '../assets/js/desafios-dados.js', 'js/premium.js', 'js/ranking.js', 'js/grupo.js', 'js/qrcode.js', 'grupo.css', 'js/app.js', '../assets/js/config.js', '../assets/js/movimento.js', '../assets/css/movimento.css',
+  'js/nucleo.js', 'js/niveis.js', 'js/acha.js', 'js/cor.js', 'js/rapido.js', 'js/pegadinhas-dados.js', 'js/pegadinhas.js', 'js/charadas.js', 'js/dia.js', '../assets/js/desafios-dados.js', 'js/premium.js', 'js/ranking.js', 'js/grupo.js', 'js/qrcode.js', 'grupo.css', 'js/app.js', '../assets/js/config.js', '../assets/js/movimento.js', '../assets/css/movimento.css',
   'icones/icone-192.png', 'icones/icone-512.png', '../assets/img/logo-cabecalho.png', '../assets/fonts/Caveat-Bold.ttf',
 ];
 self.addEventListener('install', e => {

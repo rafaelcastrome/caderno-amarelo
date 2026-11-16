@@ -1,5 +1,5 @@
 /* App de jogos: página inicial, rotas e "instalar o app no celular".
-   Rotas: #/ (início), #/<jogo>?s=semente&n=nivel&v=valor_do_amigo&d=1 (desafio do dia) */
+   Rotas: #/ (início), #/<jogo>?s=semente&n=nivel&v=valor_do_amigo, #/dia?d=1 (desafio do dia, dia.js) */
 (function () {
   'use strict';
   const CA = window.CA;
@@ -17,14 +17,12 @@
     return { nome: nome || '', p };
   }
 
-  const jogoDoDia = () => CA.jogoDoDia();
-
   const JOGAVEIS = ['acha', 'fase', 'cor', 'rapido', 'peg', 'charada'];
   function precisaCadastro() {
     if (CA.conta && CA.conta()) return false;
     const algo = o => o && Object.keys(o).length > 0;
     if (algo(CA.ler('fases', {})) || algo(CA.ler('niveis', {})) || CA.ler('desafios:jogo', null)) return false;
-    try { for (let i = 0; i < localStorage.length; i++) if (/^ca-jogos:(dia|rec:dia):/.test(localStorage.key(i))) return false; } catch (e) {}
+    try { for (let i = 0; i < localStorage.length; i++) if (/^ca-jogos:(dia|rec:dia|rec:jdia):/.test(localStorage.key(i))) return false; } catch (e) {}
     return true;
   }
 
@@ -49,7 +47,7 @@
     if (!jogo) { inicio(palco); return; }
     // Jogador novo (sem conta e sem nada jogado neste celular): cria a conta antes de começar.
     // (a tela de apresentação do desafio do dia fica livre, com o vídeo e o ranking; o cadastro vem no "Começar")
-    if (JOGAVEIS.includes(nome) && !(nome === 'acha' && p.d) && CA.pedirCadastro(true)) return;
+    if (JOGAVEIS.includes(nome) && !(nome === 'acha' && p.d) && nome !== 'dia' && CA.pedirCadastro(true)) return;
     document.title = jogo.nome + ' · caRdeno Amarelo';
     limpar = jogo.iniciar(palco, p) || null;
   }
@@ -58,7 +56,6 @@
   // aba = 'grupo' mostra a aba Jogos em grupo (TV + celular, em grupo.js) no lugar da lista de jogos.
   function inicio(palco, aba) {
     document.title = aba === 'grupo' ? 'Jogos em grupo · caRdeno Amarelo' : 'Jogos do caRdeno Amarelo';
-    const feitoHoje = CA.ler('dia:' + CA.hojeBR(), null);
     const conta = CA.conta && CA.conta();
     const est = CA.estrelasGerais(), max = CA.JOGOS.reduce((s, j) => s + j.total * 3, 0);
 
@@ -81,12 +78,7 @@
         ${aba === 'grupo' && CA.grupoAbaHtml ? CA.grupoAbaHtml() + '<p class="rodape"><a href="https://www.instagram.com/cardeno_amarelo/" target="_blank" rel="noopener">@caRdeno_Amarelo</a></p></div>' : `
         <div class="inicio-corpo mov-troca"><div class="inicio-principal">
         <a class="podio" href="#/ranking" hidden></a>
-        <a class="dia" href="#/acha?d=1">
-          <span class="dia-fita">Desafio do dia</span>
-          <strong>${CA.NOME_ACHA}: ${CA.regraDoDia(CA.hojeBR())}</strong>
-          <small>${feitoHoje ? 'Tu fez ' + feitoHoje.txt + ' hoje. Tenta bater!' : 'A mesma grade pra todo mundo hoje. Bora?'}</small>
-          <span class="btn">Jogar o desafio do dia</span>
-        </a>
+        ${CA.cardDia()}
 
         <h2 class="secao">Escolhe um jogo</h2>
         <p class="placar-estrelas">Tu tem ${est} de ${max} estrelas</p>
@@ -136,18 +128,7 @@
     CA.caixaRankingEstrelas(podio, null, 'Ranking geral', '#/ranking', null, true);
   }
 
-  // Últimos 30 dias de desafio do dia (só Premium joga; os outros veem o cadeado). Fica na tela do Acha.
-  CA.arquivoDias = function () {
-    const premium = CA.ehPremium();
-    const hoje = Date.parse(CA.hojeBR() + 'T12:00:00Z');
-    let h = '';
-    for (let i = 1; i <= 30; i++) {
-      const d = new Date(hoje - i * 864e5).toISOString().slice(0, 10);
-      h += `<a class="dia-antigo" href="#/acha?d=${d}">
-        <b>${CA.fmtData(d)}</b><span>${CA.regraDoDia(d)}</span>${premium ? '' : '<i aria-label="Premium">🔒</i>'}</a>`;
-    }
-    return `<h2 class="secao">Desafios dos dias anteriores</h2><div class="arquivo">${h}</div>`;
-  };
+  // Desafio do dia (card, semana, arquivo dos dias anteriores): dia.js
 
   // ---------- instalar o app no celular ----------
   let pedidoInstalar = null;
@@ -184,11 +165,6 @@
       }
     }
   }
-
-  // Desafio do dia: os jogos chamam isso no fim pra marcar que jogou hoje.
-  CA.marcarDia = function (jogoId, txt) {
-    if (jogoId === jogoDoDia()) CA.gravar('dia:' + CA.hojeBR(), { jogo: jogoId, txt });
-  };
 
   window.addEventListener('hashchange', render);
   window.addEventListener('DOMContentLoaded', () => {

@@ -65,12 +65,7 @@
     return h >>> 0;
   };
 
-  // Qual jogo é o desafio de um dia (roda entre os jogos, um por dia).
-  CA.ORDEM = ['acha']; // os jogos cor e rapido ficam guardados (arquivos cor.js e rapido.js) pra usar depois
-  CA.jogoDoDia = function (data) {
-    const dia = Math.floor(Date.parse((data || CA.hojeBR()) + 'T12:00:00Z') / 864e5);
-    return CA.ORDEM[dia % CA.ORDEM.length];
-  };
+  // Qual jogo é o desafio de cada dia: dia.js (CA.jogoDoDia)
   CA.fmtData = d => d.slice(8, 10) + '/' + d.slice(5, 7);
   // Lê o parâmetro d da rota: '1' = hoje, 'AAAA-MM-DD' = dia anterior (só Premium).
   // Devolve a data, null (não é desafio do dia) ou false (bloqueado: já mandou pro Premium).
