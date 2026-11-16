@@ -1,5 +1,5 @@
 {
- "titulo": "Qual mesa é maior?",
+ "titulo": "Qual mesa é mais comprida?",
  "marca": {"handle": "caRdeno_Amarelo", "nome": "caRdeno Amarelo"},
  "marcaDagua": false,
  "voz": {"gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"},
@@ -8,7 +8,7 @@
    "fonte": "Roger N. Shepard, Mind Sights (1990)", "url": "https://en.wikipedia.org/wiki/Shepard_tables"}
  ],
  "cenas": [
-  {"fala": "Qual dessas mesas é maior? Fala rápido!"},
+  {"fala": "Qual dessas mesas é mais comprida? Fala rápido!"},
   {"fala": "A da esquerda, né? Tá na cara!"},
   {"fala": "Então olha... vou recortar o tampo dela..."},
   {"fala": "e colocar em cima da outra."},

@@ -56,14 +56,15 @@ window.CENAS = function (WB) {
 
   // ---------------- quadro 0: título + mesas + letras ----------------
   const tit = WB.group();
-  WB.showNow(WB.textStrokes('QUAL MESA É MAIOR?', 540, 330, 106, INK.red, tit, 'middle').strokes);
-  pulsa(tit, 540, 300, 0.3, 0.05, 8, 1.4);
+  WB.showNow(WB.textStrokes('QUAL MESA É', 540, 275, 104, INK.red, tit, 'middle').strokes);
+  WB.showNow(WB.textStrokes('MAIS COMPRIDA?', 540, 390, 104, INK.red, tit, 'middle').strokes);
+  pulsa(tit, 540, 330, 0.3, 0.05, 8, 1.4);
   const mA = mesa(A), mB = mesa(B);
   const letra = (txt, x, y) => { const g = WB.group(); WB.mk('circle', { cx: x, cy: y - 30, r: 52, fill: '#fffaf0', stroke: INK.blue, 'stroke-width': 6 }, g); WB.showNow(WB.textStrokes(txt, x, y, 84, INK.blue, g, 'middle').strokes); return g; };
   letra('A', 285, 1425); letra('B', 768, 1425);
 
   // ---------------- cena 1: pergunta ----------------
-  const c1 = WB.group(); W(0.5, 1.9, 'fala rápido!', 540, 470, 76, INK.blue, { parent: c1 });
+  const c1 = WB.group(); W(0.5, 1.9, 'fala rápido!', 540, 490, 76, INK.blue, { parent: c1 });
   rest(2.0, st(2) - 0.05);
 
   // ---------------- cena 2: "a da esquerda, né?" ----------------
@@ -105,11 +106,11 @@ window.CENAS = function (WB) {
   // ---------------- cena 5: IGUALZINHA! ----------------
   const s5 = st(5);
   const igual = WB.group();
-  WB.showNow(WB.textStrokes('IGUALZINHA!', 540, 520, 120, INK.red, igual, 'middle').strokes);
+  WB.showNow(WB.textStrokes('IGUALZINHA!', 540, 560, 120, INK.red, igual, 'middle').strokes);
   WB.effect(t => {
     const u = clamp((t - s5) / 0.25), w = t > s5 ? 1 + 0.12 * Math.sin((t - s5) * 12) * Math.exp(-(t - s5) * 3) : 0;
     igual.setAttribute('opacity', (u * (1 - clamp((t - st(6)) / 0.2))).toFixed(3));
-    igual.setAttribute('transform', `translate(540 480) scale(${(Math.max(0.01, u) * (w || 1)).toFixed(3)}) translate(-540 -480)`);
+    igual.setAttribute('transform', `translate(540 520) scale(${(Math.max(0.01, u) * (w || 1)).toFixed(3)}) translate(-540 -520)`);
   });
   const c5 = WB.group(); W(s5 + 1.3, s5 + 2.9, 'mesmo tamanho!', 540, 1580, 98, INK.black, { parent: c5 });
   fadeOut(c5, st(6) + 0.05, 0.2); fadeOut(c1, s5, 0.2);
