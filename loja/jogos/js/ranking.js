@@ -1,7 +1,7 @@
-/* Ranking: geral (estrelas de todos os jogos, ou de um jogo com ?jogo=), desafio do dia e amigos.
+/* Ranking: geral (pontos de todos os jogos, ou a métrica de um jogo com ?jogo=: tempo, acertos...), desafio do dia e amigos.
    Rotas: #/ranking (geral), #/ranking?jogo=cor, #/ranking?aba=hoje, #/ranking?d=AAAA-MM-DD,
    #/ranking?aba=f1..f3 (tempo nos níveis grátis do Caça-números), #/ranking?aba=amigos,
-   #/ranking?jogo=pegadinhas&n=N (acertos e tempo médio no nível N das Pegadinhas; n=0 = estrelas).
+   #/ranking?jogo=pegadinhas&n=N (acertos e tempo médio no nível N das Pegadinhas; n=0 = todos os níveis somados).
    Só aparece no ranking quem tem conta. O @ só aparece se a pessoa deixou, e ganha ✓
    quando foi confirmado pela direct do @Cardeno_Amarelo; só o @ confirmado vira link pro Instagram. */
 (function () {
@@ -71,7 +71,7 @@
           </nav>` : ''}
           ${peg ? `<nav class="chips chips-nivel" aria-label="Escolher nível">
             ${Array.from({ length: peg.total }, (_, i) => `<a href="#/ranking?jogo=pegadinhas&n=${i + 1}" class="${nPeg === i + 1 ? 'ativa' : ''}">Nível ${i + 1}</a>`).join('')}
-            <a href="#/ranking?jogo=pegadinhas&n=0" class="${nPeg ? '' : 'ativa'}">★ Estrelas</a>
+            <a href="#/ranking?jogo=pegadinhas&n=0" class="${nPeg ? '' : 'ativa'}">Todos os níveis</a>
           </nav>` : ''}
           <div class="miolo"><p class="carregando">Carregando...</p></div>
           ${conta ? `<p class="nota">Tu aparece como <b>${esc(CA.nomeRanking())}</b> · <a href="#/conta">mudar</a></p>` : ''}
@@ -82,8 +82,7 @@
       const entrar = txt => `<a class="chamada-conta" href="#/conta"><strong>Entra pra aparecer aqui</strong><span>${txt}</span></a>`;
       const falha = () => { if (vivo) miolo.innerHTML = '<p class="vazio">Sem internet agora. Tenta de novo daqui a pouco.</p>'; };
 
-      const linhaEst = r => `<li class="lr ${r.eu ? 'eu' : ''}">${posTxt(r.pos)}<span class="nome">${nomeTxt(r)}${r.eu ? ' <small>(tu)</small>' : ''}</span>
-        <span class="val"><b>${r.estrelas} ★</b><small>${r.niveis} ${r.niveis === 1 ? 'nível' : 'níveis'}</small></span></li>`;
+      const linhaEst = (r, id) => CA.linhaRankingJogo(r, id || null);
 
       if (nPeg) {
         ver('peg:' + nPeg).then(d => {
@@ -101,9 +100,9 @@
         CA.chamar('jogo-ranking', { acao: 'estrelas', jogo: jogoSel, token: conta && conta.token }).then(d => {
           if (!vivo) return;
           miolo.innerHTML = `
-            <p class="sub-ranking">${j ? `${j.nome}: quem tem mais estrelas nos ${j.total} níveis` : 'Estrelas de todos os jogos somadas'} · ${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}</p>
-            ${d.top.length ? `<ol class="lista-ranking">${d.top.map(linhaEst).join('')}</ol>` : '<p class="vazio">Ninguém ainda. Bora ser o 1º?</p>'}
-            ${d.meu && d.meu.pos > 10 ? `<p class="reticencias">···</p><ol class="lista-ranking">${linhaEst(d.meu)}</ol>` : ''}
+            <p class="sub-ranking">${j ? j.nome + ': ' + CA.regraRanking(jogoSel).replace(/^./, c => c.toLowerCase()) : CA.regraRanking(null)} · ${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}</p>
+            ${d.top.length ? `<ol class="lista-ranking">${d.top.map(r => linhaEst(r, jogoSel)).join('')}</ol>` : '<p class="vazio">Ninguém ainda. Bora ser o 1º?</p>'}
+            ${d.meu && d.meu.pos > 10 ? `<p class="reticencias">···</p><ol class="lista-ranking">${linhaEst(d.meu, jogoSel)}</ol>` : ''}
             <a class="btn btn-grande" href="${j ? '#/jogo?id=' + j.id : '#/'}">${j ? 'Jogar ' + j.nome : 'Jogar pra subir'}</a>
             ${conta ? '' : entrar('Só quem tem conta entra no ranking. É só o e-mail, sem senha.')}`;
         }).catch(falha);
@@ -125,7 +124,7 @@
           if (!vivo) return;
           const lista = d.amigos || [];
           miolo.innerHTML = `
-            <p class="sub-ranking">Quem tem mais estrelas em todos os jogos</p>
+            <p class="sub-ranking">${CA.regraRanking(null)}</p>
             <ol class="lista-ranking">${lista.map(r => linhaEst({ ...r, niveis: r.niveis ?? r.fases })).join('')}</ol>
             ${lista.length < 2 ? '<p class="vazio">Ainda não tem amigo aqui. Manda teu link de desafio: quem abrir entra na tua lista.</p>' : ''}
             <a class="btn btn-grande" href="#/">Jogar pra subir</a>`;

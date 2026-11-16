@@ -3,12 +3,14 @@
 // { acao: 'enviar', token, chave, t, tentativa, acertos? } -> guarda o tempo se for teu melhor
 //     (Pegadinhas 'peg:N': t = tempo médio por pergunta, acertos 0..10; melhor = mais acertos, depois menor t)
 // { acao: 'amigo', token, id }              -> vira amigo de quem mandou o link de duelo
-// { acao: 'amigos', token }                 -> teus amigos com estrelas (de todos os jogos) e níveis
-// { acao: 'estrelas', jogo?, token? }       -> ranking de estrelas de um jogo, ou geral (todos os jogos somados)
+// { acao: 'amigos', token }                 -> teus amigos por pontos (de todos os jogos)
+// { acao: 'estrelas', jogo?, token? }       -> ranking de um jogo (pela métrica dele) ou geral (pontos de todos os jogos)
+//     Desde 16/11/2026 conta velocidade e acertos, não só estrelas: ver _comum/pontos.ts.
 // chave: 'dia:AAAA-MM-DD' (desafio do dia, mesma grade pra todos), 'nivel:N' (níveis do Caça-números)
 //        ou 'peg:N' (17 níveis das Pegadinhas, 10 perguntas cada).
 import { cors, db, json } from '../_comum/comum.ts';
-import { emailDaSessao, nomePublico, confirmado, estrelasDe } from '../_comum/conta.ts';
+import { emailDaSessao, nomePublico, confirmado } from '../_comum/conta.ts';
+import { resumoDe, comparar } from '../_comum/pontos.ts';
 
 // quantos números tem cada nível do Caça-números (igual ao jogos/js/acha.js), pra barrar tempo impossível.
 // Desde 16/11/2026 os níveis crescem e a chave é 'nivel:N' (as antigas 'fase:N' eram de outra grade e não valem mais).
@@ -69,21 +71,24 @@ Deno.serve(async (req) => {
       if (!eu) return json({ amigos: [] });
       const emails = [eu, ...(await amigosDe(eu))].slice(0, 200);
       const { data } = await db.from('contas_jogo').select(CAMPOS + ', progresso').in('email', emails);
-      const lista = (data ?? []).map((c: any) => {
-        const { estrelas, niveis } = estrelasDe(c.progresso, null);
-        return { nome: nomePublico(c), ok: confirmado(c), estrelas, niveis, fases: niveis, eu: c.email === eu };
-      }).sort((x, y) => y.estrelas - x.estrelas || y.niveis - x.niveis);
+      const ordem = comparar(null);
+      const lista = (data ?? []).map((c: any) => ({ c, ...resumoDe(c.progresso, null) }))
+        .sort(ordem)
+        .map((x) => ({ nome: nomePublico(x.c), ok: confirmado(x.c), estrelas: x.estrelas, niveis: x.niveis, fases: x.niveis, pontos: x.pontos, eu: x.c.email === eu }));
       return json({ amigos: lista.map((x, i) => ({ pos: i + 1, ...x })) });
     }
 
     if (b.acao === 'estrelas') {
-      // soma as estrelas guardadas no progresso de cada conta (quem tem 0 não entra)
+      // lê o progresso de cada conta e ordena pela métrica do jogo (ou pontos, no geral). Quem não jogou não entra.
       const jogo = typeof b.jogo === 'string' && /^[a-z]{2,12}$/.test(b.jogo) ? b.jogo : null;
       const { data } = await db.from('contas_jogo').select(CAMPOS + ', progresso').limit(20000);
-      const lista = (data ?? []).map((c: any) => ({ c, ...estrelasDe(c.progresso, jogo) }))
-        .filter((x) => x.estrelas > 0)
-        .sort((x, y) => y.estrelas - x.estrelas || y.niveis - x.niveis);
-      const fmt = (x: any, i: number) => ({ pos: i + 1, nome: nomePublico(x.c), ok: confirmado(x.c), estrelas: x.estrelas, niveis: x.niveis, eu: x.c.email === eu });
+      const lista = (data ?? []).map((c: any) => ({ c, ...resumoDe(c.progresso, jogo) }))
+        .filter((x) => x.niveis > 0)
+        .sort(comparar(jogo));
+      const fmt = (x: any, i: number) => ({
+        pos: i + 1, nome: nomePublico(x.c), ok: confirmado(x.c), estrelas: x.estrelas, niveis: x.niveis,
+        pontos: x.pontos, tempo: x.tempo, acertos: x.acertos, media: x.media, eu: x.c.email === eu,
+      });
       const iMeu = eu ? lista.findIndex((x) => x.c.email === eu) : -1;
       return json({ jogo, total: lista.length, top: lista.slice(0, 10).map(fmt), meu: iMeu >= 0 ? fmt(lista[iMeu], iMeu) : null });
     }

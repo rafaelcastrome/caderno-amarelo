@@ -67,7 +67,37 @@
     }).join('')}</div>`;
   }
 
-  // ranking de estrelas de um jogo (ou geral, sem jogo), preenchido quando chega do servidor
+  // ---------- o que conta no ranking (16/11/2026: velocidade e acertos, não só estrelas) ----------
+  // O servidor (jogo-ranking, _comum/pontos.ts) ordena; aqui só mostra o número que decidiu a posição.
+  const CHARADA = id => ['oque', 'olho', 'proximo', 'emojis'].includes(id);
+  const milhar = x => Math.round(x || 0).toLocaleString('pt-BR');
+  const niveisTxt = n => `${n} ${n === 1 ? 'nível' : 'níveis'}`;
+  // texto curto de "como funciona" embaixo do título do ranking
+  CA.regraRanking = function (id) {
+    if (id === 'acha') return 'Quem passou mais níveis. Empatou, ganha quem fez no menor tempo somado';
+    if (id === 'cor' || id === 'rapido') return 'Quem somou mais acertos em todos os níveis';
+    if (id === 'pegadinhas') return 'Quem somou mais acertos. Empatou, ganha quem respondeu mais rápido';
+    if (CHARADA(id)) return 'Quem acertou mais, com menos erros. Empatou, ganha o mais rápido';
+    return 'Pontos de todos os jogos: quanto mais rápido e mais acertos, mais pontos';
+  };
+  // valor da linha: o número grande (o que conta) e o detalhe pequeno embaixo
+  CA.valorRanking = function (r, id) {
+    const est = `${r.estrelas} ★`;
+    if (r.pontos == null) return [est, niveisTxt(r.niveis)]; // resposta antiga do servidor
+    if (id === 'acha') return [r.tempo ? CA.fmtSeg(r.tempo) : '—', `${niveisTxt(r.niveis)} · ${est}`];
+    if (id === 'cor' || id === 'rapido') return [`${r.acertos} acertos`, `${niveisTxt(r.niveis)} · ${est}`];
+    if (id === 'pegadinhas') return [`${r.acertos} acertos`, (r.media != null ? CA.fmtSeg(r.media) + ' por pergunta · ' : '') + niveisTxt(r.niveis)];
+    if (CHARADA(id)) return [`${r.acertos} ${r.acertos === 1 ? 'acerto' : 'acertos'}`, est + (r.tempo ? ' · ' + CA.fmtSeg(r.tempo) : '')];
+    return [`${milhar(r.pontos)} pts`, `${est} · ${niveisTxt(r.niveis)}`];
+  };
+  CA.linhaRankingJogo = function (r, id, curta) {
+    const [grande, peq] = CA.valorRanking(r, id);
+    return `<li class="lr ${r.eu ? 'eu' : ''}">${r.pos <= 3 ? `<span class="medalha">${['🥇', '🥈', '🥉'][r.pos - 1]}</span>` : `<span class="pos">${r.pos}º</span>`}
+        <span class="nome">${CA.nomeRankingHtml(r)}${r.eu ? ' <small>(tu)</small>' : ''}</span>
+        <span class="val"><b>${grande}</b>${curta ? '' : `<small>${peq}</small>`}</span></li>`;
+  };
+
+  // ranking de um jogo (ou geral, sem jogo), preenchido quando chega do servidor
   // compacto = versão curta do topo da página inicial: top 3 + a posição da pessoa, já com o espaço
   // reservado enquanto carrega (nada pula na tela quando o ranking chega).
   CA.caixaRankingEstrelas = function (alvo, jogoId, titulo, href, card, compacto) {
@@ -77,11 +107,10 @@
     CA.chamar('jogo-ranking', { acao: 'estrelas', jogo: jogoId || null, token: c && c.token }).then(d => {
       if (card && d.meu) card.ranking = { pos: d.meu.pos, txt: 'NO RANKING' };
       if (!alvo.isConnected) return;
-      const linha = r => `<li class="lr ${r.eu ? 'eu' : ''}">${r.pos <= 3 ? `<span class="medalha">${['🥇', '🥈', '🥉'][r.pos - 1]}</span>` : `<span class="pos">${r.pos}º</span>`}
-        <span class="nome">${CA.nomeRankingHtml(r)}${r.eu ? ' <small>(tu)</small>' : ''}</span>
-        <span class="val"><b>${r.estrelas} ★</b><small>${r.niveis} ${r.niveis === 1 ? 'nível' : 'níveis'}</small></span></li>`;
+      const linha = r => CA.linhaRankingJogo(r, jogoId);
       alvo.innerHTML = `
         <div class="cab-ranking"><strong>${titulo}</strong><span>${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}</span></div>
+        <p class="sub-ranking regra-ranking">${CA.regraRanking(jogoId)}</p>
         ${d.top.length ? `<ol class="lista-ranking">${d.top.slice(0, 5).map(linha).join('')}</ol>` : '<p class="vazio">Ninguém ainda. Joga e fica em 1º!</p>'}
         ${d.meu && d.meu.pos > 5 ? `<ol class="lista-ranking">${linha(d.meu)}</ol>` : ''}
         ${c ? '' : '<p class="vazio">Entra com teu e-mail pra aparecer aqui.</p>'}
@@ -100,9 +129,7 @@
     alvo.hidden = false;
     CA.chamar('jogo-ranking', { acao: 'estrelas', jogo: jogoId || null, token: c && c.token }).then(d => {
       if (!alvo.isConnected) return;
-      const linha = r => `<li class="lr ${r.eu ? 'eu' : ''}">${r.pos <= 3 ? `<span class="medalha">${['🥇', '🥈', '🥉'][r.pos - 1]}</span>` : `<span class="pos">${r.pos}º</span>`}
-        <span class="nome">${CA.nomeRankingHtml(r)}${r.eu ? ' <small>(tu)</small>' : ''}</span>
-        <span class="val"><b>${r.estrelas} ★</b></span></li>`;
+      const linha = r => CA.linhaRankingJogo(r, jogoId, true);
       const fim = d.meu && d.meu.pos > 3 ? `<li class="lr-sep" aria-hidden="true">⋯</li>${linha(d.meu)}`
         : !c ? '<li class="lr-dica">Entra com teu e-mail pra aparecer aqui.</li>' : '';
       alvo.innerHTML = cab(`${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}`) +

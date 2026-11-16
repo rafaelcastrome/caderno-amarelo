@@ -63,6 +63,7 @@
       }
       document.title = `${g.nome} · nível ${n}`;
       let erros = 0, feito = false;
+      const t0 = performance.now(); // tempo até acertar: desempata o ranking (quem respondeu mais rápido)
       palco.innerHTML = '';
       const tela = CA.el(`
         <section class="tela-charada" style="--cor:${g.cor}">
@@ -104,7 +105,8 @@
 
       function acabou(estrelas) {
         feito = true;
-        const tent = CA.salvarNivel(g.id, n, { e: estrelas });
+        const t = Math.round((performance.now() - t0) / 100) / 10;
+        const tent = CA.salvarNivel(g.id, n, estrelas ? { e: estrelas, t: Math.max(0.5, t) } : { e: 0 });
         CA.som(estrelas ? 'recorde' : 'fim');
         card.classList.add('resolvido');
         tela.querySelector('.f-resposta').hidden = true; verResp.hidden = true; msg.textContent = '';
