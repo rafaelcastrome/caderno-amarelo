@@ -297,6 +297,8 @@ button { font: inherit; color: inherit; }
 .lr .medalha { font-size: 24px; text-align: center; }
 .lr .pos { font-weight: 800; text-align: center; color: var(--tinta-suave); }
 .lr .nome { font-weight: 800; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lr .ig { cursor: pointer; text-decoration: none; border-radius: 4px; }
+.lr .ig:hover, .lr .ig:focus-visible { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; outline: none; }
 .lr .nome small { font-weight: 600; color: var(--tinta-suave); }
 .lr .ok { font-style: normal; color: #fff; background: var(--azul); border-radius: 50%; display: inline-grid; place-items: center; width: 18px; height: 18px; font-size: 12px; vertical-align: 2px; }
 .lr .val { display: grid; justify-items: end; line-height: 1.1; }

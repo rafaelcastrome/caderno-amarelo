@@ -75,7 +75,7 @@
       if (card && d.meu) card.ranking = { pos: d.meu.pos, txt: 'NO RANKING' };
       if (!alvo.isConnected) return;
       const linha = r => `<li class="lr ${r.eu ? 'eu' : ''}">${r.pos <= 3 ? `<span class="medalha">${['🥇', '🥈', '🥉'][r.pos - 1]}</span>` : `<span class="pos">${r.pos}º</span>`}
-        <span class="nome">${String(r.nome).replace(/[<>&"]/g, '')}${r.ok ? ' <i class="ok" aria-label="@ confirmado">✓</i>' : ''}${r.eu ? ' <small>(tu)</small>' : ''}</span>
+        <span class="nome">${CA.nomeRankingHtml(r)}${r.eu ? ' <small>(tu)</small>' : ''}</span>
         <span class="val"><b>${r.estrelas} ★</b><small>${r.niveis} ${r.niveis === 1 ? 'nível' : 'níveis'}</small></span></li>`;
       alvo.innerHTML = `
         <div class="cab-ranking"><strong>${titulo}</strong><span>${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}</span></div>

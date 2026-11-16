@@ -2,14 +2,14 @@
    Rotas: #/ranking (geral), #/ranking?jogo=cor, #/ranking?aba=hoje, #/ranking?d=AAAA-MM-DD,
    #/ranking?aba=f1..f3 (tempo nas fases grátis do Acha), #/ranking?aba=amigos.
    Só aparece no ranking quem tem conta. O @ só aparece se a pessoa deixou, e ganha ✓
-   quando foi confirmado pela direct do @Cardeno_Amarelo. */
+   quando foi confirmado pela direct do @Cardeno_Amarelo; só o @ confirmado vira link pro Instagram. */
 (function () {
   'use strict';
   const CA = window.CA;
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const MEDALHA = ['🥇', '🥈', '🥉'];
   const posTxt = p => p <= 3 ? `<span class="medalha" aria-label="${p}º">${MEDALHA[p - 1]}</span>` : `<span class="pos">${p}º</span>`;
-  const nomeTxt = r => `${esc(r.nome)}${r.ok ? ' <i class="ok" aria-label="@ confirmado">✓</i>' : ''}`;
+  const nomeTxt = r => CA.nomeRankingHtml(r);
 
   function ver(chave) {
     const c = CA.conta && CA.conta();

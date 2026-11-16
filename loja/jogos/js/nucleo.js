@@ -6,6 +6,26 @@
   'use strict';
 
   const CA = (window.CA = window.CA || {});
+
+  // Nome no ranking: o @ confirmado pela direct vira link pro Instagram da pessoa (abre em outra aba).
+  // É um <span role="link"> porque as caixinhas de ranking já são links (<a> dentro de <a> não vale);
+  // o clique é pego aqui e não deixa a caixa abrir o ranking.
+  const escNome = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  CA.nomeRankingHtml = function (r) {
+    const nome = String(r.nome || '');
+    const m = r.ok && /^@([a-z0-9._]{1,30})$/i.exec(nome);
+    const selo = r.ok ? ' <i class="ok" aria-label="@ confirmado">✓</i>' : '';
+    if (!m) return escNome(nome) + selo;
+    return `<span class="ig" role="link" tabindex="0" data-ig="${m[1]}" title="Abrir o Instagram de @${m[1]}">@${m[1]}</span>${selo}`;
+  };
+  function abrirIg(e) {
+    const el = e.target.closest && e.target.closest('[data-ig]');
+    if (!el || (e.type === 'keydown' && e.key !== 'Enter' && e.key !== ' ')) return;
+    e.preventDefault(); e.stopPropagation();
+    window.open('https://instagram.com/' + encodeURIComponent(el.dataset.ig) + '/', '_blank', 'noopener');
+  }
+  document.addEventListener('click', abrirIg, true);
+  document.addEventListener('keydown', abrirIg, true);
   CA.jogos = CA.jogos || {};
 
   // ---------- sorteio com semente ----------
