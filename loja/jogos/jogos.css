@@ -300,6 +300,21 @@ button { font: inherit; color: inherit; }
 .lr .medalha { font-size: 24px; text-align: center; }
 .lr .pos { font-weight: 800; text-align: center; color: var(--tinta-suave); }
 .lr .nome { font-weight: 800; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* ranking compacto no topo da página inicial (top 3 + tua posição); o espaço já fica reservado enquanto carrega */
+.podio-mini { margin: 18px 0 30px; padding: 12px 14px 10px; }
+.podio-mini .cab-ranking { margin-bottom: 8px; }
+.podio-mini .cab-ranking strong { font-size: 27px; }
+.podio-mini .lista-ranking { gap: 5px; }
+.podio-mini .lr { min-height: 40px; padding: 3px 10px; grid-template-columns: 28px 1fr auto; border-radius: 10px; }
+.podio-mini .lr .medalha { font-size: 20px; }
+.podio-mini .lr .val b { font-family: var(--mao); font-size: 22px; }
+.podio-mini .lr.fantasma { background: linear-gradient(90deg, var(--papel-claro) 30%, #fff 50%, var(--papel-claro) 70%) 0 0 / 300% 100%; border-color: #d9d4c4; animation: ranking-carrega 1.2s linear infinite; }
+.podio-mini .lr-sep { text-align: center; line-height: .6; color: var(--tinta-suave); font-weight: 800; }
+.podio-mini .lr-dica { font-size: 14px; color: var(--tinta-suave); font-weight: 700; padding: 2px 2px 0; }
+.podio-mini .ver-mais { margin-top: 8px; font-size: 15px; font-weight: 800; }
+.lista-ranking.chegou { animation: mov-aparece var(--mov-medio) var(--mov-curva) backwards; }
+@keyframes ranking-carrega { to { background-position: -300% 0; } }
+@media (prefers-reduced-motion: reduce) { .podio-mini .lr.fantasma { animation: none; } }
 .lr .ig { cursor: pointer; text-decoration: none; border-radius: 4px; }
 .lr .ig:hover, .lr .ig:focus-visible { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; outline: none; }
 .lr .nome small { font-weight: 600; color: var(--tinta-suave); }

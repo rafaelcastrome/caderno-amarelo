@@ -74,6 +74,7 @@
         </nav>
         ${aba === 'grupo' && CA.grupoAbaHtml ? CA.grupoAbaHtml() + '<p class="rodape"><a href="https://www.instagram.com/cardeno_amarelo/" target="_blank" rel="noopener">@caRdeno_Amarelo</a></p></div>' : `
         <div class="inicio-corpo mov-troca"><div class="inicio-principal">
+        <a class="podio" href="#/ranking" hidden></a>
         <a class="dia" href="#/acha?d=1">
           <span class="dia-fita">Desafio do dia</span>
           <strong>${CA.NOME_ACHA}: ${CA.regraDoDia(CA.hojeBR())}</strong>
@@ -86,7 +87,6 @@
         ${CA.cardsJogos(null)}
         </div>
         <aside class="inicio-lado">
-        <a class="podio" href="#/ranking" hidden></a>
 
         ${CA.ehPremium()
           ? '<a class="chamada-premium ativo" href="#/conta"><strong>★ Premium ativo</strong><span>Todos os níveis de todos os jogos, desafios anteriores e card dourado.</span></a>'
@@ -119,7 +119,15 @@
     });
     if (aba === 'grupo') { if (CA.grupoAbaLigar) CA.grupoAbaLigar(palco); return; }
     mostrarInstalar(palco);
-    CA.caixaRankingEstrelas(palco.querySelector('.podio'), null, 'Ranking geral (estrelas de todos os jogos)', '#/ranking');
+    // ranking geral: no celular fica no topo (quem entra já vê); no PC fica no começo da coluna da direita
+    const podio = palco.querySelector('.podio'), pc = CA.mqPC || (CA.mqPC = matchMedia('(min-width: 900px)'));
+    const lugar = () => {
+      if (!podio.isConnected) return pc.removeEventListener('change', lugar);
+      if (pc.matches) palco.querySelector('.inicio-lado').prepend(podio);
+      else palco.querySelector('.inicio-principal').prepend(podio);
+    };
+    lugar(); pc.addEventListener('change', lugar);
+    CA.caixaRankingEstrelas(podio, null, 'Ranking geral', '#/ranking', null, true);
   }
 
   // Últimos 30 dias de desafio do dia (só Premium joga; os outros veem o cadeado). Fica na tela do Acha.

@@ -68,9 +68,12 @@
   }
 
   // ranking de estrelas de um jogo (ou geral, sem jogo), preenchido quando chega do servidor
-  CA.caixaRankingEstrelas = function (alvo, jogoId, titulo, href, card) {
+  // compacto = versão curta do topo da página inicial: top 3 + a posição da pessoa, já com o espaço
+  // reservado enquanto carrega (nada pula na tela quando o ranking chega).
+  CA.caixaRankingEstrelas = function (alvo, jogoId, titulo, href, card, compacto) {
     if (!CA.chamar) return;
     const c = CA.conta && CA.conta();
+    if (compacto) return rankingCompacto(alvo, jogoId, titulo, href, c);
     CA.chamar('jogo-ranking', { acao: 'estrelas', jogo: jogoId || null, token: c && c.token }).then(d => {
       if (card && d.meu) card.ranking = { pos: d.meu.pos, txt: 'NO RANKING' };
       if (!alvo.isConnected) return;
@@ -87,6 +90,26 @@
       alvo.hidden = false;
     }).catch(() => { alvo.hidden = true; });
   };
+
+  function rankingCompacto(alvo, jogoId, titulo, href, c) {
+    const cab = total => `<div class="cab-ranking"><strong>🏆 ${titulo}</strong><span>${total}</span></div>`;
+    const fantasma = '<li class="lr fantasma"><span></span><span></span><span></span></li>';
+    alvo.classList.add('podio-mini');
+    if (href) alvo.href = href;
+    alvo.innerHTML = cab('&nbsp;') + `<ol class="lista-ranking">${fantasma.repeat(3)}</ol><span class="ver-mais">Ver ranking completo →</span>`;
+    alvo.hidden = false;
+    CA.chamar('jogo-ranking', { acao: 'estrelas', jogo: jogoId || null, token: c && c.token }).then(d => {
+      if (!alvo.isConnected) return;
+      const linha = r => `<li class="lr ${r.eu ? 'eu' : ''}">${r.pos <= 3 ? `<span class="medalha">${['🥇', '🥈', '🥉'][r.pos - 1]}</span>` : `<span class="pos">${r.pos}º</span>`}
+        <span class="nome">${CA.nomeRankingHtml(r)}${r.eu ? ' <small>(tu)</small>' : ''}</span>
+        <span class="val"><b>${r.estrelas} ★</b></span></li>`;
+      const fim = d.meu && d.meu.pos > 3 ? `<li class="lr-sep" aria-hidden="true">⋯</li>${linha(d.meu)}`
+        : !c ? '<li class="lr-dica">Entra com teu e-mail pra aparecer aqui.</li>' : '';
+      alvo.innerHTML = cab(`${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}`) +
+        `<ol class="lista-ranking chegou">${d.top.length ? d.top.slice(0, 3).map(linha).join('') : '<li class="lr-dica">Ninguém ainda. Joga e fica em 1º!</li>'}${fim}</ol>` +
+        '<span class="ver-mais">Ver ranking completo →</span>';
+    }).catch(() => { alvo.hidden = true; });
+  }
 
   // ---------- tela de um jogo: #/jogo?id=x ----------
   CA.jogos.jogo = {
