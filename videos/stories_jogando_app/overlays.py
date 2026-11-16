@@ -28,6 +28,6 @@ d.text((540,cy0+265),'8 jogos grátis + desafio do dia',font=f2,fill=(60,56,50),
 d.text((540,cy0+355),'desafia teu amigo e',font=f2,fill=(60,56,50),anchor='mm')
 d.text((540,cy0+425),'aparece no ranking',font=f2,fill=(60,56,50),anchor='mm')
 d.rounded_rectangle((170,cy0+505,910,cy0+625),60,fill=(255,210,63),outline=(40,36,30),width=5)
-d.text((540,cy0+565),'cadernoamarelo.netlify.app',font=f3,fill=(28,78,190),anchor='mm')
+d.text((540,cy0+565),'cardenoamarelo.netlify.app',font=f3,fill=(28,78,190),anchor='mm')
 d.text((540,cy0+690),'toca no link do story',font=f2,fill=(214,40,40),anchor='mm')
 im.save('final.png')
