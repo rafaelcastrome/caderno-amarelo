@@ -435,7 +435,6 @@
             <button class="btn btn-grande" data-a="ir">${meu != null ? 'Jogar de novo e bater meu tempo' : 'Começar o desafio'}</button>
             <a class="podio rank-dia" href="#/ranking?${ehHoje ? 'aba=hoje' : 'd=' + data}">
               <div class="cab-ranking"><strong>Ranking ${ehHoje ? 'de hoje' : 'de ' + CA.fmtData(data)}</strong></div><p class="vazio">Carregando...</p></a>
-            ${CA.reelsHtml('acha', 'Como é o jogo 👇 (vídeo do nosso Instagram)')}
           </section>`));
         palco.querySelector('[data-a=ir]').addEventListener('click', rodar);
         const cx = palco.querySelector('.rank-dia');

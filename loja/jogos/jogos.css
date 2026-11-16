@@ -436,9 +436,7 @@ button { font: inherit; color: inherit; }
   .inicio-lado .podio { order: 1; }
   .inicio-lado .chamada-premium { order: 2; }
   .inicio-lado .mais { order: 3; }
-  .inicio-lado .reels { order: 4; }
   .inicio-lado .instalar, .inicio-lado .instalar-ios { order: 5; }
-  .inicio-lado .reels-caixa iframe { height: 600px; }
   .inicio .dia { transform: none; }
   .inicio-principal .placar-estrelas { text-align: left; margin: -4px 0 14px; }
 
@@ -466,8 +464,6 @@ button { font: inherit; color: inherit; }
   .intro-dia { display: grid; grid-template-columns: minmax(0, 1fr) 420px; grid-template-rows: repeat(8, auto) minmax(0, 1fr); column-gap: 36px; align-items: start; }
   .intro-dia > * { grid-column: 1; }
   .intro-dia > .rank-dia { grid-column: 2; grid-row: 1 / 10; margin-top: 70px; }
-  .intro-dia .reels-caixa { max-width: 400px; }
-  .inicio-lado .reels-titulo { font-size: 23px; }
 
   /* ranking: os jogos quebram linha em vez de rolar pro lado */
   .ranking .chips { flex-wrap: wrap; overflow: visible; margin: -4px 0 14px; padding: 2px 0 6px; }

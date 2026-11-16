@@ -80,8 +80,6 @@
         <aside class="inicio-lado">
         <a class="podio" href="#/ranking" hidden></a>
 
-        ${CA.reelsHtml('acha', 'O ' + CA.NOME_ACHA + ' no nosso Instagram 👇')}
-
         ${CA.ehPremium()
           ? '<a class="chamada-premium ativo" href="#/conta"><strong>★ Premium ativo</strong><span>Todos os níveis de todos os jogos, desafios anteriores e card dourado.</span></a>'
           : '<a class="chamada-premium" href="#/premium"><strong>ca<span class="r-marca">R</span>deno Premium</strong><span>Libera todos os níveis de todos os jogos, os desafios dos dias anteriores e o card dourado. Mensal R$ 4,90 ou anual R$ 29,90.</span></a>'}
