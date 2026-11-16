@@ -1,6 +1,6 @@
 /* Ranking: geral (estrelas de todos os jogos, ou de um jogo com ?jogo=), desafio do dia e amigos.
    Rotas: #/ranking (geral), #/ranking?jogo=cor, #/ranking?aba=hoje, #/ranking?d=AAAA-MM-DD,
-   #/ranking?aba=f1..f3 (tempo nas fases grátis do Acha), #/ranking?aba=amigos.
+   #/ranking?aba=f1..f3 (tempo nos níveis grátis do Acha na ordem), #/ranking?aba=amigos.
    Só aparece no ranking quem tem conta. O @ só aparece se a pessoa deixou, e ganha ✓
    quando foi confirmado pela direct do @Cardeno_Amarelo; só o @ confirmado vira link pro Instagram. */
 (function () {
@@ -42,7 +42,7 @@
     nome: 'Ranking',
     iniciar(palco, p) {
       let vivo = true;
-      // abas: geral (estrelas), hoje (desafio do dia) e amigos. As fases grátis do Acha abrem pelo resultado da fase.
+      // abas: geral (estrelas), hoje (desafio do dia) e amigos. Os níveis grátis do Acha abrem pelo resultado do nível.
       const GR = CA.FASES_GRATIS || 3;
       const fasesAbas = Array.from({ length: GR }, (_, i) => 'f' + (i + 1));
       const data = /^\d{4}-\d{2}-\d{2}$/.test(p.d || '') ? p.d : CA.hojeBR();
@@ -89,15 +89,15 @@
             ${conta ? '' : entrar('Só quem tem conta entra no ranking. É só o e-mail, sem senha.')}`;
         }).catch(falha);
       } else if (aba !== 'amigos') {
-        ver(numFase ? 'fase:' + numFase : 'dia:' + data).then(d => {
+        ver(numFase ? 'nivel:' + numFase : 'dia:' + data).then(d => {
           if (!vivo) return;
           const meuForaTop = d.meu && d.meu.pos > 10;
           miolo.innerHTML = `
-            <p class="sub-ranking">${numFase ? `Fase ${numFase} · ${CA.FASES[numFase - 1].nome} · melhor tempo de cada um` : data === CA.hojeBR() ? 'Desafio do dia: mesma grade pra todo mundo' : 'Desafio de ' + CA.fmtData(data)} · ${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}</p>
+            <p class="sub-ranking">${numFase ? `${CA.NOME_ACHA} · nível ${numFase} (${CA.FASES[numFase - 1].q} números) · melhor tempo de cada um` : data === CA.hojeBR() ? 'Desafio do dia: mesma grade pra todo mundo' : 'Desafio de ' + CA.fmtData(data)} · ${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}</p>
             ${d.top.length ? `<ol class="lista-ranking">${d.top.map(linhaTempo).join('')}</ol>` : '<p class="vazio">Ninguém jogou ainda. Bora ser o 1º?</p>'}
             ${meuForaTop ? `<p class="reticencias">···</p><ol class="lista-ranking">${linhaTempo(d.meu)}</ol>` : ''}
             ${d.amigos.length > 1 ? `<h2 class="secao">Entre teus amigos</h2><ol class="lista-ranking">${d.amigos.map(linhaTempo).join('')}</ol>` : ''}
-            <a class="btn btn-grande" href="${numFase ? '#/fase?f=' + numFase : '#/acha?d=1'}">${d.meu ? 'Tentar melhorar meu tempo' : numFase ? 'Jogar a fase ' + numFase : 'Jogar o desafio do dia'}</a>
+            <a class="btn btn-grande" href="${numFase ? '#/fase?f=' + numFase : '#/acha?d=1'}">${d.meu ? 'Tentar melhorar meu tempo' : numFase ? 'Jogar o nível ' + numFase : 'Jogar o desafio do dia'}</a>
             ${conta ? '' : entrar('Só quem tem conta entra no ranking. É só o e-mail, sem senha.')}`;
         }).catch(falha);
       } else {

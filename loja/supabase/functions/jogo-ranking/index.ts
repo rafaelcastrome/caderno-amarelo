@@ -4,14 +4,15 @@
 // { acao: 'amigo', token, id }              -> vira amigo de quem mandou o link de duelo
 // { acao: 'amigos', token }                 -> teus amigos com estrelas (de todos os jogos) e níveis
 // { acao: 'estrelas', jogo?, token? }       -> ranking de estrelas de um jogo, ou geral (todos os jogos somados)
-// chave: 'dia:AAAA-MM-DD' (desafio do dia, mesma grade pra todos) ou 'fase:N'.
+// chave: 'dia:AAAA-MM-DD' (desafio do dia, mesma grade pra todos) ou 'nivel:N' (níveis do Acha na ordem).
 import { cors, db, json } from '../_comum/comum.ts';
 import { emailDaSessao, nomePublico, confirmado, estrelasDe } from '../_comum/conta.ts';
 
-// tamanho da grade de cada fase (igual ao jogos/js/acha.js), pra barrar tempo impossível
-const N = [5, 5, 6, 5, 5, 5, 6, 5, 6, 5, 6, 6, 7, 5, 6, 7, 6, 7, 5, 6, 7, 6, 7, 6, 7, 7, 7, 6, 7, 7];
-const CHAVE_OK = /^(dia:\d{4}-\d{2}-\d{2}|fase:([1-9]|[12]\d|30))$/;
-const minimo = (chave: string) => chave.startsWith('dia:') ? 25 * 0.12 : (N[+chave.slice(5) - 1] ** 2) * 0.07;
+// quantos números tem cada nível do Acha na ordem (igual ao jogos/js/acha.js), pra barrar tempo impossível.
+// Desde 16/11/2026 os níveis crescem e a chave é 'nivel:N' (as antigas 'fase:N' eram de outra grade e não valem mais).
+const Q = [9, 12, 16, 20, 25, 25, 25, 30, 30, 30, 36, 36, 36, 36, 42, 42, 42, 42, 49, 49, 49, 49, 49, 56, 56, 56, 56, 64, 64, 64];
+const CHAVE_OK = /^(dia:\d{4}-\d{2}-\d{2}|nivel:([1-9]|[12]\d|30))$/;
+const minimo = (chave: string) => chave.startsWith('dia:') ? 25 * 0.12 : Q[+chave.slice(6) - 1] * 0.1;
 const CAMPOS = 'email, apelido, arroba, mostrar_arroba, arroba_confirmado, id_publico';
 
 async function amigosDe(email: string) {

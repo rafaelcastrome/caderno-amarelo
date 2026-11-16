@@ -67,7 +67,7 @@
 
         <a class="dia" href="#/acha?d=1">
           <span class="dia-fita">Desafio do dia</span>
-          <strong>Acha do 1 ao 25: ${CA.regraDoDia(CA.hojeBR())}</strong>
+          <strong>${CA.NOME_ACHA}: ${CA.regraDoDia(CA.hojeBR())}</strong>
           <small>${feitoHoje ? 'Tu fez ' + feitoHoje.txt + ' hoje. Tenta bater!' : 'A mesma grade pra todo mundo hoje. Bora?'}</small>
           <span class="btn">Jogar o desafio do dia</span>
         </a>
@@ -78,7 +78,7 @@
 
         <a class="podio" href="#/ranking" hidden></a>
 
-        ${CA.reelsHtml('acha', 'O Acha do 1 ao 25 no nosso Instagram 👇')}
+        ${CA.reelsHtml('acha', 'O ' + CA.NOME_ACHA + ' no nosso Instagram 👇')}
 
         ${CA.ehPremium()
           ? '<a class="chamada-premium ativo" href="#/conta"><strong>★ Premium ativo</strong><span>Todos os níveis de todos os jogos, desafios anteriores e card dourado.</span></a>'

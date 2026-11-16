@@ -13,23 +13,25 @@
   ];
   CORES.push({ id: 'laranja', nome: 'LARANJA', hex: '#ea580c' });
 
-  // níveis: [cores, segundos, multa, botões mudam de lugar?, pontos pra 1/2/3 estrelas]
+  // níveis: [cores, segundos, multa, botões mudam de lugar?, acertos pra 1/2/3 estrelas]
+  // Cada nível é mais difícil que o anterior: mais cores, botões que trocam de lugar,
+  // menos tempo e mais acertos por segundo pra passar.
   const NIV = [
-    [4, 30, 2, false, [12, 18, 24]],
-    [4, 25, 2, false, [12, 17, 22]],
-    [5, 30, 2, false, [14, 20, 26]],
-    [5, 25, 2, true, [12, 17, 22]],
-    [5, 20, 2, false, [10, 14, 18]],
-    [6, 30, 2, false, [14, 19, 24]],
-    [6, 25, 2, true, [12, 16, 20]],
-    [6, 20, 3, false, [10, 14, 18]],
-    [6, 20, 3, true, [10, 13, 17]],
-    [6, 15, 3, true, [8, 11, 14]],
+    [3, 30, 1, false, [10, 14, 18]],
+    [4, 30, 2, false, [11, 15, 19]],
+    [5, 30, 2, false, [12, 16, 20]],
+    [5, 30, 2, true, [13, 17, 21]],
+    [6, 30, 2, false, [14, 18, 22]],
+    [6, 30, 2, true, [15, 19, 23]],
+    [6, 25, 3, true, [14, 18, 22]],
+    [6, 20, 3, true, [12, 15, 18]],
+    [6, 20, 3, true, [13, 16, 19]],
+    [6, 15, 3, true, [11, 13, 15]],
   ];
 
   const jogo = CA.registrarJogo({
     id: 'cor', nome: 'Fala a cor', icone: '🎨', cor: '#d62828', total: NIV.length,
-    desc: 'Toca na cor da TINTA, não na palavra. Parece fácil...',
+    desc: 'Toca na cor da TINTA, não na palavra. Começa com 3 cores e só piora...',
     href: n => '#/cor?n=' + n,
   });
 
@@ -89,7 +91,7 @@
         const cs = CORES.slice(0, ATIVAS);
         let pontos = 0, erros = 0, seguidos = 0, melhorSeq = 0, tinta = null, ultimaPal = null;
         function montarBotoes() {
-          caixa.style.setProperty('--k', ATIVAS > 4 ? 3 : 4);
+          caixa.style.setProperty('--k', ATIVAS === 4 ? 4 : 3);
           caixa.innerHTML = r.shuffle(cs).map(c => `<button class="bola-btn" data-c="${c.id}" style="--c:${c.hex}" aria-label="${c.nome}"></button>`).join('');
         }
         function proxima() {

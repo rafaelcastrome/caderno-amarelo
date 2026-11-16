@@ -305,10 +305,12 @@
 
     // a grade que a pessoa jogou, com o caminho da caneta
     if (quadro) {
-      const n = quadro.n, lado = 540, x0 = (W - lado) / 2, y0 = y + 20, cel = lado / n, pad = cel * 0.07;
+      // grade de n colunas e l linhas (o Acha na ordem tem grades 3x3, 3x4, 4x5...)
+      const n = quadro.n, l = quadro.l || n, cel = 540 / Math.max(n, l), larg = cel * n, lado = cel * l;
+      const x0 = (W - larg) / 2, y0 = y + 20, pad = cel * 0.07;
       g.save(); g.translate(540, y0 + lado / 2); g.rotate(0.012); g.translate(-540, -(y0 + lado / 2));
-      g.fillStyle = 'rgba(31,31,36,.12)'; g.fillRect(x0 + 10, y0 + 12, lado, lado);
-      g.fillStyle = '#fff'; g.fillRect(x0 - 12, y0 - 12, lado + 24, lado + 24);
+      g.fillStyle = 'rgba(31,31,36,.12)'; g.fillRect(x0 + 10, y0 + 12, larg, lado);
+      g.fillStyle = '#fff'; g.fillRect(x0 - 12, y0 - 12, larg + 24, lado + 24);
       const centro = i => [x0 + (i % n + 0.5) * cel, y0 + (Math.floor(i / n) + 0.5) * cel];
       quadro.nomes.forEach((nome, i) => {
         const [cx, cy] = centro(i);
@@ -415,7 +417,7 @@
             <span class="convite-medalha" aria-hidden="true">🥇</span>
             <span><strong>Quer tua colocação na arte?</strong><small>Cria tua conta grátis, só com o e-mail, e entra no ranking com teu @. Esse resultado já conta!</small></span></a>`}` : ''}
           <button class="btn btn-grande btn-claro" data-a="denovo">Jogar de novo</button>
-          <a class="link-voltar" href="${(r.linkVoltar || {}).href || '#/jogo?id=acha'}">${(r.linkVoltar || {}).txt || 'Ver todas as fases'}</a>
+          <a class="link-voltar" href="${(r.linkVoltar || {}).href || '#/jogo?id=acha'}">${(r.linkVoltar || {}).txt || 'Ver todos os níveis'}</a>
         </div>
         ${CA.ehPremium() ? '' : `<a class="chamada-premium" href="#/premium">
           <strong>ca<span class="r-marca">R</span>deno Premium</strong>

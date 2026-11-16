@@ -1,6 +1,6 @@
 /* Jogos com níveis: lista de todos os jogos, progresso (estrelas) de cada nível e a tela de cada jogo.
    Regra de todo jogo: os 3 primeiros níveis são grátis, o resto é caRdeno Premium.
-   Progresso: Acha do 1 ao 25 fica em 'fases' (chaves "1".."30"); os outros em 'niveis' (chaves "cor:1").
+   Progresso de todos os jogos em 'niveis' (chaves "acha:1", "cor:1"...). Cada nível tem que ser mais difícil que o anterior.
    Rota: #/jogo?id=<jogo> (tela com os níveis, o ranking do jogo e os outros jogos). */
 (function () {
   'use strict';

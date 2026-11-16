@@ -8,23 +8,23 @@
   const D = window.DESAFIOS || [];
   const porId = id => D.find(d => d.id === id);
 
-  // 66 desafios em 5 jogos (ids da lista original)
+  // 66 desafios em 5 jogos (ids da lista original), do mais fácil pro mais difícil em cada jogo
   const GRUPOS = [
     { id: 'oque', nome: 'O que é, o que é?', icone: '🤔', cor: '#ea580c',
       desc: 'Adivinhas clássicas: parece difícil até tu sacar.',
-      ids: [1, 10, 14, 18, 22, 28, 32, 42, 46, 51, 53, 55, 59, 61, 63] },
+      ids: [10, 46, 59, 53, 14, 1, 18, 22, 55, 61, 28, 51, 32, 63, 42] },
     { id: 'pegadinha', nome: 'Pegadinhas', icone: '😜', cor: '#d62828',
       desc: 'Perguntas de lógica feitas pra te enganar. Pensa antes!',
-      ids: [4, 6, 8, 12, 16, 20, 24, 26, 30, 34, 36, 38, 40, 44, 49, 57, 65] },
+      ids: [40, 8, 30, 6, 4, 20, 12, 49, 36, 38, 44, 57, 65, 34, 26, 16, 24] },
     { id: 'olho', nome: 'Olho atento', icone: '👀', cor: '#15803d',
       desc: 'Conta, compara e acha. Teu olho vai querer te enganar.',
-      ids: [3, 2, 5, 17, 13, 21, 27, 29, 37, 39, 47, 50, 58, 48] },
+      ids: [3, 13, 17, 39, 37, 5, 58, 21, 29, 27, 50, 47, 2, 48] },
     { id: 'proximo', nome: 'Qual o próximo?', icone: '🧩', cor: '#7c3aed',
       desc: 'Descobre a regra da sequência e completa.',
-      ids: [7, 15, 23, 31, 41, 45, 54] },
+      ids: [54, 31, 7, 15, 41, 23, 45] },
     { id: 'emojis', nome: 'Emojis e espelhos', icone: '🪞', cor: '#0e7490',
       desc: 'Filme em emoji, palavra no espelho, relógio ao contrário.',
-      ids: [11, 19, 9, 25, 33, 35, 43, 52, 56, 60, 62, 64, 66] },
+      ids: [11, 25, 52, 43, 56, 62, 33, 19, 35, 9, 60, 64, 66] },
   ];
 
   // comprou os 66 Desafios avulso? (no celular ou na conta)

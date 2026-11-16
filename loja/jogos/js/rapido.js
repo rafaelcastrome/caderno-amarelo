@@ -40,30 +40,57 @@
     ['Cem centímetros é um metro', true],
   ];
 
-  function gerarConta(r, nivel) {
-    const tipo = r.pick(nivel < 4 ? ['soma', 'sub'] : ['soma', 'sub', 'vezes', 'vezes', 'metade', 'dobro', 'compara']);
-    let txt, certo;
+  // Conta de CERTO ou ERRADO. d = dificuldade (o nível, de 1 a 10, que ainda sobe um pouco durante a partida).
+  // Cada nível libera contas novas e números maiores, e o erro fica mais disfarçado (perto do certo).
+  function gerarConta(r, d) {
+    const tipos = ['soma', 'sub'];
+    if (d >= 3) tipos.push('vezes');
+    if (d >= 4) tipos.push('vezes');
+    if (d >= 5) tipos.push('metade', 'dobro');
+    if (d >= 6) tipos.push('compara');
+    if (d >= 8) tipos.push('tres', 'vezes2');
+    if (d >= 9) tipos.push('ordem', 'ordem');
+    const tipo = r.pick(tipos);
+    const lim = [10, 20, 30, 50, 99, 99, 150, 199, 299, 499][Math.min(9, d - 1)];
     const erra = r() < 0.5;
-    const desvio = () => r.pick([-10, -3, -2, -1, 1, 2, 3, 10]);
+    // nos primeiros níveis o erro é grande (fácil de ver); depois fica colado no resultado certo
+    const desvio = () => d <= 2 ? r.pick([-5, -4, -3, 3, 4, 5]) : d <= 5 ? r.pick([-10, -3, -2, -1, 1, 2, 3, 10]) : r.pick([-10, -1, 1, 10, -2, 2]);
+    let txt, certo, c;
     if (tipo === 'soma') {
-      const a = r.int(2, nivel < 4 ? 15 : 49), b = r.int(2, nivel < 4 ? 15 : 49);
-      const c = a + b + (erra ? desvio() : 0);
+      const a = r.int(1, Math.ceil(lim / 2)), b = r.int(1, Math.ceil(lim / 2));
+      c = a + b + (erra ? desvio() : 0);
       txt = `${a} + ${b} = ${c}`; certo = c === a + b;
     } else if (tipo === 'sub') {
-      const a = r.int(10, nivel < 4 ? 30 : 99), b = r.int(1, a - 1);
-      const c = a - b + (erra ? desvio() : 0);
+      const a = r.int(Math.min(5, lim), lim), b = r.int(1, a - 1 || 1);
+      c = a - b + (erra ? desvio() : 0);
       txt = `${a} − ${b} = ${c}`; certo = c === a - b;
     } else if (tipo === 'vezes') {
-      const a = r.int(2, 9), b = r.int(2, 9);
-      const c = a * b + (erra ? r.pick([-a, a, -1, 1, b, -b]) : 0);
+      const max = d <= 3 ? 5 : d <= 6 ? 9 : 12;
+      const a = r.int(2, max), b = r.int(2, max);
+      c = a * b + (erra ? r.pick([-a, a, -1, 1, b, -b]) : 0);
       txt = `${a} × ${b} = ${c}`; certo = c === a * b;
+    } else if (tipo === 'vezes2') {
+      const a = r.int(11, 25), b = r.int(2, 9);
+      c = a * b + (erra ? r.pick([-b, b, -10, 10, -1, 1]) : 0);
+      txt = `${a} × ${b} = ${c}`; certo = c === a * b;
+    } else if (tipo === 'tres') {
+      const a = r.int(5, 60), b = r.int(5, 60), e = r.int(5, 60);
+      c = a + b + e + (erra ? desvio() : 0);
+      txt = `${a} + ${b} + ${e} = ${c}`; certo = c === a + b + e;
+    } else if (tipo === 'ordem') {
+      // pegadinha da ordem: primeiro a multiplicação
+      const a = r.int(2, 20), b = r.int(2, 9), e = r.int(2, 9);
+      const certoV = a + b * e, errado = (a + b) * e;
+      c = erra ? (r() < 0.6 ? errado : certoV + desvio()) : certoV;
+      if (c === certoV && erra) c = certoV + 1;
+      txt = `${a} + ${b} × ${e} = ${c}`; certo = c === certoV;
     } else if (tipo === 'metade') {
-      const a = r.int(3, 40) * 2;
-      const c = a / 2 + (erra ? desvio() : 0);
+      const a = r.int(3, d >= 7 ? 99 : 40) * 2;
+      c = a / 2 + (erra ? desvio() : 0);
       txt = `A metade de ${a} é ${c}`; certo = c === a / 2;
     } else if (tipo === 'dobro') {
-      const a = r.int(6, 49);
-      const c = a * 2 + (erra ? desvio() : 0);
+      const a = r.int(6, d >= 7 ? 199 : 49);
+      c = a * 2 + (erra ? desvio() : 0);
       txt = `O dobro de ${a} é ${c}`; certo = c === a * 2;
     } else {
       // pegadinha clássica de vírgula: 0,5 x 0,45
@@ -76,23 +103,29 @@
     return { txt, certo };
   }
 
-  // níveis: [segundos, dificuldade das contas, multa, pegadinhas?, acertos pra 1/2/3 estrelas]
+  // níveis: [segundos, multa, pegadinhas?, acertos pra 1/2/3 estrelas]
+  // A conta de cada nível usa gerarConta(nível): começa com soma e diminuição até 10
+  // e vai ganhando tabuada, metade/dobro, vírgula, três números, ordem das contas...
   const NIV = [
-    [30, 1, 2, false, [10, 14, 18]],
-    [30, 3, 2, true, [10, 14, 18]],
-    [25, 5, 2, true, [9, 13, 16]],
-    [30, 8, 2, true, [10, 14, 17]],
-    [25, 10, 2, true, [9, 12, 15]],
-    [25, 12, 3, true, [9, 12, 15]],
-    [20, 12, 3, true, [8, 11, 14]],
-    [20, 14, 3, true, [8, 11, 14]],
-    [20, 16, 3, true, [9, 12, 15]],
-    [15, 18, 3, true, [7, 10, 12]],
+    [30, 1, false, [10, 14, 18]],
+    [30, 2, false, [10, 14, 18]],
+    [30, 2, true, [10, 14, 18]],
+    [30, 2, true, [11, 15, 19]],
+    [30, 2, true, [11, 15, 19]],
+    [25, 3, true, [10, 13, 16]],
+    [25, 3, true, [10, 13, 16]],
+    [25, 3, true, [10, 13, 16]],
+    [20, 3, true, [8, 11, 14]],
+    [20, 3, true, [9, 12, 15]],
   ];
+  // o que entra em cada nível, pra tela de antes de jogar
+  const CONTEUDO = ['soma e diminuição até 10', 'soma e diminuição até 20', 'soma, diminuição e tabuada até 5',
+    'tabuada completa', 'metade e dobro', 'vírgula que engana (0,5 ou 0,45?)', 'números até 150 e tabuada do 12',
+    'conta com três números', 'ordem das contas (+ e ×)', 'tudo junto, números grandes'];
 
   const jogo = CA.registrarJogo({
     id: 'rapido', nome: 'Responde rápido', icone: '⏱️', cor: '#15803d', total: NIV.length,
-    desc: 'Certo ou errado? Contas e pegadinhas contra o relógio.',
+    desc: 'Certo ou errado? Começa com conta de 1+1 e vai ficando cabeluda.',
     href: n => '#/rapido?n=' + n,
   });
 
@@ -108,7 +141,7 @@
         else location.hash = jogo.href(jogo.proximo());
         return null;
       }
-      const [DURACAO, DIF, MULTA, PEGA, ALVO] = NIV[n - 1];
+      const [DURACAO, MULTA, PEGA, ALVO] = NIV[n - 1];
       if (deAmigo) jogar(+p.s >>> 0); else intro();
 
       function intro() {
@@ -120,7 +153,7 @@
             <h1>Responde rápido</h1>
             <p>Vai aparecer uma conta${PEGA ? ' ou uma frase' : ''}. Tu responde <b>CERTO</b> ou <b>ERRADO</b>, o mais rápido possível.${PEGA ? ' Cuidado com as pegadinhas!' : ''}</p>
             <ul class="regras-nivel">
-              <li><b>${DURACAO} segundos</b>${DIF >= 4 ? ', com vezes, metade, dobro e vírgula' : ', só somar e diminuir'}</li>
+              <li><b>${DURACAO} segundos</b> · novidade: ${CONTEUDO[n - 1]}</li>
               <li>Errou, perde ${MULTA} segundos</li>
               <li>★ ${ALVO[0]} acertos · ★★ ${ALVO[1]} · ★★★ ${ALVO[2]}</li>
             </ul>
@@ -159,7 +192,7 @@
           if (PEGA && k >= 3 && pi < pool.length && r() < 0.34) {
             const [txt, certo] = pool[pi++];
             atual = { txt, certo };
-          } else atual = gerarConta(r, DIF + Math.floor(k / 4));
+          } else atual = gerarConta(r, Math.min(10, n + Math.floor(k / 12)));
           elQ.textContent = atual.txt;
           elQ.classList.toggle('longa', atual.txt.length > 22);
           elCartao.classList.remove('entra'); void elCartao.offsetWidth; elCartao.classList.add('entra');

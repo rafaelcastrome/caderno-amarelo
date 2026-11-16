@@ -2,7 +2,7 @@
    Conta: entra com e-mail + código de 6 números que chega no e-mail (sem senha).
    Premium: passe no Pix da loja (mensal R$ 4,90 = 30 dias, anual R$ 29,90 = 1 ano), preso ao
    E-MAIL da conta, então vale em qualquer celular. Pix não renova sozinho: a pessoa renova quando
-   quiser e os dias somam. Libera TODOS os jogos. O progresso das fases também fica salvo na conta. */
+   quiser e os dias somam. Libera TODOS os jogos. O progresso dos níveis também fica salvo na conta. */
 (function () {
   'use strict';
   const CA = window.CA;
@@ -40,7 +40,7 @@
     CA.gravar('conta', { email: d.email || antes.email, token: d.token || antes.token, premium: !!d.premium, ate: d.ate || null, perfil: d.perfil || antes.perfil || null });
     amigoPendente();
     if (d.progresso) {
-      // chaves "1".."30" = fases do Acha; "cor:2" = níveis dos outros jogos
+      // chaves "acha:4", "cor:2"... = níveis de cada jogo ("1".."30" = fases antigas do Acha, não usadas mais)
       const fases = {}, niveis = {};
       for (const k in d.progresso) (k.includes(':') ? niveis : fases)[k] = d.progresso[k];
       CA.gravar('fases', fases); CA.gravar('niveis', niveis);
@@ -70,7 +70,7 @@
     if (c) chamar('jogo-conta', { token: c.token, sair: true }).catch(() => {});
     CA.gravar('conta', null);
   };
-  // Atualiza Premium e progresso com o servidor (ao abrir o app e depois de cada fase).
+  // Atualiza Premium e progresso com o servidor (ao abrir o app e depois de cada nível).
   let enviando = null;
   CA.sincronizar = function () {
     const c = CA.conta();
@@ -83,15 +83,15 @@
     return enviando;
   };
 
-  // Quem jogou sem conta e entrou depois: manda pro ranking os tempos que já fez (desafio de hoje e ontem, fases grátis).
+  // Quem jogou sem conta e entrou depois: manda pro ranking os tempos que já fez (desafio de hoje e ontem, níveis grátis do Acha).
   function enviarPendentes() {
     const hoje = CA.hojeBR(), ontem = new Date(Date.parse(hoje + 'T12:00:00Z') - 864e5).toISOString().slice(0, 10);
     [hoje, ontem].forEach(d => {
       const t = CA.ler('rec:dia:' + d, null);
       if (t) CA.enviarRecorde('dia:' + d, t, CA.ler('tentrec:dia:' + d, null));
     });
-    const fases = CA.ler('fases', {});
-    for (let f = 1; f <= (CA.FASES_GRATIS || 3); f++) if (fases[f] && fases[f].t) CA.enviarRecorde('fase:' + f, fases[f].t, fases[f].r || null);
+    const fases = CA.progressoFases ? CA.progressoFases() : {};
+    for (let f = 1; f <= (CA.FASES_GRATIS || 3); f++) if (fases[f] && fases[f].t) CA.enviarRecorde('nivel:' + f, fases[f].t, fases[f].r || null);
   }
 
   // Link da direct do @Cardeno_Amarelo. No Android o ig.me abre tela preta no Chrome,
@@ -231,7 +231,7 @@
   }
 
   const BENEFICIOS = [
-    ['Todos os níveis de todos os jogos', 'Do nível 4 até o último em cada jogo: Acha do 1 ao 25, Fala a cor, Responde rápido, charadas, pegadinhas... E cada jogo novo que chegar já vem liberado'],
+    ['Todos os níveis de todos os jogos', 'Do nível 4 até o último em cada jogo: Acha na ordem, Fala a cor, Responde rápido, charadas, pegadinhas... E cada jogo novo que chegar já vem liberado'],
     ['Desafios dos dias anteriores', 'Perdeu um desafio do dia? Joga qualquer um dos últimos 30 dias'],
     ['Card dourado', 'Teu resultado com moldura dourada e selo Premium pros stories'],
   ];
@@ -374,7 +374,7 @@
             titulo: novo ? 'Cria tua conta pra jogar' : volta ? 'Cria tua conta grátis' : 'Entra com teu e-mail',
             texto: novo ? 'É grátis e sem senha, só teu e-mail. Assim teus níveis e estrelas ficam salvos e tu aparece no ranking. Já tem conta? Usa o mesmo e-mail.'
               : volta ? 'Aí tu entra no ranking (com teu @, se quiser) e tua colocação aparece na arte dos stories. Teus tempos de hoje já contam. Sem senha.'
-              : 'Pra entrar no ranking, salvar tuas fases e teu Premium e continuar em qualquer celular. Sem senha.',
+              : 'Pra entrar no ranking, salvar teus níveis e teu Premium e continuar em qualquer celular. Sem senha.',
             onPronto: () => {
               if (!vivo) return;
               CA.aviso('Pronto, tu entrou!');

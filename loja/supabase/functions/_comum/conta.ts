@@ -32,8 +32,8 @@ export async function emailDaSessao(token: unknown) {
   return data?.email ?? null;
 }
 
-// Junta dois progressos. Chaves: "1".."30" = fases do Acha do 1 ao 25 (tempo t obrigatório);
-// "cor:3", "oque:12"... = nível dos outros jogos (estrelas e; t = tempo, p = pontos, opcionais).
+// Junta dois progressos. Chaves: "acha:4", "cor:3", "oque:12"... = nível de cada jogo
+// ("1".."30" = fases antigas do Acha do 1 ao 25, antes dos níveis crescerem em 16/11/2026: guardadas, mas não contam estrela) (estrelas e; t = tempo, p = pontos, opcionais).
 // Fica o melhor de cada: mais estrelas, menor tempo, mais pontos, mais tentativas (n) e em qual tentativa fez o recorde (r).
 type Nivel = { t?: number; e: number; p?: number; n?: number; r?: number | null };
 const CHAVE_FASE = /^\d{1,2}$/, CHAVE_NIVEL = /^[a-z]{2,12}:\d{1,2}$/;
@@ -64,7 +64,8 @@ export function juntar(a: Record<string, Nivel>, b: Record<string, Nivel>) {
 export function estrelasDe(prog: Record<string, Nivel> | null, jogo: string | null) {
   let estrelas = 0, niveis = 0;
   for (const [k, v] of Object.entries(prog || {})) {
-    const id = CHAVE_FASE.test(k) ? 'acha' : k.split(':')[0];
+    if (CHAVE_FASE.test(k)) continue; // fase antiga do Acha (outra grade): não conta mais
+    const id = k.split(':')[0];
     if (jogo && id !== jogo) continue;
     estrelas += Math.max(0, Math.min(3, Number(v?.e) || 0));
     niveis++;
