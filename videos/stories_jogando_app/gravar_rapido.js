@@ -3,11 +3,11 @@ const { chromium } = require('playwright');
 const fs = require('fs'), path = require('path');
 const OUT = process.argv[2]; fs.mkdirSync(OUT, { recursive: true });
 const DPR = 1080 / 390;
-const perfil = { apelido: 'Rafa', arroba: 'cardeno_amarelo', mostrar_arroba: true, arroba_confirmado: true, id_publico: 'demo' };
+const perfil = { apelido: 'Rafa', arroba: 'caRdeno_Amarelo', mostrar_arroba: true, arroba_confirmado: true, id_publico: 'demo' };
 let tempoFinal = 15;
 const linhas = t => [
   { pos: 1, nome: 'Ju', t: +(t - 1.6).toFixed(1), tentativa: 4 },
-  { pos: 2, nome: '@cardeno_amarelo', ok: true, eu: true, t, tentativa: 1 },
+  { pos: 2, nome: '@caRdeno_Amarelo', ok: true, eu: true, t, tentativa: 1 },
   { pos: 3, nome: 'Pedrinho', t: +(t + 0.9).toFixed(1), tentativa: 2 },
   { pos: 4, nome: 'Bia', t: +(t + 2.3).toFixed(1), tentativa: 1 },
   { pos: 5, nome: 'Lucas', t: +(t + 3.8).toFixed(1), tentativa: 3 },

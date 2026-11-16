@@ -10,7 +10,7 @@ def pill(txt, size, fill, ink, path, outline=(40,36,30,255), alpha=255, pad=(34,
     if alpha<255:
         a=im.getchannel('A').point(lambda v:v*alpha//255); im.putalpha(a)
     im.save(path); return im.size
-print(pill('@Cardeno_Amarelo',46,(255,255,255,235),(40,36,30,255),'marca.png',alpha=215,pad=(26,8)))
+print(pill('@caRdeno_Amarelo',46,(255,255,255,235),(40,36,30,255),'marca.png',alpha=215,pad=(26,8)))
 print(pill('Desafia teu amigo!',78,(255,210,63,255),(40,36,30,255),'t_amigo.png'))
 print(pill('Teu nome e @ no ranking!',72,(255,210,63,255),(40,36,30,255),'t_ranking.png'))
 print(pill('A gente reposta o ranking!',72,(255,210,63,255),(40,36,30,255),'t_reposta.png'))
