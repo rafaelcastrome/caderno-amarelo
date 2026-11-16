@@ -87,7 +87,7 @@ Deno.serve(async (req) => {
         .sort(comparar(jogo));
       const fmt = (x: any, i: number) => ({
         pos: i + 1, nome: nomePublico(x.c), ok: confirmado(x.c), estrelas: x.estrelas, niveis: x.niveis,
-        pontos: x.pontos, tempo: x.tempo, acertos: x.acertos, media: x.media, eu: x.c.email === eu,
+        pontos: x.pontos, tempo: x.tempo, acertos: x.acertos, media: x.media, velocidade: x.velocidade, eu: x.c.email === eu,
       });
       const iMeu = eu ? lista.findIndex((x) => x.c.email === eu) : -1;
       return json({ jogo, total: lista.length, top: lista.slice(0, 10).map(fmt), meu: iMeu >= 0 ? fmt(lista[iMeu], iMeu) : null });

@@ -52,7 +52,7 @@ export function pontosNivel(jogo: string, n: number, v: Nivel): number {
   return 250 + e * 50 + (t > 0 ? Math.round(150 * lim((90 - t) / 80, 0, 1)) : 0);
 }
 
-export type Resumo = { estrelas: number; niveis: number; pontos: number; tempo: number; acertos: number; media: number | null };
+export type Resumo = { estrelas: number; niveis: number; pontos: number; tempo: number; acertos: number; media: number | null; velocidade: number };
 
 // resumo de um jogo (ou de todos, jogo = null) a partir do progresso guardado na conta
 export function resumoDe(prog: Record<string, Nivel> | null, jogo: string | null): Resumo {
@@ -70,11 +70,15 @@ export function resumoDe(prog: Record<string, Nivel> | null, jogo: string | null
     else if (id === 'pegadinhas') { acertos += Number(v.a) || 0; if (typeof v.m === 'number') { somaM += v.m; qM++; } }
     else if (CHARADAS.includes(id) && e > 0) acertos++;
   }
-  return { estrelas, niveis, pontos, tempo: Math.round(tempo * 10) / 10, acertos, media: qM ? Math.round(somaM / qM * 10) / 10 : null };
+  // velocidade = média dos pontos por nível: compara o tempo de cada nível com o tempo das 3 estrelas
+  // (500 = no limite das 3 estrelas, 1000 = duas vezes mais rápido). Não cresce com a quantidade de níveis.
+  const velocidade = niveis ? Math.round(pontos / niveis) : 0;
+  return { estrelas, niveis, pontos, tempo: Math.round(tempo * 10) / 10, acertos, media: qM ? Math.round(somaM / qM * 10) / 10 : null, velocidade };
 }
 
 // Ordem do ranking. Sem jogo (geral e amigos): mais pontos. Com jogo, a métrica dele:
-//  - Caça-números: mais níveis feitos; empatou, menor tempo somado
+//  - Caça-números: TEMPO primeiro (Rafael 16/11): maior velocidade (tempo de cada nível comparado com o das 3 estrelas,
+//    pra quem joga níveis maiores não sair perdendo); empatou, mais níveis
 //  - Fala a cor / Responde rápido: mais acertos somados nos níveis
 //  - Pegadinhas: mais acertos; empatou, menor tempo médio
 //  - charadas: mais charadas acertadas, mais estrelas (menos erros), menor tempo somado
@@ -82,7 +86,7 @@ export function resumoDe(prog: Record<string, Nivel> | null, jogo: string | null
 export function comparar(jogo: string | null) {
   return (x: Resumo, y: Resumo) => {
     let d = 0;
-    if (jogo === 'acha') d = y.niveis - x.niveis || x.tempo - y.tempo;
+    if (jogo === 'acha') d = y.velocidade - x.velocidade || y.niveis - x.niveis;
     else if (jogo === 'cor' || jogo === 'rapido') d = y.acertos - x.acertos;
     else if (jogo === 'pegadinhas') d = y.acertos - x.acertos || (x.media ?? 99) - (y.media ?? 99);
     else if (jogo && CHARADAS.includes(jogo)) d = y.acertos - x.acertos || y.estrelas - x.estrelas || (x.tempo || 1e6) - (y.tempo || 1e6);

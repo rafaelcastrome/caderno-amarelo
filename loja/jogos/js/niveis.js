@@ -74,7 +74,7 @@
   const niveisTxt = n => `${n} ${n === 1 ? 'nível' : 'níveis'}`;
   // texto curto de "como funciona" embaixo do título do ranking
   CA.regraRanking = function (id) {
-    if (id === 'acha') return 'Quem passou mais níveis. Empatou, ganha quem fez no menor tempo somado';
+    if (id === 'acha') return 'Quem é mais rápido (teu tempo em cada nível comparado com o das 3 estrelas). Empatou, ganha quem fez mais níveis';
     if (id === 'cor' || id === 'rapido') return 'Quem somou mais acertos em todos os níveis';
     if (id === 'pegadinhas') return 'Quem somou mais acertos. Empatou, ganha quem respondeu mais rápido';
     if (CHARADA(id)) return 'Quem acertou mais, com menos erros. Empatou, ganha o mais rápido';
@@ -84,7 +84,7 @@
   CA.valorRanking = function (r, id) {
     const est = `${r.estrelas} ★`;
     if (r.pontos == null) return [est, niveisTxt(r.niveis)]; // resposta antiga do servidor
-    if (id === 'acha') return [r.tempo ? CA.fmtSeg(r.tempo) : '—', `${niveisTxt(r.niveis)} · ${est}`];
+    if (id === 'acha') return [`${milhar(r.velocidade)} de velocidade`, `${niveisTxt(r.niveis)} · ${r.tempo ? CA.fmtSeg(r.tempo) + ' no total' : est}`];
     if (id === 'cor' || id === 'rapido') return [`${r.acertos} acertos`, `${niveisTxt(r.niveis)} · ${est}`];
     if (id === 'pegadinhas') return [`${r.acertos} acertos`, (r.media != null ? CA.fmtSeg(r.media) + ' por pergunta · ' : '') + niveisTxt(r.niveis)];
     if (CHARADA(id)) return [`${r.acertos} ${r.acertos === 1 ? 'acerto' : 'acertos'}`, est + (r.tempo ? ' · ' + CA.fmtSeg(r.tempo) : '')];
