@@ -466,7 +466,7 @@ button { font: inherit; color: inherit; }
   .intro-dia { display: grid; grid-template-columns: minmax(0, 1fr) 420px; grid-template-rows: repeat(8, auto) minmax(0, 1fr); column-gap: 36px; align-items: start; }
   .intro-dia > * { grid-column: 1; }
   .intro-dia > .rank-dia { grid-column: 2; grid-row: 1 / 10; margin-top: 70px; }
-  .intro-dia .reels { max-width: 400px; }
+  .intro-dia .reels-caixa { max-width: 400px; }
   .inicio-lado .reels-titulo { font-size: 23px; }
 
   /* ranking: os jogos quebram linha em vez de rolar pro lado */
