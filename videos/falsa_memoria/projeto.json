@@ -1,0 +1,18 @@
+{
+ "titulo": "Teste de memória (falsa memória)",
+ "marca": {"handle": "caRdeno_Amarelo", "nome": "caRdeno Amarelo"},
+ "marcaDagua": false,
+ "voz": {"gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"},
+ "fontes": [
+  {"fato": "Lista de palavras ligadas a um tema faz a pessoa 'lembrar' da palavra-chave que nunca apareceu (paradigma DRM, falsa memória)",
+   "fonte": "Roediger & McDermott (1995), Journal of Experimental Psychology: Learning, Memory, and Cognition; Deese (1959)", "url": "https://en.wikipedia.org/wiki/Deese%E2%80%93Roediger%E2%80%93McDermott_paradigm"}
+ ],
+ "cenas": [
+  {"fala": "Teste de memória! Decora essas palavras... elas vão passar rápido!"},
+  {"fala": "Agora... sem voltar o vídeo! Quais dessas tavam na lista? Cama... sono... ou carro?"},
+  {"fala": "Cama tava, claro. Carro não. E sono... tu viu sono, né?"},
+  {"fala": "Sono nunca apareceu!"},
+  {"fala": "Teu cérebro inventou essa palavra! Isso se chama falsa memória... e cai quase todo mundo."},
+  {"fala": "Duvida? Volta e confere... e comenta se tu caiu!"}
+ ]
+}
