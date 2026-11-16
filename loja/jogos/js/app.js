@@ -95,7 +95,7 @@
           <small>Toca em <b>Compartilhar</b> e depois em <b>Adicionar à Tela de Início</b>.</small>
         </div>
 
-        <p class="rodape">@Cardeno_Amarelo</p>
+        <p class="rodape">@caRdeno_Amarelo</p>
       </div>`));
 
     palco.querySelector('button.som').addEventListener('click', e => {

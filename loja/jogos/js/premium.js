@@ -94,14 +94,28 @@
     for (let f = 1; f <= (CA.FASES_GRATIS || 3); f++) if (fases[f] && fases[f].t) CA.enviarRecorde('fase:' + f, fases[f].t, fases[f].r || null);
   }
 
-  // Link da direct do @Cardeno_Amarelo. No Android o ig.me abre tela preta no Chrome,
+  // Link da direct do @caRdeno_Amarelo. No Android o ig.me abre tela preta no Chrome,
   // então manda direto pro app do Instagram (e, sem o app, pro perfil no site).
+  CA.ehCelular = () => /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   CA.linkDirect = function () {
     if (/Android/i.test(navigator.userAgent)) {
-      return 'intent://ig.me/m/Cardeno_Amarelo#Intent;scheme=https;package=com.instagram.android;S.browser_fallback_url='
+      return 'intent://ig.me/m/cardeno_amarelo#Intent;scheme=https;package=com.instagram.android;S.browser_fallback_url='
         + encodeURIComponent('https://www.instagram.com/cardeno_amarelo/') + ';end';
     }
-    return 'https://ig.me/m/Cardeno_Amarelo';
+    return 'https://ig.me/m/cardeno_amarelo';
+  };
+
+  // Copia na hora do toque (sem esperar promessa), porque logo depois a página perde o foco.
+  CA.copiarJa = function (texto) {
+    let ok = false;
+    try {
+      const t = document.createElement('textarea');
+      t.value = texto; t.setAttribute('readonly', ''); t.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(t); t.select(); t.setSelectionRange(0, texto.length);
+      ok = document.execCommand('copy'); t.remove();
+    } catch (x) { /* segue */ }
+    try { if (navigator.clipboard) navigator.clipboard.writeText(texto).catch(() => {}); } catch (x) { /* segue */ }
+    return ok;
   };
 
   // Formulário de entrar (usado no Premium e na tela de conta). onPronto(conta) quando entra.
@@ -115,7 +129,7 @@
           <input id="email-conta" type="email" required autocomplete="email" placeholder="nome@email.com">
           <button class="btn btn-grande" type="submit">Mandar código pro e-mail</button>
           <p class="erro-form" role="alert" hidden></p>
-          <p class="nota">Esqueceu qual e-mail usou? Manda direct pro <a href="${CA.linkDirect()}">@Cardeno_Amarelo</a> que a gente te ajuda.</p>
+          <p class="nota">Esqueceu qual e-mail usou? Manda direct pro <a href="${CA.linkDirect()}">@caRdeno_Amarelo</a> que a gente te ajuda.</p>
         </form>
         <form class="f-codigo" hidden>
           <label for="codigo-conta">Código de 6 números que chegou no e-mail</label>
@@ -200,11 +214,11 @@
         <div class="codigo-grande" aria-live="polite">····</div>
         <ol class="passos-arroba">
           <li>Copia o código</li>
-          <li>Manda na direct do <b>@Cardeno_Amarelo</b> (ou comenta num post nosso)</li>
+          <li>Manda na direct do <b>@caRdeno_Amarelo</b> (ou comenta num post nosso)</li>
           <li>Volta aqui: confirma sozinho</li>
         </ol>
-        <a class="btn btn-grande" href="${CA.linkDirect()}" data-a="direct">Copiar e abrir a direct</a>
-        <p class="esperando"><span class="pontinho"></span> Esperando a mensagem... vale 30 minutos.</p>
+        <a class="btn btn-grande" href="${CA.linkDirect()}" data-a="direct"${CA.ehCelular() ? '' : ' target="_blank" rel="noopener"'}>Copiar e abrir a direct</a>
+        <p class="esperando"><span class="pontinho"></span> Esperando a mensagem... pode levar até 2 minutinhos. O código vale 30 minutos.</p>
         <button class="link-voltar" type="button" data-a="depois">Confirmar depois</button>
         <p class="erro-form" role="alert" hidden></p>
       </div>`;
@@ -214,13 +228,15 @@
     chamar('jogo-perfil', { token: CA.conta().token, pedirCodigo: true }).then(d => {
       cx.textContent = d.codigo;
       alvo.querySelector('[data-a=direct]').addEventListener('click', e => {
-        // copia primeiro e só depois abre o Instagram (senão o celular troca de app antes de copiar)
-        e.preventDefault();
-        const link = e.currentTarget.href;
+        // Copia na hora e deixa o link abrir. No computador abre em outra aba, pra esta
+        // tela continuar aqui esperando a confirmação; no celular troca pro app do Instagram.
+        CA.copiarJa(d.codigo);
         CA.aviso('Código ' + d.codigo + ' copiado');
-        let foi = false; const abrir = () => { if (!foi) { foi = true; location.href = link; } };
-        try { navigator.clipboard.writeText(d.codigo).then(abrir, abrir); } catch (x) { abrir(); }
-        setTimeout(abrir, 600);
+        if (CA.ehCelular()) {
+          e.preventDefault();
+          const link = e.currentTarget.href;
+          setTimeout(() => { location.href = link; }, 150);
+        }
       });
       timer = setInterval(async () => {
         if (!vivo || !alvo.isConnected) { clearInterval(timer); return; }
