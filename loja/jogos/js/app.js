@@ -1,4 +1,4 @@
-/* App de jogos: página inicial, rotas e "adicionar à tela inicial".
+/* App de jogos: página inicial, rotas e "instalar o app no celular".
    Rotas: #/ (início), #/<jogo>?s=semente&n=nivel&v=valor_do_amigo&d=1 (desafio do dia) */
 (function () {
   'use strict';
@@ -94,13 +94,13 @@
         <a class="mais insta" href="https://www.instagram.com/cardeno_amarelo/" target="_blank" rel="noopener"><strong>Segue a gente no Instagram</strong><small>@caRdeno_Amarelo · desafios novos todo dia</small></a>
 
         <div class="instalar" hidden>
-          <strong>Coloca na tela inicial</strong>
-          <small>Vira um ícone igual app, e abre até sem internet.</small>
-          <button class="btn btn-claro" type="button">Adicionar</button>
+          <strong>Instalar o app no celular</strong>
+          <small>Fica um ícone na tela do celular, igual app, e abre até sem internet.</small>
+          <button class="btn btn-claro" type="button">Instalar</button>
         </div>
         <div class="instalar-ios" hidden>
-          <strong>Coloca na tela inicial</strong>
-          <small>Toca em <b>Compartilhar</b> e depois em <b>Adicionar à Tela de Início</b>.</small>
+          <strong>Instalar o app no celular</strong>
+          <small>Pra instalar, toca em <b>Compartilhar</b> e depois em <b>Adicionar à Tela de Início</b>.</small>
         </div>
         </aside></div>
 
@@ -129,7 +129,7 @@
     return `<h2 class="secao">Desafios dos dias anteriores</h2><div class="arquivo">${h}</div>`;
   };
 
-  // ---------- adicionar à tela inicial ----------
+  // ---------- instalar o app no celular ----------
   let pedidoInstalar = null;
   window.addEventListener('beforeinstallprompt', e => {
     e.preventDefault();
