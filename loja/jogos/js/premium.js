@@ -84,12 +84,13 @@
     return enviando;
   };
 
-  // Quem jogou sem conta e entrou depois: manda pro ranking os tempos que já fez (desafio de hoje e ontem, níveis grátis do Acha).
+  // Quem jogou sem conta e entrou depois: manda pro ranking os tempos que já fez (desafio do dia de hoje e ontem, níveis grátis do Acha).
   function enviarPendentes() {
     const hoje = CA.hojeBR(), ontem = new Date(Date.parse(hoje + 'T12:00:00Z') - 864e5).toISOString().slice(0, 10);
     [hoje, ontem].forEach(d => {
-      const t = CA.ler('rec:dia:' + d, null);
-      if (t) CA.enviarRecorde('dia:' + d, t, CA.ler('tentrec:dia:' + d, null));
+      const m = CA.ler('rec:jdia:' + d, null); // desafio do dia (dia.js): tempo somado ou acertos somados
+      if (m && m.t != null) CA.enviarRecorde('jdia:' + d, m.t, m.r || null);
+      else if (m && m.a != null) CA.enviarRecorde('jdia:' + d, 90, m.r || null, { acertos: m.a });
     });
     const fases = CA.progressoFases ? CA.progressoFases() : {};
     for (let f = 1; f <= (CA.FASES_GRATIS || 3); f++) if (fases[f] && fases[f].t) CA.enviarRecorde('nivel:' + f, fases[f].t, fases[f].r || null);

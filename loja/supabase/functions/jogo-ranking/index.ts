@@ -6,7 +6,9 @@
 // { acao: 'amigos', token }                 -> teus amigos por pontos (de todos os jogos)
 // { acao: 'estrelas', jogo?, token? }       -> ranking de um jogo (pela métrica dele) ou geral (pontos de todos os jogos)
 //     Desde 16/11/2026 conta velocidade e acertos, não só estrelas: ver _comum/pontos.ts.
-// chave: 'dia:AAAA-MM-DD' (desafio do dia, mesma grade pra todos), 'nivel:N' (níveis do Caça-números)
+// chave: 'jdia:AAAA-MM-DD' (desafio do dia desde 16/11/2026: níveis 1 a 3 do jogo do dia, mesma semente pra todos;
+//        Caça-números t = tempo somado; Fala a cor/Responde rápido acertos = acertos somados, mais acertos ganha),
+//        'dia:AAAA-MM-DD' (desafio antigo, só leitura), 'nivel:N' (níveis do Caça-números)
 //        ou 'peg:N' (17 níveis das Pegadinhas, 10 perguntas cada).
 import { cors, db, json } from '../_comum/comum.ts';
 import { emailDaSessao, nomePublico, confirmado } from '../_comum/conta.ts';
@@ -15,10 +17,12 @@ import { resumoDe, comparar } from '../_comum/pontos.ts';
 // quantos números tem cada nível do Caça-números (igual ao jogos/js/acha.js), pra barrar tempo impossível.
 // Desde 16/11/2026 os níveis crescem e a chave é 'nivel:N' (as antigas 'fase:N' eram de outra grade e não valem mais).
 const Q = [9, 12, 16, 20, 25, 25, 25, 30, 30, 30, 36, 36, 36, 36, 42, 42, 42, 42, 49, 49, 49, 49, 49, 56, 56, 56, 56, 64, 64, 64];
-const CHAVE_OK = /^(dia:\d{4}-\d{2}-\d{2}|nivel:([1-9]|[12]\d|30)|peg:([1-9]|1[0-7]))$/;
+const CHAVE_OK = /^(j?dia:\d{4}-\d{2}-\d{2}|nivel:([1-9]|[12]\d|30)|peg:([1-9]|1[0-7]))$/;
 const ehPeg = (chave: string) => chave.startsWith('peg:');
+const ehJdia = (chave: string) => chave.startsWith('jdia:');
 // Pegadinhas: abaixo de 0,4 s por pergunta, em média, é robô; o máximo é 30 s
-const minimo = (chave: string) => ehPeg(chave) ? 0.4 : chave.startsWith('dia:') ? 25 * 0.12 : Q[+chave.slice(6) - 1] * 0.1;
+// desafio do dia: níveis 1 a 3 do Caça-números somam 9+12+16 = 37 números
+const minimo = (chave: string) => ehPeg(chave) ? 0.4 : ehJdia(chave) ? 37 * 0.1 : chave.startsWith('dia:') ? 25 * 0.12 : Q[+chave.slice(6) - 1] * 0.1;
 const maximo = (chave: string) => ehPeg(chave) ? 30 : 9999;
 const CAMPOS = 'email, apelido, arroba, mostrar_arroba, arroba_confirmado, id_publico';
 
@@ -41,21 +45,23 @@ Deno.serve(async (req) => {
       if (!eu) return json({ erro: 'Entra na conta pra aparecer no ranking.' }, 401);
       const t = Math.round(Number(b.t) * 10) / 10;
       if (!CHAVE_OK.test(b.chave) || !(t >= minimo(b.chave)) || t > maximo(b.chave)) return json({ erro: 'Tempo inválido.' }, 400);
-      const peg = ehPeg(b.chave);
+      if (b.chave.startsWith('dia:')) return json({ ok: true, ignorado: true }); // desafio antigo não recebe mais
+      // com acertos: Pegadinhas (0 a 10) ou desafio do dia de Fala a cor / Responde rápido (3 níveis de 30 s)
+      const comAcertos = ehPeg(b.chave) || (ehJdia(b.chave) && b.acertos != null);
       const acertos = Number(b.acertos);
-      if (peg && !(Number.isInteger(acertos) && acertos >= 0 && acertos <= 10)) return json({ erro: 'Acertos inválidos.' }, 400);
-      if (b.chave.startsWith('dia:')) {
+      if (comAcertos && !(Number.isInteger(acertos) && acertos >= 0 && acertos <= (ehPeg(b.chave) ? 10 : 300))) return json({ erro: 'Acertos inválidos.' }, 400);
+      if (ehJdia(b.chave)) {
         // só vale o desafio de hoje ou de ontem (fuso de Brasília)
         const hoje = new Date(Date.now() - 3 * 3600e3).toISOString().slice(0, 10);
         const ontem = new Date(Date.now() - 27 * 3600e3).toISOString().slice(0, 10);
-        if (![hoje, ontem].includes(b.chave.slice(4))) return json({ ok: true, ignorado: true });
+        if (![hoje, ontem].includes(b.chave.slice(5))) return json({ ok: true, ignorado: true });
       }
       const tent = Number.isInteger(b.tentativa) && b.tentativa > 0 ? Math.min(b.tentativa, 99999) : null;
       const { data: ant } = await db.from('recordes_jogo').select('t, acertos').eq('email', eu).eq('chave', b.chave).maybeSingle();
-      const melhor = !ant || (peg
+      const melhor = !ant || (comAcertos
         ? acertos > Number(ant.acertos ?? -1) || (acertos === Number(ant.acertos) && t < Number(ant.t))
         : t < Number(ant.t));
-      if (melhor) await db.from('recordes_jogo').upsert({ email: eu, chave: b.chave, t, tentativa: tent, ...(peg ? { acertos } : {}), criado_em: new Date().toISOString() });
+      if (melhor) await db.from('recordes_jogo').upsert({ email: eu, chave: b.chave, t, tentativa: tent, ...(comAcertos ? { acertos } : {}), criado_em: new Date().toISOString() });
       return json({ ok: true });
     }
 
@@ -95,10 +101,10 @@ Deno.serve(async (req) => {
 
     // ver
     if (!CHAVE_OK.test(b.chave)) return json({ erro: 'Ranking inválido.' }, 400);
-    const peg = ehPeg(b.chave);
+    // Pegadinhas e desafio do dia: mais acertos primeiro (no Caça-números do dia acertos fica vazio); empate, menor tempo.
+    const peg = ehPeg(b.chave) || ehJdia(b.chave);
     const COLS = peg ? 'email, t, tentativa, acertos' : 'email, t, tentativa';
-    // Pegadinhas: mais acertos primeiro; empate, menor tempo médio. Os outros: menor tempo.
-    const ordenar = (q: any) => (peg ? q.order('acertos', { ascending: false }) : q).order('t', { ascending: true });
+    const ordenar = (q: any) => (peg ? q.order('acertos', { ascending: false, nullsFirst: false }) : q).order('t', { ascending: true });
     const { data: top } = await ordenar(db.from('recordes_jogo').select(COLS).eq('chave', b.chave)).order('criado_em', { ascending: true }).limit(10);
     let meu = null, amigos: any[] = [];
     const precisa = new Set((top ?? []).map((r) => r.email));
@@ -106,7 +112,7 @@ Deno.serve(async (req) => {
       const { data: m } = await db.from('recordes_jogo').select(COLS).eq('chave', b.chave).eq('email', eu).maybeSingle();
       if (m) {
         let qc = db.from('recordes_jogo').select('email', { count: 'exact', head: true }).eq('chave', b.chave);
-        qc = peg ? qc.or(`acertos.gt.${Number(m.acertos) || 0},and(acertos.eq.${Number(m.acertos) || 0},t.lt.${Number(m.t)})`) : qc.lt('t', m.t);
+        qc = peg && m.acertos != null ? qc.or(`acertos.gt.${Number(m.acertos) || 0},and(acertos.eq.${Number(m.acertos) || 0},t.lt.${Number(m.t)})`) : qc.lt('t', m.t);
         const { count } = await qc;
         meu = { ...m, pos: (count ?? 0) + 1 };
         precisa.add(eu);

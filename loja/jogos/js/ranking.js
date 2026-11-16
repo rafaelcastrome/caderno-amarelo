@@ -27,13 +27,13 @@
 
   // Pódio pequeno do início: top 3 de hoje
   CA.podioHoje = function (alvo) {
-    ver('dia:' + CA.hojeBR()).then(d => {
+    ver(CA.chaveDia(CA.hojeBR())).then(d => {
       if (!alvo.isConnected) return;
       const top = d.top.slice(0, 3);
       alvo.innerHTML = `
         <div class="cab-ranking"><strong>Ranking de hoje</strong><span>${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}</span></div>
-        ${top.length ? `<ol class="lista-ranking">${top.map(linhaTempo).join('')}</ol>` : '<p class="vazio">Ninguém ainda. Joga o desafio e fica em 1º!</p>'}
-        ${d.meu && d.meu.pos > 3 ? `<ol class="lista-ranking">${linhaTempo(d.meu)}</ol>` : ''}
+        ${top.length ? `<ol class="lista-ranking">${top.map(CA.linhaDia).join('')}</ol>` : '<p class="vazio">Ninguém ainda. Joga o desafio e fica em 1º!</p>'}
+        ${d.meu && d.meu.pos > 3 ? `<ol class="lista-ranking">${CA.linhaDia(d.meu)}</ol>` : ''}
         <span class="ver-mais">Ver ranking completo e dos amigos →</span>`;
       alvo.hidden = false;
     }).catch(() => { alvo.hidden = true; });
@@ -107,15 +107,16 @@
             ${conta ? '' : entrar('Só quem tem conta entra no ranking. É só o e-mail, sem senha.')}`;
         }).catch(falha);
       } else if (aba !== 'amigos') {
-        ver(numFase ? 'nivel:' + numFase : 'dia:' + data).then(d => {
+        const lin = numFase ? linhaTempo : CA.linhaDia, jd = !numFase && CA.jogo(CA.jogoDoDia(data));
+        ver(numFase ? 'nivel:' + numFase : CA.chaveDia(data)).then(d => {
           if (!vivo) return;
           const meuForaTop = d.meu && d.meu.pos > 10;
           miolo.innerHTML = `
-            <p class="sub-ranking">${numFase ? `${CA.NOME_ACHA} · nível ${numFase} (${CA.FASES[numFase - 1].q} números) · melhor tempo de cada um` : data === CA.hojeBR() ? 'Desafio do dia: mesma grade pra todo mundo' : 'Desafio de ' + CA.fmtData(data)} · ${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}</p>
-            ${d.top.length ? `<ol class="lista-ranking">${d.top.map(linhaTempo).join('')}</ol>` : '<p class="vazio">Ninguém jogou ainda. Bora ser o 1º?</p>'}
-            ${meuForaTop ? `<p class="reticencias">···</p><ol class="lista-ranking">${linhaTempo(d.meu)}</ol>` : ''}
-            ${d.amigos.length > 1 ? `<h2 class="secao">Entre teus amigos</h2><ol class="lista-ranking">${d.amigos.map(linhaTempo).join('')}</ol>` : ''}
-            <a class="btn btn-grande" href="${numFase ? '#/fase?f=' + numFase : '#/acha?d=1'}">${d.meu ? 'Tentar melhorar meu tempo' : numFase ? 'Jogar o nível ' + numFase : 'Jogar o desafio do dia'}</a>
+            <p class="sub-ranking">${numFase ? `${CA.NOME_ACHA} · nível ${numFase} (${CA.FASES[numFase - 1].q} números) · melhor tempo de cada um` : (data === CA.hojeBR() ? 'Desafio de hoje' : 'Desafio de ' + CA.fmtData(data)) + `: ${jd.icone} ${jd.nome}, níveis 1 a 3 · ${CA.regraDia(data)}`} · ${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}</p>
+            ${d.top.length ? `<ol class="lista-ranking">${d.top.map(lin).join('')}</ol>` : '<p class="vazio">Ninguém jogou ainda. Bora ser o 1º?</p>'}
+            ${meuForaTop ? `<p class="reticencias">···</p><ol class="lista-ranking">${lin(d.meu)}</ol>` : ''}
+            ${d.amigos.length > 1 ? `<h2 class="secao">Entre teus amigos</h2><ol class="lista-ranking">${d.amigos.map(lin).join('')}</ol>` : ''}
+            <a class="btn btn-grande" href="${numFase ? '#/fase?f=' + numFase : '#/dia?d=' + (data === CA.hojeBR() ? '1' : data)}">${d.meu ? (numFase ? 'Tentar melhorar meu tempo' : 'Tentar melhorar') : numFase ? 'Jogar o nível ' + numFase : 'Jogar o desafio do dia'}</a>
             ${conta ? '' : entrar('Só quem tem conta entra no ranking. É só o e-mail, sem senha.')}`;
         }).catch(falha);
       } else {

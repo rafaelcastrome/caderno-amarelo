@@ -35,6 +35,8 @@
     href: n => '#/cor?n=' + n,
   });
 
+  CA.NIV_COR = NIV; // pro desafio do dia (dia.js)
+
   CA.jogos.cor = {
     nome: 'Fala a cor',
     iniciar(palco, p) {
@@ -75,12 +77,12 @@
         const tela = CA.el(`
           <section class="jogo jogo-cor">
             <div class="barra">
-              <a class="voltar" href="#/jogo?id=cor" aria-label="Sair">‹</a>
+              <a class="voltar" href="${p.voltar || '#/jogo?id=cor'}" aria-label="Sair">‹</a>
               <div class="pontos"><b>0</b> / ${ALVO[0]}</div>
               <div class="relogio">${DURACAO} s</div>
             </div>
             <div class="tempo"><i></i></div>
-            <p class="meta-amigo">${amigo != null ? `Teu amigo fez <b>${amigo}</b>. Bate ele!` : `Nível ${n}: faz ${ALVO[0]} pra passar`}</p>
+            <p class="meta-amigo">${p.meta ? p.meta : amigo != null ? `Teu amigo fez <b>${amigo}</b>. Bate ele!` : `Nível ${n}: faz ${ALVO[0]} pra passar`}</p>
             <div class="cartao-palavra"><span class="palavra"></span><small class="combo"></small></div>
             <div class="botoes-cor"></div>
           </section>`);
@@ -137,6 +139,8 @@
           tinta = null;
           elPal.textContent = 'TEMPO!'; elPal.style.color = '#1f1f24';
           const est = pontos >= ALVO[2] ? 3 : pontos >= ALVO[1] ? 2 : pontos >= ALVO[0] ? 1 : 0;
+          // desafio do dia (dia.js): quem controla a rodada guarda o resultado e chama o próximo nível
+          if (p.onFim) { setTimeout(() => { if (vivo) p.onFim({ p: pontos, e: est, erros, semente }); }, 900); return; }
           const melhorAntes = (jogo.prog()[n] || {}).p;
           const tent = est ? CA.salvarNivel('cor', n, { e: est, p: pontos }) : null;
           setTimeout(() => {

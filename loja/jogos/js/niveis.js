@@ -152,7 +152,7 @@
           <div class="barra-topo"><a class="voltar" href="#/" aria-label="Todos os jogos">‹</a><a class="som loja-btn" href="../loja.html">Loja</a></div>
           <div class="cab-jogo"><span class="card-jogo-icone" aria-hidden="true">${j.icone}</span>
             <div><h1>${j.nome}</h1><p>${j.desc}</p></div></div>
-          ${j.extraTopo ? j.extraTopo() : ''}
+          ${CA.cardDia && CA.jogoDoDia() === j.id ? CA.cardDia() : ''}
           <a class="btn btn-grande btn-continuar" href="${j.href(prox)}">${Object.keys(p0).length ? 'Continuar: nível ' + prox : 'Começar pelo nível 1'}</a>
           <p class="placar-estrelas">${j.estrelas()} de ${j.total * 3} estrelas</p>
           <h2 class="secao">Níveis</h2>

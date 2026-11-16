@@ -424,6 +424,29 @@ button { font: inherit; color: inherit; }
 .intro-dia h1 { margin-top: 16px; }
 .intro-dia .regra-grande { font-family: var(--mao); font-size: 32px; line-height: 1.05; margin-bottom: 12px; }
 .intro-dia .rank-dia { margin-top: 20px; }
+/* Desafio do dia novo (dia.js): semana de jogos, tela entre os níveis */
+.dia strong span { font-family: system-ui, sans-serif; font-size: .8em; }
+.dia { border-left: 8px solid var(--cor, var(--tinta)); }
+.intro-dia .cab-jogo h1 { margin-top: 0; }
+.semana-dia { list-style: none; display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin: 0 0 6px; padding: 0; }
+.semana-dia li { display: grid; justify-items: center; gap: 2px; padding: 8px 0 6px; background: #fff; border: 2px solid rgba(31,31,36,.25); border-radius: 12px; }
+.semana-dia li small { font-size: 12px; font-weight: 800; color: var(--tinta-suave); }
+.semana-dia li span { font-size: 22px; line-height: 1; }
+.semana-dia li.hoje { border: 3px solid var(--tinta); border-bottom: 6px solid var(--cor); transform: translateY(-3px); }
+.semana-dia li.hoje small { color: var(--tinta); }
+.entre-niveis { text-align: center; }
+.entre-niveis .nivel-tag { margin-top: 18px; }
+.entre-niveis .entre-titulo { font-family: var(--mao); font-size: 34px; margin: 18px 0 0; }
+.entre-niveis .entre-valor { font-family: var(--mao); font-size: 64px; line-height: 1; color: var(--cor); }
+.entre-niveis .res-estrelas { margin: 4px 0 10px; }
+.niveis-dia { list-style: none; display: grid; gap: 8px; margin: 14px 0; padding: 0; text-align: left; }
+.niveis-dia li { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; padding: 10px 14px; background: #fff; border: 2px dashed rgba(31,31,36,.3); border-radius: 14px; }
+.niveis-dia li span { color: var(--tinta-suave); font-size: 14px; font-weight: 600; }
+.niveis-dia li em { font-style: normal; font-weight: 800; }
+.niveis-dia li.feito { border-style: solid; border-color: var(--tinta); }
+.niveis-dia li.proximo { border: 3px solid var(--cor); }
+.entre-niveis .entre-soma { font-size: 18px; margin: 4px 0 16px; }
+button.link-voltar { display: block; width: 100%; background: none; border: 0; cursor: pointer; font: inherit; font-weight: 800; color: var(--tinta); text-decoration: underline; }
 .intro .reels-titulo { font-size: 26px; margin-bottom: 6px; }
 .convite-conta { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: center; padding: 12px 14px; background: var(--ouro-claro); border: 2px solid var(--ouro); border-radius: 16px; box-shadow: 3px 3px 0 var(--ouro); text-decoration: none; color: var(--tinta); text-align: left; }
 .convite-medalha { font-size: 34px; text-align: center; }
@@ -507,9 +530,9 @@ button { font: inherit; color: inherit; }
 
   /* desafio do dia: regra e botão à esquerda, ranking de hoje ao lado */
   #palco:has(> .intro-dia) { max-width: 1100px; }
-  .intro-dia { display: grid; grid-template-columns: minmax(0, 1fr) 420px; grid-template-rows: repeat(8, auto) minmax(0, 1fr); column-gap: 36px; align-items: start; }
+  .intro-dia { display: grid; grid-template-columns: minmax(0, 1fr) 420px; grid-template-rows: repeat(12, auto) minmax(0, 1fr); column-gap: 36px; align-items: start; }
   .intro-dia > * { grid-column: 1; }
-  .intro-dia > .rank-dia { grid-column: 2; grid-row: 1 / 10; margin-top: 70px; }
+  .intro-dia > .rank-dia { grid-column: 2; grid-row: 1 / 14; margin-top: 70px; }
 
   /* ranking: os jogos quebram linha em vez de rolar pro lado */
   .ranking .chips { flex-wrap: wrap; overflow: visible; margin: -4px 0 14px; padding: 2px 0 6px; }
