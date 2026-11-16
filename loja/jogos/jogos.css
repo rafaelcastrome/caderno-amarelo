@@ -491,3 +491,6 @@ button { font: inherit; color: inherit; }
 .rodape a:hover { text-decoration: underline; }
 .chamada-premium strong .r-marca { font-size: inherit; color: var(--vermelho); }
 @media (max-width: 899px) { .chamada-premium + .mais { margin-top: 12px; } }
+/* logo oficial (caderno com cR) no cabeçalho */
+.logo-app .logo-img { height: 42px; width: auto; flex: none; display: block; }
+@media (max-width: 430px) { .logo-app .logo-img { height: 36px; } }

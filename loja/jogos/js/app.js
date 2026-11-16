@@ -56,7 +56,7 @@
     palco.appendChild(CA.el(`
       <div class="inicio">
         <header class="cabeca">
-          <div class="logo-app"><span class="logo-caderno" aria-hidden="true"></span><span>ca<span class="r-marca">R</span>deno Amarelo</span></div>
+          <div class="logo-app"><img class="logo-img" src="../assets/img/logo-cabecalho.png" alt="" width="171" height="192"><span>ca<span class="r-marca">R</span>deno Amarelo</span></div>
           <div class="cabeca-botoes">
             <a class="som loja-btn" href="../loja.html">Loja</a>
             <a class="som conta-btn" href="#/conta" aria-label="Minha conta">${conta ? (conta.premium ? '★' : '👤') : 'Entrar'}</a>

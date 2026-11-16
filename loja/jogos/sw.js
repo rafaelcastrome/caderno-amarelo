@@ -1,10 +1,10 @@
 /* Guarda o app no celular pra abrir rápido e até sem internet.
    Ao mudar qualquer arquivo do app, sobe a VERSAO. */
-const VERSAO = 'ca-jogos-v21';
+const VERSAO = 'ca-jogos-v23';
 const ARQUIVOS = [
   './', 'index.html', 'jogos.css', 'manifest.webmanifest',
   'js/nucleo.js', 'js/niveis.js', 'js/acha.js', 'js/cor.js', 'js/rapido.js', 'js/charadas.js', '../assets/js/desafios-dados.js', 'js/premium.js', 'js/ranking.js', 'js/app.js', '../assets/js/config.js',
-  'icones/icone-192.png', 'icones/icone-512.png', '../assets/fonts/Caveat-Bold.ttf',
+  'icones/icone-192.png', 'icones/icone-512.png', '../assets/img/logo-cabecalho.png', '../assets/fonts/Caveat-Bold.ttf',
 ];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSAO).then(c => c.addAll(ARQUIVOS)).then(() => self.skipWaiting()));
