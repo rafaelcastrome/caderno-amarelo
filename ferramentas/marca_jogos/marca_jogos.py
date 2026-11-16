@@ -20,7 +20,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 FONTE = os.path.join(AQUI, '..', '..', '.claude', 'skills', 'whiteboard-video', 'assets', 'Caveat-Bold.ttf')
-LINK_PADRAO = 'cadernoamarelo.netlify.app'
+LINK_PADRAO = 'caRdenoamarelo.netlify.app'
 TEXTO_PADRAO = 'Quer jogar esse jogo?'
 
 TINTA = (40, 36, 30, 255)

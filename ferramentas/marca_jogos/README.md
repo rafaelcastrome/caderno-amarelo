@@ -1,7 +1,7 @@
 # Marca d'água dos jogos
 
 Faixa amarela fixa no rodapé com "Quer jogar esse jogo?" + link do app de jogos
-(o link pisca azul/vermelho). No final, o vídeo congela, escurece e a faixa
+(o link pisca azul/vermelho; padrão caRdenoamarelo.netlify.app). No final, o vídeo congela, escurece e a faixa
 cresce até o meio da tela como um cartão grande (zoom final, +2,6 s).
 Vai em TODO vídeo de desafio/jogo, como último passo depois do vídeo pronto
 (qualquer pipeline). Não altera a skill whiteboard-video.
