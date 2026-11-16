@@ -409,3 +409,6 @@ button { font: inherit; color: inherit; }
 .convite-medalha { font-size: 34px; text-align: center; }
 .convite-conta strong { display: block; font-family: var(--mao); font-size: 26px; line-height: 1; }
 .convite-conta small { display: block; margin-top: 2px; font-size: 14px; font-weight: 600; color: var(--tinta-suave); line-height: 1.3; }
+
+/* marca: caRdeno Amarelo com o R vermelho */
+.r-marca { color: var(--vermelho, #d62828); }

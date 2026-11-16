@@ -109,7 +109,7 @@
           ${grade(j)}
           ${j.acesso() ? '' : `<p class="legenda-fases">Níveis 1 a ${GRATIS} grátis · 🔒 Premium</p>`}
           <a class="podio" hidden></a>
-          ${j.acesso() ? '' : `<a class="chamada-premium" href="#/premium"><strong>Quer jogar até o fim?</strong><span>O caRdeno Premium libera todos os níveis de todos os jogos. Mensal R$ 4,90 ou anual R$ 29,90.</span></a>`}
+          ${j.acesso() ? '' : `<a class="chamada-premium" href="#/premium"><strong>Quer jogar até o fim?</strong><span>O ca<span class="r-marca">R</span>deno Premium libera todos os níveis de todos os jogos. Mensal R$ 4,90 ou anual R$ 29,90.</span></a>`}
           <h2 class="secao">Todos os jogos</h2>
           ${CA.cardsJogos(j.id)}
           ${j.extraFim ? j.extraFim() : ''}

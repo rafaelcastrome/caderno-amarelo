@@ -398,7 +398,7 @@
           <a class="link-voltar" href="${(r.linkVoltar || {}).href || '#/jogo?id=acha'}">${(r.linkVoltar || {}).txt || 'Ver todas as fases'}</a>
         </div>
         ${CA.ehPremium() ? '' : `<a class="chamada-premium" href="#/premium">
-          <strong>caRdeno Premium</strong>
+          <strong>ca<span class="r-marca">R</span>deno Premium</strong>
           <span>Libera todos os níveis de todos os jogos, os desafios dos dias anteriores e o card dourado. Mensal R$ 4,90 ou anual R$ 29,90.</span>
         </a>`}
       </section>`);

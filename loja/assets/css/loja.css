@@ -352,3 +352,6 @@ section[id] { scroll-margin-top: 76px; }
   body.tem-menu-baixo.pagina-produto { padding-bottom: 72px; }
   .logo { font-size: 21px; }
 }
+
+/* marca: caRdeno Amarelo com o R vermelho */
+.r-marca { color: var(--vermelho, #d62828); }

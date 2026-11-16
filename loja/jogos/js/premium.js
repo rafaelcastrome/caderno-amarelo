@@ -268,7 +268,7 @@
         const c = CA.conta();
         miolo.innerHTML = `
           <span class="selo-premium">★ Premium</span>
-          <h1>caRdeno Premium</h1>
+          <h1>ca<span class="r-marca">R</span>deno Premium</h1>
           <p>Em cada jogo, os 3 primeiros níveis e o desafio do dia são de graça pra sempre. O Premium é pra quem quer ir até o fim:</p>
           <ul class="beneficios">
             ${BENEFICIOS.map(([t, d]) => `<li><strong>${t}</strong><span>${d}</span></li>`).join('')}
