@@ -103,6 +103,10 @@
     return { txt, certo };
   }
 
+  // os Jogos em grupo (grupo.js) usam as mesmas contas e pegadinhas
+  CA.gerarConta = gerarConta;
+  CA.PEGADINHAS = PEGADINHAS;
+
   // níveis: [segundos, multa, pegadinhas?, acertos pra 1/2/3 estrelas]
   // A conta de cada nível usa gerarConta(nível): começa com soma e diminuição até 10
   // e vai ganhando tabuada, metade/dobro, vírgula, três números, ordem das contas...

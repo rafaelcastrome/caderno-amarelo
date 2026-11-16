@@ -38,6 +38,7 @@
     const { nome, p } = lerRota();
     const jogo = CA.jogos[nome];
     document.body.classList.toggle('em-jogo', !!jogo);
+    if (nome === 'grupo') { inicio(palco, 'grupo'); return; }
     if (!jogo) { inicio(palco); return; }
     // Jogador novo (sem conta e sem nada jogado neste celular): cria a conta antes de começar.
     // (a tela de apresentação do desafio do dia fica livre, com o vídeo e o ranking; o cadastro vem no "Começar")
@@ -47,8 +48,9 @@
   }
 
   // Página inicial: todos os jogos (cada um com 3 níveis grátis), desafio do dia e ranking geral.
-  function inicio(palco) {
-    document.title = 'Jogos do caRdeno Amarelo';
+  // aba = 'grupo' mostra a aba Jogos em grupo (TV + celular, em grupo.js) no lugar da lista de jogos.
+  function inicio(palco, aba) {
+    document.title = aba === 'grupo' ? 'Jogos em grupo · caRdeno Amarelo' : 'Jogos do caRdeno Amarelo';
     const feitoHoje = CA.ler('dia:' + CA.hojeBR(), null);
     const conta = CA.conta && CA.conta();
     const est = CA.estrelasGerais(), max = CA.JOGOS.reduce((s, j) => s + j.total * 3, 0);
@@ -64,6 +66,12 @@
           </div>
         </header>
         <h1 class="titulo-app">Jogos do <span class="marca">ca<span class="r-marca">R</span>deno</span></h1>
+
+        <nav class="abas" aria-label="Tipo de jogo">
+          <a class="aba ${aba === 'grupo' ? '' : 'ativa'}" href="#/" ${aba === 'grupo' ? '' : 'aria-current="page"'}>🧠 Jogos</a>
+          <a class="aba ${aba === 'grupo' ? 'ativa' : ''}" href="#/grupo" ${aba === 'grupo' ? 'aria-current="page"' : ''}>📺 Jogos em grupo</a>
+        </nav>
+        ${aba === 'grupo' && CA.grupoAbaHtml ? CA.grupoAbaHtml() + '<p class="rodape">@caRdeno_Amarelo</p></div>' : `
 
         <a class="dia" href="#/acha?d=1">
           <span class="dia-fita">Desafio do dia</span>
@@ -96,12 +104,13 @@
         </div>
 
         <p class="rodape">@caRdeno_Amarelo</p>
-      </div>`));
+      </div>`}`));
 
     palco.querySelector('button.som').addEventListener('click', e => {
       CA.gravar('som', !CA.somLigado());
       e.currentTarget.textContent = CA.somLigado() ? '🔊' : '🔇';
     });
+    if (aba === 'grupo') { if (CA.grupoAbaLigar) CA.grupoAbaLigar(palco); return; }
     mostrarInstalar(palco);
     CA.caixaRankingEstrelas(palco.querySelector('.podio'), null, 'Ranking geral (estrelas de todos os jogos)', '#/ranking');
   }
