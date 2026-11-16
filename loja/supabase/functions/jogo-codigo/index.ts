@@ -23,8 +23,8 @@ Deno.serve(async (req) => {
     });
 
     try {
-      await mandarEmail(email, `${codigo} é o teu código do Caderno Amarelo`,
-        `<p>Oi! Teu código pra entrar nos jogos do Caderno Amarelo é:</p>
+      await mandarEmail(email, `${codigo} é o teu código do caRdeno Amarelo`,
+        `<p>Oi! Teu código pra entrar nos jogos do caRdeno Amarelo é:</p>
          <p style="font-size:32px;font-weight:bold;letter-spacing:6px">${codigo}</p>
          <p>Ele vale 15 minutos. Se não foi tu que pediu, é só ignorar este e-mail.</p>`);
     } catch (e) { console.error(e); return json({ erro: 'Não deu pra mandar o e-mail agora. Tenta de novo.' }, 502); }

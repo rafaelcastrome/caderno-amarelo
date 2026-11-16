@@ -1,4 +1,4 @@
-/* Núcleo do app de jogos do Caderno Amarelo.
+/* Núcleo do app de jogos do caRdeno Amarelo.
    Coisas que todos os jogos usam: sorteio com semente (pra desafiar amigo e
    desafio do dia), recordes no celular, sons, tela de resultado, compartilhar
    e card pros stories. Sem conta e sem dado pessoal. */
@@ -348,7 +348,7 @@
   CA.mandarCard = async function (dados) {
     const c = await CA.gerarCard(dados);
     const blob = await new Promise(r => c.toBlob(r, 'image/png'));
-    const arq = new File([blob], 'caderno-amarelo-' + Date.now() + '.png', { type: 'image/png' });
+    const arq = new File([blob], 'cardeno-amarelo-' + Date.now() + '.png', { type: 'image/png' });
     try {
       if (navigator.canShare && navigator.canShare({ files: [arq] })) {
         await navigator.share({ files: [arq] });
@@ -398,7 +398,7 @@
           <a class="link-voltar" href="${(r.linkVoltar || {}).href || '#/jogo?id=acha'}">${(r.linkVoltar || {}).txt || 'Ver todas as fases'}</a>
         </div>
         ${CA.ehPremium() ? '' : `<a class="chamada-premium" href="#/premium">
-          <strong>Caderno Premium</strong>
+          <strong>caRdeno Premium</strong>
           <span>Libera todos os níveis de todos os jogos, os desafios dos dias anteriores e o card dourado. Mensal R$ 4,90 ou anual R$ 29,90.</span>
         </a>`}
       </section>`);

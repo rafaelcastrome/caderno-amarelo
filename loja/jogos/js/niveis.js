@@ -1,5 +1,5 @@
 /* Jogos com níveis: lista de todos os jogos, progresso (estrelas) de cada nível e a tela de cada jogo.
-   Regra de todo jogo: os 3 primeiros níveis são grátis, o resto é Caderno Premium.
+   Regra de todo jogo: os 3 primeiros níveis são grátis, o resto é caRdeno Premium.
    Progresso: Acha do 1 ao 25 fica em 'fases' (chaves "1".."30"); os outros em 'niveis' (chaves "cor:1").
    Rota: #/jogo?id=<jogo> (tela com os níveis, o ranking do jogo e os outros jogos). */
 (function () {
@@ -94,7 +94,7 @@
     iniciar(palco, p) {
       const j = CA.jogo(p.id);
       if (!j) { location.hash = '#/'; return null; }
-      document.title = j.nome + ' · Jogos do Caderno Amarelo';
+      document.title = j.nome + ' · Jogos do caRdeno Amarelo';
       const prox = j.proximo(), p0 = j.prog();
       palco.innerHTML = '';
       palco.appendChild(CA.el(`
@@ -109,7 +109,7 @@
           ${grade(j)}
           ${j.acesso() ? '' : `<p class="legenda-fases">Níveis 1 a ${GRATIS} grátis · 🔒 Premium</p>`}
           <a class="podio" hidden></a>
-          ${j.acesso() ? '' : `<a class="chamada-premium" href="#/premium"><strong>Quer jogar até o fim?</strong><span>O Caderno Premium libera todos os níveis de todos os jogos. Mensal R$ 4,90 ou anual R$ 29,90.</span></a>`}
+          ${j.acesso() ? '' : `<a class="chamada-premium" href="#/premium"><strong>Quer jogar até o fim?</strong><span>O caRdeno Premium libera todos os níveis de todos os jogos. Mensal R$ 4,90 ou anual R$ 29,90.</span></a>`}
           <h2 class="secao">Todos os jogos</h2>
           ${CA.cardsJogos(j.id)}
           ${j.extraFim ? j.extraFim() : ''}

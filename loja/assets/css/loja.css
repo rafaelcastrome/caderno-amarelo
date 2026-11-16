@@ -277,7 +277,7 @@ body.saindo { opacity: 0; transform: translateY(-6px); }
   .sublinhado path { stroke-dashoffset: 0; }
 }
 
-/* hero do jogo (Desafios do Caderno Amarelo no topo da home) */
+/* hero do jogo (Desafios do caRdeno Amarelo no topo da home) */
 .hero-jogo .wrap { grid-template-columns: 1.15fr .85fr; }
 .btn-jogar { font-size: 21px; padding: 16px 30px; }
 .jogo-teaser { display: grid; gap: 10px; text-decoration: none; color: var(--tinta); background: #fff; border: 3px solid var(--tinta); border-radius: 22px;

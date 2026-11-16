@@ -1,4 +1,4 @@
-// Loja do Caderno Amarelo: catálogo, página de produto e checkout Pix.
+// Loja do caRdeno Amarelo: catálogo, página de produto e checkout Pix.
 // Sem back-end configurado (config.js vazio), roda em modo demonstração.
 (function () {
   const CFG = window.LOJA_CONFIG || {};
@@ -136,7 +136,7 @@
     const produtos = await carregarProdutos();
     const p = produtos.find(x => x.slug === slug && x.ativo);
     if (!p) { location.href = 'loja.html'; return; }
-    document.title = `${p.nome} · Caderno Amarelo`;
+    document.title = `${p.nome} · caRdeno Amarelo`;
     $('#capa').src = p.capa; $('#capa').alt = `Capa: ${p.nome}`;
     $('#nome').textContent = p.nome;
     $('#subtitulo').textContent = p.subtitulo;

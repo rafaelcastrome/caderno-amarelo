@@ -1,4 +1,4 @@
-/* App de jogos do Caderno Amarelo. Mesmas cores e papel da loja (loja.css). */
+/* App de jogos do caRdeno Amarelo. Mesmas cores e papel da loja (loja.css). */
 @font-face { font-family: Caveat; src: url('../assets/fonts/Caveat-Bold.ttf'); font-display: swap; }
 
 :root {
@@ -172,7 +172,7 @@ button { font: inherit; color: inherit; }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 
-/* ---------- Caderno Premium ---------- */
+/* ---------- caRdeno Premium ---------- */
 :root { --ouro: #c99a1b; --ouro-claro: #fff4cc; }
 .btn-impossivel { margin-top: 12px; flex-direction: column; gap: 2px; background: var(--tinta); color: #fff; text-decoration: none; }
 .btn-impossivel small { font-weight: 600; font-size: 13px; opacity: .8; }

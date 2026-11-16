@@ -1,4 +1,4 @@
-# Loja do Caderno Amarelo
+# Loja do caRdeno Amarelo
 
 Loja estática (HTML/CSS/JS, sem build) com pagamento Pix pelo Mercado Pago e entrega automática do PDF.
 
@@ -78,7 +78,7 @@ cd loja && python3 -m http.server 8765
 
 Abrir `http://localhost:8765`. Com `config.js` vazio, o checkout roda em modo demonstração (não cobra nada).
 
-## Jogo "Desafios do Caderno Amarelo" (`desafios.html`)
+## Jogo "Desafios do caRdeno Amarelo" (`desafios.html`)
 
 | Caminho | O que é |
 | --- | --- |

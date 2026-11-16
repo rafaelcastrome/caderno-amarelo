@@ -1,4 +1,4 @@
-// Jogo "Desafios do Caderno Amarelo": estado, checagem de resposta, progressão e paywall Pix.
+// Jogo "Desafios do caRdeno Amarelo": estado, checagem de resposta, progressão e paywall Pix.
 // Usa window.DESAFIOS (desafios-dados.js) e window.LOJA_CONFIG (config.js).
 (function () {
   // ---------- configuração do jogo ----------
@@ -234,7 +234,7 @@
       </article>`;
     $('#btn-recomecar').addEventListener('click', recomecar);
     $('#btn-compartilhar').addEventListener('click', async () => {
-      const dados = { title: 'Desafios do Caderno Amarelo', text: `Duvido tu passar dos ${DESAFIOS.length} desafios do Caderno Amarelo!`, url: location.href.split('#')[0] };
+      const dados = { title: 'Desafios do caRdeno Amarelo', text: `Duvido tu passar dos ${DESAFIOS.length} desafios do caRdeno Amarelo!`, url: location.href.split('#')[0] };
       try {
         if (navigator.share) await navigator.share(dados);
         else { await navigator.clipboard.writeText(dados.url); $('#btn-compartilhar').textContent = 'Link copiado!'; }

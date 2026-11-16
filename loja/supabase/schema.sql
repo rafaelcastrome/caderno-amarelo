@@ -1,4 +1,4 @@
--- Loja do Caderno Amarelo: catálogo (fonte de verdade do preço) e pedidos.
+-- Loja do caRdeno Amarelo: catálogo (fonte de verdade do preço) e pedidos.
 -- Só as Edge Functions (service role) leem e escrevem; RLS ligado e sem políticas.
 
 create table if not exists produtos (

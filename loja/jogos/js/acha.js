@@ -2,7 +2,7 @@
    O jogo é sempre o mesmo (tocar na ordem o mais rápido possível), mas cada fase
    muda uma regra: tamanho da grade, números girados, de trás pra frente, só os pares,
    letras, grade que embaralha, números que piscam... As fases 1 a 6 são grátis,
-   da 4 à 30 são do Caderno Premium. Cada fase dá de 1 a 3 estrelas pelo tempo.
+   da 4 à 30 são do caRdeno Premium. Cada fase dá de 1 a 3 estrelas pelo tempo.
 
    Rotas:
      #/fase?f=4                 joga a fase 4 (se liberada)

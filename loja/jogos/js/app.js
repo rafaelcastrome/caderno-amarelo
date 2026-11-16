@@ -42,13 +42,13 @@
     // Jogador novo (sem conta e sem nada jogado neste celular): cria a conta antes de começar.
     // (a tela de apresentação do desafio do dia fica livre, com o vídeo e o ranking; o cadastro vem no "Começar")
     if (JOGAVEIS.includes(nome) && !(nome === 'acha' && p.d) && CA.pedirCadastro(true)) return;
-    document.title = jogo.nome + ' · Caderno Amarelo';
+    document.title = jogo.nome + ' · caRdeno Amarelo';
     limpar = jogo.iniciar(palco, p) || null;
   }
 
   // Página inicial: todos os jogos (cada um com 3 níveis grátis), desafio do dia e ranking geral.
   function inicio(palco) {
-    document.title = 'Jogos do Caderno Amarelo';
+    document.title = 'Jogos do caRdeno Amarelo';
     const feitoHoje = CA.ler('dia:' + CA.hojeBR(), null);
     const conta = CA.conta && CA.conta();
     const est = CA.estrelasGerais(), max = CA.JOGOS.reduce((s, j) => s + j.total * 3, 0);
@@ -56,14 +56,14 @@
     palco.appendChild(CA.el(`
       <div class="inicio">
         <header class="cabeca">
-          <div class="logo-app"><span class="logo-caderno" aria-hidden="true"></span>Caderno Amarelo</div>
+          <div class="logo-app"><span class="logo-caderno" aria-hidden="true"></span>caRdeno Amarelo</div>
           <div class="cabeca-botoes">
             <a class="som loja-btn" href="../loja.html">Loja</a>
             <a class="som conta-btn" href="#/conta" aria-label="Minha conta">${conta ? (conta.premium ? '★' : '👤') : 'Entrar'}</a>
             <button class="som" type="button" aria-label="Som">${CA.somLigado() ? '🔊' : '🔇'}</button>
           </div>
         </header>
-        <h1 class="titulo-app">Jogos do <span class="marca">Caderno</span></h1>
+        <h1 class="titulo-app">Jogos do <span class="marca">caRdeno</span></h1>
 
         <a class="dia" href="#/acha?d=1">
           <span class="dia-fita">Desafio do dia</span>
@@ -82,8 +82,8 @@
 
         ${CA.ehPremium()
           ? '<a class="chamada-premium ativo" href="#/conta"><strong>★ Premium ativo</strong><span>Todos os níveis de todos os jogos, desafios anteriores e card dourado.</span></a>'
-          : '<a class="chamada-premium" href="#/premium"><strong>Caderno Premium</strong><span>Libera todos os níveis de todos os jogos, os desafios dos dias anteriores e o card dourado. Mensal R$ 4,90 ou anual R$ 29,90.</span></a>'}
-        <a class="mais" href="../loja.html"><strong>Loja do Caderno</strong><small>Brincadeiras pra imprimir, livros de colorir e mágicas pra fazer em família.</small></a>
+          : '<a class="chamada-premium" href="#/premium"><strong>caRdeno Premium</strong><span>Libera todos os níveis de todos os jogos, os desafios dos dias anteriores e o card dourado. Mensal R$ 4,90 ou anual R$ 29,90.</span></a>'}
+        <a class="mais" href="../loja.html"><strong>Loja do caRdeno</strong><small>Brincadeiras pra imprimir, livros de colorir e mágicas pra fazer em família.</small></a>
 
         <div class="instalar" hidden>
           <strong>Coloca na tela inicial</strong>

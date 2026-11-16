@@ -129,7 +129,7 @@
           </div>
           <a class="podio res-ranking" hidden></a>`;
         pos.querySelector('[data-a=desafiar]').addEventListener('click', () =>
-          CA.compartilhar(`${d.pergunta} 🤔 Acertei ${estrelas === 3 ? 'de primeira' : ''} no ${g.nome} do Caderno Amarelo. Duvido tu acertar!`, CA.linkDesafio('charada', { j: g.id, n })));
+          CA.compartilhar(`${d.pergunta} 🤔 Acertei ${estrelas === 3 ? 'de primeira' : ''} no ${g.nome} do caRdeno Amarelo. Duvido tu acertar!`, CA.linkDesafio('charada', { j: g.id, n })));
         CA.caixaRankingEstrelas(pos.querySelector('.podio'), g.id, 'Ranking de ' + g.nome, '#/ranking?jogo=' + g.id);
         pos.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }

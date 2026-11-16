@@ -1,4 +1,4 @@
-// Desafios do Caderno Amarelo: a lista de desafios do jogo (desafios.html).
+// Desafios do caRdeno Amarelo: a lista de desafios do jogo (desafios.html).
 //
 // Campos de cada desafio (o id é posto automaticamente pela ordem da lista):
 //   id              número sequencial (é o "desafio 01, 02...")
@@ -388,8 +388,8 @@
       respostaCorreta: 'O vento', aceitas: ['vento', 'ar', 'o ar'],
       explicacao: 'O vento passa por tudo e é invisível, então não tem sombra.' },
     { tipo: 'imagem', titulo: 'Escrita de hacker',
-      pergunta: 'O que tá escrito aqui?', imagem: svg(`<text x="160" y="90" text-anchor="middle" font-size="54" font-weight="700" fill="${TINTA}">C4D3RN0</text><text x="160" y="150" text-anchor="middle" font-size="54" font-weight="700" fill="${TINTA}">4M4R3L0</text>`),
-      respostaCorreta: 'Caderno Amarelo',
+      pergunta: 'O que tá escrito aqui?', imagem: svg(`<text x="160" y="90" text-anchor="middle" font-size="54" font-weight="700" fill="${TINTA}">C4RD3N0</text><text x="160" y="150" text-anchor="middle" font-size="54" font-weight="700" fill="${TINTA}">4M4R3L0</text>`),
+      respostaCorreta: 'caRdeno Amarelo', aceitas: ['caderno amarelo'],
       explicacao: '4 = A, 3 = E, 0 = O. Teu cérebro troca os números por letras sem tu nem perceber.' },
     { tipo: 'texto', titulo: 'Meses de 31',
       pergunta: 'Quantos meses do ano têm 31 dias?',
@@ -397,8 +397,8 @@
       explicacao: 'Janeiro, março, maio, julho, agosto, outubro e dezembro. Truque: conta nos nós dos dedos da mão fechada!' },
     { tipo: 'imagem', titulo: 'Desafio final',
       pergunta: 'Que palavra tá escrita no espelho?', imagem: espelho('AMARELO'),
-      respostaCorreta: 'Amarelo', aceitas: ['caderno amarelo'],
-      explicacao: 'AMARELO, de Caderno Amarelo! Tu zerou todos os desafios. Manda pra um amigo e vê se ele consegue.' }
+      respostaCorreta: 'Amarelo', aceitas: ['cardeno amarelo', 'caderno amarelo'],
+      explicacao: 'AMARELO, de caRdeno Amarelo! Tu zerou todos os desafios. Manda pra um amigo e vê se ele consegue.' }
   ];
 
   const GRATIS = 3; // desafios grátis antes do paywall (todo jogo: 3 níveis grátis)

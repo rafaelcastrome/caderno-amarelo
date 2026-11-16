@@ -71,7 +71,7 @@ async function enviarEmail(pedido: { id: string; email: string; produto: string;
     method: 'POST',
     headers: { Authorization: `Bearer ${chave}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      from: Deno.env.get('EMAIL_REMETENTE') ?? 'Caderno Amarelo <onboarding@resend.dev>',
+      from: Deno.env.get('EMAIL_REMETENTE') ?? 'caRdeno Amarelo <onboarding@resend.dev>',
       to: pedido.email,
       subject: `Teu ${prod?.nome ?? 'produto'} chegou! 🧠`,
       html: `<p>Oi! Teu pagamento foi aprovado.</p>

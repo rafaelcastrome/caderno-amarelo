@@ -1,4 +1,4 @@
-/* Conta e Caderno Premium.
+/* Conta e caRdeno Premium.
    Conta: entra com e-mail + código de 6 números que chega no e-mail (sem senha).
    Premium: passe no Pix da loja (mensal R$ 4,90 = 30 dias, anual R$ 29,90 = 1 ano), preso ao
    E-MAIL da conta, então vale em qualquer celular. Pix não renova sozinho: a pessoa renova quando
@@ -238,7 +238,7 @@
 
   // #/premium
   CA.jogos.premium = {
-    nome: 'Caderno Premium',
+    nome: 'caRdeno Premium',
     iniciar(palco) {
       let vivo = true, timer = 0;
       palco.innerHTML = '';
@@ -268,7 +268,7 @@
         const c = CA.conta();
         miolo.innerHTML = `
           <span class="selo-premium">★ Premium</span>
-          <h1>Caderno Premium</h1>
+          <h1>caRdeno Premium</h1>
           <p>Em cada jogo, os 3 primeiros níveis e o desafio do dia são de graça pra sempre. O Premium é pra quem quer ir até o fim:</p>
           <ul class="beneficios">
             ${BENEFICIOS.map(([t, d]) => `<li><strong>${t}</strong><span>${d}</span></li>`).join('')}
