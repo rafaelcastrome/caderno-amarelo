@@ -220,3 +220,163 @@ body.modo-tv #palco { max-width: none; padding: 0; height: 100vh; height: 100dvh
 .ctrl-sprint .ctrl-ce { flex: none; grid-template-rows: 110px 110px; }
 .ctrl-cor.treme, .ctrl-btn-ce.treme { animation: treme .3s; }
 .tv-relogio-grande { font-family: var(--mao); font-size: 6em; line-height: 1; color: var(--vermelho); }
+
+/* ===================== 16/11 (thread 88): entrar fácil, tutorial, sala que não acaba, jogos novos ===================== */
+.grupo-voltar { display: flex; justify-content: center; gap: .3em; margin: -6px 0 18px; }
+.grupo-voltar b { letter-spacing: 2px; }
+
+/* TV: convite com QR grande + link curto + passos */
+.tv-sala { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+.tv-convite { transform: none; text-align: left; display: flex; flex-direction: column; gap: .8em; }
+.tv-convite-t { text-align: center; }
+.tv-convite-linha { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.2em; align-items: center; }
+.tv-qr { width: min(13em, 34vh); margin: 0; padding: .35em; background: #fff; border: 3px solid var(--tinta); border-radius: .6em; }
+.tv-link small { display: block; color: var(--tinta-suave); line-height: 1.3; }
+.tv-link-url { font-weight: 800; font-size: 1.35em; line-height: 1.15; margin: .25em 0 .7em; word-break: break-all; }
+.tv-link-url b { background: var(--amarelo); padding: 0 .15em; border-radius: .2em; letter-spacing: .08em; }
+.tv-link .tv-codigo { justify-content: flex-start; margin-top: .2em; }
+.tv-link .tv-codigo span { font-size: 3em; text-align: center; }
+.tv-passos { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: .6em; padding-top: .8em; border-top: 2px dashed rgba(31, 31, 36, .2); }
+.tv-passos li { display: grid; gap: .15em; align-content: start; }
+.tv-passos i { font-style: normal; font-size: 1.8em; line-height: 1; }
+.tv-passos b { line-height: 1.2; }
+.tv-passos small { color: var(--tinta-suave); line-height: 1.25; }
+.tv-dica-voto { font-family: var(--texto); font-size: .45em; color: var(--tinta-suave); font-weight: 600; }
+.tv-jogos { grid-template-columns: repeat(4, 1fr); }
+.tv-op-jogo { position: relative; }
+.tv-votos { position: absolute; top: -.6em; right: -.4em; font-size: .85em; font-weight: 800; background: #fff; border: 2px solid var(--tinta); border-radius: 99px; padding: 0 .4em; }
+.tv-votos:empty { display: none; }
+.tv-votos.pula { animation: chega var(--mov-lento) var(--mov-curva) backwards; }
+.tv-desc { min-height: 2.9em; }
+.tv-chip .coroa { font-style: normal; }
+.tv-chefe-dica { margin-top: .5em; color: var(--tinta-suave); text-align: center; }
+.tv-fechar { display: block; margin: .8em auto 0; background: none; border: 0; color: var(--tinta-suave); text-decoration: underline; font: inherit; font-size: .85em; cursor: pointer; }
+.tv-fechar.confirma { color: var(--vermelho); font-weight: 800; }
+.tv-cod-mini b { letter-spacing: .02em; font-size: 1.05em; }
+
+/* TV: como joga (antes da 1ª rodada) */
+.tv-como-t { font-family: var(--mao); font-size: 3.4em; line-height: 1; }
+.tv-como { display: grid; gap: .5em; text-align: left; font-size: 1.5em; counter-reset: c; list-style: none; }
+.tv-como li { counter-increment: c; display: flex; gap: .6em; align-items: baseline; }
+.tv-como li::before { content: counter(c); flex: none; display: inline-grid; place-items: center; width: 1.6em; height: 1.6em; border-radius: 50%; background: var(--amarelo); border: 2px solid var(--tinta); font-weight: 800; font-size: .8em; }
+.tv-pre .tv-pre-dica { font-size: 3em; }
+
+/* TV: quiz */
+.tv-quiz-p { font-family: var(--mao); font-size: 3.6em; line-height: 1.05; max-width: 18em; margin-top: .3em; }
+.tv-quiz-ops { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .9em; width: min(56em, 100%); }
+.tv-quiz-op { display: flex; align-items: center; gap: .6em; padding: .8em; background: #fff; border: 3px solid var(--tinta); border-left: .6em solid var(--c); border-radius: .8em; box-shadow: .15em .15em 0 var(--tinta); font-size: 1.4em; font-weight: 700; text-align: left; }
+.tv-quiz-op i, .ctrl-quiz-op i { flex: none; font-style: normal; display: inline-grid; place-items: center; width: 1.7em; height: 1.7em; border-radius: 50%; background: var(--c); color: #fff; font-weight: 900; border: 2px solid var(--tinta); }
+.tv-expl { display: block; font-family: var(--texto); font-size: .32em; color: var(--tinta-suave); max-width: 40em; margin: .5em auto 0; line-height: 1.35; }
+
+/* TV: dedo mais rápido */
+.tv-reflexo { width: min(40em, 100%); flex: 1; min-height: 10em; max-height: 22em; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 4px solid var(--tinta); border-radius: 1.2em; box-shadow: .25em .25em 0 var(--tinta); color: #fff; background: var(--vermelho); }
+.tv-reflexo b { font-family: var(--mao); font-size: 6em; line-height: 1; }
+.tv-reflexo small { font-size: 1.2em; opacity: .9; }
+.tv-reflexo[data-s="vai"] { background: #16a34a; }
+.tv-reflexo[data-s="falso"] { background: #f2b705; color: var(--tinta); }
+.tv-reflexo[data-s="falso2"] { background: #1d4ed8; }
+
+/* TV: quantos tem? */
+.tv-conta-alvo, .ctrl-conta-alvo { display: inline-block; font-size: 1.5em; vertical-align: middle; }
+.tv-conta-campo { position: relative; width: min(60em, 100%); flex: 1; min-height: 14em; background: #fff; border: 3px solid var(--tinta); border-radius: 1em; overflow: hidden; }
+.tv-conta-campo span { position: absolute; transform: translate(-50%, -50%) rotate(var(--g)); font-size: 3em; line-height: 1; transition: opacity var(--mov-medio) var(--mov-curva); }
+.tv-conta-campo.cobre span { opacity: 0; }
+.tv-conta-campo.cobre::after { content: '❓'; position: absolute; inset: 0; display: grid; place-items: center; font-size: 8em; animation: mov-entra var(--mov-medio) var(--mov-curva) backwards; }
+
+/* TV: sequência de cores */
+.tv-mem { display: grid; grid-template-columns: repeat(2, 9em); gap: 1em; margin-top: .4em; }
+.tv-mem.n5, .tv-mem.n6 { grid-template-columns: repeat(3, 8em); }
+.tv-mem i { aspect-ratio: 1; border-radius: 1em; border: 4px solid var(--tinta); background: var(--c); opacity: .28; transition: opacity var(--mov-toque) linear, transform var(--mov-toque) linear; }
+.tv-mem i.acende { opacity: 1; transform: scale(1.06); box-shadow: 0 0 0 .3em #fff, 0 0 0 .5em var(--tinta); }
+.tv-seq { display: inline-flex; gap: .15em; vertical-align: middle; }
+.tv-seq i { width: .7em; height: .7em; border-radius: .15em; background: var(--c); border: 2px solid var(--tinta); }
+.tv-queimou { color: var(--vermelho); font-weight: 700; }
+.tv-volta { font-weight: 700; color: var(--tinta-suave); text-align: center; }
+.tv-volta b { color: var(--tinta); }
+
+@media (max-width: 800px) {
+  .tv-convite-linha { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+  .tv-link .tv-codigo { justify-content: center; }
+  .tv-passos { grid-template-columns: 1fr; }
+  .tv-jogos { grid-template-columns: repeat(2, 1fr); }
+  .tv-quiz-ops { grid-template-columns: 1fr; }
+  .tv-quiz-p { font-size: 2.2em; }
+  .tv-mem { grid-template-columns: repeat(2, 6em); }
+  .tv-mem.n5, .tv-mem.n6 { grid-template-columns: repeat(3, 5em); }
+  .tv-como { font-size: 1.15em; }
+}
+
+/* celular: status, sala com votação, como funciona */
+.ctrl-st { font-size: 12px; font-weight: 800; color: var(--vermelho); background: #fde2e4; border: 2px solid var(--vermelho); border-radius: 99px; padding: 0 8px; }
+.ctrl-lobby { display: grid; gap: 12px; padding-bottom: 18px; }
+.ctrl-lobby-topo { text-align: center; }
+.ctrl-lobby-topo h2 { font-family: var(--mao); font-size: 38px; line-height: 1.05; }
+.ctrl-lobby-topo p { color: var(--tinta-suave); }
+.ctrl-como { background: var(--papel-claro); border: 2px dashed var(--tinta); border-radius: 14px; padding: 2px 12px; }
+.ctrl-como ol { list-style: none; display: grid; gap: 10px; padding: 2px 0 12px; }
+.ctrl-como li { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; line-height: 1.35; }
+.ctrl-como li i { font-style: normal; font-size: 22px; line-height: 1.1; }
+.ctrl-tit { font-family: var(--mao); font-size: 28px; line-height: 1; margin-top: 4px; }
+.ctrl-votos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ctrl-voto { position: relative; display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; align-items: center; column-gap: 8px; min-height: 64px; padding: 10px 8px 8px; background: #fff; border: 2px solid var(--tinta); border-bottom: 5px solid var(--cor); border-radius: 14px; font: inherit; cursor: pointer; text-align: center; }
+.ctrl-voto i { grid-row: span 2; font-style: normal; font-size: 26px; line-height: 1; }
+.ctrl-voto b { font-size: 14px; line-height: 1.15; text-align: left; }
+.ctrl-voto small { font-weight: 800; font-size: 13px; text-align: left; }
+.ctrl-voto small:empty { display: none; }
+.ctrl-voto em { position: absolute; top: -9px; left: 50%; transform: translateX(-50%); font-style: normal; font-size: 11px; font-weight: 800; background: var(--tinta); color: #fff; padding: 1px 8px; border-radius: 99px; white-space: nowrap; }
+.ctrl-voto.meu { background: #fff7d6; box-shadow: 3px 3px 0 var(--tinta); }
+.ctrl-voto.meu::after { content: '👍'; position: absolute; top: 6px; right: 8px; font-size: 16px; }
+.ctrl-voto.escolhido { outline: 3px solid var(--tinta); outline-offset: 1px; }
+.ctrl-chefe { display: grid; gap: 10px; padding: 14px; background: #fff; border: 2px solid var(--tinta); border-radius: 16px; box-shadow: 3px 3px 0 var(--tinta); }
+.ctrl-chefe p { font-size: 14px; color: var(--tinta-suave); }
+.ctrl-chefe p b { color: var(--tinta); }
+.ctrl-niveis { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.ctrl-niveis button { height: 40px; border: 2px solid var(--tinta); border-radius: 10px; background: #fff; font: inherit; font-weight: 800; cursor: pointer; }
+.ctrl-niveis button.sel { background: var(--amarelo); box-shadow: 2px 2px 0 var(--tinta); }
+.ctrl-niveis button.tranca { background: rgba(31, 31, 36, .06); font-size: 13px; }
+.ctrl-lobby .ctrl-proximo { max-width: none; }
+.ctrl-lobby > .ctrl-peq { text-align: center; color: var(--tinta-suave); }
+.ctrl-link { background: none; border: 0; font: inherit; color: var(--tinta); text-decoration: underline; cursor: pointer; padding: 0; }
+.ctrl-como-lista { text-align: left; display: grid; gap: 8px; max-width: 340px; padding-left: 22px; color: var(--tinta-suave); }
+.ctrl-fica { font-weight: 700; color: var(--tinta) !important; }
+.ctrl-fim-botoes { display: grid; gap: 10px; width: 100%; max-width: 340px; }
+
+/* celular: quiz */
+.ctrl-quiz-p { font-weight: 800; font-size: 19px; line-height: 1.3; text-align: center; margin-bottom: 12px; }
+.ctrl-quiz { display: grid; grid-auto-rows: minmax(84px, auto); gap: 12px; padding-bottom: 8px; }
+.ctrl-quiz-op { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: #fff; border: 3px solid var(--tinta); border-left: 12px solid var(--c); border-radius: 18px; box-shadow: 4px 4px 0 var(--tinta); font: inherit; font-weight: 800; font-size: 18px; text-align: left; cursor: pointer; touch-action: manipulation; }
+.ctrl-quiz-op:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--tinta); }
+
+/* celular: dedo mais rápido */
+.ctrl-reflexo { flex: 1; min-height: 60vh; margin-bottom: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; border: 4px solid var(--tinta); border-radius: 26px; box-shadow: 5px 5px 0 var(--tinta); background: var(--vermelho); color: #fff; font: inherit; cursor: pointer; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+.ctrl-reflexo b { font-family: var(--mao); font-size: 64px; line-height: 1; }
+.ctrl-reflexo small { font-size: 16px; opacity: .9; }
+.ctrl-reflexo[data-s="vai"] { background: #16a34a; }
+.ctrl-reflexo[data-s="falso"] { background: #f2b705; color: var(--tinta); }
+.ctrl-reflexo[data-s="falso2"] { background: #1d4ed8; }
+
+/* celular: quantos tem? */
+.ctrl-conta, .ctrl-mem { text-align: center; }
+.ctrl-conta-olha, .ctrl-mem-olha { flex: 1; display: grid; align-content: center; gap: 10px; }
+.ctrl-conta-olha h2, .ctrl-mem-olha h2 { font-family: var(--mao); font-size: 48px; line-height: 1; }
+.ctrl-conta-num { display: grid; gap: 10px; }
+.ctrl-conta-num > p { font-weight: 800; font-size: 18px; }
+.ctrl-visor { display: block; font-family: var(--mao); font-size: 72px; line-height: 1; padding: 6px; background: #fff; border: 3px solid var(--tinta); border-radius: 16px; }
+.ctrl-teclado { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.ctrl-teclado button { height: 62px; border: 2px solid var(--tinta); border-radius: 14px; background: #fff; box-shadow: 2px 2px 0 var(--tinta); font: inherit; font-weight: 800; font-size: 26px; cursor: pointer; touch-action: manipulation; }
+.ctrl-teclado button:active { transform: translate(2px, 2px); box-shadow: none; }
+.ctrl-teclado button.ok { background: var(--verde); color: #fff; }
+
+/* celular: sequência de cores */
+.ctrl-mem-vez { flex: 1; display: grid; align-content: center; gap: 14px; }
+.ctrl-mem-dots { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; }
+.ctrl-mem-dots i { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--tinta); background: #fff; }
+.ctrl-mem-dots i.ok { background: var(--verde); }
+.ctrl-mem-pads { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.ctrl-mem-pads.n5, .ctrl-mem-pads.n6 { grid-template-columns: repeat(3, 1fr); }
+.ctrl-mem-pads button { aspect-ratio: 1; border: 3px solid var(--tinta); border-radius: 20px; background: var(--c); box-shadow: 4px 4px 0 var(--tinta); cursor: pointer; touch-action: manipulation; }
+.ctrl-mem-pads button.acende { animation: acende-pad var(--mov-medio) var(--mov-curva) backwards; }
+@keyframes acende-pad { 0% { transform: scale(.9); opacity: .6; } 100% { transform: none; opacity: 1; } }
+
+.tv-entra b { letter-spacing: 0; word-break: break-all; }
+.ctrl [hidden], .tv [hidden] { display: none !important; }

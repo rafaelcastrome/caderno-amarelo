@@ -1,3 +1,9 @@
 [build]
   publish = "."
   command = ""
+
+# Link curto dos Jogos em grupo: cardenoamarelo.netlify.app/s/ABCD entra direto na sala ABCD
+[[redirects]]
+  from = "/s/:codigo"
+  to = "/jogos/?sala=:codigo"
+  status = 302

@@ -3,6 +3,12 @@
 (function () {
   'use strict';
   const CA = window.CA;
+
+  // Link curto dos Jogos em grupo: /s/ABCD (Netlify manda pra /jogos/?sala=ABCD) entra direto na sala.
+  try {
+    const sala = new URLSearchParams(location.search).get('sala');
+    if (sala && /^[a-z]{4}$/i.test(sala)) history.replaceState(null, '', location.pathname + '#/sala?c=' + sala.toUpperCase());
+  } catch (e) {}
   
   function lerRota() {
     const h = location.hash.replace(/^#\/?/, '');
