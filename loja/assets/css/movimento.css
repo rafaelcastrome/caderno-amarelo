@@ -1,0 +1,116 @@
+/* =====================================================================
+   MOVIMENTO · regra de suavidade do site inteiro (loja + jogos)
+   Pedido do Rafael (16/11/2026): todo clique, troca de tela e coisa que
+   abre/fecha tem que ser suave. Leia REGRA-MOVIMENTO.md antes de mexer.
+
+   - Só anima opacity e transform (leve até em celular fraco).
+   - Nunca atrasa o jogo: nada espera animação acabar pra aceitar toque.
+   - Quem pediu menos movimento no aparelho não vê nada mexendo.
+   ===================================================================== */
+
+:root {
+  /* durações */
+  --mov-toque: 90ms;      /* apertar botão */
+  --mov-rapido: 140ms;    /* sumir, fechar, tooltip */
+  --mov-medio: 200ms;     /* entrar tela, abrir caixa */
+  --mov-lento: 280ms;     /* abrir grupo, gaveta, modal */
+  /* curvas */
+  --mov-curva: cubic-bezier(.2, .8, .2, 1);      /* padrão: sai rápido e assenta */
+  --mov-curva-sai: cubic-bezier(.4, 0, 1, 1);    /* pra sumir */
+  --mov-curva-mola: cubic-bezier(.3, 1.4, .5, 1); /* pequeno pulo (abas, selos) */
+  /* distâncias */
+  --mov-sobe: 8px;
+  --mov-escala-toque: .97;
+}
+
+/* ---------- 1. toque nos botões ---------- */
+/* Tudo que é clicável afunda de leve. Botões com sombra "de caderno" já
+   têm o próprio :active (translate + sombra menor) e continuam iguais. */
+.mov-toque, .aba, .som, .loja-btn, .conta-btn, .voltar, .fechar-instalar, .filtro, .grupo-titulo,
+.menu-botao, .menu-gaveta a, .menu-baixo a, .lightbox button, .tv-sair {
+  transition: transform var(--mov-toque) var(--mov-curva), background-color var(--mov-rapido), color var(--mov-rapido), opacity var(--mov-rapido);
+}
+.mov-toque:active, .aba:active, .som:active, .loja-btn:active, .conta-btn:active, .voltar:active,
+.fechar-instalar:active, .filtro:active, .grupo-titulo:active, .menu-botao:active,
+.menu-gaveta a:active, .menu-baixo a:active, .lightbox button:active, .tv-sair:active {
+  transform: scale(var(--mov-escala-toque));
+}
+.btn, .card-jogo, .nivel, .plano, .dia, .podio, .chamada-premium, .mais, .dia-antigo, .tile-fase, .chamada-conta {
+  transition: transform var(--mov-toque) var(--mov-curva), box-shadow var(--mov-toque) var(--mov-curva);
+}
+.dia:active, .podio:active, .chamada-premium:active, .mais:active, .dia-antigo:active, .tile-fase:active, .chamada-conta:active {
+  transform: translate(2px, 2px);
+}
+
+/* ---------- 2. troca de tela ---------- */
+/* movimento.js põe .mov-tela em cada tela nova do #palco (jogos) */
+@keyframes mov-entra { from { opacity: 0; transform: translateY(var(--mov-sobe)); } }
+@keyframes mov-aparece { from { opacity: 0; } }
+@keyframes mov-surge { from { opacity: 0; transform: scale(.96); } }
+@keyframes mov-desce { from { opacity: 0; transform: translateY(-6px); } }
+.mov-tela { animation: mov-entra var(--mov-medio) var(--mov-curva) backwards; }
+/* mesma tela com conteúdo novo (ex.: trocar de aba): só o miolo entra */
+.mov-troca-anima { animation: mov-entra var(--mov-medio) var(--mov-curva) backwards; }
+
+/* ---------- 3. aparecer e sumir ---------- */
+/* .mov-aparece: anima toda vez que deixa de estar escondido (hidden=false). */
+.mov-aparece:not([hidden]) { animation: mov-entra var(--mov-medio) var(--mov-curva) backwards; }
+/* .mov-saindo: CA_MOV.esconder() põe isso, espera e só então põe hidden */
+.mov-saindo { animation: mov-sai var(--mov-rapido) var(--mov-curva-sai) both !important; pointer-events: none; }
+@keyframes mov-sai { to { opacity: 0; transform: scale(.97); } }
+
+/* escondido é escondido mesmo quando a classe do card define display */
+.mov-aparece[hidden], [data-tags][hidden] { display: none !important; }
+
+/* ---------- 4. grupos que abrem e fecham (sanfona) ---------- */
+/* <section class="grupo">
+     <button class="grupo-titulo" aria-expanded="true" aria-controls="g-numeros">Números</button>
+     <div class="grupo-corpo" id="g-numeros"><div class="grupo-miolo"> ...cards... </div></div>
+   </section>
+   movimento.js liga o clique sozinho. */
+.grupo-titulo { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; background: none; border: 0; padding: 10px 2px; cursor: pointer; font: inherit; font-weight: 900; font-size: 18px; text-align: left; }
+.grupo-titulo::after { content: '▾'; font-size: 16px; transition: transform var(--mov-lento) var(--mov-curva); }
+.grupo-titulo[aria-expanded="false"]::after { transform: rotate(-90deg); }
+.grupo-corpo { display: grid; grid-template-rows: 1fr; transition: grid-template-rows var(--mov-lento) var(--mov-curva), opacity var(--mov-lento) var(--mov-curva); }
+.grupo-corpo > .grupo-miolo { min-height: 0; overflow: hidden; }
+.grupo-titulo[aria-expanded="false"] + .grupo-corpo { grid-template-rows: 0fr; opacity: 0; }
+/* deixa a sombra dos cards aparecer quando o grupo está aberto */
+.grupo-titulo[aria-expanded="true"] + .grupo-corpo > .grupo-miolo { padding: 0 4px 4px; margin: 0 -4px; }
+
+/* ---------- 5. filtros ---------- */
+/* <div class="filtros"><button class="filtro" aria-pressed="true" data-filtro="todos">Todos</button>...</div>
+   Os itens filtrados somem com .mov-saindo e os que voltam usam .mov-aparece. */
+.filtros { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 8px; scrollbar-width: none; }
+.filtros::-webkit-scrollbar { display: none; }
+.filtro { flex: none; padding: 8px 14px; border: 2px solid var(--tinta); border-radius: 999px; background: var(--papel-claro); font: inherit; font-weight: 800; font-size: 15px; cursor: pointer; white-space: nowrap; }
+.filtro[aria-pressed="true"] { background: var(--amarelo); box-shadow: 2px 2px 0 var(--tinta); }
+.mov-flip { transition: transform var(--mov-medio) var(--mov-curva); }
+
+/* ---------- 6. caixas por cima (modal, lightbox, gaveta, aviso) ---------- */
+.aviso { animation: mov-aviso var(--mov-medio) var(--mov-curva) backwards; }
+@keyframes mov-aviso { from { opacity: 0; transform: translate(-50%, 10px) scale(.96); } }
+.lightbox.aberto { animation: mov-aparece var(--mov-medio) var(--mov-curva) backwards; }
+.lightbox.aberto img { animation: mov-surge var(--mov-lento) var(--mov-curva) backwards; }
+.modal-fundo.aberto { animation: mov-aparece var(--mov-medio) var(--mov-curva) backwards; }
+.modal-fundo.aberto .modal { animation: mov-entra var(--mov-lento) var(--mov-curva) backwards; }
+.lightbox.aberto.fechando, .modal-fundo.aberto.fechando { animation: mov-sai-fundo var(--mov-rapido) var(--mov-curva-sai) both; }
+@keyframes mov-sai-fundo { to { opacity: 0; } }
+.menu-gaveta:not([hidden]) { animation: mov-desce var(--mov-medio) var(--mov-curva) backwards; }
+
+/* ---------- 7. abas com a pílula deslizando ---------- */
+/* app.js põe --i (aba ativa) e --de (aba anterior) no nav.abas */
+.abas.mov-pilula { position: relative; isolation: isolate; }
+.abas.mov-pilula::before {
+  content: ''; position: absolute; z-index: -1; top: 5px; bottom: 5px; left: 5px;
+  width: calc((100% - 10px - 6px) / 2); border-radius: 11px;
+  background: var(--amarelo); box-shadow: inset 0 0 0 2px var(--tinta);
+  transform: translateX(calc(var(--i, 0) * (100% + 6px)));
+  animation: mov-pilula var(--mov-lento) var(--mov-curva) backwards;
+}
+@keyframes mov-pilula { from { transform: translateX(calc(var(--de, 0) * (100% + 6px))); } }
+.abas.mov-pilula .aba.ativa { background: transparent; box-shadow: none; }
+
+/* ---------- menos movimento ---------- */
+@media (prefers-reduced-motion: reduce) {
+  :root { --mov-toque: 1ms; --mov-rapido: 1ms; --mov-medio: 1ms; --mov-lento: 1ms; --mov-sobe: 0px; --mov-escala-toque: 1; }
+}

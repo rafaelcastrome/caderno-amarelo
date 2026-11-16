@@ -92,3 +92,4 @@ Abrir `http://localhost:8765`. Com `config.js` vazio, o checkout roda em modo de
   e o pagamento é validado pelo toggle "Simular pagamento validado". Com `true`, chama `criar-pix` e confere em `status-pedido`.
 - Pagamento validado: `isPremium = true` (salvo no aparelho), fecha o modal e libera até o último desafio.
 - No console: `DesafiosJogo.estado`, `DesafiosJogo.checarResposta(DESAFIOS[0], '  BURACO ')`.
+- Regra de movimento (suavidade): [REGRA-MOVIMENTO.md](REGRA-MOVIMENTO.md). Vale pra toda mudança no site.

@@ -170,14 +170,15 @@
     const mostra = n => { i = (n + fotos.length) % fotos.length; img.src = fotos[i]; };
     $('#previas').addEventListener('click', e => {
       const a = e.target.closest('a[data-i]'); if (!a) return;
-      e.preventDefault(); mostra(Number(a.dataset.i)); lb.classList.add('aberto');
+      e.preventDefault(); mostra(Number(a.dataset.i)); lb.classList.remove('fechando'); lb.classList.add('aberto');
     });
     lb.querySelector('.lb-ant').onclick = () => mostra(i - 1);
     lb.querySelector('.lb-prox').onclick = () => mostra(i + 1);
-    lb.addEventListener('click', e => { if (e.target === lb || e.target.closest('.lb-fechar')) lb.classList.remove('aberto'); });
+    const fecharLb = () => window.CA_MOV ? CA_MOV.fecharClasse(lb, 'aberto') : lb.classList.remove('aberto');
+    lb.addEventListener('click', e => { if (e.target === lb || e.target.closest('.lb-fechar')) fecharLb(); });
     document.addEventListener('keydown', e => {
       if (!lb.classList.contains('aberto')) return;
-      if (e.key === 'Escape') lb.classList.remove('aberto');
+      if (e.key === 'Escape') fecharLb();
       if (e.key === 'ArrowLeft') mostra(i - 1);
       if (e.key === 'ArrowRight') mostra(i + 1);
     });
@@ -188,9 +189,14 @@
 
   function modal(html) {
     $('#checkout-corpo').innerHTML = (DEMO ? '<div class="aviso-demo">MODO DEMONSTRAÇÃO · nenhum pagamento é cobrado</div>' : '') + html;
+    $('#checkout').classList.remove('fechando');
     $('#checkout').classList.add('aberto');
   }
-  function fecharModal() { $('#checkout').classList.remove('aberto'); clearInterval(timer); }
+  function fecharModal() {
+    const m = $('#checkout');
+    if (window.CA_MOV) CA_MOV.fecharClasse(m, 'aberto'); else m.classList.remove('aberto');
+    clearInterval(timer);
+  }
 
   function abrirCheckout(p) {
     modal(`<h3>${esc(p.nome)}</h3>

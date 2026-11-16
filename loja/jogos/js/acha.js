@@ -326,7 +326,7 @@
   function caixaRanking(palco, chave, href, titulo, envio, card) {
     const folha = palco.querySelector('.folha');
     if (!folha || !CA.verRanking) return;
-    const cx = CA.el(`<a class="podio res-ranking" href="${href}" hidden></a>`);
+    const cx = CA.el(`<a class="podio res-ranking mov-aparece" href="${href}" hidden></a>`);
     folha.after(cx);
     if (!(CA.conta && CA.conta())) {
       cx.innerHTML = `<div class="cab-ranking"><strong>${titulo}</strong></div><p class="vazio">Entra com teu e-mail pra aparecer no ranking (e com teu @, se quiser).</p><span class="ver-mais">Entrar e aparecer →</span>`;

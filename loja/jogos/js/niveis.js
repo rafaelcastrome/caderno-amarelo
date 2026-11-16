@@ -108,7 +108,7 @@
           <h2 class="secao">Níveis</h2>
           ${grade(j)}
           ${j.acesso() ? '' : `<p class="legenda-fases">Níveis 1 a ${GRATIS} grátis · 🔒 Premium</p>`}
-          <a class="podio" hidden></a>
+          <a class="podio mov-aparece" hidden></a>
           ${j.acesso() ? '' : `<a class="chamada-premium" href="#/premium"><strong>Quer jogar até o fim?</strong><span>O ca<span class="r-marca">R</span>deno Premium libera todos os níveis de todos os jogos. Mensal R$ 4,90 ou anual R$ 29,90.</span></a>`}
           <h2 class="secao">Todos os jogos</h2>
           ${CA.cardsJogos(j.id)}
@@ -147,7 +147,7 @@
       linkVoltar: { href: '#/jogo?id=' + j.id, txt: 'Ver todos os níveis' },
     }));
     const folha = palco.querySelector('.folha');
-    const cx = CA.el('<a class="podio res-ranking" hidden></a>');
+    const cx = CA.el('<a class="podio res-ranking mov-aparece" hidden></a>');
     folha.after(cx);
     setTimeout(() => j.caixaRanking ? j.caixaRanking(cx, n, r.card) : CA.caixaRankingEstrelas(cx, j.id, 'Ranking de ' + j.nome, '#/ranking?jogo=' + j.id, r.card), 1500); // espera o progresso subir pra conta
     palco.querySelector('.resultado').appendChild(CA.el(`<div class="outros-jogos"><h2 class="secao">Todos os jogos</h2>${CA.cardsJogos(j.id)}</div>`));

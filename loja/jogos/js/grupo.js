@@ -147,7 +147,7 @@
           <span class="card-jogo-rodape"><small class="card-jogo-est">10 níveis · ${premium ? 'todos liberados ★' : 'níveis 1 a 3 grátis'}</small></span></span>
       </div>`).join('');
     return `
-      <section class="grupo-aba">
+      <section class="grupo-aba mov-troca">
         <div class="grupo-hero">
           <div class="grupo-desenho" aria-hidden="true">
             <span class="g-tv"><b>ABCD</b></span>

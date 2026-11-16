@@ -78,8 +78,8 @@
               <button class="btn" type="submit">Responder</button>
             </form>
             <p class="msg-erro" role="alert"></p>
-            <button class="link-voltar ver-resp" type="button" hidden>Ver a resposta (sem estrelas)</button>
-            <div class="revela" hidden></div>
+            <button class="link-voltar ver-resp mov-aparece" type="button" hidden>Ver a resposta (sem estrelas)</button>
+            <div class="revela mov-aparece" hidden></div>
           </article>
           <div class="pos-charada"></div>
           <h2 class="secao">Todos os jogos</h2>
@@ -126,7 +126,7 @@
             <button class="btn btn-grande btn-claro" data-a="desafiar">Desafiar um amigo</button>
             <a class="link-voltar" href="#/jogo?id=${g.id}">Ver todos os níveis</a>
           </div>
-          <a class="podio res-ranking" hidden></a>`;
+          <a class="podio res-ranking mov-aparece" hidden></a>`;
         pos.querySelector('[data-a=desafiar]').addEventListener('click', () =>
           CA.compartilhar(`${d.pergunta} 🤔 Acertei ${estrelas === 3 ? 'de primeira' : ''} no ${g.nome} do caRdeno Amarelo. Duvido tu acertar!`, CA.linkDesafio('charada', { j: g.id, n })));
         CA.caixaRankingEstrelas(pos.querySelector('.podio'), g.id, 'Ranking de ' + g.nome, '#/ranking?jogo=' + g.id);

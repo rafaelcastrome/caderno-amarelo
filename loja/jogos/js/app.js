@@ -30,6 +30,7 @@
   };
 
   let limpar = null;
+  let abaAntes = null; // pra pílula das abas deslizar da aba anterior
   function render() {
     if (limpar) { try { limpar(); } catch (e) {} limpar = null; }
     const palco = CA.palco();
@@ -56,7 +57,7 @@
     const est = CA.estrelasGerais(), max = CA.JOGOS.reduce((s, j) => s + j.total * 3, 0);
 
     palco.appendChild(CA.el(`
-      <div class="inicio">
+      <div class="inicio" data-tela="inicio" data-parte="${aba || 'jogos'}">
         <header class="cabeca">
           <div class="logo-app"><img class="logo-img" src="../assets/img/logo-cabecalho.png" alt="" width="171" height="192"><span>ca<span class="r-marca">R</span>deno Amarelo</span></div>
           <div class="cabeca-botoes">
@@ -67,12 +68,12 @@
         </header>
         <h1 class="titulo-app">Jogos do <span class="marca">ca<span class="r-marca">R</span>deno</span></h1>
 
-        <nav class="abas" aria-label="Tipo de jogo">
+        <nav class="abas mov-pilula" aria-label="Tipo de jogo" style="--i:${aba === 'grupo' ? 1 : 0};--de:${abaAntes == null ? (aba === 'grupo' ? 1 : 0) : abaAntes}">
           <a class="aba ${aba === 'grupo' ? '' : 'ativa'}" href="#/" ${aba === 'grupo' ? '' : 'aria-current="page"'}>🧠 Jogos</a>
           <a class="aba ${aba === 'grupo' ? 'ativa' : ''}" href="#/grupo" ${aba === 'grupo' ? 'aria-current="page"' : ''}>📺 Jogos em grupo</a>
         </nav>
         ${aba === 'grupo' && CA.grupoAbaHtml ? CA.grupoAbaHtml() + '<p class="rodape"><a href="https://www.instagram.com/cardeno_amarelo/" target="_blank" rel="noopener">@caRdeno_Amarelo</a></p></div>' : `
-        <div class="inicio-corpo"><div class="inicio-principal">
+        <div class="inicio-corpo mov-troca"><div class="inicio-principal">
         <a class="dia" href="#/acha?d=1">
           <span class="dia-fita">Desafio do dia</span>
           <strong>${CA.NOME_ACHA}: ${CA.regraDoDia(CA.hojeBR())}</strong>
@@ -93,24 +94,25 @@
         <a class="mais" href="../loja.html"><strong>Loja do ca<span class="r-marca">R</span>deno</strong><small>Brincadeiras pra imprimir, livros de colorir e mágicas pra fazer em família.</small></a>
         <a class="mais insta" href="https://www.instagram.com/cardeno_amarelo/" target="_blank" rel="noopener"><strong>Segue a gente no Instagram</strong><small>@caRdeno_Amarelo · desafios novos todo dia</small></a>
 
-        <div class="instalar" hidden>
+        <div class="instalar mov-aparece" hidden>
           <button class="fechar-instalar" type="button" aria-label="Fechar">×</button>
           <strong>Instalar o app no celular</strong>
           <small>Fica um ícone na tela do celular, igual app, e abre até sem internet.</small>
           <button class="btn btn-claro" type="button">Instalar</button>
         </div>
-        <div class="instalar-ios" hidden>
+        <div class="instalar-ios mov-aparece" hidden>
           <button class="fechar-instalar" type="button" aria-label="Fechar">×</button>
           <strong>Instalar o app no celular</strong>
           <small>Fica um ícone na tela do celular, igual app, e abre até sem internet.</small>
           <button class="btn btn-claro" type="button">Instalar</button>
-          <small class="dica-ios" hidden>O iPhone só deixa instalar pelo menu dele: toca em <b>Compartilhar</b> (o quadradinho com a seta, embaixo) e depois em <b>Adicionar à Tela de Início</b>.</small>
+          <small class="dica-ios mov-aparece" hidden>O iPhone só deixa instalar pelo menu dele: toca em <b>Compartilhar</b> (o quadradinho com a seta, embaixo) e depois em <b>Adicionar à Tela de Início</b>.</small>
         </div>
         </aside></div>
 
         <p class="rodape"><a href="https://www.instagram.com/cardeno_amarelo/" target="_blank" rel="noopener">@caRdeno_Amarelo</a></p>
       </div>`}`));
 
+    abaAntes = aba === 'grupo' ? 1 : 0;
     palco.querySelector('button.som').addEventListener('click', e => {
       CA.gravar('som', !CA.somLigado());
       e.currentTarget.textContent = CA.somLigado() ? '🔊' : '🔇';
@@ -148,7 +150,7 @@
     palco.querySelectorAll('.fechar-instalar').forEach(b => {
       b.onclick = () => {
         CA.gravar('instalar-fechou', CA.ler('instalar-fechou', 0) + 1);
-        b.parentElement.hidden = true;
+        CA_MOV.esconder(b.parentElement);
       };
     });
     const caixa = palco.querySelector('.instalar');
@@ -158,7 +160,7 @@
         pedidoInstalar.prompt();
         try { await pedidoInstalar.userChoice; } catch (e) {}
         pedidoInstalar = null;
-        caixa.hidden = true;
+        CA_MOV.esconder(caixa);
       };
     } else if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
       const ios = palco.querySelector('.instalar-ios');
@@ -176,6 +178,7 @@
 
   window.addEventListener('hashchange', render);
   window.addEventListener('DOMContentLoaded', () => {
+    CA_MOV.vigiarPalco(CA.palco());
     render();
     CA.fonteCard();
     // confere Premium e progresso na conta (se tiver entrado) e redesenha o início

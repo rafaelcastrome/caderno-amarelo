@@ -127,19 +127,19 @@
       <div class="caixa-conta">
         <strong>${titulo}</strong>
         <small>${texto}</small>
-        <form class="f-email">
+        <form class="f-email mov-aparece">
           <label for="email-conta">Teu e-mail</label>
           <input id="email-conta" type="email" required autocomplete="email" placeholder="nome@email.com">
           <button class="btn btn-grande" type="submit">Mandar código pro e-mail</button>
-          <p class="erro-form" role="alert" hidden></p>
+          <p class="erro-form mov-aparece" role="alert" hidden></p>
           <p class="nota">Esqueceu qual e-mail usou? Manda direct pro <a href="${CA.linkDirect()}">@caRdeno_Amarelo</a> que a gente te ajuda.</p>
         </form>
-        <form class="f-codigo" hidden>
+        <form class="f-codigo mov-aparece" hidden>
           <label for="codigo-conta">Código de 6 números que chegou no e-mail</label>
           <input id="codigo-conta" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required placeholder="000000">
           <button class="btn btn-grande" type="submit">Entrar</button>
           <button class="link-voltar" type="button" data-a="outro">Usar outro e-mail</button>
-          <p class="erro-form" role="alert" hidden></p>
+          <p class="erro-form mov-aparece" role="alert" hidden></p>
           <p class="nota">Não chegou? Olha no spam ou nas promoções.</p>
         </form>
       </div>`;
@@ -187,7 +187,7 @@
           <div class="campo-arroba"><span>@</span><input id="arroba" maxlength="31" autocapitalize="none" autocomplete="off" spellcheck="false" placeholder="seu.arroba" value="${p.arroba || ''}"></div>
           <label class="marcar"><input type="checkbox" id="mostrar" ${p.mostrar_arroba ? 'checked' : ''}> Mostrar meu @ no ranking</label>
           <button class="btn btn-grande" type="submit">${botao || 'Salvar e continuar'}</button>
-          <p class="erro-form" role="alert" hidden></p>
+          <p class="erro-form mov-aparece" role="alert" hidden></p>
         </form>
       </div>`;
     const f = alvo.querySelector('.f-perfil'), err = f.querySelector('.erro-form');
@@ -223,7 +223,7 @@
         <a class="btn btn-grande" href="${CA.linkDirect()}" data-a="direct"${CA.ehCelular() ? '' : ' target="_blank" rel="noopener"'}>Copiar e abrir a direct</a>
         <p class="esperando"><span class="pontinho"></span> Esperando a mensagem... pode levar até 2 minutinhos. O código vale 30 minutos.</p>
         <button class="link-voltar" type="button" data-a="depois">Confirmar depois</button>
-        <p class="erro-form" role="alert" hidden></p>
+        <p class="erro-form mov-aparece" role="alert" hidden></p>
       </div>`;
     const cx = alvo.querySelector('.codigo-grande'), err = alvo.querySelector('.erro-form');
     const fim = ok => { vivo = false; clearInterval(timer); if (ok) { CA.som('recorde'); CA.aviso('@' + p.arroba + ' confirmado ✓'); } onPronto(); };
@@ -316,7 +316,7 @@
                 <span>${pl.nome}</span><strong>${pl.preco}</strong><small>${pl.detalhe}</small>
               </button>`).join('')}
             </div>
-            <p class="erro-form" role="alert" hidden></p>
+            <p class="erro-form mov-aparece" role="alert" hidden></p>
           </div>`;
         passo.querySelector('[data-a=sair]').addEventListener('click', async () => { await CA.sairConta(); if (vivo) oferta(); });
         const err = passo.querySelector('.erro-form');

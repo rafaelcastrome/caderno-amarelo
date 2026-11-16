@@ -51,7 +51,8 @@
   const botao = topo.querySelector('.menu-botao');
   const gaveta = document.getElementById('menu-gaveta');
   function abrir(sim) {
-    gaveta.hidden = !sim;
+    if (sim) { gaveta.classList.remove('mov-saindo'); gaveta.hidden = false; }
+    else if (!gaveta.hidden) { if (window.CA_MOV) CA_MOV.esconder(gaveta); else gaveta.hidden = true; }
     botao.setAttribute('aria-expanded', String(sim));
     botao.setAttribute('aria-label', sim ? 'Fechar menu' : 'Abrir menu');
     botao.innerHTML = sim ? ICONES.fechar : ICONES.menu;

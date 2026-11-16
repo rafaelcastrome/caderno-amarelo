@@ -119,7 +119,7 @@
             <p class="meta-amigo">${amigo ? `Teu amigo acertou <b>${acertosTxt(amigo.a)}</b>${amigo.m ? ` (${fmtMedia(amigo.m)} por pergunta)` : ''}. Bate ele!` : `Nível ${n}: acerta ${ALVO[0]} pra passar`}</p>
             <div class="cartao-pergunta peg-cartao"><span class="peg-num"></span><p class="peg-q">...</p></div>
             <div class="peg-opcoes"></div>
-            <div class="peg-explica" hidden><p></p><button class="btn btn-grande" type="button">Próxima</button></div>
+            <div class="peg-explica mov-aparece" hidden><p></p><button class="btn btn-grande" type="button">Próxima</button></div>
           </section>`);
         palco.appendChild(tela);
         const elQ = tela.querySelector('.peg-q'), elNum = tela.querySelector('.peg-num'), elCartao = tela.querySelector('.peg-cartao');
