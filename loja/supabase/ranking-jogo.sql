@@ -63,3 +63,9 @@ begin
   return jsonb_build_object('ok', true, 'handle', h);
 end $$;
 revoke all on function jogo_usar_codigo_arroba(text, text) from public, anon, authenticated;
+
+-- ---------- Pegadinhas (16/11/2026): ranking de cada nível por acertos e tempo médio ----------
+-- chave 'peg:N' (N = 1..17): t = tempo médio por pergunta (segundos), acertos = quantas das 10 acertou.
+-- Ordem: mais acertos primeiro; empatou, menor tempo médio.
+alter table recordes_jogo add column if not exists acertos smallint;
+create index if not exists recordes_jogo_peg_idx on recordes_jogo(chave, acertos desc, t) where acertos is not null;

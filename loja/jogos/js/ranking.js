@@ -1,6 +1,7 @@
 /* Ranking: geral (estrelas de todos os jogos, ou de um jogo com ?jogo=), desafio do dia e amigos.
    Rotas: #/ranking (geral), #/ranking?jogo=cor, #/ranking?aba=hoje, #/ranking?d=AAAA-MM-DD,
-   #/ranking?aba=f1..f3 (tempo nos níveis grátis do Caça-números), #/ranking?aba=amigos.
+   #/ranking?aba=f1..f3 (tempo nos níveis grátis do Caça-números), #/ranking?aba=amigos,
+   #/ranking?jogo=pegadinhas&n=N (acertos e tempo médio no nível N das Pegadinhas; n=0 = estrelas).
    Só aparece no ranking quem tem conta. O @ só aparece se a pessoa deixou, e ganha ✓
    quando foi confirmado pela direct do @Cardeno_Amarelo; só o @ confirmado vira link pro Instagram. */
 (function () {
@@ -49,6 +50,10 @@
       const aba = p.aba === 'amigos' || p.aba === 'hoje' || fasesAbas.includes(p.aba) ? p.aba : p.d ? 'hoje' : 'geral';
       const numFase = /^f\d$/.test(aba) ? +aba.slice(1) : 0;
       const jogoSel = aba === 'geral' && CA.jogo(p.jogo) ? p.jogo : null;
+      // Pegadinhas: ranking de cada nível (acertos e tempo médio). n=0 mostra as estrelas.
+      const peg = jogoSel === 'pegadinhas' && CA.jogo('pegadinhas');
+      const feitosPeg = peg ? Object.keys(peg.prog()).map(Number) : [];
+      const nPeg = !peg ? 0 : p.n === '0' ? 0 : Math.max(1, Math.min(+p.n || (feitosPeg.length ? Math.max(...feitosPeg) : 1), peg.total));
       const conta = CA.conta && CA.conta();
       palco.innerHTML = '';
       const tela = CA.el(`
@@ -64,12 +69,15 @@
             <a href="#/ranking" class="${jogoSel ? '' : 'ativa'}">Todos</a>
             ${CA.JOGOS.map(j => `<a href="#/ranking?jogo=${j.id}" class="${jogoSel === j.id ? 'ativa' : ''}">${j.icone} ${j.nome}</a>`).join('')}
           </nav>` : ''}
+          ${peg ? `<nav class="chips chips-nivel" aria-label="Escolher nível">
+            ${Array.from({ length: peg.total }, (_, i) => `<a href="#/ranking?jogo=pegadinhas&n=${i + 1}" class="${nPeg === i + 1 ? 'ativa' : ''}">Nível ${i + 1}</a>`).join('')}
+            <a href="#/ranking?jogo=pegadinhas&n=0" class="${nPeg ? '' : 'ativa'}">★ Estrelas</a>
+          </nav>` : ''}
           <div class="miolo"><p class="carregando">Carregando...</p></div>
           ${conta ? `<p class="nota">Tu aparece como <b>${esc(CA.nomeRanking())}</b> · <a href="#/conta">mudar</a></p>` : ''}
         </section>`);
       palco.appendChild(tela);
-      const ch = tela.querySelector('.chips .ativa');
-      if (ch) ch.scrollIntoView({ inline: 'center', block: 'nearest' });
+      tela.querySelectorAll('.chips .ativa').forEach(ch => ch.scrollIntoView({ inline: 'center', block: 'nearest' }));
       const miolo = tela.querySelector('.miolo');
       const entrar = txt => `<a class="chamada-conta" href="#/conta"><strong>Entra pra aparecer aqui</strong><span>${txt}</span></a>`;
       const falha = () => { if (vivo) miolo.innerHTML = '<p class="vazio">Sem internet agora. Tenta de novo daqui a pouco.</p>'; };
@@ -77,7 +85,18 @@
       const linhaEst = r => `<li class="lr ${r.eu ? 'eu' : ''}">${posTxt(r.pos)}<span class="nome">${nomeTxt(r)}${r.eu ? ' <small>(tu)</small>' : ''}</span>
         <span class="val"><b>${r.estrelas} ★</b><small>${r.niveis} ${r.niveis === 1 ? 'nível' : 'níveis'}</small></span></li>`;
 
-      if (aba === 'geral') {
+      if (nPeg) {
+        ver('peg:' + nPeg).then(d => {
+          if (!vivo) return;
+          miolo.innerHTML = `
+            <p class="sub-ranking">Pegadinhas · nível ${nPeg}: quem acertou mais das 10. Empatou, ganha o menor tempo médio · ${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}</p>
+            ${d.top.length ? `<ol class="lista-ranking">${d.top.map(CA.linhaPeg).join('')}</ol>` : '<p class="vazio">Ninguém jogou esse nível ainda. Bora ser o 1º?</p>'}
+            ${d.meu && d.meu.pos > 10 ? `<p class="reticencias">···</p><ol class="lista-ranking">${CA.linhaPeg(d.meu)}</ol>` : ''}
+            ${d.amigos.length > 1 ? `<h2 class="secao">Entre teus amigos</h2><ol class="lista-ranking">${d.amigos.map(CA.linhaPeg).join('')}</ol>` : ''}
+            <a class="btn btn-grande" href="#/peg?n=${nPeg}">${d.meu ? 'Tentar melhorar' : 'Jogar o nível ' + nPeg}</a>
+            ${conta ? '' : entrar('Só quem tem conta entra no ranking. É só o e-mail, sem senha.')}`;
+        }).catch(falha);
+      } else if (aba === 'geral') {
         const j = jogoSel && CA.jogo(jogoSel);
         CA.chamar('jogo-ranking', { acao: 'estrelas', jogo: jogoSel, token: conta && conta.token }).then(d => {
           if (!vivo) return;

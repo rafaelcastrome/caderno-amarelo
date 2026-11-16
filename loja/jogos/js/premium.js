@@ -60,10 +60,11 @@
     chamar('jogo-ranking', { acao: 'amigo', token: c.token, id }).catch(() => {});
   }
   // manda o tempo pro ranking (só com conta)
-  CA.enviarRecorde = function (chave, t, tentativa) {
+  // extra: { acertos } nas Pegadinhas (chave 'peg:N', t = tempo médio)
+  CA.enviarRecorde = function (chave, t, tentativa, extra) {
     const c = CA.conta();
     if (!c || !c.token) return Promise.resolve(false);
-    return chamar('jogo-ranking', { acao: 'enviar', token: c.token, chave, t, tentativa }).then(() => true).catch(() => false);
+    return chamar('jogo-ranking', { acao: 'enviar', token: c.token, chave, t, tentativa, ...(extra || {}) }).then(() => true).catch(() => false);
   };
   CA.sairConta = async function () {
     const c = CA.conta();
@@ -92,6 +93,8 @@
     });
     const fases = CA.progressoFases ? CA.progressoFases() : {};
     for (let f = 1; f <= (CA.FASES_GRATIS || 3); f++) if (fases[f] && fases[f].t) CA.enviarRecorde('nivel:' + f, fases[f].t, fases[f].r || null);
+    const peg = CA.jogo && CA.jogo('pegadinhas');
+    if (peg) { const pp = peg.prog(); for (const n in pp) if (pp[n] && pp[n].a != null) CA.enviarRecorde('peg:' + n, pp[n].m, pp[n].r || null, { acertos: pp[n].a }); }
   }
 
   // Link da direct do @caRdeno_Amarelo. No Android o ig.me abre tela preta no Chrome,

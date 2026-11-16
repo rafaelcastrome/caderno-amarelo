@@ -13,7 +13,7 @@
 
   const jogoDoDia = () => CA.jogoDoDia();
 
-  const JOGAVEIS = ['acha', 'fase', 'cor', 'rapido', 'charada'];
+  const JOGAVEIS = ['acha', 'fase', 'cor', 'rapido', 'peg', 'charada'];
   function precisaCadastro() {
     if (CA.conta && CA.conta()) return false;
     const algo = o => o && Object.keys(o).length > 0;

@@ -35,7 +35,8 @@ export async function emailDaSessao(token: unknown) {
 // Junta dois progressos. Chaves: "acha:4", "cor:3", "oque:12"... = nível de cada jogo
 // ("1".."30" = fases antigas do Acha do 1 ao 25, antes dos níveis crescerem em 16/11/2026: guardadas, mas não contam estrela) (estrelas e; t = tempo, p = pontos, opcionais).
 // Fica o melhor de cada: mais estrelas, menor tempo, mais pontos, mais tentativas (n) e em qual tentativa fez o recorde (r).
-type Nivel = { t?: number; e: number; p?: number; n?: number; r?: number | null };
+// Pegadinhas também guardam a = acertos (0..10) e m = tempo médio, que acompanham o melhor p.
+type Nivel = { t?: number; e: number; p?: number; n?: number; r?: number | null; a?: number; m?: number };
 const CHAVE_FASE = /^\d{1,2}$/, CHAVE_NIVEL = /^[a-z]{2,12}:\d{1,2}$/;
 export function juntar(a: Record<string, Nivel>, b: Record<string, Nivel>) {
   const r: Record<string, Nivel> = { ...(a || {}) };
@@ -47,14 +48,18 @@ export function juntar(a: Record<string, Nivel>, b: Record<string, Nivel>) {
     const t = typeof v.t === 'number' ? Math.max(0.5, Math.min(9999, v.t)) : undefined;
     const pts = typeof v.p === 'number' ? Math.max(0, Math.min(9999, Math.round(v.p))) : undefined;
     const n = int(v.n), tr = int(v.r) || null;
+    const am = typeof v.a === 'number' && typeof v.m === 'number'
+      ? { a: Math.max(0, Math.min(10, Math.round(v.a))), m: Math.max(0, Math.min(99, Math.round(v.m * 10) / 10)) } : {};
     const o = r[k];
-    if (!o) { r[k] = { e, n, r: tr, ...(t != null ? { t } : {}), ...(pts != null ? { p: pts } : {}) }; continue; }
+    if (!o) { r[k] = { e, n, r: tr, ...(t != null ? { t } : {}), ...(pts != null ? { p: pts } : {}), ...am }; continue; }
     const melhor = t != null ? (o.t == null || t < o.t) : pts != null ? (o.p == null || pts > o.p) : e > (o.e || 0);
     const novo: Nivel = { e: Math.max(o.e || 0, e), n: Math.max(int(o.n), n), r: melhor ? tr : (o.r ?? null) };
     const tt = t != null && o.t != null ? Math.min(o.t, t) : (t ?? o.t);
     const pp = pts != null && o.p != null ? Math.max(o.p, pts) : (pts ?? o.p);
     if (tt != null) novo.t = tt;
     if (pp != null) novo.p = pp;
+    const amFica = melhor && 'a' in am ? am : (o.a != null ? { a: o.a, m: o.m } : am);
+    Object.assign(novo, amFica);
     r[k] = novo;
   }
   return r;
@@ -65,6 +70,7 @@ export function estrelasDe(prog: Record<string, Nivel> | null, jogo: string | nu
   let estrelas = 0, niveis = 0;
   for (const [k, v] of Object.entries(prog || {})) {
     if (CHAVE_FASE.test(k)) continue; // fase antiga do Acha (outra grade): não conta mais
+    if (k.startsWith('pegadinha:')) continue; // pegadinha antiga de 1 pergunta (virou o jogo 'pegadinhas', 10 por nível, em 16/11/2026)
     const id = k.split(':')[0];
     if (jogo && id !== jogo) continue;
     estrelas += Math.max(0, Math.min(3, Number(v?.e) || 0));
