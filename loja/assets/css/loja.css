@@ -355,3 +355,7 @@ section[id] { scroll-margin-top: 76px; }
 
 /* marca: caRdeno Amarelo com o R vermelho */
 .r-marca { color: var(--vermelho, #d62828); }
+
+/* logo oficial (caderno com cR) no cabeçalho */
+.logo-img { height: 40px; width: auto; flex: none; display: block; }
+@media (max-width: 760px) { .logo-img { height: 34px; } }

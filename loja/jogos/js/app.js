@@ -58,7 +58,7 @@
     palco.appendChild(CA.el(`
       <div class="inicio">
         <header class="cabeca">
-          <div class="logo-app"><span class="logo-caderno" aria-hidden="true"></span><span>ca<span class="r-marca">R</span>deno Amarelo</span></div>
+          <div class="logo-app"><img class="logo-img" src="../assets/img/logo-cabecalho.png" alt="" width="171" height="192"><span>ca<span class="r-marca">R</span>deno Amarelo</span></div>
           <div class="cabeca-botoes">
             <a class="som loja-btn" href="../loja.html">Loja</a>
             <a class="som conta-btn" href="#/conta" aria-label="Minha conta">${conta ? (conta.premium ? '★' : '👤') : 'Entrar'}</a>
@@ -71,8 +71,8 @@
           <a class="aba ${aba === 'grupo' ? '' : 'ativa'}" href="#/" ${aba === 'grupo' ? '' : 'aria-current="page"'}>🧠 Jogos</a>
           <a class="aba ${aba === 'grupo' ? 'ativa' : ''}" href="#/grupo" ${aba === 'grupo' ? 'aria-current="page"' : ''}>📺 Jogos em grupo</a>
         </nav>
-        ${aba === 'grupo' && CA.grupoAbaHtml ? CA.grupoAbaHtml() + '<p class="rodape">@caRdeno_Amarelo</p></div>' : `
-
+        ${aba === 'grupo' && CA.grupoAbaHtml ? CA.grupoAbaHtml() + '<p class="rodape"><a href="https://www.instagram.com/cardeno_amarelo/" target="_blank" rel="noopener">@caRdeno_Amarelo</a></p></div>' : `
+        <div class="inicio-corpo"><div class="inicio-principal">
         <a class="dia" href="#/acha?d=1">
           <span class="dia-fita">Desafio do dia</span>
           <strong>${CA.NOME_ACHA}: ${CA.regraDoDia(CA.hojeBR())}</strong>
@@ -83,15 +83,15 @@
         <h2 class="secao">Escolhe um jogo</h2>
         <p class="placar-estrelas">Tu tem ${est} de ${max} estrelas</p>
         ${CA.cardsJogos(null)}
-
+        </div>
+        <aside class="inicio-lado">
         <a class="podio" href="#/ranking" hidden></a>
-
-        ${CA.reelsHtml('acha', 'O ' + CA.NOME_ACHA + ' no nosso Instagram 👇')}
 
         ${CA.ehPremium()
           ? '<a class="chamada-premium ativo" href="#/conta"><strong>★ Premium ativo</strong><span>Todos os níveis de todos os jogos, desafios anteriores e card dourado.</span></a>'
           : '<a class="chamada-premium" href="#/premium"><strong>ca<span class="r-marca">R</span>deno Premium</strong><span>Libera todos os níveis de todos os jogos, os desafios dos dias anteriores e o card dourado. Mensal R$ 4,90 ou anual R$ 29,90.</span></a>'}
         <a class="mais" href="../loja.html"><strong>Loja do ca<span class="r-marca">R</span>deno</strong><small>Brincadeiras pra imprimir, livros de colorir e mágicas pra fazer em família.</small></a>
+        <a class="mais insta" href="https://www.instagram.com/cardeno_amarelo/" target="_blank" rel="noopener"><strong>Segue a gente no Instagram</strong><small>@caRdeno_Amarelo · desafios novos todo dia</small></a>
 
         <div class="instalar" hidden>
           <strong>Coloca na tela inicial</strong>
@@ -102,8 +102,9 @@
           <strong>Coloca na tela inicial</strong>
           <small>Toca em <b>Compartilhar</b> e depois em <b>Adicionar à Tela de Início</b>.</small>
         </div>
+        </aside></div>
 
-        <p class="rodape">@caRdeno_Amarelo</p>
+        <p class="rodape"><a href="https://www.instagram.com/cardeno_amarelo/" target="_blank" rel="noopener">@caRdeno_Amarelo</a></p>
       </div>`}`));
 
     palco.querySelector('button.som').addEventListener('click', e => {

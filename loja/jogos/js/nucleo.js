@@ -207,7 +207,7 @@
 
   // Endereço do jogo escrito por extenso no card (quem vê o story acha fácil).
   // Vídeos dos jogos no nosso Instagram (Reels). Jogo sem vídeo = não mostra nada.
-  CA.REELS = { acha: 'https://www.instagram.com/reel/DfuG6lkSIzZ/' };
+  CA.REELS = {}; // Rafael (16/11): sem vídeo do Instagram nos jogos
   CA.reelsHtml = function (jogo, titulo) {
     const id = ((CA.REELS[jogo] || '').match(/instagram\.com\/(?:reel|reels|p)\/([\w-]+)/) || [])[1];
     if (!id) return '';
