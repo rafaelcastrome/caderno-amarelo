@@ -49,7 +49,7 @@ button { font: inherit; color: inherit; }
 .logo-caderno::before { content: ''; position: absolute; left: 5px; top: 3px; bottom: 3px; border-left: 2px dashed var(--tinta); }
 .logo-caderno::after { content: ''; position: absolute; right: 5px; top: -2px; width: 7px; height: 14px; background: var(--vermelho); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 75%, 0 100%); }
 .som { background: none; border: 2px solid var(--tinta); border-radius: 12px; width: 44px; height: 44px; font-size: 20px; cursor: pointer; background: var(--papel-claro); }
-.titulo-app { font-family: var(--mao); font-size: clamp(40px, 12vw, 54px); line-height: .98; margin: 22px 0 8px; }
+.titulo-app { font-family: var(--mao); font-size: clamp(40px, 12vw, 54px); line-height: .98; margin: 22px 0 34px; }
 .marca { background: linear-gradient(transparent 58%, var(--amarelo) 58%); }
 .sub-app { color: var(--tinta-suave); font-weight: 600; }
 

@@ -45,7 +45,6 @@
           </div>
         </header>
         <h1 class="titulo-app">Jogos do <span class="marca">Caderno</span></h1>
-        <p class="sub-app">${CA.JOGOS.length} jogos, 3 níveis grátis em cada. Junta estrela, desafia teus amigos e sobe no ranking.</p>
 
         <a class="dia" href="#/acha?d=1">
           <span class="dia-fita">Desafio do dia</span>
