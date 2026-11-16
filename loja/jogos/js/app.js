@@ -94,13 +94,17 @@
         <a class="mais insta" href="https://www.instagram.com/cardeno_amarelo/" target="_blank" rel="noopener"><strong>Segue a gente no Instagram</strong><small>@caRdeno_Amarelo · desafios novos todo dia</small></a>
 
         <div class="instalar" hidden>
+          <button class="fechar-instalar" type="button" aria-label="Fechar">×</button>
           <strong>Instalar o app no celular</strong>
           <small>Fica um ícone na tela do celular, igual app, e abre até sem internet.</small>
           <button class="btn btn-claro" type="button">Instalar</button>
         </div>
         <div class="instalar-ios" hidden>
+          <button class="fechar-instalar" type="button" aria-label="Fechar">×</button>
           <strong>Instalar o app no celular</strong>
-          <small>Pra instalar, toca em <b>Compartilhar</b> e depois em <b>Adicionar à Tela de Início</b>.</small>
+          <small>Fica um ícone na tela do celular, igual app, e abre até sem internet.</small>
+          <button class="btn btn-claro" type="button">Instalar</button>
+          <small class="dica-ios" hidden>O iPhone só deixa instalar pelo menu dele: toca em <b>Compartilhar</b> (o quadradinho com a seta, embaixo) e depois em <b>Adicionar à Tela de Início</b>.</small>
         </div>
         </aside></div>
 
@@ -140,10 +144,17 @@
   function mostrarInstalar(palco) {
     const instalado = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
     if (instalado) return;
+    if (CA.ler('instalar-fechou', 0) >= 3) return; // fechou 3 vezes: não mostra mais
+    palco.querySelectorAll('.fechar-instalar').forEach(b => {
+      b.onclick = () => {
+        CA.gravar('instalar-fechou', CA.ler('instalar-fechou', 0) + 1);
+        b.parentElement.hidden = true;
+      };
+    });
     const caixa = palco.querySelector('.instalar');
     if (pedidoInstalar && caixa) {
       caixa.hidden = false;
-      caixa.querySelector('button').onclick = async () => {
+      caixa.querySelector('.btn').onclick = async () => {
         pedidoInstalar.prompt();
         try { await pedidoInstalar.userChoice; } catch (e) {}
         pedidoInstalar = null;
@@ -151,7 +162,10 @@
       };
     } else if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
       const ios = palco.querySelector('.instalar-ios');
-      if (ios) ios.hidden = false;
+      if (ios) {
+        ios.hidden = false;
+        ios.querySelector('.btn').onclick = () => { ios.querySelector('.dica-ios').hidden = false; };
+      }
     }
   }
 
