@@ -4,6 +4,7 @@ def ler(path):
     raw=subprocess.run(['ffmpeg','-loglevel','error','-i',path,'-ar',str(SR),'-ac','1','-f','f32le','-'],capture_output=True).stdout
     return np.frombuffer(raw,np.float32).copy()
 take=ler('voz/take_r.wav')
+bio=ler('voz/bio.wav')[int(0.24*SR):int(1.48*SR)]
 def seg(a,b,cortes=()):
     x=take[int(a*SR):int(b*SR)].copy()
     for (c0,c1) in sorted(cortes,reverse=True):
@@ -17,7 +18,7 @@ falas=[
  (8.45, seg(8.64,10.30)),
  (10.15,seg(11.45,14.66)),
  (14.10,seg(15.87,20.50)),
- (18.85,seg(21.62,22.80)),
+ (18.85,bio),
 ]
 out=np.zeros(int(DUR*SR),np.float32)
 fim_ant=0
