@@ -95,7 +95,9 @@
         <div class="instalar-ios" hidden>
           <button class="fechar-instalar" type="button" aria-label="Fechar">×</button>
           <strong>Instalar o app no celular</strong>
-          <small>Pra instalar, toca em <b>Compartilhar</b> e depois em <b>Adicionar à Tela de Início</b>.</small>
+          <small>Fica um ícone na tela do celular, igual app, e abre até sem internet.</small>
+          <button class="btn btn-claro" type="button">Instalar</button>
+          <small class="dica-ios" hidden>O iPhone só deixa instalar pelo menu dele: toca em <b>Compartilhar</b> (o quadradinho com a seta, embaixo) e depois em <b>Adicionar à Tela de Início</b>.</small>
         </div>
         </aside></div>
 
@@ -144,7 +146,7 @@
     const caixa = palco.querySelector('.instalar');
     if (pedidoInstalar && caixa) {
       caixa.hidden = false;
-      caixa.querySelector('button').onclick = async () => {
+      caixa.querySelector('.btn').onclick = async () => {
         pedidoInstalar.prompt();
         try { await pedidoInstalar.userChoice; } catch (e) {}
         pedidoInstalar = null;
@@ -152,7 +154,10 @@
       };
     } else if (/iphone|ipad|ipod/i.test(navigator.userAgent)) {
       const ios = palco.querySelector('.instalar-ios');
-      if (ios) ios.hidden = false;
+      if (ios) {
+        ios.hidden = false;
+        ios.querySelector('.btn').onclick = () => { ios.querySelector('.dica-ios').hidden = false; };
+      }
     }
   }
 
