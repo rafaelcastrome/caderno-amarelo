@@ -305,7 +305,7 @@
 
     // a grade que a pessoa jogou, com o caminho da caneta
     if (quadro) {
-      // grade de n colunas e l linhas (o Acha na ordem tem grades 3x3, 3x4, 4x5...)
+      // grade de n colunas e l linhas (o Caça-números tem grades 3x3, 3x4, 4x5...)
       const n = quadro.n, l = quadro.l || n, cel = 540 / Math.max(n, l), larg = cel * n, lado = cel * l;
       const x0 = (W - larg) / 2, y0 = y + 20, pad = cel * 0.07;
       g.save(); g.translate(540, y0 + lado / 2); g.rotate(0.012); g.translate(-540, -(y0 + lado / 2));

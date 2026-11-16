@@ -231,7 +231,7 @@
   }
 
   const BENEFICIOS = [
-    ['Todos os níveis de todos os jogos', 'Do nível 4 até o último em cada jogo: Acha na ordem, Fala a cor, Responde rápido, charadas, pegadinhas... E cada jogo novo que chegar já vem liberado'],
+    ['Todos os níveis de todos os jogos', 'Do nível 4 até o último em cada jogo: Caça-números, Fala a cor, Responde rápido, charadas, pegadinhas... E cada jogo novo que chegar já vem liberado'],
     ['Desafios dos dias anteriores', 'Perdeu um desafio do dia? Joga qualquer um dos últimos 30 dias'],
     ['Card dourado', 'Teu resultado com moldura dourada e selo Premium pros stories'],
   ];

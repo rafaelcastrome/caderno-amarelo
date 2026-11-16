@@ -1,4 +1,4 @@
-/* Acha na ordem (era "Acha do 1 ao 25"), em níveis.
+/* Caça-números (era "Acha do 1 ao 25"), em níveis.
    O jogo é sempre o mesmo (tocar na ordem o mais rápido possível), mas a cada nível a grade
    cresce: 9, 12, 16, 20, 25, 30, 36, 42, 49, 56, 64 números. Quando o tamanho repete, entra uma
    regra nova (de trás pra frente, girados, letras, embaralha, piscam...). Níveis 1 a 3 grátis,
@@ -20,7 +20,7 @@
   const TINTAS = ['#d62828', '#1d4ed8', '#15803d', '#d97706', '#7c3aed', '#be185d'];
   const PENALIDADE = 1;
   const GRATIS = 3;
-  const NOME = 'Acha na ordem';
+  const NOME = 'Caça-números';
   CA.NOME_ACHA = NOME;
 
   // O que cada regra faz, em palavras de quem joga.

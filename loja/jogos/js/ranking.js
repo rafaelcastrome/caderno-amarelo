@@ -1,6 +1,6 @@
 /* Ranking: geral (estrelas de todos os jogos, ou de um jogo com ?jogo=), desafio do dia e amigos.
    Rotas: #/ranking (geral), #/ranking?jogo=cor, #/ranking?aba=hoje, #/ranking?d=AAAA-MM-DD,
-   #/ranking?aba=f1..f3 (tempo nos níveis grátis do Acha na ordem), #/ranking?aba=amigos.
+   #/ranking?aba=f1..f3 (tempo nos níveis grátis do Caça-números), #/ranking?aba=amigos.
    Só aparece no ranking quem tem conta. O @ só aparece se a pessoa deixou, e ganha ✓
    quando foi confirmado pela direct do @Cardeno_Amarelo; só o @ confirmado vira link pro Instagram. */
 (function () {
