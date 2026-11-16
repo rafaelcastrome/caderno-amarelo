@@ -361,8 +361,8 @@
     g.beginPath(); g.moveTo(540 - lw / 2, by + 130); g.lineTo(540 + lw / 2, by + 130); g.stroke();
     const como = comoJoga || 'Abre o link e tenta bater meu tempo';
     g.fillStyle = '#55555c'; caber(como, 50, bw - 60); g.fillText(como, 540, by + 205);
-    g.fillStyle = '#1f1f24'; caber('Me marca @Cardeno_Amarelo que eu reposto!', 58, bw - 60);
-    g.fillText('Me marca @Cardeno_Amarelo que eu reposto!', 540, by + 285);
+    g.fillStyle = '#1f1f24'; caber('Me marca @caRdeno_Amarelo que eu reposto!', 58, bw - 60);
+    g.fillText('Me marca @caRdeno_Amarelo que eu reposto!', 540, by + 285);
     g.restore();
     return c;
   };
@@ -412,7 +412,7 @@
           ${r.proxima ? `<a class="btn btn-grande ${r.proxima.tranca ? 'btn-ouro' : ''}" href="${r.proxima.href}">${r.proxima.txt}</a>` : ''}
           ${r.desafio ? `<button class="btn btn-grande ${r.proxima ? 'btn-claro' : ''}" data-a="desafiar">Desafiar um amigo</button>` : ''}
           ${r.card ? `<button class="btn btn-grande btn-claro" data-a="card">Postar nos stories</button>
-          <p class="dica-card">Posta e me marca <b>@Cardeno_Amarelo</b> que eu reposto ✨</p>
+          <p class="dica-card">Posta e me marca <b>@caRdeno_Amarelo</b> que eu reposto ✨</p>
           ${CA.conta && CA.conta() ? '' : `<a class="convite-conta" href="#/conta?volta=${encodeURIComponent(r.voltaConta || (r.linkVoltar || {}).href || '#/')}">
             <span class="convite-medalha" aria-hidden="true">🥇</span>
             <span><strong>Quer tua colocação na arte?</strong><small>Cria tua conta grátis, só com o e-mail, e entra no ranking com teu @. Esse resultado já conta!</small></span></a>`}` : ''}
