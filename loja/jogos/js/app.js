@@ -13,6 +13,22 @@
 
   const jogoDoDia = () => CA.jogoDoDia();
 
+  const JOGAVEIS = ['acha', 'fase', 'cor', 'rapido', 'charada'];
+  function precisaCadastro() {
+    if (CA.conta && CA.conta()) return false;
+    const algo = o => o && Object.keys(o).length > 0;
+    if (algo(CA.ler('fases', {})) || algo(CA.ler('niveis', {})) || CA.ler('desafios:jogo', null)) return false;
+    try { for (let i = 0; i < localStorage.length; i++) if (/^ca-jogos:(dia|rec:dia):/.test(localStorage.key(i))) return false; } catch (e) {}
+    return true;
+  }
+
+  CA.pedirCadastro = function (trocar) {
+    if (!precisaCadastro()) return false;
+    const ir = '#/conta?novo=1&volta=' + encodeURIComponent(location.hash);
+    if (trocar) location.replace(ir); else location.hash = ir;
+    return true;
+  };
+
   let limpar = null;
   function render() {
     if (limpar) { try { limpar(); } catch (e) {} limpar = null; }
@@ -23,6 +39,9 @@
     const jogo = CA.jogos[nome];
     document.body.classList.toggle('em-jogo', !!jogo);
     if (!jogo) { inicio(palco); return; }
+    // Jogador novo (sem conta e sem nada jogado neste celular): cria a conta antes de começar.
+    // (a tela de apresentação do desafio do dia fica livre, com o vídeo e o ranking; o cadastro vem no "Começar")
+    if (JOGAVEIS.includes(nome) && !(nome === 'acha' && p.d) && CA.pedirCadastro(true)) return;
     document.title = jogo.nome + ' · Caderno Amarelo';
     limpar = jogo.iniciar(palco, p) || null;
   }

@@ -433,6 +433,7 @@
         }).catch(() => { if (cx.isConnected) cx.innerHTML = '<div class="cab-ranking"><strong>Ranking de hoje</strong></div><p class="vazio">Sem internet agora. O ranking volta quando a conexão voltar.</p>'; });
       };
       const rodar = () => {
+        if (CA.pedirCadastro && CA.pedirCadastro()) return; // jogador novo cria a conta antes
         if (parar) parar();
         parar = jogar(palco, {
           fase: f, semente: CA.sementeDoDia('acha', data), amigo, amigoTent: +p.r || null,

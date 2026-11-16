@@ -94,6 +94,16 @@
     for (let f = 1; f <= (CA.FASES_GRATIS || 3); f++) if (fases[f] && fases[f].t) CA.enviarRecorde('fase:' + f, fases[f].t, fases[f].r || null);
   }
 
+  // Link da direct do @Cardeno_Amarelo. No Android o ig.me abre tela preta no Chrome,
+  // então manda direto pro app do Instagram (e, sem o app, pro perfil no site).
+  CA.linkDirect = function () {
+    if (/Android/i.test(navigator.userAgent)) {
+      return 'intent://ig.me/m/Cardeno_Amarelo#Intent;scheme=https;package=com.instagram.android;S.browser_fallback_url='
+        + encodeURIComponent('https://www.instagram.com/cardeno_amarelo/') + ';end';
+    }
+    return 'https://ig.me/m/Cardeno_Amarelo';
+  };
+
   // Formulário de entrar (usado no Premium e na tela de conta). onPronto(conta) quando entra.
   function formEntrar(alvo, { titulo, texto, onPronto }) {
     alvo.innerHTML = `
@@ -105,7 +115,7 @@
           <input id="email-conta" type="email" required autocomplete="email" placeholder="nome@email.com">
           <button class="btn btn-grande" type="submit">Mandar código pro e-mail</button>
           <p class="erro-form" role="alert" hidden></p>
-          <p class="nota">Esqueceu qual e-mail usou? Manda direct pro <a href="https://ig.me/m/Cardeno_Amarelo" target="_blank" rel="noopener">@Cardeno_Amarelo</a> que a gente te ajuda.</p>
+          <p class="nota">Esqueceu qual e-mail usou? Manda direct pro <a href="${CA.linkDirect()}">@Cardeno_Amarelo</a> que a gente te ajuda.</p>
         </form>
         <form class="f-codigo" hidden>
           <label for="codigo-conta">Código de 6 números que chegou no e-mail</label>
@@ -193,7 +203,7 @@
           <li>Manda na direct do <b>@Cardeno_Amarelo</b> (ou comenta num post nosso)</li>
           <li>Volta aqui: confirma sozinho</li>
         </ol>
-        <a class="btn btn-grande" href="https://ig.me/m/Cardeno_Amarelo" target="_blank" rel="noopener" data-a="direct">Copiar e abrir a direct</a>
+        <a class="btn btn-grande" href="${CA.linkDirect()}" data-a="direct">Copiar e abrir a direct</a>
         <p class="esperando"><span class="pontinho"></span> Esperando a mensagem... vale 30 minutos.</p>
         <button class="link-voltar" type="button" data-a="depois">Confirmar depois</button>
         <p class="erro-form" role="alert" hidden></p>
@@ -203,8 +213,14 @@
     alvo.querySelector('[data-a=depois]').addEventListener('click', () => fim(false));
     chamar('jogo-perfil', { token: CA.conta().token, pedirCodigo: true }).then(d => {
       cx.textContent = d.codigo;
-      alvo.querySelector('[data-a=direct]').addEventListener('click', () => {
-        try { navigator.clipboard.writeText(d.codigo).catch(() => {}); } catch (e) {}
+      alvo.querySelector('[data-a=direct]').addEventListener('click', e => {
+        // copia primeiro e só depois abre o Instagram (senão o celular troca de app antes de copiar)
+        e.preventDefault();
+        const link = e.currentTarget.href;
+        CA.aviso('Código ' + d.codigo + ' copiado');
+        let foi = false; const abrir = () => { if (!foi) { foi = true; location.href = link; } };
+        try { navigator.clipboard.writeText(d.codigo).then(abrir, abrir); } catch (x) { abrir(); }
+        setTimeout(abrir, 600);
       });
       timer = setInterval(async () => {
         if (!vivo || !alvo.isConnected) { clearInterval(timer); return; }
@@ -346,18 +362,25 @@
     iniciar(palco, p) {
       let vivo = true;
       const volta = p && /^#\/[\w?=&.:-]*$/.test(p.volta || '') ? p.volta : null; // volta pro jogo depois de entrar
+      const novo = !!(p && p.novo); // jogador novo: cadastro antes de começar
       palco.innerHTML = '';
-      const tela = CA.el(`<section class="intro"><a class="voltar" href="${volta || '#/'}" aria-label="Voltar">‹</a><h1>Minha conta</h1><div class="miolo"></div></section>`);
+      const tela = CA.el(`<section class="intro"><a class="voltar" href="${novo ? (/^#\/acha\?d=/.test(volta || '') ? volta : '#/') : (volta || '#/')}" aria-label="Voltar">‹</a><h1>${novo ? 'Bora jogar!' : 'Minha conta'}</h1><div class="miolo"></div></section>`);
       palco.appendChild(tela);
       const miolo = tela.querySelector('.miolo');
       const mostrar = () => {
         const c = CA.conta();
         if (!c) {
           formEntrar(miolo, {
-            titulo: volta ? 'Cria tua conta grátis' : 'Entra com teu e-mail',
-            texto: volta ? 'Aí tu entra no ranking (com teu @, se quiser) e tua colocação aparece na arte dos stories. Teus tempos de hoje já contam. Sem senha.'
+            titulo: novo ? 'Cria tua conta pra jogar' : volta ? 'Cria tua conta grátis' : 'Entra com teu e-mail',
+            texto: novo ? 'É grátis e sem senha, só teu e-mail. Assim teus níveis e estrelas ficam salvos e tu aparece no ranking. Já tem conta? Usa o mesmo e-mail.'
+              : volta ? 'Aí tu entra no ranking (com teu @, se quiser) e tua colocação aparece na arte dos stories. Teus tempos de hoje já contam. Sem senha.'
               : 'Pra entrar no ranking, salvar tuas fases e teu Premium e continuar em qualquer celular. Sem senha.',
-            onPronto: () => { if (!vivo) return; CA.aviso('Pronto, tu entrou!'); if (volta) location.hash = volta; else mostrar(); },
+            onPronto: () => {
+              if (!vivo) return;
+              CA.aviso('Pronto, tu entrou!');
+              const seguir = () => { if (!vivo) return; if (volta) location.hash = volta; else mostrar(); };
+              seguir();
+            },
           });
           return;
         }
