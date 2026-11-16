@@ -46,4 +46,4 @@ drop trigger if exists codigo_arroba_24h on codigos_arroba_jogo;
 create trigger codigo_arroba_24h before insert on codigos_arroba_jogo for each row execute function codigo_arroba_24h();
 -- códigos das últimas 24 h que venceram sozinhos (não foram usados nem trocados) voltam a valer até completar 24 h
 update codigos_arroba_jogo set ate = criado_em + interval '24 hours'
- where ate = criado_em + interval '30 minutes' and criado_em > now() - interval '24 hours';
+ where ate - criado_em between interval '29 minutes' and interval '31 minutes' and criado_em > now() - interval '24 hours';
