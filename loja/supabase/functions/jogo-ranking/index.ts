@@ -1,18 +1,23 @@
 // Ranking do app de jogos.
 // { acao: 'ver', chave, token? }            -> top 10 + tua posição + teus amigos nesse ranking
-// { acao: 'enviar', token, chave, t, tentativa } -> guarda o tempo se for teu melhor
+// { acao: 'enviar', token, chave, t, tentativa, acertos? } -> guarda o tempo se for teu melhor
+//     (Pegadinhas 'peg:N': t = tempo médio por pergunta, acertos 0..10; melhor = mais acertos, depois menor t)
 // { acao: 'amigo', token, id }              -> vira amigo de quem mandou o link de duelo
 // { acao: 'amigos', token }                 -> teus amigos com estrelas (de todos os jogos) e níveis
 // { acao: 'estrelas', jogo?, token? }       -> ranking de estrelas de um jogo, ou geral (todos os jogos somados)
-// chave: 'dia:AAAA-MM-DD' (desafio do dia, mesma grade pra todos) ou 'nivel:N' (níveis do Caça-números).
+// chave: 'dia:AAAA-MM-DD' (desafio do dia, mesma grade pra todos), 'nivel:N' (níveis do Caça-números)
+//        ou 'peg:N' (17 níveis das Pegadinhas, 10 perguntas cada).
 import { cors, db, json } from '../_comum/comum.ts';
 import { emailDaSessao, nomePublico, confirmado, estrelasDe } from '../_comum/conta.ts';
 
 // quantos números tem cada nível do Caça-números (igual ao jogos/js/acha.js), pra barrar tempo impossível.
 // Desde 16/11/2026 os níveis crescem e a chave é 'nivel:N' (as antigas 'fase:N' eram de outra grade e não valem mais).
 const Q = [9, 12, 16, 20, 25, 25, 25, 30, 30, 30, 36, 36, 36, 36, 42, 42, 42, 42, 49, 49, 49, 49, 49, 56, 56, 56, 56, 64, 64, 64];
-const CHAVE_OK = /^(dia:\d{4}-\d{2}-\d{2}|nivel:([1-9]|[12]\d|30))$/;
-const minimo = (chave: string) => chave.startsWith('dia:') ? 25 * 0.12 : Q[+chave.slice(6) - 1] * 0.1;
+const CHAVE_OK = /^(dia:\d{4}-\d{2}-\d{2}|nivel:([1-9]|[12]\d|30)|peg:([1-9]|1[0-7]))$/;
+const ehPeg = (chave: string) => chave.startsWith('peg:');
+// Pegadinhas: abaixo de 0,4 s por pergunta, em média, é robô; o máximo é 30 s
+const minimo = (chave: string) => ehPeg(chave) ? 0.4 : chave.startsWith('dia:') ? 25 * 0.12 : Q[+chave.slice(6) - 1] * 0.1;
+const maximo = (chave: string) => ehPeg(chave) ? 30 : 9999;
 const CAMPOS = 'email, apelido, arroba, mostrar_arroba, arroba_confirmado, id_publico';
 
 async function amigosDe(email: string) {
@@ -20,7 +25,8 @@ async function amigosDe(email: string) {
   return (data ?? []).map((x) => x.b as string);
 }
 const linha = (r: Record<string, any>, c: Record<string, any> | undefined, eu: string | null, pos: number) => ({
-  pos, nome: c ? nomePublico(c) : 'Jogador', ok: c ? confirmado(c) : false, t: Number(r.t), tentativa: r.tentativa ?? null, eu: r.email === eu,
+  pos, nome: c ? nomePublico(c) : 'Jogador', ok: c ? confirmado(c) : false, t: Number(r.t), tentativa: r.tentativa ?? null,
+  ...(r.acertos != null ? { acertos: r.acertos } : {}), eu: r.email === eu,
 });
 
 Deno.serve(async (req) => {
@@ -32,7 +38,10 @@ Deno.serve(async (req) => {
     if (b.acao === 'enviar') {
       if (!eu) return json({ erro: 'Entra na conta pra aparecer no ranking.' }, 401);
       const t = Math.round(Number(b.t) * 10) / 10;
-      if (!CHAVE_OK.test(b.chave) || !(t >= minimo(b.chave)) || t > 9999) return json({ erro: 'Tempo inválido.' }, 400);
+      if (!CHAVE_OK.test(b.chave) || !(t >= minimo(b.chave)) || t > maximo(b.chave)) return json({ erro: 'Tempo inválido.' }, 400);
+      const peg = ehPeg(b.chave);
+      const acertos = Number(b.acertos);
+      if (peg && !(Number.isInteger(acertos) && acertos >= 0 && acertos <= 10)) return json({ erro: 'Acertos inválidos.' }, 400);
       if (b.chave.startsWith('dia:')) {
         // só vale o desafio de hoje ou de ontem (fuso de Brasília)
         const hoje = new Date(Date.now() - 3 * 3600e3).toISOString().slice(0, 10);
@@ -40,8 +49,11 @@ Deno.serve(async (req) => {
         if (![hoje, ontem].includes(b.chave.slice(4))) return json({ ok: true, ignorado: true });
       }
       const tent = Number.isInteger(b.tentativa) && b.tentativa > 0 ? Math.min(b.tentativa, 99999) : null;
-      const { data: ant } = await db.from('recordes_jogo').select('t').eq('email', eu).eq('chave', b.chave).maybeSingle();
-      if (!ant || t < Number(ant.t)) await db.from('recordes_jogo').upsert({ email: eu, chave: b.chave, t, tentativa: tent, criado_em: new Date().toISOString() });
+      const { data: ant } = await db.from('recordes_jogo').select('t, acertos').eq('email', eu).eq('chave', b.chave).maybeSingle();
+      const melhor = !ant || (peg
+        ? acertos > Number(ant.acertos ?? -1) || (acertos === Number(ant.acertos) && t < Number(ant.t))
+        : t < Number(ant.t));
+      if (melhor) await db.from('recordes_jogo').upsert({ email: eu, chave: b.chave, t, tentativa: tent, ...(peg ? { acertos } : {}), criado_em: new Date().toISOString() });
       return json({ ok: true });
     }
 
@@ -78,20 +90,25 @@ Deno.serve(async (req) => {
 
     // ver
     if (!CHAVE_OK.test(b.chave)) return json({ erro: 'Ranking inválido.' }, 400);
-    const { data: top } = await db.from('recordes_jogo').select('email, t, tentativa').eq('chave', b.chave)
-      .order('t', { ascending: true }).order('criado_em', { ascending: true }).limit(10);
+    const peg = ehPeg(b.chave);
+    const COLS = peg ? 'email, t, tentativa, acertos' : 'email, t, tentativa';
+    // Pegadinhas: mais acertos primeiro; empate, menor tempo médio. Os outros: menor tempo.
+    const ordenar = (q: any) => (peg ? q.order('acertos', { ascending: false }) : q).order('t', { ascending: true });
+    const { data: top } = await ordenar(db.from('recordes_jogo').select(COLS).eq('chave', b.chave)).order('criado_em', { ascending: true }).limit(10);
     let meu = null, amigos: any[] = [];
     const precisa = new Set((top ?? []).map((r) => r.email));
     if (eu) {
-      const { data: m } = await db.from('recordes_jogo').select('email, t, tentativa').eq('chave', b.chave).eq('email', eu).maybeSingle();
+      const { data: m } = await db.from('recordes_jogo').select(COLS).eq('chave', b.chave).eq('email', eu).maybeSingle();
       if (m) {
-        const { count } = await db.from('recordes_jogo').select('email', { count: 'exact', head: true }).eq('chave', b.chave).lt('t', m.t);
+        let qc = db.from('recordes_jogo').select('email', { count: 'exact', head: true }).eq('chave', b.chave);
+        qc = peg ? qc.or(`acertos.gt.${Number(m.acertos) || 0},and(acertos.eq.${Number(m.acertos) || 0},t.lt.${Number(m.t)})`) : qc.lt('t', m.t);
+        const { count } = await qc;
         meu = { ...m, pos: (count ?? 0) + 1 };
         precisa.add(eu);
       }
       const am = await amigosDe(eu);
       if (am.length) {
-        const { data: ra } = await db.from('recordes_jogo').select('email, t, tentativa').eq('chave', b.chave).in('email', [eu, ...am]).order('t').limit(50);
+        const { data: ra } = await ordenar(db.from('recordes_jogo').select(COLS).eq('chave', b.chave).in('email', [eu, ...am])).limit(50);
         amigos = ra ?? [];
         amigos.forEach((r) => precisa.add(r.email));
       }
