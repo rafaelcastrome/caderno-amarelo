@@ -65,6 +65,7 @@
         </header>
         <h1 class="titulo-app">Jogos do <span class="marca">ca<span class="r-marca">R</span>deno</span></h1>
 
+        <div class="inicio-corpo"><div class="inicio-principal">
         <a class="dia" href="#/acha?d=1">
           <span class="dia-fita">Desafio do dia</span>
           <strong>${CA.NOME_ACHA}: ${CA.regraDoDia(CA.hojeBR())}</strong>
@@ -75,7 +76,8 @@
         <h2 class="secao">Escolhe um jogo</h2>
         <p class="placar-estrelas">Tu tem ${est} de ${max} estrelas</p>
         ${CA.cardsJogos(null)}
-
+        </div>
+        <aside class="inicio-lado">
         <a class="podio" href="#/ranking" hidden></a>
 
         ${CA.reelsHtml('acha', 'O ' + CA.NOME_ACHA + ' no nosso Instagram 👇')}
@@ -94,6 +96,7 @@
           <strong>Coloca na tela inicial</strong>
           <small>Toca em <b>Compartilhar</b> e depois em <b>Adicionar à Tela de Início</b>.</small>
         </div>
+        </aside></div>
 
         <p class="rodape">@caRdeno_Amarelo</p>
       </div>`));
