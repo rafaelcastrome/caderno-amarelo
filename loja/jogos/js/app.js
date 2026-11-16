@@ -87,11 +87,13 @@
         <a class="mais insta" href="https://www.instagram.com/cardeno_amarelo/" target="_blank" rel="noopener"><strong>Segue a gente no Instagram</strong><small>@caRdeno_Amarelo · desafios novos todo dia</small></a>
 
         <div class="instalar" hidden>
+          <button class="fechar-instalar" type="button" aria-label="Fechar">×</button>
           <strong>Instalar o app no celular</strong>
           <small>Fica um ícone na tela do celular, igual app, e abre até sem internet.</small>
           <button class="btn btn-claro" type="button">Instalar</button>
         </div>
         <div class="instalar-ios" hidden>
+          <button class="fechar-instalar" type="button" aria-label="Fechar">×</button>
           <strong>Instalar o app no celular</strong>
           <small>Pra instalar, toca em <b>Compartilhar</b> e depois em <b>Adicionar à Tela de Início</b>.</small>
         </div>
@@ -132,6 +134,13 @@
   function mostrarInstalar(palco) {
     const instalado = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
     if (instalado) return;
+    if (CA.ler('instalar-fechou', 0) >= 3) return; // fechou 3 vezes: não mostra mais
+    palco.querySelectorAll('.fechar-instalar').forEach(b => {
+      b.onclick = () => {
+        CA.gravar('instalar-fechou', CA.ler('instalar-fechou', 0) + 1);
+        b.parentElement.hidden = true;
+      };
+    });
     const caixa = palco.querySelector('.instalar');
     if (pedidoInstalar && caixa) {
       caixa.hidden = false;

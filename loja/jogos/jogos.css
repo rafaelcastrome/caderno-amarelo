@@ -72,6 +72,9 @@ button { font: inherit; color: inherit; }
 
 .instalar, .instalar-ios { margin-top: 22px; padding: 14px 16px; border: 2px dashed var(--tinta); border-radius: 16px; display: grid; gap: 6px; background: rgba(255, 255, 255, .6); }
 .instalar[hidden], .instalar-ios[hidden] { display: none; }
+.instalar, .instalar-ios { position: relative; }
+.fechar-instalar { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--tinta); background: #fff; color: var(--tinta); font: 700 18px/1 system-ui, sans-serif; display: grid; place-items: center; cursor: pointer; padding: 0; box-shadow: 0 2px 6px rgba(0,0,0,.15); }
+.instalar strong, .instalar-ios strong { padding-right: 30px; }
 .instalar small, .instalar-ios small { color: var(--tinta-suave); }
 .mais { display: block; padding: 14px 16px; margin-bottom: 12px; background: #fff; border: 2px solid var(--tinta); border-radius: 16px; text-decoration: none; box-shadow: 3px 3px 0 var(--tinta); }
 .mais strong { font-family: var(--mao); font-size: 28px; display: block; line-height: 1; }
