@@ -486,3 +486,8 @@ button { font: inherit; color: inherit; }
   .btn:hover, .tile-fase:hover:not(.trancada), .nivel:hover, .plano:hover { transform: translate(-1px, -1px); }
   .cel, .bola-btn, .sn, .tile-fase, .plano { cursor: pointer; }
 }
+/* botão do nosso Instagram no início */
+.rodape a { text-decoration: none; }
+.rodape a:hover { text-decoration: underline; }
+.chamada-premium strong .r-marca { font-size: inherit; color: var(--vermelho); }
+@media (max-width: 899px) { .chamada-premium + .mais { margin-top: 12px; } }
