@@ -9,7 +9,7 @@
   CA.NIVEIS_GRATIS = GRATIS;
   CA.JOGOS = [];
 
-  // jogo = { id, nome, desc, icone, cor, total, nomeNivel(n), href(n), prog?(), liberado?(n), premiumExtra?() }
+  // jogo = { id, nome, desc, icone, cor, total, nomeNivel(n), href(n), prog?(), liberado?(n), premiumExtra?(), caixaRanking?(alvo, n, card) }
   CA.registrarJogo = function (j) {
     const jogo = {
       prog: () => { const t = CA.ler('niveis', {}), o = {}; for (const k in t) if (k.startsWith(j.id + ':')) o[+k.split(':')[1]] = t[k]; return o; },
@@ -114,7 +114,8 @@
           ${CA.cardsJogos(j.id)}
           ${j.extraFim ? j.extraFim() : ''}
         </section>`));
-      CA.caixaRankingEstrelas(palco.querySelector('.podio'), j.id, 'Ranking de ' + j.nome, '#/ranking?jogo=' + j.id);
+      if (j.caixaRanking) j.caixaRanking(palco.querySelector('.podio'));
+      else CA.caixaRankingEstrelas(palco.querySelector('.podio'), j.id, 'Ranking de ' + j.nome, '#/ranking?jogo=' + j.id);
       return null;
     },
   };
@@ -148,7 +149,7 @@
     const folha = palco.querySelector('.folha');
     const cx = CA.el('<a class="podio res-ranking" hidden></a>');
     folha.after(cx);
-    setTimeout(() => CA.caixaRankingEstrelas(cx, j.id, 'Ranking de ' + j.nome, '#/ranking?jogo=' + j.id, r.card), 1500); // espera o progresso subir pra conta
+    setTimeout(() => j.caixaRanking ? j.caixaRanking(cx, n, r.card) : CA.caixaRankingEstrelas(cx, j.id, 'Ranking de ' + j.nome, '#/ranking?jogo=' + j.id, r.card), 1500); // espera o progresso subir pra conta
     palco.querySelector('.resultado').appendChild(CA.el(`<div class="outros-jogos"><h2 class="secao">Todos os jogos</h2>${CA.cardsJogos(j.id)}</div>`));
   };
 })();

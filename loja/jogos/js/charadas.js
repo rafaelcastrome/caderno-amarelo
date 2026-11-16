@@ -1,4 +1,5 @@
-/* Os 66 Desafios divididos em 5 jogos de níveis (cada nível = 1 desafio).
+/* Os 66 Desafios divididos em jogos de níveis (cada nível = 1 desafio).
+   As 17 pegadinhas (ids 40, 8, 30...) viraram o jogo Pegadinhas (pegadinhas.js), 1 em cada nível de 10 perguntas.
    Dados: ../assets/js/desafios-dados.js (window.DESAFIOS). Rota: #/charada?j=<jogo>&n=<nível>.
    Estrelas: 3 de primeira, 2 na 2ª, 1 na 3ª ou depois, 0 se pediu a resposta.
    Quem comprou os 66 Desafios avulso (antes do Premium) continua com todos os níveis liberados. */
@@ -8,14 +9,11 @@
   const D = window.DESAFIOS || [];
   const porId = id => D.find(d => d.id === id);
 
-  // 66 desafios em 5 jogos (ids da lista original), do mais fácil pro mais difícil em cada jogo
+  // 66 desafios em 4 jogos (as pegadinhas ficam no jogo Pegadinhas) (ids da lista original), do mais fácil pro mais difícil em cada jogo
   const GRUPOS = [
     { id: 'oque', nome: 'O que é, o que é?', icone: '🤔', cor: '#ea580c',
       desc: 'Adivinhas clássicas: parece difícil até tu sacar.',
       ids: [10, 46, 59, 53, 14, 1, 18, 22, 55, 61, 28, 51, 32, 63, 42] },
-    { id: 'pegadinha', nome: 'Pegadinhas', icone: '😜', cor: '#d62828',
-      desc: 'Perguntas de lógica feitas pra te enganar. Pensa antes!',
-      ids: [40, 8, 30, 6, 4, 20, 12, 49, 36, 38, 44, 57, 65, 34, 26, 16, 24] },
     { id: 'olho', nome: 'Olho atento', icone: '👀', cor: '#15803d',
       desc: 'Conta, compara e acha. Teu olho vai querer te enganar.',
       ids: [3, 13, 17, 39, 37, 5, 58, 21, 29, 27, 50, 47, 2, 48] },
@@ -53,6 +51,7 @@
   CA.jogos.charada = {
     nome: 'Desafio',
     iniciar(palco, p) {
+      if (p.j === 'pegadinha') { location.replace('#/peg?n=' + (+p.n || 1)); return null; } // link antigo
       const g = GRUPOS.find(x => x.id === p.j), j = g && CA.jogo(g.id);
       const n = Math.max(1, Math.min(+p.n || 1, g ? g.ids.length : 1));
       const d = g && porId(g.ids[n - 1]);
