@@ -93,36 +93,27 @@
   // Cada nível é mais difícil que o anterior (regra de todos os jogos do app).
   const JOGOS = {
     cor: {
-      nome: 'Fala a cor', icone: '🎨', cor: '#d62828', rodadas: 10,
-      desc: 'Na TV aparece o nome de uma cor pintado com outra. Quem tocar primeiro na cor da TINTA leva.',
-      // [cores, segundos pra responder, botões mudam de lugar a cada rodada]
-      niveis: [[3, 8, false], [4, 7, false], [5, 6, false], [5, 5, true], [6, 5, false], [6, 4, true], [6, 3.5, true], [6, 3, true], [6, 2.5, true], [6, 2, true]],
-      nivelTxt(n) { const [k, s, m] = this.niveis[n - 1]; return `${k} cores · ${String(s).replace('.', ',')} s${m ? ' · botões trocam de lugar' : ''}`; },
+      nome: 'Fala a cor', icone: '🎨', cor: '#d62828', rodadas: 1, sprint: true,
+      desc: 'Igual ao individual: as cores vão aparecendo no celular de cada um, sem parar. Quem acertar mais no tempo ganha.',
+      // igual ao jogo individual: [cores, segundos, multa por erro, botões mudam de lugar]
+      niveis: [[3, 30, 1, false], [4, 30, 2, false], [5, 30, 2, false], [5, 30, 2, true], [6, 30, 2, false], [6, 30, 2, true], [6, 25, 3, true], [6, 20, 3, true], [6, 20, 3, true], [6, 15, 3, true]],
+      nivelTxt(n) { const [k, s, m, x] = this.niveis[n - 1]; return `${k} cores · ${s} s${x ? ' · botões trocam de lugar' : ''} · errou, perde ${m} s`; },
       sortear(r, n) {
-        const [k, s, mexe] = this.niveis[n - 1];
-        const ativas = CORES.slice(0, k);
-        const palavra = r.pick(ativas);
-        let tinta = r.pick(ativas);
-        while (tinta.id === palavra.id) tinta = r.pick(ativas);
-        const ordem = (mexe ? r.shuffle(ativas) : ativas).map(c => c.id);
-        return { dur: s * 1000, certo: tinta.id, d: { palavra: palavra.id, tinta: tinta.id, ordem } };
+        const [k, s, multa, mexe] = this.niveis[n - 1];
+        return { dur: s * 1000, certo: null, d: { semente: CA.novaSemente(), k, multa, mexe: mexe ? 1 : 0 } };
       },
     },
     rapido: {
-      nome: 'Responde rápido', icone: '⏱️', cor: '#15803d', rodadas: 10,
-      desc: 'Conta ou pegadinha na TV: certo ou errado? Quem responder certo primeiro leva.',
-      niveis: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => [n, [8, 8, 7, 7, 6, 6, 5, 5, 4.5, 4][n - 1]]),
+      nome: 'Responde rápido', icone: '⏱️', cor: '#15803d', rodadas: 1, sprint: true,
+      desc: 'Igual ao individual: contas e pegadinhas no celular de cada um, certo ou errado, sem parar. Quem acertar mais no tempo ganha.',
+      // igual ao jogo individual: [segundos, multa por erro, pegadinhas?]
+      niveis: [[30, 1, 0], [30, 2, 0], [30, 2, 1], [30, 2, 1], [30, 2, 1], [25, 3, 1], [25, 3, 1], [25, 3, 1], [20, 3, 1], [20, 3, 1]],
       conteudo: ['soma e diminuição até 10', 'soma e diminuição até 20', 'tabuada até 5 e pegadinhas', 'tabuada completa', 'metade e dobro',
         'vírgula que engana', 'números até 150', 'conta com três números', 'ordem das contas', 'tudo junto, números grandes'],
-      nivelTxt(n) { return this.conteudo[n - 1] + ' · ' + String(this.niveis[n - 1][1]).replace('.', ',') + ' s'; },
-      sortear(r, n, usadas) {
-        const s = this.niveis[n - 1][1];
-        let txt, certo;
-        const pegas = (CA.PEGADINHAS || []).filter(p => !usadas.has(p[0]));
-        if (n >= 3 && pegas.length && r() < 0.3) { [txt, certo] = r.pick(pegas); usadas.add(txt); }
-        else if (CA.gerarConta) ({ txt, certo } = CA.gerarConta(r, n));
-        else { const a = r.int(1, 9), b = r.int(1, 9), c = a + b + (r() < .5 ? 1 : 0); txt = `${a} + ${b} = ${c}`; certo = c === a + b; }
-        return { dur: s * 1000, certo: certo ? 'certo' : 'errado', d: { txt } };
+      nivelTxt(n) { const [s, m] = this.niveis[n - 1]; return `${this.conteudo[n - 1]} · ${s} s · errou, perde ${m} s`; },
+      sortear(r, n) {
+        const [s, multa, pega] = this.niveis[n - 1];
+        return { dur: s * 1000, certo: null, d: { semente: CA.novaSemente(), n, multa, pega } };
       },
     },
     acha: {
@@ -273,14 +264,17 @@
           if (S.fase !== 'rodada' || p.rid !== S.rid || !S.jog[id] || S.resp[id]) return;
           S.jog[id].visto = Date.now();
           const ms = Math.max(0, Math.min(+p.ms || 0, S.dur + 2000));
-          const ok = S.jogo === 'acha' ? p.v === 'fim' : p.v === S.certo;
-          S.resp[id] = { v: p.v, ms, ok };
+          const sprint = JOGOS[S.jogo].sprint;
+          const ok = S.jogo === 'acha' || sprint ? p.v === 'fim' : p.v === S.certo;
+          S.resp[id] = { v: p.v, ms, ok, k: Math.max(0, Math.min(999, +p.k || 0)), e: Math.max(0, Math.min(999, +p.e || 0)) };
+          if (sprint) { desenharCorrida(); checarFimRodada(); return; }
           marcarRespondeu(id, ok);
           checarFimRodada();
         } else if (ev === 'prog') {
           if (S.fase !== 'rodada' || p.rid !== S.rid || !S.jog[id]) return;
           S.jog[id].visto = Date.now();
-          S.prog[id] = Math.max(S.prog[id] || 0, +p.k || 0);
+          if (JOGOS[S.jogo].sprint) S.prog[id] = { k: Math.max(0, Math.min(999, +p.k || 0)), e: Math.max(0, Math.min(999, +p.e || 0)) };
+          else S.prog[id] = Math.max(S.prog[id] || 0, +p.k || 0);
           desenharCorrida();
         }
       }
@@ -412,8 +406,8 @@
         S.rodada++;
         S.fase = 'pre'; S.res = null;
         publicar();
-        moldura(`<div class="tv-pre"><p class="tv-pre-r">${J.icone} ${J.nome} · rodada ${S.rodada} de ${J.rodadas}</p>
-          <p class="tv-pre-dica">${S.jogo === 'acha' ? 'Olha pro teu celular! 👇' : 'Olha pra TV! 👀'}</p><div class="tv-pre-conta"></div></div>`, true);
+        moldura(`<div class="tv-pre"><p class="tv-pre-r">${J.icone} ${J.nome}${J.rodadas > 1 ? ' · rodada ' + S.rodada + ' de ' + J.rodadas : ' · nível ' + S.nivel}</p>
+          <p class="tv-pre-dica">${S.jogo === 'acha' || J.sprint ? 'Olha pro teu celular! 👇' : 'Olha pra TV! 👀'}</p><div class="tv-pre-conta"></div></div>`, !J.sprint);
         CA.contagem(palco.querySelector('.tv-pre-conta')).then(() => vivo && iniciarRodada());
       }
 
@@ -433,29 +427,50 @@
       function desenharRodada() {
         const J = JOGOS[S.jogo], d = S.dados;
         let alvo = '';
-        if (S.jogo === 'cor') {
+        if (S.jogo === 'cor' && !J.sprint) {
           const p = corPorId(d.palavra), t = corPorId(d.tinta);
           alvo = `<p class="tv-pergunta">Toca na cor da <b>tinta</b></p><p class="tv-palavra" style="color:${t.hex}">${p.nome}</p>
             <div class="tv-bolas">${d.ordem.map(id => `<i style="background:${corPorId(id).hex}"></i>`).join('')}</div>`;
-        } else if (S.jogo === 'rapido') {
+        } else if (S.jogo === 'rapido' && !J.sprint) {
           alvo = `<p class="tv-pergunta">Certo ou errado?</p><p class="tv-frase">${esc(d.txt)}</p>`;
+        } else if (J.sprint) {
+          alvo = `<p class="tv-pergunta">${S.jogo === 'cor' ? 'Toca na cor da <b>tinta</b>' : 'Certo ou errado?'} no teu celular! Quem acertar mais ganha</p>
+            <p class="tv-relogio-grande">${Math.round(S.dur / 1000)}</p><ul class="tv-corrida tv-placar-vivo"></ul>`;
         } else {
           alvo = `<p class="tv-pergunta">Toca do <b>1</b> ao <b>${d.q}</b> no teu celular!</p><ul class="tv-corrida"></ul>`;
         }
         moldura(`
           <div class="tv-rodada">
-            <p class="tv-pre-r">${J.icone} ${J.nome} · rodada ${S.rodada} de ${J.rodadas}</p>
+            <p class="tv-pre-r">${J.icone} ${J.nome}${J.rodadas > 1 ? ' · rodada ' + S.rodada + ' de ' + J.rodadas : ' · nível ' + S.nivel}</p>
             <div class="tv-tempo"><i style="animation-duration:${S.dur}ms"></i></div>
             ${alvo}
-            ${S.jogo === 'acha' ? '' : `<ul class="tv-respostas">${ativos().map(j => chip(j).replace('<li class="tv-chip', `<li data-id="${esc(j.id)}" class="tv-chip`)).join('')}</ul>
+            ${S.jogo === 'acha' || J.sprint ? '' : `<ul class="tv-respostas">${ativos().map(j => chip(j).replace('<li class="tv-chip', `<li data-id="${esc(j.id)}" class="tv-chip`)).join('')}</ul>
             <p class="tv-qtd-resp">0 de ${ativos().filter(online).length} responderam</p>`}
-          </div>`, true);
-        if (S.jogo === 'acha') desenharCorrida();
+          </div>`, !J.sprint);
+        if (S.jogo === 'acha' || J.sprint) desenharCorrida();
+        if (J.sprint) {
+          const el = palco.querySelector('.tv-relogio-grande'), fim = S.t0 + S.dur;
+          const rel = setInterval(() => {
+            if (!vivo || S.fase !== 'rodada') { clearInterval(rel); return; }
+            const f = Math.max(0, Math.ceil((fim - performance.now()) / 1000));
+            if (el.textContent !== String(f)) { el.textContent = f; if (f <= 5 && f > 0) CA.som('tique'); }
+          }, 200);
+        }
       }
 
       function desenharCorrida() {
         const ul = palco.querySelector('.tv-corrida');
         if (!ul || !S.dados) return;
+        if (JOGOS[S.jogo].sprint) {
+          const ac = j => S.resp[j.id] ? S.resp[j.id].k : ((S.prog[j.id] || {}).k || 0);
+          const er = j => S.resp[j.id] ? S.resp[j.id].e : ((S.prog[j.id] || {}).e || 0);
+          const js = ativos().slice().sort((a, b) => ac(b) - ac(a) || er(a) - er(b));
+          const max = Math.max(10, ...js.map(ac));
+          ul.innerHTML = js.map(j => `<li style="--tom:${j.tom}" class="${S.resp[j.id] ? 'chegou' : ''}"><span class="tv-corr-nome">${esc(j.nome)}</span>
+            <span class="tv-corr-trilho"><i style="width:${Math.round(ac(j) / max * 100)}%"></i></span>
+            <b>${ac(j)} ${ac(j) === 1 ? 'acerto' : 'acertos'}</b></li>`).join('');
+          return;
+        }
         const q = S.dados.q;
         const js = ativos().slice().sort((a, b) => {
           const ra = S.resp[a.id], rb = S.resp[b.id];
@@ -481,6 +496,16 @@
       function fecharRodada() {
         if (S.fase !== 'rodada') return;
         const J = JOGOS[S.jogo];
+        if (J.sprint) {
+          const ac = id => S.resp[id] ? S.resp[id].k : ((S.prog[id] || {}).k || 0);
+          const er = id => S.resp[id] ? S.resp[id].e : ((S.prog[id] || {}).e || 0);
+          const ord = S.ordem.filter(id => S.jog[id]).sort((a, b) => ac(b) - ac(a) || er(a) - er(b));
+          ord.forEach(id => { S.jog[id].pts += ac(id); });
+          S.res = { d: S.dados, ganhos: ord.map((id, i) => [id, er(id), ac(id)]), erros: [] };
+          S.fase = S.rodada >= J.rodadas ? 'fim' : 'revela';
+          if (S.fase === 'fim') { telaFim(); publicar(); return; }
+          publicar(); telaRevela(); espera(proximaRodada, 4200); return;
+        }
         const certos = Object.entries(S.resp).filter(([, r]) => r.ok).sort((a, b) => a[1].ms - b[1].ms);
         const lista = certos.map(([id, r], i) => { const g = pontosDa(i); if (S.jog[id]) S.jog[id].pts += g; return [id, r.ms, g]; });
         const erros = Object.entries(S.resp).filter(([, r]) => !r.ok).map(([id]) => id);
@@ -520,8 +545,8 @@
           <div class="tv-fim">
             <p class="tv-pre-r">${JOGOS[S.jogo].icone} ${JOGOS[S.jogo].nome} · nível ${S.nivel}</p>
             <h2 class="tv-campeao">${js[0] ? '🏆 ' + esc(js[0].nome) + ' ganhou!' : 'Fim de jogo'}</h2>
-            <div class="tv-podio">${pod.map((j, i) => j ? `<div class="tv-degrau d${[2, 1, 3][i]}" style="--tom:${j.tom}"><i>${esc(j.nome[0].toUpperCase())}</i><b>${esc(j.nome)}</b><small>${j.pts} pts</small><span>${[2, 1, 3][i]}º</span></div>` : '<div class="tv-degrau vazio"></div>').join('')}</div>
-            ${js.length > 3 ? `<ol class="tv-resto" start="4">${js.slice(3).map(j => `<li>${esc(j.nome)} · ${j.pts} pts</li>`).join('')}</ol>` : ''}
+            <div class="tv-podio">${pod.map((j, i) => j ? `<div class="tv-degrau d${[2, 1, 3][i]}" style="--tom:${j.tom}"><i>${esc(j.nome[0].toUpperCase())}</i><b>${esc(j.nome)}</b><small>${j.pts} ${JOGOS[S.jogo].sprint ? 'acertos' : 'pts'}</small><span>${[2, 1, 3][i]}º</span></div>` : '<div class="tv-degrau vazio"></div>').join('')}</div>
+            ${js.length > 3 ? `<ol class="tv-resto" start="4">${js.slice(3).map(j => `<li>${esc(j.nome)} · ${j.pts} ${JOGOS[S.jogo].sprint ? 'acertos' : 'pts'}</li>`).join('')}</ol>` : ''}
             <div class="tv-fim-botoes">
               <button class="btn btn-grande" type="button" data-a="denovo">Jogar de novo</button>
               <button class="btn btn-grande btn-claro" type="button" data-a="trocar">Trocar de jogo ou nível</button>
@@ -657,13 +682,14 @@
           </div>`, 'ctrl-espera');
         } else if (d.f === 'pre') {
           ridTela = '';
-          casca(`<div class="ctrl-msg"><p class="ctrl-pre-r">Rodada ${d.r} de ${d.t}</p><h2 class="ctrl-olha">${d.j === 'acha' ? 'Prepara o dedo! 👆' : 'Olha pra TV! 👀'}</h2>
-            <p>${d.j === 'cor' ? 'Toca na cor da <b>tinta</b>, não no que tá escrito.' : d.j === 'rapido' ? 'Certo ou errado? Quem acertar primeiro leva mais.' : 'A grade aparece aqui no teu celular. Toca do 1 ao último na ordem!'}</p></div>`, 'ctrl-espera');
+          casca(`<div class="ctrl-msg"><p class="ctrl-pre-r">${d.t > 1 ? 'Rodada ' + d.r + ' de ' + d.t : J.nome + ' · nível ' + d.n}</p><h2 class="ctrl-olha">${d.j === 'acha' || J.sprint ? 'Prepara o dedo! 👆' : 'Olha pra TV! 👀'}</h2>
+            <p>${d.j === 'cor' ? 'Vai aparecer aqui o nome de uma cor pintado com outra. Toca na cor da <b>tinta</b>, uma atrás da outra. Quem acertar mais ganha!' : d.j === 'rapido' ? 'Vão aparecer contas e pegadinhas aqui. Certo ou errado, uma atrás da outra. Quem acertar mais ganha!' : 'A grade aparece aqui no teu celular. Toca do 1 ao último na ordem!'}</p></div>`, 'ctrl-espera');
         } else if (d.f === 'rodada') {
           if (ridTela === d.rid) return;
           ridTela = d.rid;
           if (ridFeito === d.rid) { casca('<div class="ctrl-msg"><h2>Foi! ✋</h2><p>Espera a rodada acabar...</p></div>'); return; }
-          if (d.j === 'cor') controleCor(d);
+          if ((JOGOS[d.j] || {}).sprint) controleSprint(d);
+          else if (d.j === 'cor') controleCor(d);
           else if (d.j === 'rapido') controleRapido(d);
           else controleAcha(d);
         } else if (d.f === 'revela' || d.f === 'fim') {
@@ -672,7 +698,8 @@
           const pos = g.findIndex(x => x[0] === meuId);
           const errou = d.res && (d.res.erros || []).includes(meuId);
           let msg;
-          if (pos === 0) msg = `<p class="ctrl-grande">⚡</p><h2>Tu foi ${d.j === 'acha' ? 'o mais rápido' : 'o primeiro'}! +${g[0][2]}</h2>`;
+          if (J.sprint) msg = `<p class="ctrl-grande">${pos === 0 ? '⚡' : '👍'}</p><h2>${pos >= 0 ? g[pos][2] + ' acertos' : 'Acabou o tempo'}</h2>`;
+          else if (pos === 0) msg = `<p class="ctrl-grande">⚡</p><h2>Tu foi ${d.j === 'acha' ? 'o mais rápido' : 'o primeiro'}! +${g[0][2]}</h2>`;
           else if (pos > 0) msg = `<p class="ctrl-grande">👍</p><h2>${d.j === 'acha' ? 'Chegou' : 'Acertou'}! ${pos + 1}º · +${g[pos][2]}</h2>`;
           else if (errou) msg = `<p class="ctrl-grande">❌</p><h2>Errou essa!</h2>`;
           else msg = `<p class="ctrl-grande">⏰</p><h2>${d.j === 'acha' ? 'Não terminou a tempo' : 'Não deu tempo'}</h2>`;
@@ -682,7 +709,7 @@
             casca(`<div class="ctrl-msg ctrl-fim">
               <p class="ctrl-grande">${minha === 1 ? '🏆' : minha === 2 ? '🥈' : minha === 3 ? '🥉' : '🎉'}</p>
               <h2>${minha === 1 ? 'Tu ganhou!' : minha ? 'Tu ficou em ' + minha + 'º' : 'Fim de jogo'}</h2>
-              <p>${ord[0] ? 'Campeão: <b>' + esc(ord[0][1]) + '</b> com ' + ord[0][2] + ' pts' : ''}</p>
+              <p>${pos >= 0 && J.sprint ? 'Tu fez <b>' + g[pos][2] + ' acertos</b>. ' : ''}${ord[0] ? 'Campeão: <b>' + esc(ord[0][1]) + '</b> com ' + ord[0][2] + (J.sprint ? ' acertos' : ' pts') : ''}</p>
               <p class="ctrl-peq">Quem tá na TV escolhe se joga de novo.</p>
               <a class="convite-conta" href="#/">
                 <span class="convite-medalha" aria-hidden="true">🧠</span>
@@ -726,6 +753,69 @@
         t0 = performance.now();
         palco.querySelector('.ctrl-ce').addEventListener('pointerdown', e => {
           const b = e.target.closest('[data-v]'); if (b) { e.preventDefault(); responder(b.dataset.v); }
+        });
+      }
+
+      // Fala a cor e Responde rápido: igual ao jogo individual. Cada celular recebe a mesma sequência
+      // (semente da TV), responde uma atrás da outra até o tempo acabar; quem acertar mais ganha.
+      function controleSprint(d) {
+        const D = d.d, rid = d.rid, r = CA.rng(D.semente), cor = d.j === 'cor';
+        const ativas = cor ? CORES.slice(0, D.k) : [];
+        const pool = !cor && CA.PEGADINHAS ? r.shuffle(CA.PEGADINHAS) : [];
+        let pi = 0, k = 0, e = 0, multa = 0, atual = null, acabou = false, ordem = ativas;
+        casca(`<div class="ctrl-jogo ctrl-sprint">
+          <div class="barra"><div class="pontos"><b>0</b> acertos</div><div class="relogio">${Math.round(d.dur / 1000)} s</div></div>
+          <div class="ctrl-alvo"></div>
+          ${cor ? `<div class="ctrl-cores n${ativas.length}"></div>` : `<div class="ctrl-ce">
+            <button type="button" class="ctrl-btn-ce certo" data-v="certo">✔ CERTO</button>
+            <button type="button" class="ctrl-btn-ce errado" data-v="errado">✘ ERRADO</button></div>`}
+        </div>`, 'ctrl-corrida');
+        const elAlvo = palco.querySelector('.ctrl-alvo'), elP = palco.querySelector('.pontos b'), elR = palco.querySelector('.relogio');
+        const caixa = palco.querySelector(cor ? '.ctrl-cores' : '.ctrl-ce');
+        const botoes = () => { caixa.innerHTML = ordem.map(c => `<button type="button" class="ctrl-cor" data-v="${c.id}" style="--c:${c.hex}" aria-label="${c.nome}"></button>`).join(''); };
+        function proxima() {
+          if (cor) {
+            const p = r.pick(ativas); let t = r.pick(ativas);
+            while (t.id === p.id) t = r.pick(ativas);
+            atual = { certo: t.id };
+            elAlvo.innerHTML = `<span class="ctrl-palavra" style="color:${t.hex}">${p.nome}</span>`;
+            if (D.mexe || !caixa.children.length) { ordem = D.mexe ? r.shuffle(ativas) : ativas; botoes(); }
+          } else {
+            let txt, ok;
+            if (D.pega && k >= 3 && pi < pool.length && r() < 0.34) [txt, ok] = pool[pi++];
+            else ({ txt, certo: ok } = CA.gerarConta(r, Math.min(10, D.n + Math.floor(k / 12))));
+            atual = { certo: ok ? 'certo' : 'errado' };
+            elAlvo.innerHTML = `<span class="ctrl-frase">${esc(txt)}</span>`;
+          }
+        }
+        proxima();
+        t0 = performance.now();
+        const fimEm = () => t0 + d.dur - multa * 1000;
+        let ultimoTique = -1;
+        const rel = setInterval(() => {
+          if (!vivo || ridTela !== rid) { clearInterval(rel); return; }
+          const resta = Math.max(0, (fimEm() - performance.now()) / 1000);
+          elR.textContent = Math.ceil(resta) + ' s';
+          const sc = Math.ceil(resta);
+          if (sc <= 5 && sc !== ultimoTique && sc > 0) { ultimoTique = sc; CA.som('tique'); }
+          if (resta <= 0) { clearInterval(rel); terminar(); }
+        }, 100);
+        function terminar() {
+          if (acabou) return;
+          acabou = true; ridFeito = rid;
+          canal.mandar('resp', { id: meuId, rid, v: 'fim', k, e, ms: d.dur });
+          CA.som('fim'); CA.vibrar([40, 40, 80]);
+          casca(`<div class="ctrl-msg"><p class="ctrl-grande">⏰</p><h2>${k} ${k === 1 ? 'acerto' : 'acertos'}!</h2><p>${e ? 'Errou ' + e + '. ' : ''}Olha na TV quem acertou mais.</p></div>`);
+        }
+        caixa.addEventListener('pointerdown', ev => {
+          const b = ev.target.closest('[data-v]');
+          if (!b || acabou) return;
+          ev.preventDefault();
+          if (b.dataset.v === atual.certo) { k++; CA.som('certo'); elP.textContent = k; }
+          else { e++; multa += D.multa; CA.som('errado'); CA.vibrar(60); b.classList.remove('treme'); void b.offsetWidth; b.classList.add('treme'); }
+          canal.mandar('prog', { id: meuId, rid, k, e });
+          if (fimEm() - performance.now() <= 0) { terminar(); return; }
+          proxima();
         });
       }
 
