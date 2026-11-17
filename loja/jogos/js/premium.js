@@ -37,6 +37,9 @@
   CA.perfil = () => (CA.conta() || {}).perfil || null;   // { apelido, arroba, mostrar_arroba, arroba_confirmado, id_publico }
   function guardarConta(d) {
     const antes = CA.conta() || {};
+    // O bot confirma o @ mesmo quando o Instagram não deixa ele responder na direct (conversa na pasta
+    // Pedidos de quem não segue). Então o aviso de "confirmado" sai aqui no jogo, na próxima sincronização.
+    const virouOk = antes.perfil && antes.perfil.arroba && !antes.perfil.arroba_confirmado && d.perfil && d.perfil.arroba_confirmado;
     CA.gravar('conta', { email: d.email || antes.email, token: d.token || antes.token, premium: !!d.premium, ate: d.ate || null, perfil: d.perfil || antes.perfil || null });
     amigoPendente();
     if (d.progresso) {
@@ -46,7 +49,31 @@
       CA.gravar('fases', fases); CA.gravar('niveis', niveis);
     }
     if (d.desafios) { try { localStorage.setItem('desafios:jogo', JSON.stringify({ isPremium: true })); } catch (e) {} }
+    if (virouOk && !document.querySelector('.confirmar-arroba')) arrobaConfirmado(d.perfil.arroba);
   }
+  // Cartão de comemoração quando o @ foi confirmado com a pessoa fora da tela do código.
+  function arrobaConfirmado(arroba) {
+    document.querySelectorAll('.selo-confirmado').forEach(x => x.remove());
+    const f = CA.el(`
+      <div class="selo-confirmado" role="dialog" aria-live="polite">
+        <div class="selo-cartao">
+          <div class="selo-check" aria-hidden="true">✓</div>
+          <strong>@${arroba} confirmado!</strong>
+          <small>Recebemos teu código. Teu @ já aparece com ✓ no ranking.</small>
+          <button class="btn btn-grande" type="button">Beleza!</button>
+        </div>
+      </div>`);
+    const fechar = () => { f.classList.add('some'); setTimeout(() => f.remove(), 350); };
+    f.querySelector('button').addEventListener('click', fechar);
+    f.addEventListener('click', e => { if (e.target === f) fechar(); });
+    document.body.appendChild(f);
+    if (CA.som) CA.som('recorde');
+  }
+  // Voltou do Instagram pro jogo: confere na hora se o @ já foi confirmado.
+  document.addEventListener('visibilitychange', () => {
+    const p = CA.perfil();
+    if (document.visibilityState === 'visible' && p && p.arroba && !p.arroba_confirmado) CA.sincronizar();
+  });
   // link de duelo de alguém: vira amigo (agora, ou quando entrar na conta)
   CA.virarAmigo = function (id) {
     if (!id || (CA.perfil() || {}).id_publico === id) return;
@@ -222,7 +249,8 @@
           <li>Volta aqui: confirma sozinho</li>
         </ol>
         <a class="btn btn-grande" href="${CA.linkDirect()}" data-a="direct"${CA.ehCelular() ? '' : ' target="_blank" rel="noopener"'}>Copiar e abrir a direct</a>
-        <p class="esperando"><span class="pontinho"></span> Esperando a mensagem... pode levar até 2 minutinhos. O código vale 30 minutos.</p>
+        <p class="esperando"><span class="pontinho"></span> Esperando a mensagem... pode levar até 2 minutinhos. O código vale 24 horas.</p>
+        <p class="aviso-direct">O Instagram nem sempre deixa a gente responder na direct. Se ficar sem resposta, tudo bem: o ✓ aparece aqui no jogo.</p>
         <button class="link-voltar" type="button" data-a="depois">Confirmar depois</button>
         <p class="erro-form mov-aparece" role="alert" hidden></p>
       </div>`;
