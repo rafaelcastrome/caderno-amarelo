@@ -19,15 +19,17 @@ import { resumoDe, comparar } from '../_comum/pontos.ts';
 // quantos números tem cada nível do Caça-números (igual ao jogos/js/acha.js), pra barrar tempo impossível.
 // Desde 16/11/2026 os níveis crescem e a chave é 'nivel:N' (as antigas 'fase:N' eram de outra grade e não valem mais).
 const Q = [9, 12, 16, 20, 25, 25, 25, 30, 30, 30, 36, 36, 36, 36, 42, 42, 42, 42, 49, 49, 49, 49, 49, 56, 56, 56, 56, 64, 64, 64];
-const CHAVE_OK = /^(j?dia:\d{4}-\d{2}-\d{2}|nivel:([1-9]|[12]\d|30)|peg:([1-9]|1[0-7])|mais:(\d{4}-\d{2}-\d{2}|rec))$/;
+const CHAVE_OK = /^(j?dia:\d{4}-\d{2}-\d{2}|nivel:([1-9]|[12]\d|30)|peg:([1-9]|1[0-7])|mais:(\d{4}-\d{2}-\d{2}|rec)|senhad?:\d{4}-\d{2}-\d{2})$/;
 const ehPeg = (chave: string) => chave.startsWith('peg:');
 const ehJdia = (chave: string) => chave.startsWith('jdia:');
 // Só mais uma (17/11/2026): 'mais:AAAA-MM-DD' (desafio do dia) e 'mais:rec' (recorde de sempre); acertos, t = segundos que durou
 const ehMais = (chave: string) => chave.startsWith('mais:');
+// Senha do dia (17/11/2026): 'senha:DATA' / 'senhad:DATA' (difícil); acertos = 7 - chutes (1..6), t = segundos
+const ehSenha = (chave: string) => chave.startsWith('senha');
 const ehMaisDia = (chave: string) => ehMais(chave) && chave !== 'mais:rec';
 // Pegadinhas: abaixo de 0,4 s por pergunta, em média, é robô; o máximo é 30 s
 // desafio do dia: níveis 1 a 3 do Caça-números somam 9+12+16 = 37 números
-const minimo = (chave: string) => ehMais(chave) ? 5 : ehPeg(chave) ? 0.4 : ehJdia(chave) ? 37 * 0.1 : chave.startsWith('dia:') ? 25 * 0.12 : Q[+chave.slice(6) - 1] * 0.1;
+const minimo = (chave: string) => ehSenha(chave) ? 3 : ehMais(chave) ? 5 : ehPeg(chave) ? 0.4 : ehJdia(chave) ? 37 * 0.1 : chave.startsWith('dia:') ? 25 * 0.12 : Q[+chave.slice(6) - 1] * 0.1;
 const maximo = (chave: string) => ehPeg(chave) ? 30 : ehMais(chave) ? 3600 : 9999;
 // página pedida (botão "Ver todos"): de = posição inicial (0 = 1º), qtd = tamanho da página
 const pagina = (b: Record<string, any>) => {
@@ -58,12 +60,12 @@ Deno.serve(async (req) => {
       if (!CHAVE_OK.test(b.chave) || !(t >= minimo(b.chave)) || t > maximo(b.chave)) return json({ erro: 'Tempo inválido.' }, 400);
       if (b.chave.startsWith('dia:')) return json({ ok: true, ignorado: true }); // desafio antigo não recebe mais
       // com acertos: Pegadinhas (0 a 10) ou desafio do dia de Fala a cor / Responde rápido (3 níveis de 30 s)
-      const comAcertos = ehPeg(b.chave) || ehMais(b.chave) || (ehJdia(b.chave) && b.acertos != null);
+      const comAcertos = ehPeg(b.chave) || ehMais(b.chave) || ehSenha(b.chave) || (ehJdia(b.chave) && b.acertos != null);
       const acertos = Number(b.acertos);
-      if (comAcertos && !(Number.isInteger(acertos) && acertos >= 0 && acertos <= (ehPeg(b.chave) ? 10 : ehMais(b.chave) ? 999 : 300))) return json({ erro: 'Acertos inválidos.' }, 400);
+      if (comAcertos && !(Number.isInteger(acertos) && acertos >= 0 && acertos <= (ehPeg(b.chave) ? 10 : ehMais(b.chave) ? 999 : ehSenha(b.chave) ? 6 : 300))) return json({ erro: 'Acertos inválidos.' }, 400);
       // Só mais uma: mais de 3 acertos por segundo, em média, é robô
       if (ehMais(b.chave) && acertos > t * 3) return json({ erro: 'Acertos inválidos.' }, 400);
-      if (ehJdia(b.chave) || ehMaisDia(b.chave)) {
+      if (ehJdia(b.chave) || ehMaisDia(b.chave) || ehSenha(b.chave)) {
         // só vale o desafio de hoje ou de ontem (fuso de Brasília)
         const hoje = new Date(Date.now() - 3 * 3600e3).toISOString().slice(0, 10);
         const ontem = new Date(Date.now() - 27 * 3600e3).toISOString().slice(0, 10);
@@ -116,7 +118,7 @@ Deno.serve(async (req) => {
     // ver
     if (!CHAVE_OK.test(b.chave)) return json({ erro: 'Ranking inválido.' }, 400);
     // Pegadinhas e desafio do dia: mais acertos primeiro (no Caça-números do dia acertos fica vazio); empate, menor tempo.
-    const peg = ehPeg(b.chave) || ehJdia(b.chave) || ehMais(b.chave);
+    const peg = ehPeg(b.chave) || ehJdia(b.chave) || ehMais(b.chave) || ehSenha(b.chave);
     const COLS = peg ? 'email, t, tentativa, acertos' : 'email, t, tentativa';
     const ordenar = (q: any) => (peg ? q.order('acertos', { ascending: false, nullsFirst: false }) : q).order('t', { ascending: true });
     const { de, qtd } = pagina(b);

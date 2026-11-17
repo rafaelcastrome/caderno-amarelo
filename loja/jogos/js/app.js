@@ -73,6 +73,7 @@
         <div class="inicio-corpo mov-troca"><div class="inicio-principal">
         <a class="podio" href="#/ranking" hidden></a>
         ${CA.cardMais ? CA.cardMais() : ''}
+        ${CA.cardSenha ? CA.cardSenha() : ''}
         ${CA.cardDia()}
 
         <h2 class="secao">Escolhe um jogo</h2>
