@@ -111,11 +111,12 @@
       alvo.innerHTML = `
         <div class="cab-ranking"><strong>${titulo}</strong><span>${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}</span></div>
         <p class="sub-ranking regra-ranking">${CA.regraRanking(jogoId)}</p>
-        ${d.top.length ? `<ol class="lista-ranking">${d.top.slice(0, 5).map(linha).join('')}</ol>` : '<p class="vazio">Ninguém ainda. Joga e fica em 1º!</p>'}
-        ${d.meu && d.meu.pos > 5 ? `<ol class="lista-ranking">${linha(d.meu)}</ol>` : ''}
+        ${d.top.length ? `<ol class="lista-ranking">${d.top.slice(0, 10).map(linha).join('')}</ol>` : '<p class="vazio">Ninguém ainda. Joga e fica em 1º!</p>'}
+        ${d.meu && d.meu.pos > 10 ? `<p class="reticencias">···</p><ol class="lista-ranking">${linha(d.meu)}</ol>` : ''}
         ${c ? '' : '<p class="vazio">Entra com teu e-mail pra aparecer aqui.</p>'}
-        ${href ? '<span class="ver-mais">Ver ranking completo →</span>' : ''}`;
-      if (href) alvo.href = href;
+        ${href ? `<span class="ver-mais">${d.total > 10 ? `Ver todos os ${d.total} →` : 'Ver ranking completo →'}</span>` : ''}`;
+      // só o top 10 aqui; tocar abre o ranking inteiro, por páginas (17/11/2026)
+      if (href) alvo.href = href + (d.total > 10 ? (href.includes('?') ? '&' : '?') + 'todos=1' : '');
       alvo.hidden = false;
     }).catch(() => { alvo.hidden = true; });
   };
