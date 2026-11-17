@@ -1,0 +1,35 @@
+{
+ "titulo": "Fala a cor da letra (3 fases)",
+ "marca": {
+  "handle": "caRdeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [
+  {
+   "fato": "Efeito Stroop: ler é automático, nomear a cor da tinta trava quando a palavra contradiz a cor",
+   "fonte": "Stroop, J. R. (1935), Journal of Experimental Psychology 18(6)",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Fala em voz alta a cor da letra... não a palavra! Parece fácil, né?"
+  },
+  {
+   "fala": "Fase um. Vai!"
+  },
+  {
+   "fala": "Fácil? Fase dois... mais rápido!"
+  },
+  {
+   "fala": "Agora a última... a mais difícil. Vai!"
+  },
+  {
+   "fala": "Travou? Comenta até que fase tu chegou... e manda pro amigo tentar!"
+  }
+ ]
+}
