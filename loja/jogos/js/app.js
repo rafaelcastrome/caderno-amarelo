@@ -72,6 +72,7 @@
         ${aba === 'grupo' && CA.grupoAbaHtml ? CA.grupoAbaHtml() + '<p class="rodape"><a href="https://www.instagram.com/cardeno_amarelo/" target="_blank" rel="noopener">@caRdeno_Amarelo</a></p></div>' : `
         <div class="inicio-corpo mov-troca"><div class="inicio-principal">
         <a class="podio" href="#/ranking" hidden></a>
+        ${CA.cardMais ? CA.cardMais() : ''}
         ${CA.cardDia()}
 
         <h2 class="secao">Escolhe um jogo</h2>
