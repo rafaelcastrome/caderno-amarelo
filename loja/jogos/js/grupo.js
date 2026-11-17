@@ -252,6 +252,11 @@
   // pontos de quem acerta, na ordem de rapidez
   const pontosDa = pos => [3, 2][pos] || 1;
 
+  // navegador de TV (controle remoto): a página inicial já oferece abrir a sala
+  CA.ehTV = () => /SmartTV|SMART-TV|Tizen|Web0S|webOS|NetCast|HbbTV|BRAVIA|VIDAA|Roku|CrKey|GoogleTV|Android TV|AFT[A-Z]|; TV\b/i.test(navigator.userAgent || '');
+  // endereço curto pra digitar na TV (cardenoamarelo.netlify.app/tv)
+  const enderecoTV = () => location.host.replace(/^www\./, '') + '/tv';
+
   // cores e letrinha de cada jogador (mesma cor na TV e no celular)
   const TONS = ['#d62828', '#1d4ed8', '#15803d', '#d97706', '#7c3aed', '#be185d', '#0369a1', '#ea580c', '#4d7c0f', '#9333ea', '#0f766e', '#b91c1c'];
 
@@ -288,7 +293,8 @@
             <li><b>Acabou um jogo, ninguém sai:</b> todo mundo vota no próximo.</li>
           </ol>
           <a class="btn btn-grande" href="#/tv">📺 Abrir a sala na TV</a>
-          <small class="grupo-dica">Abre este site no navegador da TV ou no computador ligado na TV.</small>
+          <p class="grupo-tv-end">Na TV, abre o navegador e digita só:<b>${esc(enderecoTV())}</b></p>
+          <small class="grupo-dica">Funciona também no computador ligado na TV. Na primeira vez, salva nos favoritos da TV ⭐ e depois é só abrir.</small>
         </div>
 
         <form class="grupo-entrar">
@@ -513,6 +519,7 @@
               ${premium ? '' : '<p class="tv-premium-dica">Níveis 1 a 3 grátis. Do 4 ao 10 com o <a href="#/premium">caRdeno Premium</a> de quem abre a sala.</p>'}
               <button class="btn btn-grande tv-comecar" type="button" disabled>Esperando a galera entrar...</button>
               <p class="tv-chefe-dica"></p>
+              <p class="tv-favorito">⭐ Salva esta página nos <b>favoritos da TV</b>: da próxima vez é só abrir, sem digitar nada. Endereço da TV: <b>${esc(enderecoTV())}</b></p>
               <button class="tv-fechar" type="button">Fechar a sala</button>
             </div>
           </div>`, false, 'tv-sala');

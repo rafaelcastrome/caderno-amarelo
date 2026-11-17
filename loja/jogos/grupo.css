@@ -380,3 +380,10 @@ body.modo-tv #palco { max-width: none; padding: 0; height: 100vh; height: 100dvh
 
 .tv-entra b { letter-spacing: 0; word-break: break-all; }
 .ctrl [hidden], .tv [hidden] { display: none !important; }
+/* endereço curto da TV */
+.grupo-tv-end { margin-top: 12px; text-align: center; color: var(--tinta-suave); }
+.grupo-tv-end b { display: block; margin-top: 4px; font-size: 21px; color: var(--tinta); word-break: break-all; background: var(--amarelo); border: 2px solid var(--tinta); border-radius: 12px; padding: 6px 10px; }
+.tv-favorito { margin-top: .9em; padding: .6em .8em; background: var(--papel-claro); border: 2px dashed var(--tinta); border-radius: .7em; font-size: .9em; color: var(--tinta-suave); }
+.tv-favorito b { color: var(--tinta); }
+.tv-atalho { display: flex; margin: 10px 0 22px; font-size: 22px; }
+.tv-atalho:focus-visible, .tv-op-jogo:focus-visible, .tv-op-nivel:focus-visible, .tv-comecar:focus-visible { outline: 4px solid var(--azul); outline-offset: 3px; }
