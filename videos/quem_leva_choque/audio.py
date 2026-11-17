@@ -5,10 +5,10 @@ sys.path.insert(0, "../_comum")
 import numpy as np
 from scipy.io import wavfile
 from sfx import *
-CUTS = [6.1, 7.84, 13.38, 21.92, 29.0, 37.05]
+CUTS = [6.1, 7.84, 13.38, 23.83, 32.30, 40.35]
 P = [3.9, 1.3, 0.5, 0.5, 0.5, 0.6, 2.4]
 def montar(fundo=False):
-    M = {"take": "falas/take1.wav", "voz": "Algieba", "cortes": CUTS, "cenas": [{"fala": i, "pausa": P[i]} for i in range(7)]}
+    M = {"take": "falas/take3.wav", "voz": "Algieba", "cortes": CUTS, "cenas": [{"fala": i, "pausa": P[i]} for i in range(7)]}
     if fundo: M["fundo"] = {"arquivo": "sfx/fundo.wav", "volume": [[0, 1.0], [999, 1.0]]}
     json.dump(M, open("montagem.json", "w"), indent=1)
     subprocess.check_call(["python3", "../_comum/montar.py", "."], stdout=subprocess.DEVNULL)

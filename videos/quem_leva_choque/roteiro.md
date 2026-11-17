@@ -1,2 +1,2 @@
-# Quem leva choque? (thread 97, 17/11/2026)
-Circuito usina + 2 lâmpadas; passarinho 1 no fio (de boa), 2 com lâmpada entre os pés (choque), 3 tesourinha com rabo no fio de baixo (choque). Base: viral "quem sobrevive ao circuito" (vidIQ). Algieba 3.1 take único.
+# Quem leva choque? v2 (thread 97, 17/11/2026)
+Rafael achou os passarinhos desenhados mal feitos (pé e rabo gigantes). v2: passarinhos realistas gerados no vidIQ (aves/*_c.png, embutidos em aves.js), poste de ferro + 2 fios. 1 pardal no fio (de boa), 2 bem-te-vi com rabo no poste (choque), 3 pombo no fio de baixo com a cabeça no fio de cima (choque). Falas 4 e 5 regravadas (take2) e emendadas em take3.wav.

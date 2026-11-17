@@ -1,13 +1,13 @@
 {
- "take": "falas/take1.wav",
+ "take": "falas/take3.wav",
  "voz": "Algieba",
  "cortes": [
   6.1,
   7.84,
   13.38,
-  21.92,
-  29.0,
-  37.05
+  23.83,
+  32.3,
+  40.35
  ],
  "cenas": [
   {
