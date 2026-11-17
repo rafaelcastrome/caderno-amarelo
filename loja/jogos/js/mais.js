@@ -250,15 +250,11 @@
 
   // ---------- card na página inicial ----------
   CA.cardMais = function () {
-    const rec = recorde(), s = sequencia(), info = diaInfo();
-    const fogo = s.viva && s.dias ? `<span class="mm-fogo ${s.jogouHoje ? '' : 'apagando'}">🔥 ${s.dias}</span>` : '';
-    const sub = s.viva && s.dias && !s.jogouHoje ? `Joga hoje pra não perder teus ${s.dias} ${s.dias === 1 ? 'dia' : 'dias'} seguidos!`
-      : rec ? `Teu recorde: <b>${rec}</b>. Duvido tu passar!` : 'Os desafios do canal misturados, sem fim. Até onde tu aguenta?';
-    return `<a class="card-mais" href="#/mais">
-      <span class="dia-fita">Novo!</span>${fogo}
-      <strong>🔁 Só mais uma</strong>
-      <small>${sub}</small>
-      <span class="mm-card-rodape"><span class="btn">Jogar</span><em>${info.tent ? 'Desafio do dia: feito ✓' : 'Desafio do dia te esperando'}</em></span></a>`;
+    const rec = recorde(), s = sequencia();
+    const sub = s.viva && s.dias && !s.jogouHoje ? `Não perde teus ${s.dias} dias!` : rec ? `Recorde: ${rec}` : 'Até onde tu aguenta?';
+    return `<a class="mm-tile" href="#/mais" style="--cor:var(--amarelo)">
+      ${s.viva && s.dias ? `<span class="mm-fogo ${s.jogouHoje ? '' : 'apagando'}">🔥${s.dias}</span>` : '<span class="mm-novo">Novo</span>'}
+      <span class="mm-tile-ic" aria-hidden="true">🔁</span><strong>Só mais uma</strong><small>${sub}</small></a>`;
   };
 
   // ---------- telas ----------
@@ -279,62 +275,55 @@
         fechar();
         const rec = recorde(), s = sequencia(), info = diaInfo(), est = CA.ler('mais:estrelas', 0), cn = caneta();
         const ms = estadoMissoes(), max = tentMax(), resta = Math.max(0, max - info.tent);
-        const semana = Array.from({ length: 7 }, (_, i) => {
-          const dd = new Date(Date.parse(hoje() + 'T12:00:00Z') - (6 - i) * 864e5).toISOString().slice(0, 10);
-          const acesa = s.ult && s.dias && diasEntre(dd, s.ult) >= 0 && diasEntre(dd, s.ult) < s.dias && (s.viva || s.jogouHoje);
-          return `<i class="${acesa ? 'acesa' : ''} ${dd === hoje() ? 'hoje' : ''}" title="${CA.fmtData(dd)}">${acesa ? '🔥' : '·'}</i>`;
-        }).join('');
         palco.innerHTML = '';
+        const feitas = ms.filter(m => m.feita).length;
+        const grupo = (id, titulo, corpo) => `<section class="grupo mm-grupo">
+              <button class="grupo-titulo" aria-expanded="false" aria-controls="mm-g-${id}">${titulo}</button>
+              <div class="grupo-corpo" id="mm-g-${id}"><div class="grupo-miolo">${corpo}</div></div></section>`;
         palco.appendChild(CA.el(`
           <section class="mm-hub" style="--pena:${cn.hex}">
             <div class="barra-topo"><a class="voltar" href="#/" aria-label="Todos os jogos">‹</a><a class="som loja-btn" href="../loja.html">Loja</a></div>
             <h1 class="mm-titulo">Só mais uma</h1>
-            <p class="mm-sub">Os desafios do canal misturados e sem fim. Acertou, ganha tempo. Errou, perde. Até onde tu aguenta?</p>
+            <p class="mm-sub">Desafios misturados e sem fim. Acertou, ganha tempo. Errou, perde.</p>
 
             <div class="mm-placar">
-              <div><small>Teu recorde</small><b>${rec || '–'}</b></div>
+              <div><small>Recorde</small><b>${rec || '–'}</b></div>
               <div class="${s.viva || s.jogouHoje ? '' : 'apagado'}"><small>Dias seguidos</small><b>🔥 ${s.perdida ? 0 : (s.dias || 0)}</b></div>
               <div><small>Estrelas</small><b>⭐ ${est}</b></div>
             </div>
-            <div class="mm-semana" aria-label="Últimos 7 dias">${semana}</div>
-            ${s.emRisco ? '<p class="mm-aviso">🛡️ Teu protetor Premium vai salvar tua sequência se tu jogar hoje!</p>'
+            ${s.emRisco ? '<p class="mm-aviso">🛡️ Teu protetor Premium salva tua sequência se tu jogar hoje!</p>'
               : s.viva && !s.jogouHoje && s.dias ? `<p class="mm-aviso">Joga hoje pra não perder teus 🔥 ${s.dias} dias!</p>` : ''}
 
             <a class="btn btn-grande mm-jogar" href="#/mais?jogar=1">${rec ? 'Jogar · bater ' + rec : 'Jogar agora'}</a>
+            ${resta ? `<a class="btn btn-grande btn-claro mm-btn-dia" href="#/mais?d=1">🏆 Desafio do dia <small>${info.tent ? 'teu melhor: ' + info.melhor + ' · ' : ''}${resta} ${resta === 1 ? 'tentativa' : 'tentativas'}</small></a>`
+              : `<p class="mm-dia-feito">🏆 Desafio do dia feito: <b>${info.melhor} acertos</b>.${CA.ehPremium() ? ' Volta amanhã!' : ' <a href="#/premium">+2 tentativas no Premium</a>'}</p>`}
 
-            <div class="dia mm-dia" style="--cor:#d62828">
-              <span class="dia-fita">Desafio do dia · ${CA.fmtData(hoje())}</span>
-              <strong>A mesma partida pra todo mundo</strong>
-              <small>${info.tent ? `Teu melhor hoje: <b>${info.melhor}</b> acertos.` : 'Vale o ranking de hoje.'} ${resta ? `Tu tem <b>${resta} ${resta === 1 ? 'tentativa' : 'tentativas'}</b>.` : 'Acabaram tuas tentativas de hoje.'}</small>
-              ${resta ? '<a class="btn" href="#/mais?d=1">Jogar o desafio do dia</a>'
-                : CA.ehPremium() ? '<span class="btn btn-claro" aria-disabled="true">Volta amanhã 😉</span>'
-                : '<a class="btn btn-ouro" href="#/premium">+2 tentativas por dia no Premium</a>'}
-            </div>
-
-            <h2 class="secao">Missões de hoje</h2>
-            <ol class="mm-missoes">${ms.map(m => `<li class="${m.feita ? 'feita' : ''}"><span>${m.feita ? '✅' : '⭐'}</span><b>${m.txt}</b><em>${m.feita ? 'feita' : m.val + '/' + m.alvo}</em></li>`).join('')}</ol>
-            <p class="mm-dica">Cada missão dá 1 ⭐. As 3 no mesmo dia dão +2. Amanhã tem missões novas.</p>
-
-            <h2 class="secao">Tuas canetas</h2>
-            <div class="mm-canetas">${CANETAS.map(c => {
-              const livre = canetaLivre(c);
-              return `<button class="mm-caneta ${c.id === cn.id ? 'usando' : ''} ${livre ? '' : 'trancada'}" data-c="${c.id}" style="--c:${c.hex}" ${livre ? '' : 'aria-disabled="true"'}>
-                <i></i><b>${c.nome}</b><small>${c.id === cn.id ? 'usando' : livre ? 'usar' : c.premium ? '★ Premium ou ' + c.custo + ' ⭐' : c.custo + ' ⭐'}</small></button>`;
-            }).join('')}</div>
-
-            <a class="podio mm-rank-dia" href="#/mais"></a>
-            <a class="podio mm-rank-rec" href="#/mais"></a>
-            ${CA.ehPremium() ? '' : `<a class="chamada-premium" href="#/premium"><strong>ca<span class="r-marca">R</span>deno Premium</strong><span>3 tentativas no desafio do dia, segunda chance em toda partida, protetor dos teus dias seguidos e a caneta dourada. Também libera todos os níveis dos outros jogos.</span></a>`}
-            <h2 class="secao">Os outros jogos</h2>
-            ${CA.cardsJogos ? CA.cardsJogos(null) : ''}
+            ${grupo('missoes', `⭐ Missões de hoje <em class="mm-conta">${feitas}/3</em>`,
+              `<ol class="mm-missoes">${ms.map(m => `<li class="${m.feita ? 'feita' : ''}"><span>${m.feita ? '✅' : '⭐'}</span><b>${m.txt}</b><em>${m.feita ? 'feita' : m.val + '/' + m.alvo}</em></li>`).join('')}</ol>
+              <p class="mm-dica">Cada missão dá 1 ⭐ (as 3 juntas, +2). As estrelas liberam canetas novas.</p>`)}
+            ${grupo('canetas', `🖊️ Canetas <em class="mm-conta">${CANETAS.filter(canetaLivre).length}/${CANETAS.length}</em>`,
+              `<div class="mm-canetas">${CANETAS.map(c => {
+                const livre = canetaLivre(c);
+                return `<button class="mm-caneta ${c.id === cn.id ? 'usando' : ''} ${livre ? '' : 'trancada'}" data-c="${c.id}" style="--c:${c.hex}" ${livre ? '' : 'aria-disabled="true"'}>
+                  <i></i><b>${c.nome}</b><small>${c.id === cn.id ? 'usando' : livre ? 'usar' : c.premium ? '★ ou ' + c.custo + ' ⭐' : c.custo + ' ⭐'}</small></button>`;
+              }).join('')}</div>`)}
+            ${grupo('ranking', '🥇 Ranking', '<div class="mm-abas-rank"><a class="podio mm-rank-dia"></a><a class="podio mm-rank-rec"></a></div>')}
+            ${CA.ehPremium() ? '' : `<a class="chamada-premium mm-premium" href="#/premium"><strong>ca<span class="r-marca">R</span>deno Premium</strong><span>3 tentativas no desafio do dia, segunda chance e protetor dos dias seguidos.</span></a>`}
           </section>`));
         palco.querySelectorAll('.mm-caneta').forEach(b => b.addEventListener('click', () => {
           const c = CANETAS.find(x => x.id === b.dataset.c);
           if (!canetaLivre(c)) { CA.aviso(c.premium ? 'A dourada vem com o Premium ou com 40 ⭐' : `Faltam ${c.custo - CA.ler('mais:estrelas', 0)} ⭐ pra essa`); return; }
-          CA.gravar('mais:caneta', c.id); CA.som('certo'); hub();
+          CA.gravar('mais:caneta', c.id); CA.som('certo');
+          palco.querySelectorAll('.mm-caneta').forEach(x => { const u = x === b; x.classList.toggle('usando', u); x.querySelector('small').textContent = u ? 'usando' : canetaLivre(CANETAS.find(y => y.id === x.dataset.c)) ? 'usar' : x.querySelector('small').textContent; });
+          palco.querySelector('.mm-hub').style.setProperty('--pena', c.hex);
         }));
-        caixaRanking(palco.querySelector('.mm-rank-dia'), chaveDia(hoje()), 'Ranking do desafio de hoje', 'Mais acertos no desafio do dia (a mesma partida pra todos)');
-        caixaRanking(palco.querySelector('.mm-rank-rec'), 'mais:rec', 'Recordes de todos os tempos', 'O melhor de cada um em qualquer partida');
+        // o ranking só carrega quando a pessoa abre a sanfona
+        const bR = palco.querySelector('[aria-controls=mm-g-ranking]');
+        bR.addEventListener('click', () => {
+          if (bR.dataset.ok) return; bR.dataset.ok = 1;
+          caixaRanking(palco.querySelector('.mm-rank-dia'), chaveDia(hoje()), 'Desafio de hoje', 'Mais acertos na partida do dia (igual pra todos)');
+          caixaRanking(palco.querySelector('.mm-rank-rec'), 'mais:rec', 'Recordes de sempre', 'O melhor de cada um');
+        });
       }
 
       function jogarDia() {

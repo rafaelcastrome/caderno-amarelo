@@ -47,12 +47,10 @@
 
   CA.cardSenha = function () {
     const d = CA.hojeBR(), e = estado(d, false), s = CA.ler('senha:seq', null);
-    const sub = e.fim ? (e.ganhou ? `Tu acertou em ${e.chutes.length}/${CHUTES}! Amanhã tem outra.` : 'Hoje não deu... amanhã tem outra!')
-      : e.chutes.length ? `Tu tá no chute ${e.chutes.length + 1} de ${CHUTES}. Bora terminar!` : '4 cores escondidas, 6 chutes. A mesma senha pra todo mundo hoje.';
-    return `<a class="card-senha" href="#/senha">
-      ${s && s.vit ? `<span class="mm-fogo">🏆 ${s.vit}</span>` : ''}
-      <strong>🔐 Senha do dia</strong><small>${sub}</small>
-      <span class="sh-mini" aria-hidden="true">${(e.chutes.length ? marcar(e.chutes[e.chutes.length - 1], senhaDe(d, false)) : [0, 0, 0, 0]).map(m => `<i class="m${e.chutes.length ? m : 'x'}"></i>`).join('')}</span></a>`;
+    const sub = e.fim ? (e.ganhou ? `Acertou em ${e.chutes.length}/${CHUTES} ✓` : 'Amanhã tem outra') : e.chutes.length ? `Chute ${e.chutes.length + 1} de ${CHUTES}` : 'Uma por dia';
+    return `<a class="mm-tile" href="#/senha" style="--cor:#fff">
+      ${s && s.vit ? `<span class="mm-fogo">🏆${s.vit}</span>` : '<span class="mm-novo">Novo</span>'}
+      <span class="mm-tile-ic" aria-hidden="true">🔐</span><strong>Senha do dia</strong><small>${sub}</small></a>`;
   };
 
   CA.jogos.senha = {

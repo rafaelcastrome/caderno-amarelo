@@ -725,3 +725,23 @@ button.link-voltar { display: block; width: 100%; background: none; border: 0; c
 .sh-prox b { font-variant-numeric: tabular-nums; font-size: 20px; }
 .sh-fim .acoes { margin-top: 14px; }
 .sh-acoes .btn { white-space: nowrap; padding: 12px; }
+
+/* página inicial: os dois jogos diários lado a lado; tela do Só mais uma enxuta (17/11, "não deixar muita informação") */
+.mm-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0 6px; }
+.mm-tile { position: relative; display: grid; gap: 2px; padding: 14px 12px 12px; background: var(--cor); border: 3px solid var(--tinta); border-radius: 18px; box-shadow: 4px 5px 0 var(--tinta); text-decoration: none; color: var(--tinta); transition: transform var(--mov-toque, 90ms), box-shadow var(--mov-toque, 90ms); }
+.mm-tile:active { transform: translate(2px, 3px); box-shadow: 1px 2px 0 var(--tinta); }
+.mm-tile-ic { font-size: 28px; line-height: 1; }
+.mm-tile strong { font-family: var(--mao); font-size: 28px; line-height: 1; }
+.mm-tile small { font-weight: 700; font-size: 13px; color: var(--tinta-suave); }
+.mm-tile .mm-fogo { top: 8px; right: 8px; font-size: 14px; padding: 1px 7px; }
+.mm-novo { position: absolute; top: -11px; right: 10px; font-family: var(--mao); font-size: 18px; background: var(--vermelho); color: #fff; padding: 0 8px; border-radius: 6px; border: 2px solid var(--tinta); transform: rotate(4deg); }
+.mm-btn-dia { margin-top: 10px; flex-direction: column; gap: 0; }
+.mm-btn-dia small { font-size: 13px; font-weight: 700; color: var(--tinta-suave); }
+.mm-dia-feito { text-align: center; font-weight: 700; margin: 12px 0 0; }
+.mm-hub .mm-grupo { margin-top: 12px; }
+.mm-hub .mm-grupo:first-of-type { margin-top: 22px; }
+.mm-conta { font-style: normal; font-size: 14px; font-weight: 900; background: var(--amarelo); border: 2px solid var(--tinta); border-radius: 999px; padding: 0 8px; margin-left: 6px; }
+.mm-abas-rank .podio { margin: 8px 0; }
+.mm-premium { margin-top: 18px; }
+.mm-grupo { background: #fff; border: 2px solid var(--tinta); border-radius: 14px; padding: 0 12px; box-shadow: 2px 3px 0 var(--tinta); }
+.mm-grupo .grupo-miolo { padding-bottom: 12px; }
