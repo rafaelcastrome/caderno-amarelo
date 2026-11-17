@@ -1,0 +1,11 @@
+Renderizando 1344 quadros (44.78s) com 4 páginas...
+  150/1344 quadros (40s, faltam ~5.3 min)
+  300/1344 quadros (80s, faltam ~4.6 min)
+  450/1344 quadros (120s, faltam ~4.0 min)
+  600/1344 quadros (165s, faltam ~3.4 min)
+  750/1344 quadros (209s, faltam ~2.8 min)
+  900/1344 quadros (286s, faltam ~2.4 min)
+  1050/1344 quadros (364s, faltam ~1.7 min)
+  1200/1344 quadros (440s, faltam ~0.9 min)
+Compilando com FFmpeg...
+OK: /home/user/caderno-amarelo/videos/bailarina_gira/bailarina_raw.mp4

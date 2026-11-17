@@ -1,0 +1,12 @@
+Renderizando 1365 quadros (45.48s) com 4 páginas...
+  150/1365 quadros (79s, faltam ~10.7 min)
+  300/1365 quadros (158s, faltam ~9.4 min)
+  450/1365 quadros (234s, faltam ~7.9 min)
+  600/1365 quadros (308s, faltam ~6.5 min)
+  750/1365 quadros (356s, faltam ~4.9 min)
+  900/1365 quadros (402s, faltam ~3.5 min)
+  1050/1365 quadros (448s, faltam ~2.2 min)
+  1200/1365 quadros (493s, faltam ~1.1 min)
+  1350/1365 quadros (533s, faltam ~0.1 min)
+Compilando com FFmpeg...
+OK: /home/user/caderno-amarelo/videos/quem_leva_choque/choque_raw.mp4

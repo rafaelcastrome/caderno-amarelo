@@ -1,0 +1,38 @@
+{
+ "titulo": "Pra que lado ela gira?",
+ "marca": {
+  "handle": "caRdeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [
+  {
+   "fato": "Ilusão da bailarina girando (silhueta sem pistas de profundidade é ambígua; o cérebro escolhe o sentido)",
+   "fonte": "Nobuyuki Kayahara (2003), 'Spinning Dancer'; Troje & McAdam (2010), i-Perception 1(3)",
+   "url": "https://doi.org/10.1068/i0400"
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Pra que lado essa bailarina tá girando? Pra direita... ou pra esquerda? Guarda tua resposta!"
+  },
+  {
+   "fala": "Agora vem o mais doido... metade das pessoas tá vendo ela girar pro outro lado."
+  },
+  {
+   "fala": "Duvida? Tenta trocar o lado só com a mente. Olha só pro pé dela... e imagina ela virando ao contrário."
+  },
+  {
+   "fala": "Não conseguiu? Eu te ajudo! Essa aqui gira pra direita... e essa pra esquerda. Agora olha pra do meio..."
+  },
+  {
+   "fala": "Viu? Ela troca! As duas respostas tão certas. A sombra não tem frente nem costas... quem escolhe o lado é o teu cérebro."
+  },
+  {
+   "fala": "Comenta pra que lado tu viu primeiro... e se conseguiu trocar!"
+  }
+ ]
+}
