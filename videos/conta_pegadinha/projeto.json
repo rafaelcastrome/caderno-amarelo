@@ -1,0 +1,56 @@
+{
+ "titulo": "Tu erra a conta de cabeça",
+ "marca": {
+  "handle": "caRdeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [
+  {
+   "fato": "Pegadinhas clássicas de conta (teste de reflexão cognitiva): 30÷½+10=70, tijolo 1 kg + meio tijolo = 2 kg, taco e bola (bola 5 centavos), 5 máquinas/5 peças/5 min, planta que dobra (47 dias)",
+   "fonte": "domínio público; taco e bola e máquinas: Cognitive Reflection Test (Frederick, 2005)",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Responde em voz alta... conta de cabeça! Aposto que tu erra pelo menos três!"
+  },
+  {
+   "fala": "Trinta dividido por meio... mais dez. Quanto dá?"
+  },
+  {
+   "fala": "Vinte e cinco? Deu setenta! Dividir por meio é dobrar!"
+  },
+  {
+   "fala": "Um tijolo pesa um quilo, mais meio tijolo. Quanto pesa o tijolo?"
+  },
+  {
+   "fala": "Um quilo e meio? Pesa dois quilos!"
+  },
+  {
+   "fala": "Um taco e uma bola custam um real e dez. O taco custa um real a mais que a bola. Quanto custa a bola?"
+  },
+  {
+   "fala": "Dez centavos? Custa cinco!"
+  },
+  {
+   "fala": "Cinco máquinas fazem cinco peças em cinco minutos. Quanto tempo cem máquinas levam pra fazer cem peças?"
+  },
+  {
+   "fala": "Cem minutos? Cinco minutos!"
+  },
+  {
+   "fala": "Última: uma planta cobre um lago e dobra de tamanho todo dia. Em quarenta e oito dias cobre o lago inteiro. Em quantos dias cobre a metade?"
+  },
+  {
+   "fala": "Vinte e quatro? Quarenta e sete! No outro dia ela dobra!"
+  },
+  {
+   "fala": "Comenta quantas tu acertou... e manda pro amigo que se acha bom de conta!"
+  }
+ ]
+}

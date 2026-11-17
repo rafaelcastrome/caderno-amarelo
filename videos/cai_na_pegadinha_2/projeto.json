@@ -1,0 +1,59 @@
+{
+ "titulo": "Tu vai cair na pegadinha 2",
+ "marca": {
+  "handle": "caRdeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [
+  {
+   "fato": "Pegadinhas clássicas de voz alta: gema/clara, ultrapassar o 2º colocado, galo não bota ovo, ilusão de Moisés (foi Noé), sobreviventes não se enterram",
+   "fonte": "domínio público",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Responde em voz alta... aposto que tu cai em pelo menos três!"
+  },
+  {
+   "fala": "Fala gema cinco vezes, rápido!"
+  },
+  {
+   "fala": "Qual é a parte branca do ovo?"
+  },
+  {
+   "fala": "Gema? A parte branca é a clara!"
+  },
+  {
+   "fala": "Tu tá numa corrida e passa o segundo colocado. Em que lugar tu fica?"
+  },
+  {
+   "fala": "Primeiro? Tu ficou em segundo!"
+  },
+  {
+   "fala": "Um galo bota um ovo em cima do telhado. Pra que lado o ovo cai?"
+  },
+  {
+   "fala": "Pra direita? Galo não bota ovo!"
+  },
+  {
+   "fala": "Quantos bichos de cada espécie Moisés levou na arca?"
+  },
+  {
+   "fala": "Dois? Quem levou foi Noé!"
+  },
+  {
+   "fala": "Última: um avião cai bem na fronteira do Brasil com a Argentina. Onde enterram os sobreviventes?"
+  },
+  {
+   "fala": "No Brasil? Sobrevivente não se enterra!"
+  },
+  {
+   "fala": "Comenta quantas tu acertou... e manda pro teu amigo cair também!"
+  }
+ ]
+}

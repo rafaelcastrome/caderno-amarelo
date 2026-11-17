@@ -1,0 +1,16 @@
+Renderizando 1855 quadros (61.81s) com 4 páginas...
+  150/1855 quadros (49s, faltam ~9.4 min)
+  300/1855 quadros (105s, faltam ~9.1 min)
+  450/1855 quadros (154s, faltam ~8.0 min)
+  600/1855 quadros (199s, faltam ~6.9 min)
+  750/1855 quadros (240s, faltam ~5.9 min)
+  900/1855 quadros (280s, faltam ~5.0 min)
+  1050/1855 quadros (320s, faltam ~4.1 min)
+  1200/1855 quadros (360s, faltam ~3.3 min)
+  1350/1855 quadros (399s, faltam ~2.5 min)
+  1500/1855 quadros (439s, faltam ~1.7 min)
+  1650/1855 quadros (479s, faltam ~1.0 min)
+  1800/1855 quadros (538s, faltam ~0.3 min)
+Compilando com FFmpeg...
+OK: /home/user/caderno-amarelo/videos/italia_no_olho/italia_raw.mp4
+done

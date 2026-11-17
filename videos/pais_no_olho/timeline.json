@@ -1,0 +1,90 @@
+{
+  "total": 60.369,
+  "motor_tts": "edge-tts (pt-BR-AntonioNeural +12%, gravado no PC do Rafael)",
+  "cenas": [
+    {
+      "cena": 1,
+      "start": 0.0,
+      "end": 4.393,
+      "fala": 4.093
+    },
+    {
+      "cena": 2,
+      "start": 4.393,
+      "end": 7.417,
+      "fala": 2.324
+    },
+    {
+      "cena": 3,
+      "start": 7.417,
+      "end": 9.284,
+      "fala": 0.567
+    },
+    {
+      "cena": 4,
+      "start": 9.284,
+      "end": 11.245,
+      "fala": 0.66
+    },
+    {
+      "cena": 5,
+      "start": 11.245,
+      "end": 13.473,
+      "fala": 0.929
+    },
+    {
+      "cena": 6,
+      "start": 13.473,
+      "end": 16.363,
+      "fala": 1.59
+    },
+    {
+      "cena": 7,
+      "start": 16.363,
+      "end": 22.773,
+      "fala": 4.81
+    },
+    {
+      "cena": 8,
+      "start": 22.773,
+      "end": 26.304,
+      "fala": 2.531
+    },
+    {
+      "cena": 9,
+      "start": 26.304,
+      "end": 29.699,
+      "fala": 3.094
+    },
+    {
+      "cena": 10,
+      "start": 29.699,
+      "end": 42.454,
+      "fala": 4.256
+    },
+    {
+      "cena": 11,
+      "start": 42.454,
+      "end": 46.098,
+      "fala": 2.443
+    },
+    {
+      "cena": 12,
+      "start": 46.098,
+      "end": 48.408,
+      "fala": 1.81
+    },
+    {
+      "cena": 13,
+      "start": 48.408,
+      "end": 52.843,
+      "fala": 4.036
+    },
+    {
+      "cena": 14,
+      "start": 52.843,
+      "end": 60.326,
+      "fala": 4.983
+    }
+  ]
+}

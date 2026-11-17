@@ -1,0 +1,5 @@
+frames/
+preview/
+audio/*.wav
+*_raw.mp4
+render.log
