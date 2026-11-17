@@ -4,6 +4,8 @@
 //     (Pegadinhas 'peg:N': t = tempo médio por pergunta, acertos 0..10; melhor = mais acertos, depois menor t)
 // { acao: 'amigo', token, id }              -> vira amigo de quem mandou o link de duelo
 // { acao: 'amigos', token }                 -> teus amigos por pontos (de todos os jogos)
+// 'ver' e 'estrelas' aceitam { de, qtd } pra ver o ranking inteiro por páginas (botão "Ver todos", 17/11/2026):
+//     de = a partir de qual posição (0 = 1º), qtd = quantos (padrão 10, máximo 50). Sem eles, top 10 como antes.
 // { acao: 'estrelas', jogo?, token? }       -> ranking de um jogo (pela métrica dele) ou geral (pontos de todos os jogos)
 //     Desde 16/11/2026 conta velocidade e acertos, não só estrelas: ver _comum/pontos.ts.
 // chave: 'jdia:AAAA-MM-DD' (desafio do dia desde 16/11/2026: níveis 1 a 3 do jogo do dia, mesma semente pra todos;
@@ -24,6 +26,12 @@ const ehJdia = (chave: string) => chave.startsWith('jdia:');
 // desafio do dia: níveis 1 a 3 do Caça-números somam 9+12+16 = 37 números
 const minimo = (chave: string) => ehPeg(chave) ? 0.4 : ehJdia(chave) ? 37 * 0.1 : chave.startsWith('dia:') ? 25 * 0.12 : Q[+chave.slice(6) - 1] * 0.1;
 const maximo = (chave: string) => ehPeg(chave) ? 30 : 9999;
+// página pedida (botão "Ver todos"): de = posição inicial (0 = 1º), qtd = tamanho da página
+const pagina = (b: Record<string, any>) => {
+  const de = Number.isInteger(b.de) && b.de > 0 ? Math.min(b.de, 100000) : 0;
+  const qtd = Number.isInteger(b.qtd) && b.qtd > 0 ? Math.min(b.qtd, 50) : 10;
+  return { de, qtd };
+};
 const CAMPOS = 'email, apelido, arroba, mostrar_arroba, arroba_confirmado, id_publico';
 
 async function amigosDe(email: string) {
@@ -96,7 +104,8 @@ Deno.serve(async (req) => {
         pontos: x.pontos, tempo: x.tempo, acertos: x.acertos, media: x.media, velocidade: x.velocidade, eu: x.c.email === eu,
       });
       const iMeu = eu ? lista.findIndex((x) => x.c.email === eu) : -1;
-      return json({ jogo, total: lista.length, top: lista.slice(0, 10).map(fmt), meu: iMeu >= 0 ? fmt(lista[iMeu], iMeu) : null });
+      const { de, qtd } = pagina(b);
+      return json({ jogo, total: lista.length, de, top: lista.slice(de, de + qtd).map((x, i) => fmt(x, de + i)), meu: iMeu >= 0 ? fmt(lista[iMeu], iMeu) : null });
     }
 
     // ver
@@ -105,7 +114,8 @@ Deno.serve(async (req) => {
     const peg = ehPeg(b.chave) || ehJdia(b.chave);
     const COLS = peg ? 'email, t, tentativa, acertos' : 'email, t, tentativa';
     const ordenar = (q: any) => (peg ? q.order('acertos', { ascending: false, nullsFirst: false }) : q).order('t', { ascending: true });
-    const { data: top } = await ordenar(db.from('recordes_jogo').select(COLS).eq('chave', b.chave)).order('criado_em', { ascending: true }).limit(10);
+    const { de, qtd } = pagina(b);
+    const { data: top } = await ordenar(db.from('recordes_jogo').select(COLS).eq('chave', b.chave)).order('criado_em', { ascending: true }).range(de, de + qtd - 1);
     let meu = null, amigos: any[] = [];
     const precisa = new Set((top ?? []).map((r) => r.email));
     if (eu) {
@@ -128,8 +138,8 @@ Deno.serve(async (req) => {
     const porEmail = new Map((contas ?? []).map((c: any) => [c.email, c]));
     const { count: total } = await db.from('recordes_jogo').select('email', { count: 'exact', head: true }).eq('chave', b.chave);
     return json({
-      total: total ?? 0,
-      top: (top ?? []).map((r, i) => linha(r, porEmail.get(r.email), eu, i + 1)),
+      total: total ?? 0, de,
+      top: (top ?? []).map((r, i) => linha(r, porEmail.get(r.email), eu, de + i + 1)),
       meu: meu ? linha(meu, porEmail.get(eu!), eu, meu.pos) : null,
       amigos: amigos.map((r, i) => linha(r, porEmail.get(r.email), eu, i + 1)),
     });

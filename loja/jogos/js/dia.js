@@ -122,7 +122,9 @@
         ${d.top.length ? `<ol class="lista-ranking">${d.top.slice(0, n).map(CA.linhaDia).join('')}</ol>` : '<p class="vazio">Ninguém jogou ainda. Bora ser o 1º?</p>'}
         ${d.meu && d.meu.pos > n ? `<p class="reticencias">···</p><ol class="lista-ranking">${CA.linhaDia(d.meu)}</ol>` : ''}
         ${conta ? '' : '<p class="vazio">Entra com teu e-mail (e teu @, se quiser) pra aparecer aqui.</p>'}
-        <span class="ver-mais">Ver ranking completo e dos amigos →</span>`;
+        <span class="ver-mais">${!curto && d.total > 10 ? `Ver todos os ${d.total} →` : 'Ver ranking completo e dos amigos →'}</span>`;
+      // a intro mostra o top 10; tocar abre o ranking inteiro do dia, por páginas (17/11/2026)
+      if (!curto && d.total > 10 && cx.href && !/todos=1/.test(cx.getAttribute('href'))) cx.setAttribute('href', cx.getAttribute('href') + '&todos=1');
       cx.hidden = false;
       return d;
     }).catch(() => { if (cx.isConnected) cx.innerHTML = `<div class="cab-ranking"><strong>${titulo}</strong></div><p class="vazio">Sem internet agora. O ranking volta quando a conexão voltar.</p>`; return null; });

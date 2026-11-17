@@ -45,10 +45,12 @@
       envio.then(() => CA.verRanking('peg:' + n)).then(d => {
         if (!alvo.isConnected || pedido !== n) return;
         if (card && d.meu) { card.ranking = { pos: d.meu.pos, txt: 'NO RANKING' }; card = null; }
+        // só o top 10 aqui; o link abre o ranking inteiro do nível, por páginas (17/11/2026)
+        if (d.total > 10) { const vm = alvo.querySelector('.ver-mais'); vm.href += '&todos=1'; vm.textContent = `Ver todos os ${d.total} →`; }
         alvo.querySelector('.rk-total').textContent = `${d.total} ${d.total === 1 ? 'pessoa' : 'pessoas'}`;
         alvo.querySelector('.rk-lista').innerHTML = `
-          ${d.top.length ? `<ol class="lista-ranking">${d.top.slice(0, 5).map(CA.linhaPeg).join('')}</ol>` : '<p class="vazio">Ninguém jogou esse nível ainda. Bora ser o 1º?</p>'}
-          ${d.meu && d.meu.pos > 5 ? `<ol class="lista-ranking">${CA.linhaPeg(d.meu)}</ol>` : ''}
+          ${d.top.length ? `<ol class="lista-ranking">${d.top.slice(0, 10).map(CA.linhaPeg).join('')}</ol>` : '<p class="vazio">Ninguém jogou esse nível ainda. Bora ser o 1º?</p>'}
+          ${d.meu && d.meu.pos > 10 ? `<p class="reticencias">···</p><ol class="lista-ranking">${CA.linhaPeg(d.meu)}</ol>` : ''}
           ${CA.conta && CA.conta() ? '' : '<p class="vazio">Entra com teu e-mail pra aparecer aqui.</p>'}`;
       }).catch(() => { if (alvo.isConnected) alvo.querySelector('.rk-lista').innerHTML = '<p class="vazio">Sem internet agora.</p>'; });
     };

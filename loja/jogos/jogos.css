@@ -563,3 +563,18 @@ button.link-voltar { display: block; width: 100%; background: none; border: 0; c
 /* logo oficial (caderno com cR) no cabeçalho */
 .logo-app .logo-img { height: 42px; width: auto; flex: none; display: block; }
 @media (max-width: 430px) { .logo-app .logo-img { height: 36px; } }
+
+/* ---------- Ranking: top 10 + "Ver todos" por páginas (17/11/2026) ---------- */
+.ver-todos { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; min-height: 48px; margin-top: 10px; padding: 10px 14px; border: 2px dashed var(--tinta); border-radius: 12px; background: transparent; color: var(--azul); font: inherit; font-weight: 800; font-size: 16px; cursor: pointer; }
+.pag-cab { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 0 0 8px; }
+.pag-cab b { font-weight: 800; }
+.so-top { border: 2px solid var(--tinta); border-radius: 999px; background: var(--papel-claro); color: var(--tinta); font: inherit; font-weight: 800; font-size: 14px; padding: 6px 12px; cursor: pointer; white-space: nowrap; }
+.ir-meu { display: block; width: 100%; min-height: 44px; margin-top: 10px; border: 2px solid var(--azul); border-radius: 12px; background: var(--papel-claro); color: var(--azul); font: inherit; font-weight: 800; font-size: 15px; cursor: pointer; }
+.paginas { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; margin-top: 10px; }
+.paginas span { font-weight: 700; color: var(--tinta-suave); white-space: nowrap; }
+.paginas button { min-height: 44px; border: 2px solid var(--tinta); border-radius: 12px; background: var(--papel-claro); color: var(--tinta); font: inherit; font-weight: 800; font-size: 15px; cursor: pointer; }
+.paginas .pg-prox { justify-self: end; width: 100%; }
+.paginas .pg-ant { width: 100%; }
+.paginas button:disabled { opacity: .35; cursor: default; }
+.lista-ranking.esperando { opacity: .5; transition: opacity var(--mov-rapido) var(--mov-curva); }
+.lista-todos { scroll-margin-top: 12px; }
