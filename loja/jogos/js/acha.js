@@ -313,6 +313,7 @@
     else if (fase.num <= GRATIS) caixaRanking(palco, 'nivel:' + fase.num, '#/ranking?aba=f' + fase.num, 'Ranking do nível ' + fase.num, envio, dadosCard);
     const res = palco.querySelector('.resultado');
     if (res && CA.cardsJogos) res.appendChild(CA.el(`<div class="outros-jogos"><h2 class="secao">Todos os jogos</h2>${CA.cardsJogos('acha')}</div>`));
+    if (!ehDia && !duelo && fase.num === GRATIS && !CA.ehPremium() && CA.ofertaNoResultado) CA.ofertaNoResultado(palco, NOME);
   }
 
   // No resultado (desafio do dia e fases grátis): tua posição e o top 3, ou o convite pra entrar no ranking.
@@ -350,9 +351,10 @@
         ${tAmigo ? `<p class="meta-amigo">Teu amigo passou esse nível em <b>${CA.fmtSeg(tAmigo)}</b>. Libera pra tentar bater ele!</p>` : ''}
         <p>Do nível 4 em diante a grade só cresce, até <b>64 números</b>, e ainda embaralha, gira, pisca, vira letra... São <b>${FASES.length - GRATIS} níveis novos</b>, até o nível final.</p>
         <div class="previa-fases">${FASES.slice(GRATIS, GRATIS + 6).map(x => `<span>${x.num}<small>${x.q} números${x.regras.length ? ' · ' + x.nome : ''}</small></span>`).join('')}</div>
-        <a class="btn btn-grande" href="#/premium">Liberar todos os níveis · ${(CA.OFERTA || {}).botao || ''}</a>
+        <div class="vaga-oferta"></div>
         <a class="link-voltar" href="#/jogo?id=acha">Voltar pros níveis</a>
       </section>`));
+    palco.querySelector('.vaga-oferta').replaceWith(CA.cardOferta(NOME, 'travado'));
   }
 
   // #/fase

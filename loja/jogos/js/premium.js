@@ -20,8 +20,8 @@
   const PLANOS = OFERTA_UNICA ? [PLANO_VITALICIO] : PLANOS_PASSE;
   // textos de chamada usados nas outras telas (início, nível trancado, resultado)
   CA.OFERTA = OFERTA_UNICA
-    ? { unica: true, preco: 'R$ 9,90', botao: 'R$ 9,90 uma vez, pra sempre', chamada: 'R$ 9,90 uma vez só, pra sempre. Sem mensalidade.' }
-    : { unica: false, preco: 'R$ 4,90', botao: 'a partir de R$ 2,49/mês', chamada: 'Mensal R$ 4,90 ou anual R$ 29,90.' };
+    ? { unica: true, preco: 'R$ 9,90', botao: 'R$ 9,90 uma vez, pra sempre', chamada: 'R$ 9,90 uma vez só, pra sempre. Sem mensalidade.', frase: 'por R$ 9,90, pra sempre', cta: 'Liberar tudo por R$ 9,90' }
+    : { unica: false, preco: 'R$ 4,90', botao: 'a partir de R$ 2,49/mês', chamada: 'Mensal R$ 4,90 ou anual R$ 29,90.', frase: 'a partir de R$ 2,49 por mês', cta: 'Ver o Premium' };
   const fmtDia = iso => new Date(iso).toLocaleDateString('pt-BR');
 
   async function chamar(fn, corpo) {

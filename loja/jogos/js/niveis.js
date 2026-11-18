@@ -180,6 +180,27 @@
     },
   };
 
+  // ---------- oferta na hora certa (18/11/2026) ----------
+  // Terminou o último nível grátis ou tocou num nível travado: card com a oferta que estiver ligada (CA.OFERTA).
+  CA.niveisPagos = () => CA.JOGOS.reduce((s, j) => s + Math.max(0, j.total - GRATIS), 0);
+  CA.cardOferta = function (nomeJogo, origem) {
+    const o = CA.OFERTA || {};
+    return CA.el(`
+      <a class="card-oferta" href="#/premium" data-origem="${origem || ''}">
+        ${origem === 'travado' ? '' : '<span class="selo-premium">★ Premium</span>'}
+        <strong>Tu chegou no fim do grátis de ${nomeJogo}.</strong>
+        <span>Libera os outros <b>${CA.niveisPagos()} níveis</b> de todos os jogos ${o.frase || ''}.</span>
+        <span class="btn btn-grande">${o.cta || 'Ver o Premium'}</span>
+      </a>`);
+  };
+  // no resultado do último nível grátis: o card vai logo embaixo da folha, no lugar da chamada genérica
+  CA.ofertaNoResultado = function (palco, nomeJogo) {
+    const folha = palco.querySelector('.folha');
+    if (!folha || CA.ehPremium()) return;
+    palco.querySelectorAll('.chamada-premium').forEach(x => x.remove());
+    folha.after(CA.cardOferta(nomeJogo, 'resultado'));
+  };
+
   // Tela de nível trancado (Premium) de qualquer jogo
   CA.telaNivelTrancado = function (palco, j, n) {
     CA.funil('chegou_no_limite', { jogo: j.id, nivel: n, origem: 'travado' });
@@ -190,9 +211,10 @@
         <span class="selo-premium">★ Premium</span>
         <h1>${j.nome}: nível ${n}</h1>
         <p>Os ${GRATIS} primeiros níveis são grátis. Daqui pra frente são mais <b>${j.total - GRATIS} níveis</b>, cada vez mais difíceis.</p>
-        <a class="btn btn-grande" href="#/premium">Liberar todos os jogos · ${(CA.OFERTA || {}).botao || ''}</a>
+        <div class="vaga-oferta"></div>
         <a class="link-voltar" href="#/jogo?id=${j.id}">Voltar pros níveis</a>
       </section>`));
+    palco.querySelector('.vaga-oferta').replaceWith(CA.cardOferta(j.nome, 'travado'));
   };
 
   // Resultado de um nível: usa a tela de resultado comum + ranking do jogo + todos os jogos embaixo
@@ -212,5 +234,6 @@
     folha.after(cx);
     setTimeout(() => j.caixaRanking ? j.caixaRanking(cx, n, r.card) : CA.caixaRankingEstrelas(cx, j.id, 'Ranking de ' + j.nome, '#/ranking?jogo=' + j.id, r.card), 1500); // espera o progresso subir pra conta
     palco.querySelector('.resultado').appendChild(CA.el(`<div class="outros-jogos"><h2 class="secao">Todos os jogos</h2>${CA.cardsJogos(j.id)}</div>`));
+    if (n === GRATIS && !j.acesso()) CA.ofertaNoResultado(palco, j.nome);
   };
 })();

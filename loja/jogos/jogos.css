@@ -763,3 +763,11 @@ button.link-voltar { display: block; width: 100%; background: none; border: 0; c
 .planos.um .plano.escolhido::before { display: none; }
 /* selo dourado do Premium ao lado do nome no ranking (18/11/2026) */
 .selo-ouro { font-style: normal; display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; font-size: 11px; line-height: 1; color: #fff; vertical-align: 2px; background: radial-gradient(circle at 35% 30%, #ffe27a, var(--ouro) 70%); box-shadow: 0 0 0 1.5px #8a6a10 inset, 0 1px 0 rgba(0,0,0,.2); }
+/* oferta na hora certa: fim do grátis / nível travado (18/11/2026) */
+.card-oferta { display: grid; gap: 8px; margin: 14px 0 6px; padding: 16px 16px 18px; border: 3px solid var(--ouro); border-radius: 18px; background: var(--ouro-claro); box-shadow: 5px 5px 0 var(--ouro); text-decoration: none; color: var(--tinta); animation: mov-surge var(--mov-lento, 280ms) var(--mov-curva, ease) .35s backwards; }
+.card-oferta .selo-premium { margin-top: 0; justify-self: start; }
+.card-oferta strong { font-family: var(--mao); font-size: 30px; line-height: 1.02; }
+.card-oferta > span:not(.btn):not(.selo-premium) { font-size: 16px; font-weight: 600; color: var(--tinta-suave); }
+.card-oferta b { color: var(--tinta); }
+.card-oferta .btn { margin-top: 4px; text-align: center; }
+.card-oferta:active { transform: scale(.98); transition: transform var(--mov-toque, 90ms) ease; }
