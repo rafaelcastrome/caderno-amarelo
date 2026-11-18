@@ -761,3 +761,5 @@ button.link-voltar { display: block; width: 100%; background: none; border: 0; c
 .pix-qr summary { cursor: pointer; font-weight: 700; font-size: 15px; }
 .pix-qr[open] .qr { animation: mov-surge var(--mov-medio, 200ms) ease backwards; }
 .planos.um .plano.escolhido::before { display: none; }
+/* selo dourado do Premium ao lado do nome no ranking (18/11/2026) */
+.selo-ouro { font-style: normal; display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; font-size: 11px; line-height: 1; color: #fff; vertical-align: 2px; background: radial-gradient(circle at 35% 30%, #ffe27a, var(--ouro) 70%); box-shadow: 0 0 0 1.5px #8a6a10 inset, 0 1px 0 rgba(0,0,0,.2); }

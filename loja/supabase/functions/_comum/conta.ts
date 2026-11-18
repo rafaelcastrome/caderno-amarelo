@@ -27,6 +27,26 @@ export async function premiumDe(email: string): Promise<{ premium: boolean; ate:
   }
   return fim > Date.now() ? { premium: true, ate: new Date(fim).toISOString() } : { premium: false, ate: null };
 }
+// Quais desses e-mails têm Premium ativo agora (selo dourado do ranking). Uma consulta só, sem expor e-mail.
+export async function premiumDeVarios(emails: string[]): Promise<Set<string>> {
+  const ativos = new Set<string>();
+  const lista = [...new Set(emails)].filter(Boolean);
+  if (!lista.length) return ativos;
+  const fim = new Map<string, number>();
+  for (let i = 0; i < lista.length; i += 200) {
+    const { data } = await db.from('pedidos').select('email, produto, pago_em')
+      .eq('status', 'pago').in('produto', Object.keys(PLANOS)).in('email', lista.slice(i, i + 200)).order('pago_em', { ascending: true });
+    for (const p of data ?? []) {
+      const dias = PLANOS[p.produto];
+      if (dias === null) { fim.set(p.email, Infinity); continue; }
+      const ini = Math.max(new Date(p.pago_em).getTime(), fim.get(p.email) ?? 0);
+      fim.set(p.email, ini + dias * 864e5);
+    }
+  }
+  for (const [e, f] of fim) if (f > Date.now()) ativos.add(e);
+  return ativos;
+}
+
 // Compatível com quem só quer a data (null também quando é vitalício: use premiumDe pra saber se é Premium).
 export async function validadePremium(email: string) { return (await premiumDe(email)).ate; }
 

@@ -8,12 +8,13 @@
 //     de = a partir de qual posição (0 = 1º), qtd = quantos (padrão 10, máximo 50). Sem eles, top 10 como antes.
 // { acao: 'estrelas', jogo?, token? }       -> ranking de um jogo (pela métrica dele) ou geral (pontos de todos os jogos)
 //     Desde 16/11/2026 conta velocidade e acertos, não só estrelas: ver _comum/pontos.ts.
+// Cada linha traz premium: true/false (Premium ativo agora) pro selo dourado ao lado do nome (18/11/2026). Nunca o e-mail.
 // chave: 'jdia:AAAA-MM-DD' (desafio do dia desde 16/11/2026: níveis 1 a 3 do jogo do dia, mesma semente pra todos;
 //        Caça-números t = tempo somado; Fala a cor/Responde rápido acertos = acertos somados, mais acertos ganha),
 //        'dia:AAAA-MM-DD' (desafio antigo, só leitura), 'nivel:N' (níveis do Caça-números)
 //        ou 'peg:N' (17 níveis das Pegadinhas, 10 perguntas cada).
 import { cors, db, json } from '../_comum/comum.ts';
-import { emailDaSessao, nomePublico, confirmado } from '../_comum/conta.ts';
+import { emailDaSessao, nomePublico, confirmado, premiumDeVarios } from '../_comum/conta.ts';
 import { resumoDe, comparar } from '../_comum/pontos.ts';
 
 // quantos números tem cada nível do Caça-números (igual ao jogos/js/acha.js), pra barrar tempo impossível.
@@ -43,8 +44,8 @@ async function amigosDe(email: string) {
   const { data } = await db.from('amigos_jogo').select('b').eq('a', email);
   return (data ?? []).map((x) => x.b as string);
 }
-const linha = (r: Record<string, any>, c: Record<string, any> | undefined, eu: string | null, pos: number) => ({
-  pos, nome: c ? nomePublico(c) : 'Jogador', ok: c ? confirmado(c) : false, t: Number(r.t), tentativa: r.tentativa ?? null,
+const linha = (r: Record<string, any>, c: Record<string, any> | undefined, eu: string | null, pos: number, prem: Set<string>) => ({
+  pos, nome: c ? nomePublico(c) : 'Jogador', ok: c ? confirmado(c) : false, premium: prem.has(r.email), t: Number(r.t), tentativa: r.tentativa ?? null,
   ...(r.acertos != null ? { acertos: r.acertos } : {}), eu: r.email === eu,
 });
 
@@ -93,9 +94,10 @@ Deno.serve(async (req) => {
       const emails = [eu, ...(await amigosDe(eu))].slice(0, 200);
       const { data } = await db.from('contas_jogo').select(CAMPOS + ', progresso').in('email', emails);
       const ordem = comparar(null);
+      const prem = await premiumDeVarios((data ?? []).map((c: any) => c.email));
       const lista = (data ?? []).map((c: any) => ({ c, ...resumoDe(c.progresso, null) }))
         .sort(ordem)
-        .map((x) => ({ nome: nomePublico(x.c), ok: confirmado(x.c), estrelas: x.estrelas, niveis: x.niveis, fases: x.niveis, pontos: x.pontos, eu: x.c.email === eu }));
+        .map((x) => ({ nome: nomePublico(x.c), ok: confirmado(x.c), premium: prem.has(x.c.email), estrelas: x.estrelas, niveis: x.niveis, fases: x.niveis, pontos: x.pontos, eu: x.c.email === eu }));
       return json({ amigos: lista.map((x, i) => ({ pos: i + 1, ...x })) });
     }
 
@@ -107,11 +109,12 @@ Deno.serve(async (req) => {
         .filter((x) => x.niveis > 0)
         .sort(comparar(jogo));
       const fmt = (x: any, i: number) => ({
-        pos: i + 1, nome: nomePublico(x.c), ok: confirmado(x.c), estrelas: x.estrelas, niveis: x.niveis,
+        pos: i + 1, nome: nomePublico(x.c), ok: confirmado(x.c), premium: prem.has(x.c.email), estrelas: x.estrelas, niveis: x.niveis,
         pontos: x.pontos, tempo: x.tempo, acertos: x.acertos, media: x.media, velocidade: x.velocidade, eu: x.c.email === eu,
       });
       const iMeu = eu ? lista.findIndex((x) => x.c.email === eu) : -1;
       const { de, qtd } = pagina(b);
+      const prem = await premiumDeVarios([...lista.slice(de, de + qtd).map((x) => x.c.email), ...(iMeu >= 0 ? [lista[iMeu].c.email] : [])]);
       return json({ jogo, total: lista.length, de, top: lista.slice(de, de + qtd).map((x, i) => fmt(x, de + i)), meu: iMeu >= 0 ? fmt(lista[iMeu], iMeu) : null });
     }
 
@@ -143,12 +146,13 @@ Deno.serve(async (req) => {
     }
     const { data: contas } = precisa.size ? await db.from('contas_jogo').select(CAMPOS).in('email', [...precisa]) : { data: [] };
     const porEmail = new Map((contas ?? []).map((c: any) => [c.email, c]));
+    const prem = await premiumDeVarios([...precisa]);
     const { count: total } = await db.from('recordes_jogo').select('email', { count: 'exact', head: true }).eq('chave', b.chave);
     return json({
       total: total ?? 0, de,
-      top: (top ?? []).map((r, i) => linha(r, porEmail.get(r.email), eu, de + i + 1)),
-      meu: meu ? linha(meu, porEmail.get(eu!), eu, meu.pos) : null,
-      amigos: amigos.map((r, i) => linha(r, porEmail.get(r.email), eu, i + 1)),
+      top: (top ?? []).map((r, i) => linha(r, porEmail.get(r.email), eu, de + i + 1, prem)),
+      meu: meu ? linha(meu, porEmail.get(eu!), eu, meu.pos, prem) : null,
+      amigos: amigos.map((r, i) => linha(r, porEmail.get(r.email), eu, i + 1, prem)),
     });
   } catch (e) {
     console.error(e);

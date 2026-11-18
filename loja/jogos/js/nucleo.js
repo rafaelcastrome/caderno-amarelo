@@ -14,7 +14,8 @@
   CA.nomeRankingHtml = function (r) {
     const nome = String(r.nome || '');
     const m = r.ok && /^@([a-z0-9._]{1,30})$/i.exec(nome);
-    const selo = r.ok ? ' <i class="ok" aria-label="@ confirmado">✓</i>' : '';
+    const selo = (r.ok ? ' <i class="ok" aria-label="@ confirmado">✓</i>' : '')
+      + (r.premium ? ' <i class="selo-ouro" aria-label="Premium" title="Premium">★</i>' : '');
     if (!m) return escNome(nome) + selo;
     return `<span class="ig" role="link" tabindex="0" data-ig="${m[1]}" title="Abrir o Instagram de @${m[1]}">@${m[1]}</span>${selo}`;
   };
