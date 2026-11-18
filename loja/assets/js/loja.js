@@ -52,7 +52,23 @@
   };
   const ancora = c => 'cat-' + c.normalize('NFD').replace(/[^\w]+/g, '-').toLowerCase();
 
+  // Kit (produto com "itens"): vem como card grande de destaque no topo, fora do trilho
+  function kitDestaqueHTML(k) {
+    const cada = (k.preco / k.itens.length).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return `<div class="wrap"><a class="kit-destaque revela" href="produto.html?p=${encodeURIComponent(k.slug)}">
+      <span class="selo">${esc(k.selo || 'Kit')}</span>
+      <div class="kit-capa"><img src="${esc(k.capa)}" alt="Capa: ${esc(k.nome)}"></div>
+      <div class="kit-txt">
+        <span class="etiqueta">o mais completo</span>
+        <h3>${esc(k.nome)}</h3>
+        <p>${esc(k.subtitulo)}</p>
+        <div class="kit-preco">${k.preco_antigo ? `<s>de ${brl(k.preco_antigo)}</s>` : ''}<strong>${brl(k.preco)}</strong><small>no Pix · R$ ${cada} por PDF</small></div>
+        <span class="btn">Ver o kit →</span>
+      </div></a></div>`;
+  }
+
   function trilhoHTML(lista) {
+    lista = lista.filter(p => !p.itens);
     return lista.map(p => `<div class="trilho-item">${cardHTML(p)}</div>`).join('');
   }
 
@@ -113,6 +129,11 @@
       $('#natal .trilho-wrap').insertAdjacentHTML('beforeend', '<button class="seta esq" data-seta="-1" aria-label="Anterior">‹</button><button class="seta dir" data-seta="1" aria-label="Próximo">›</button>');
       ligarSetas($('#natal')); contagem();
     }
+    const kit = ativos.find(p => p.itens && p.destaque);
+    if (kit) {
+      if (temporadaNatal) $('#natal .natal-cabeca').closest('.wrap').insertAdjacentHTML('afterend', kitDestaqueHTML(kit));
+      else $('#produtos').insertAdjacentHTML('afterbegin', kitDestaqueHTML(kit));
+    }
     const outras = cats.filter(c => !(temporadaNatal && c === 'Natal'));
     $('#outras-secoes').innerHTML = outras.map(c => {
       const [tit, sub] = SECOES[c] || [c, ''];
@@ -124,7 +145,7 @@
 
     // o menu do topo agora é fixo e igual em todas as páginas (assets/js/menu.js)
 
-    const vitrine = temporadaNatal ? ativos.filter(p => p.categoria === 'Natal') : ativos;
+    const vitrine = (temporadaNatal ? ativos.filter(p => p.categoria === 'Natal') : ativos).filter(p => !p.itens);
     leque(vitrine);
     palavraQueTroca();
     if (CFG.contato) $('#contato').innerHTML = `<a href="mailto:${esc(CFG.contato)}">${esc(CFG.contato)}</a>`;
@@ -245,7 +266,7 @@
       navigator.clipboard?.writeText(pedido.copia_cola);
       $('#copiar').textContent = 'Copiado!';
     });
-    if (DEMO) { $('#simular').addEventListener('click', () => mostrarSucesso(p, '#')); return; }
+    if (DEMO) { $('#simular').addEventListener('click', () => mostrarSucesso(p, '#', p.itens ? p.conteudo.map(nome => ({ nome, url: '#' })) : null)); return; }
     acompanhar(p, pedido.pedido);
   }
 
@@ -254,12 +275,23 @@
     timer = setInterval(async () => {
       try {
         const st = await chamar('status-pedido', { pedido: id });
-        if (st.status === 'pago') { clearInterval(timer); mostrarSucesso(p, st.download); }
+        if (st.status === 'pago') { clearInterval(timer); mostrarSucesso(p, st.download, st.downloads); }
       } catch (_) { /* tenta de novo no próximo ciclo */ }
     }, 4000);
   }
 
-  function mostrarSucesso(p, link) {
+  function mostrarSucesso(p, link, lista) {
+    if (lista && lista.length > 1) {
+      // kit: um botão pra cada PDF (o navegador do Instagram não baixa vários de uma vez)
+      modal(`<div class="sucesso sucesso-kit">
+        <div class="grande">🎉</div>
+        <h3>Pagamento aprovado!</h3>
+        <p class="nota">Teus ${lista.length} PDFs tão prontos. Toca em cada um pra baixar. Os mesmos links chegaram no teu e-mail.</p>
+        <ol class="lista-downloads">${lista.map(d => `<li><a href="${esc(d.url)}" target="_blank" rel="noopener"><span>${esc(d.nome)}</span><b>Baixar</b></a></li>`).join('')}</ol>
+        <p class="nota">Os links valem 7 dias. Salva os PDFs no celular!</p></div>`);
+      document.querySelectorAll('.lista-downloads a').forEach(a => a.addEventListener('click', () => a.parentElement.classList.add('baixado')));
+      return;
+    }
     modal(`<div class="sucesso">
       <div class="grande">🎉</div>
       <h3>Pagamento aprovado!</h3>
@@ -276,7 +308,7 @@
     if (!id) return;
     try {
       const st = await chamar('status-pedido', { pedido: id });
-      if (st.status === 'pago') mostrarSucesso(p, st.download);
+      if (st.status === 'pago') mostrarSucesso(p, st.download, st.downloads);
     } catch (_) {}
   }
 

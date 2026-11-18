@@ -1,5 +1,98 @@
 [
   {
+    "slug": "kit-natal-completo",
+    "nome": "Kit Natal Completo",
+    "subtitulo": "Os 18 PDFs do especial de Natal num Pix só: jogos pra ceia, coisas pra montar, colorir e presentear",
+    "preco": 19.9,
+    "preco_antigo": 91.2,
+    "selo": "18 em 1",
+    "categoria": "Natal",
+    "capa": "assets/img/capa-kit-natal-completo.png",
+    "ativo": true,
+    "destaque": true,
+    "itens": [
+      "natal-fofo-colorir",
+      "calendario-advento-desafios",
+      "enfeites-de-papel",
+      "bingo-de-natal",
+      "kit-amigo-secreto",
+      "quiz-de-natal",
+      "caca-ao-presente",
+      "casinha-papai-noel-3d",
+      "jogo-da-memoria-natal",
+      "retrospectiva-do-ano",
+      "etiquetas-de-presente",
+      "cartoes-de-natal-colorir",
+      "bandeirinhas-de-natal",
+      "papel-de-presente-natal",
+      "marcadores-de-pagina-natal",
+      "kit-ceia-de-natal",
+      "vales-de-natal",
+      "adesivos-de-natal"
+    ],
+    "descricao": "Todo o especial de Natal do caRdeno Amarelo de uma vez: o livro de colorir do Bolinho e da Farofa, o calendário do advento de desafios, a vilinha do Papai Noel pra montar, bingo, quiz, amigo secreto, kit da ceia, enfeites, etiquetas, cartões, papel de presente, adesivos e muito mais. São 18 PDFs que, comprados um por um, custam R$ 91,20. Paga uma vez, baixa todos na hora e imprime quantas vezes quiser.",
+    "inclui": [
+      "18 PDFs pra imprimir em A4",
+      "Os 18 links aparecem na tela assim que o Pix cai",
+      "Os mesmos 18 links chegam no teu e-mail",
+      "Imprime quantas vezes quiser pra família",
+      "Sai por R$ 1,11 cada PDF"
+    ],
+    "titulo_conteudo": "Os 18 PDFs do kit",
+    "conteudo": [
+      "Natal Fofo pra Colorir",
+      "Calendário do Advento de Desafios",
+      "Enfeites de Papel pra Pendurar",
+      "Bingo de Natal em Família",
+      "Kit Amigo Secreto",
+      "Quiz de Natal",
+      "Caça ao Presente",
+      "Vilinha do Papai Noel pra Montar",
+      "Jogo da Memória de Natal",
+      "Retrospectiva do Meu Ano",
+      "Etiquetas de Presente de Natal",
+      "Cartões de Natal",
+      "Bandeirinhas de Natal",
+      "Papel de Presente de Natal",
+      "Marcadores de Página de Natal",
+      "Kit Ceia de Natal",
+      "Vales de Natal",
+      "Adesivos de Natal"
+    ],
+    "previas": [
+      "assets/img/previas/natal-fofo-colorir-1.jpg",
+      "assets/img/previas/calendario-advento-desafios-1.jpg",
+      "assets/img/previas/casinha-papai-noel-3d-1.jpg",
+      "assets/img/previas/bingo-de-natal-1.jpg",
+      "assets/img/previas/kit-ceia-de-natal-1.jpg",
+      "assets/img/previas/kit-amigo-secreto-1.jpg"
+    ],
+    "formato": "18 PDFs pra imprimir · acesso na hora",
+    "faq": [
+      [
+        "Como eu recebo?",
+        "Assim que o Pix cai, aparece na tela uma lista com os 18 PDFs pra baixar, um por um. Os mesmos links chegam no teu e-mail."
+      ],
+      [
+        "Os links vencem?",
+        "Os links valem 7 dias. Baixa e salva os PDFs no celular ou no computador."
+      ],
+      [
+        "Precisa imprimir?",
+        "Sim, é tudo feito pra imprimir em casa ou na papelaria, em folha A4. Dá pra imprimir quantas vezes quiser pra uso da família."
+      ],
+      [
+        "É o mesmo conteúdo dos produtos avulsos?",
+        "Sim, são exatamente os 18 produtos do especial de Natal da loja, os mesmos arquivos."
+      ]
+    ],
+    "como_funciona": [
+      "Baixa os 18 PDFs da lista que aparece na tela (ou pelo e-mail).",
+      "Imprime o que for usar em A4: cada PDF traz o próprio passo a passo.",
+      "Joga, monta, colore e presenteia na ceia."
+    ]
+  },
+  {
     "slug": "natal-fofo-colorir",
     "nome": "Natal Fofo pra Colorir",
     "subtitulo": "16 cenas de Natal cheias de detalhe, cada uma com uma historinha, pra colorir com calma",

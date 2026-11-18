@@ -1,5 +1,5 @@
 // Consultado pela página a cada poucos segundos. Quando o pedido está pago, devolve o link de download.
-import { cors, db, json, linkDownload, sincronizarOrder } from '../_comum/comum.ts';
+import { cors, db, json, linksDownload, sincronizarOrder } from '../_comum/comum.ts';
 
 const UUID = /^[0-9a-f-]{36}$/i;
 
@@ -16,7 +16,9 @@ Deno.serve(async (req) => {
     if (pedido.status === 'pendente' && pedido.mp_order) pedido = (await sincronizarOrder(pedido.mp_order)) ?? pedido;
 
     if (pedido.status !== 'pago') return json({ status: pedido.status });
-    return json({ status: 'pago', produto: pedido.produto, download: await linkDownload(pedido.produto) });
+    // kit: downloads tem um link por PDF; download (o primeiro) continua pra quem só lê um
+    const downloads = await linksDownload(pedido.produto);
+    return json({ status: 'pago', produto: pedido.produto, download: downloads[0]?.url ?? null, downloads });
   } catch (e) {
     console.error(e);
     return json({ erro: 'Falha ao consultar o pedido.' }, 500);

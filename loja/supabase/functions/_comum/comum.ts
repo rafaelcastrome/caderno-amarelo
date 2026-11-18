@@ -75,12 +75,36 @@ export async function linkDownload(produtoSlug: string) {
   return data?.signedUrl ?? null;
 }
 
+// Kit (produtos.itens com os slugs): um link pra cada PDF, na ordem do kit. Produto normal: um link só.
+export async function linksDownload(produtoSlug: string): Promise<{ slug: string; nome: string; url: string }[]> {
+  const { data: prod } = await db.from('produtos').select('slug, nome, arquivo, itens').eq('slug', produtoSlug).single();
+  if (!prod) return [];
+  const lista = prod.itens?.length
+    ? ((await db.from('produtos').select('slug, nome, arquivo').in('slug', prod.itens)).data ?? [])
+        .sort((a, b) => prod.itens.indexOf(a.slug) - prod.itens.indexOf(b.slug))
+    : [prod];
+  const out = [];
+  for (const it of lista) {
+    const { data } = await db.storage.from('produtos').createSignedUrl(it.arquivo, 60 * 60 * 24 * 7, { download: true });
+    if (data?.signedUrl) out.push({ slug: it.slug, nome: it.nome, url: data.signedUrl });
+  }
+  return out;
+}
+
 // E-mail com o link (opcional: só envia se RESEND_API_KEY estiver configurada).
 async function enviarEmail(pedido: { id: string; email: string; produto: string; email_enviado: boolean }) {
   const chave = Deno.env.get('RESEND_API_KEY');
   if (!chave || pedido.email_enviado) return;
-  const link = await linkDownload(pedido.produto);
+  const links = await linksDownload(pedido.produto);
+  const link = links[0]?.url;
   const { data: prod } = await db.from('produtos').select('nome').eq('slug', pedido.produto).single();
+  const corpo = links.length > 1
+    ? `<p>Oi! Teu pagamento foi aprovado. Aqui estão os ${links.length} PDFs do teu ${prod?.nome ?? 'kit'} (cada link vale 7 dias, salva os PDFs no celular):</p>
+       <ol>${links.map((l) => `<li style="margin:6px 0"><a href="${l.url}">${l.nome}</a></li>`).join('')}</ol>
+       <p>Qualquer coisa, chama a gente no Instagram @Cardeno_Amarelo.</p>`
+    : `<p>Oi! Teu pagamento foi aprovado.</p>
+       <p><a href="${link}">Clica aqui pra baixar o ${prod?.nome ?? 'PDF'}</a> (o link vale 7 dias, salva o PDF no celular).</p>
+       <p>Qualquer coisa, chama a gente no Instagram @Cardeno_Amarelo.</p>`;
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${chave}`, 'Content-Type': 'application/json' },
@@ -88,9 +112,7 @@ async function enviarEmail(pedido: { id: string; email: string; produto: string;
       from: Deno.env.get('EMAIL_REMETENTE') ?? 'caRdeno Amarelo <onboarding@resend.dev>',
       to: pedido.email,
       subject: `Teu ${prod?.nome ?? 'produto'} chegou! 🧠`,
-      html: `<p>Oi! Teu pagamento foi aprovado.</p>
-             <p><a href="${link}">Clica aqui pra baixar o ${prod?.nome ?? 'PDF'}</a> (o link vale 7 dias, salva o PDF no celular).</p>
-             <p>Qualquer coisa, chama a gente no Instagram @Cardeno_Amarelo.</p>`,
+      html: corpo,
     }),
   });
   if (r.ok) await db.from('pedidos').update({ email_enviado: true }).eq('id', pedido.id);
