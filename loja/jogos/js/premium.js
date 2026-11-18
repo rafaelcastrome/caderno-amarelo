@@ -10,7 +10,7 @@
   const API = CFG.supabaseUrl ? CFG.supabaseUrl + '/functions/v1' : null;
   // só pra mostrar; o valor cobrado vem sempre do banco
   const PLANOS = [
-    { slug: 'passe-anual', nome: 'Anual', preco: 'R$ 29,90', detalhe: 'R$ 2,49 por mês · economiza 49%', destaque: true },
+    { slug: 'passe-anual', nome: 'Anual', preco: 'R$ 29,90', detalhe: 'R$ 2,49 por mês · economiza 49%', destaque: true, selo: 'Mais vantajoso' },
     { slug: 'passe-mensal', nome: 'Mensal', preco: 'R$ 4,90', detalhe: '30 dias' },
   ];
   const fmtDia = iso => new Date(iso).toLocaleDateString('pt-BR');
@@ -286,11 +286,30 @@
     ['Card dourado', 'Teu resultado com moldura dourada e selo Premium pros stories'],
   ];
 
+  // ---------- Pix pendente (sobrevive a trocar de app e a recarregar) ----------
+  // { pedido, copia_cola, qr_base64, validade (ms), slug, preco, email }. O Pix do Mercado Pago vale 30 min.
+  CA.pixPendente = function () {
+    const p = CA.ler('pixPendente', null);
+    if (p && p.pedido && p.validade > Date.now()) return p;
+    if (p) CA.gravar('pixPendente', null);
+    return null;
+  };
+  const naPremium = () => /^#\/premium/.test(location.hash);
+  // Voltou pro site (do app do banco) ou recarregou com um Pix esperando: reabre a tela do Pix.
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && CA.pixPendente() && !naPremium()) location.hash = '#/premium';
+  });
+  // Antes do app desenhar a primeira tela (este arquivo carrega antes do app.js): sem disparar hashchange.
+  window.addEventListener('DOMContentLoaded', () => {
+    if (CA.pixPendente() && !naPremium()) history.replaceState(null, '', location.pathname + location.search + '#/premium');
+  });
+
   // #/premium
   CA.jogos.premium = {
     nome: 'caRdeno Premium',
     iniciar(palco) {
-      let vivo = true, timer = 0;
+      let vivo = true, timer = 0, conferindo = false;
+      let escolhido = (PLANOS.find(p => p.destaque) || PLANOS[0]).slug;
       palco.innerHTML = '';
       const tela = CA.el(`
         <section class="intro premium">
@@ -299,104 +318,206 @@
         </section>`);
       palco.appendChild(tela);
       const miolo = tela.querySelector('.miolo');
-      if (!CA.ehPremium() && CA.funil) CA.funil('abriu_premium');
-      CA.ehPremium() ? ativo() : oferta();
-      if (CA.conta()) CA.sincronizar().then(() => { if (vivo && CA.ehPremium() && !miolo.querySelector('.ativo-ok')) ativo(true); });
+      const pend = CA.pixPendente();
+      if (!CA.ehPremium() && !pend && CA.funil) CA.funil('abriu_premium');
+      if (pend) telaPix(pend);
+      else CA.ehPremium() ? ativo() : oferta();
+      if (CA.conta()) CA.sincronizar().then(() => { if (vivo && CA.ehPremium() && !CA.pixPendente() && !miolo.querySelector('.ativo-ok')) ativo(true); });
+      const aoVoltar = () => { if (document.visibilityState === 'visible' && vivo && CA.pixPendente()) conferir(); };
+      document.addEventListener('visibilitychange', aoVoltar);
 
       function ativo(recemPago) {
         clearInterval(timer);
         const c = CA.conta() || {};
         miolo.innerHTML = `
           <h1 class="ativo-ok">${recemPago ? 'Liberado! 🎉' : 'Teu Premium tá ativo'}</h1>
-          <p>Todos os níveis de todos os jogos, desafios anteriores e card dourado tão liberados na conta <b>${c.email || ''}</b>${c.ate ? ' até <b>' + fmtDia(c.ate) + '</b>' : ''}.</p>
-          <p class="pequeno">Em outro celular é só entrar com esse mesmo e-mail. Pode renovar quando quiser: os dias somam.</p>
+          <p>Todos os níveis de todos os jogos, desafios anteriores e card dourado tão liberados na conta <b>${c.email || ''}</b>${c.ate ? ' até <b>' + fmtDia(c.ate) + '</b>' : ' <b>pra sempre</b>'}.</p>
+          <p class="pequeno">Em outro celular é só entrar com esse mesmo e-mail.${c.ate ? ' Pode renovar quando quiser: os dias somam.' : ''}</p>
+          ${recemPago && c.perfil && !c.perfil.apelido ? '<button class="btn btn-grande btn-claro" type="button" data-a="apelido">Escolher meu nome no ranking</button>' : ''}
           <a class="btn btn-grande" href="#/">Bora jogar</a>
-          <div class="passo renovar"></div>`;
-        if (c.token) pagar(miolo.querySelector('.renovar'), c, 'Renovar');
+          ${c.ate ? '<div class="passo renovar"></div>' : ''}`;
+        const ba = miolo.querySelector('[data-a=apelido]');
+        if (ba) ba.addEventListener('click', () => formPerfil(miolo, { titulo: 'Como tu quer aparecer no ranking?', onPronto: () => vivo && ativo() }));
+        const r = miolo.querySelector('.renovar');
+        if (r && c.token) r.appendChild(caixaPlanos('Renovar'));
       }
 
+      // Oferta: plano e preço primeiro; e-mail na mesma tela (só pra quem não entrou); depois do código, direto pro Pix.
       function oferta() {
-        const c = CA.conta();
+        clearInterval(timer);
         miolo.innerHTML = `
           <span class="selo-premium">★ Premium</span>
           <h1>ca<span class="r-marca">R</span>deno Premium</h1>
-          <p>Em cada jogo, os 3 primeiros níveis e o desafio do dia são de graça pra sempre. O Premium é pra quem quer ir até o fim:</p>
+          <p>Os 3 primeiros níveis de cada jogo e o desafio do dia são de graça pra sempre. O Premium é pra quem quer ir até o fim.</p>
+          <div class="passo"></div>
+          <h2 class="secao">O que o Premium libera</h2>
           <ul class="beneficios">
             ${BENEFICIOS.map(([t, d]) => `<li><strong>${t}</strong><span>${d}</span></li>`).join('')}
           </ul>
-          <div class="preco"><span>a partir de</span><strong>R$ 2,49</strong><span>por mês, no Pix. Sem cobrança automática.</span></div>
-          <div class="passo"></div>
-          <p class="nota">O Premium fica na tua conta (teu e-mail), vale em qualquer celular. Pagamento por Pix, processado pelo Mercado Pago. Dúvida? ${CFG.contato || ''}</p>`;
-        const passo = miolo.querySelector('.passo');
-        if (!c) {
-          formEntrar(passo, {
-            titulo: '1. Cria tua conta',
-            texto: 'Só o e-mail, sem senha. A gente manda um código pra confirmar.',
-            origem: 'premium',
-            onPronto: () => vivo && (CA.ehPremium() ? ativo() : oferta()),
-          });
-        } else pagar(passo, c);
+          <p class="nota">O Premium fica na tua conta (teu e-mail), vale em qualquer celular. Pagamento por Pix, processado pelo Mercado Pago. Sem cobrança automática. Dúvida? ${CFG.contato || ''}</p>`;
+        miolo.querySelector('.passo').appendChild(caixaPlanos());
       }
 
-      function pagar(passo, c, titulo) {
-        passo.innerHTML = `
-          <div class="caixa-conta">
-            <strong>${titulo || '2. Escolhe o plano'}</strong>
-            <small>Conta: <b>${c.email}</b> · <button class="link-mini" type="button" data-a="sair">trocar</button></small>
-            <div class="planos">
-              ${PLANOS.map(pl => `<button class="plano ${pl.destaque ? 'destaque' : ''}" type="button" data-slug="${pl.slug}">
-                ${pl.destaque ? '<em>Mais vantajoso</em>' : ''}
+      // Caixa com os planos + (sem conta) e-mail e código + botão do Pix
+      function caixaPlanos(titulo) {
+        const c = CA.conta();
+        const cx = CA.el(`
+          <div class="caixa-conta caixa-plano">
+            <strong>${titulo || 'Escolhe teu plano'}</strong>
+            <div class="planos ${PLANOS.length === 1 ? 'um' : ''}" role="radiogroup" aria-label="Plano">
+              ${PLANOS.map(pl => `<button class="plano ${pl.destaque ? 'destaque' : ''}" type="button" role="radio" data-slug="${pl.slug}">
+                ${pl.selo ? `<em>${pl.selo}</em>` : ''}
                 <span>${pl.nome}</span><strong>${pl.preco}</strong><small>${pl.detalhe}</small>
               </button>`).join('')}
             </div>
+            ${c ? `<small class="conta-de">Conta: <b>${c.email}</b> · <button class="link-mini" type="button" data-a="sair">trocar</button></small>
+                   <button class="btn btn-grande" type="button" data-a="pix">Gerar Pix</button>`
+              : `<form class="f-email">
+                  <label for="email-premium">Teu e-mail (o Premium fica nele)</label>
+                  <input id="email-premium" type="email" required autocomplete="email" placeholder="nome@email.com">
+                  <button class="btn btn-grande" type="submit">Continuar</button>
+                  <p class="nota">A gente manda um código de 6 números pro e-mail. Sem senha.</p>
+                </form>
+                <form class="f-codigo mov-aparece" hidden>
+                  <label for="codigo-premium">Código que chegou no e-mail</label>
+                  <input id="codigo-premium" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required placeholder="000000">
+                  <button class="btn btn-grande" type="submit">Confirmar e gerar o Pix</button>
+                  <button class="link-voltar" type="button" data-a="outro">Usar outro e-mail</button>
+                  <p class="nota">Não chegou? Olha no spam ou nas promoções.</p>
+                </form>`}
             <p class="erro-form mov-aparece" role="alert" hidden></p>
-          </div>`;
-        passo.querySelector('[data-a=sair]').addEventListener('click', async () => { await CA.sairConta(); if (vivo) oferta(); });
-        const err = passo.querySelector('.erro-form');
-        passo.querySelectorAll('.plano').forEach(b => b.addEventListener('click', async () => {
-          err.hidden = true;
-          passo.querySelectorAll('.plano').forEach(x => { x.disabled = true; });
-          b.classList.add('gerando');
+          </div>`);
+        const err = cx.querySelector('.erro-form');
+        const erro = m => { err.textContent = m || ''; err.hidden = !m; };
+        const marcar = () => {
+          cx.querySelectorAll('.plano').forEach(b => { const on = b.dataset.slug === escolhido; b.classList.toggle('escolhido', on); b.setAttribute('aria-checked', on); });
+          const pl = PLANOS.find(p => p.slug === escolhido);
+          const bp = cx.querySelector('[data-a=pix]');
+          if (bp && pl) bp.textContent = `Gerar Pix de ${pl.preco}`;
+        };
+        cx.querySelectorAll('.plano').forEach(b => b.addEventListener('click', () => { escolhido = b.dataset.slug; marcar(); }));
+        marcar();
+
+        async function gerar(botao, email) {
+          erro('');
+          const txt = botao.textContent;
+          botao.disabled = true; botao.textContent = 'Gerando o Pix...';
           try {
-            const pix = await chamar('criar-pix', { produto: b.dataset.slug, email: c.email, ...(window.Funil ? { sessao: Funil.sessao(), ig: Funil.ig, origem: 'premium' } : {}) });
-            if (vivo) telaPix(pix);
-          } catch (x) {
-            err.textContent = x.message; err.hidden = false;
-            passo.querySelectorAll('.plano').forEach(y => { y.disabled = false; });
-            b.classList.remove('gerando');
-          }
-        }));
+            const pix = await chamar('criar-pix', { produto: escolhido, email, ...(window.Funil ? { sessao: Funil.sessao(), ig: Funil.ig, origem: 'premium' } : {}) });
+            const pl = PLANOS.find(p => p.slug === escolhido) || {};
+            const p = { pedido: pix.pedido, copia_cola: pix.copia_cola || '', qr_base64: pix.qr_base64 || '', validade: Date.now() + 29 * 60e3, slug: escolhido, preco: pl.preco || '', email };
+            CA.gravar('pixPendente', p);
+            if (vivo) telaPix(p);
+          } catch (x) { erro(x.message); botao.disabled = false; botao.textContent = txt; }
+        }
+
+        if (c) {
+          cx.querySelector('[data-a=sair]').addEventListener('click', async () => { await CA.sairConta(); if (vivo) oferta(); });
+          cx.querySelector('[data-a=pix]').addEventListener('click', e => gerar(e.currentTarget, c.email));
+          return cx;
+        }
+
+        const fE = cx.querySelector('.f-email'), fC = cx.querySelector('.f-codigo');
+        let email = '';
+        fE.addEventListener('submit', async e => {
+          e.preventDefault(); erro('');
+          const b = fE.querySelector('button'); b.disabled = true; b.textContent = 'Mandando o código...';
+          email = fE.querySelector('input').value.trim().toLowerCase();
+          try {
+            await chamar('jogo-codigo', { email });
+            if (CA.funil) CA.funil('pediu_codigo', { origem: 'premium' });
+            fE.hidden = true; fC.hidden = false;
+            fC.querySelector('input').focus();
+            CA.aviso('Código enviado pra ' + email);
+          } catch (x) { erro(x.message); }
+          b.disabled = false; b.textContent = 'Continuar';
+        });
+        fC.addEventListener('submit', async e => {
+          e.preventDefault(); erro('');
+          const b = fC.querySelector('button[type=submit]'); b.disabled = true; b.textContent = 'Confirmando...';
+          try {
+            const d = await chamar('jogo-entrar', { email, codigo: fC.querySelector('input').value.trim(), progresso: { ...CA.ler('fases', {}), ...CA.ler('niveis', {}) } });
+            guardarConta(d);
+            if (CA.funil) CA.funil('entrou_na_conta', { origem: 'premium' });
+            enviarPendentes();
+            if (CA.ehPremium()) { if (vivo) ativo(); return; } // já tinha Premium nesse e-mail
+            await gerar(b, d.email || email); // apelido do ranking fica pra depois, na conta: nada entre o código e o Pix
+          } catch (x) { erro(x.message); b.disabled = false; b.textContent = 'Confirmar e gerar o Pix'; }
+        });
+        fC.querySelector('[data-a=outro]').addEventListener('click', () => { fC.hidden = true; fE.hidden = false; erro(''); });
+        return cx;
       }
 
-      function telaPix(pix) {
+      // Tela do Pix: copiar é o principal (no celular a pessoa paga no app do banco do mesmo aparelho).
+      function telaPix(p) {
+        clearInterval(timer);
+        const pl = PLANOS.find(x => x.slug === p.slug);
         miolo.innerHTML = `
           <h1>Paga no Pix</h1>
-          <p>Abre o app do banco, escolhe Pix e lê o QR code. Ou copia o código.</p>
-          ${pix.qr_base64 ? `<img class="qr" alt="QR code do Pix" src="data:image/png;base64,${pix.qr_base64}">` : ''}
-          <textarea class="copia-cola" readonly rows="3" aria-label="Pix copia e cola">${pix.copia_cola || ''}</textarea>
-          <button class="btn btn-grande btn-claro" type="button" data-a="copiar">Copiar código Pix</button>
-          <p class="esperando"><span class="pontinho"></span> Esperando o pagamento... assim que cair, libera sozinho.</p>`;
-        miolo.querySelector('[data-a=copiar]').addEventListener('click', async () => {
-          try { await navigator.clipboard.writeText(pix.copia_cola); CA.aviso('Código Pix copiado!'); }
-          catch (e) { miolo.querySelector('.copia-cola').select(); }
+          <p class="pix-valor">${pl ? 'caRdeno Premium · ' + pl.nome + ' · ' : ''}<b>${p.preco || ''}</b></p>
+          <button class="btn btn-grande btn-copiar-pix" type="button" data-a="copiar">Copiar código Pix</button>
+          <ol class="passos-pix">
+            <li>Toca em <b>Copiar código Pix</b></li>
+            <li>Abre o app do banco e escolhe <b>Pix copia e cola</b></li>
+            <li>Paga e volta aqui: libera sozinho</li>
+          </ol>
+          <textarea class="copia-cola" readonly rows="3" aria-label="Pix copia e cola">${p.copia_cola}</textarea>
+          <p class="esperando"><span class="pontinho"></span> Esperando o pagamento... <span class="pix-tempo"></span></p>
+          ${p.qr_base64 ? `<details class="pix-qr"><summary>Vai pagar com outro celular? Mostrar QR code</summary><img class="qr" alt="QR code do Pix" src="data:image/png;base64,${p.qr_base64}"></details>` : ''}
+          <button class="link-voltar" type="button" data-a="cancelar">Trocar de plano ou gerar outro Pix</button>`;
+        const bc = miolo.querySelector('[data-a=copiar]');
+        bc.addEventListener('click', () => {
+          const ok = CA.copiarJa(p.copia_cola);
+          if (!ok) miolo.querySelector('.copia-cola').select();
+          bc.textContent = 'Copiado! Agora abre o app do banco';
+          bc.classList.add('copiado');
+          CA.aviso('Código Pix copiado!');
+          setTimeout(() => { if (bc.isConnected) { bc.textContent = 'Copiar de novo'; bc.classList.remove('copiado'); } }, 4000);
         });
-        const t0 = Date.now();
-        timer = setInterval(async () => {
-          if (!vivo || Date.now() - t0 > 30 * 60e3) { clearInterval(timer); return; }
-          try {
-            const st = await chamar('status-pedido', { pedido: pix.pedido });
-            if (st.status === 'pago') {
-              clearInterval(timer);
-              await CA.sincronizar();
-              if (!CA.ehPremium()) guardarConta({ ...CA.conta(), premium: true, ate: null });
-              CA.som('recorde');
-              if (vivo) ativo(true);
-            }
-          } catch (e) { /* tenta de novo no próximo */ }
-        }, 4000);
+        miolo.querySelector('[data-a=cancelar]').addEventListener('click', () => { CA.gravar('pixPendente', null); if (vivo) (CA.ehPremium() ? ativo() : oferta()); });
+        const tempo = miolo.querySelector('.pix-tempo');
+        const relogio = () => {
+          const s = Math.max(0, Math.round((p.validade - Date.now()) / 1000));
+          tempo.textContent = `O código vale mais ${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+          return s;
+        };
+        relogio();
+        let n = 0;
+        timer = setInterval(() => {
+          if (!vivo) { clearInterval(timer); return; }
+          if (relogio() <= 0) { venceu(); return; }
+          if (++n % 4 === 0) conferir(); // confere a cada 4 s
+        }, 1000);
+        conferir();
       }
 
-      return () => { vivo = false; clearInterval(timer); };
+      function venceu() {
+        clearInterval(timer);
+        CA.gravar('pixPendente', null);
+        oferta();
+        const e = miolo.querySelector('.erro-form');
+        if (e) { e.textContent = 'Aquele Pix venceu (vale 30 minutos). Gera outro aqui.'; e.hidden = false; }
+      }
+
+      async function conferir() {
+        const p = CA.pixPendente();
+        if (!p || conferindo) return;
+        conferindo = true;
+        try {
+          const st = await chamar('status-pedido', { pedido: p.pedido });
+          if (st.status === 'pago') {
+            clearInterval(timer);
+            CA.gravar('pixPendente', null);
+            await CA.sincronizar();
+            if (!CA.ehPremium()) guardarConta({ ...CA.conta(), premium: true, ate: null });
+            CA.som('recorde');
+            if (vivo) ativo(true);
+          } else if (st.status === 'cancelado') { if (vivo) venceu(); else CA.gravar('pixPendente', null); }
+        } catch (e) { /* tenta de novo no próximo */ }
+        conferindo = false;
+      }
+
+      return () => { vivo = false; clearInterval(timer); document.removeEventListener('visibilitychange', aoVoltar); };
     },
   };
 

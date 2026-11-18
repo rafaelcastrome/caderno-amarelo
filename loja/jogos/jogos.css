@@ -745,3 +745,18 @@ button.link-voltar { display: block; width: 100%; background: none; border: 0; c
 .mm-premium { margin-top: 18px; }
 .mm-grupo { background: #fff; border: 2px solid var(--tinta); border-radius: 14px; padding: 0 12px; box-shadow: 2px 3px 0 var(--tinta); }
 .mm-grupo .grupo-miolo { padding-bottom: 12px; }
+
+/* ---------- Premium: plano primeiro, Pix que não some (18/11/2026) ---------- */
+.planos.um { grid-template-columns: 1fr; }
+.plano { transition: transform var(--mov-rapido, 140ms) ease, box-shadow var(--mov-rapido, 140ms) ease, outline-color var(--mov-rapido, 140ms) ease; outline: 3px solid transparent; outline-offset: 2px; }
+.plano.escolhido { outline-color: var(--vermelho); }
+.plano.escolhido::before { content: '✓'; position: absolute; top: 6px; right: 8px; width: 22px; height: 22px; border-radius: 50%; background: var(--vermelho); color: #fff; font-size: 13px; font-weight: 900; display: grid; place-items: center; }
+.caixa-plano .conta-de { color: var(--tinta-suave); font-weight: 600; }
+.pix-valor { margin: -4px 0 12px; font-weight: 700; color: var(--tinta-suave); }
+.pix-valor b { color: var(--tinta); font-size: 20px; }
+.btn-copiar-pix { width: 100%; font-size: 22px; padding: 18px 16px; margin-bottom: 12px; transition: background var(--mov-medio, 200ms) ease, transform var(--mov-toque, 90ms) ease; }
+.btn-copiar-pix.copiado { background: #c8f0d0; }
+.passos-pix { margin: 0 0 12px 20px; display: grid; gap: 4px; font-weight: 600; }
+.pix-qr { margin: 12px 0; border: 2px dashed var(--tinta); border-radius: 12px; padding: 10px 12px; background: var(--papel-claro); }
+.pix-qr summary { cursor: pointer; font-weight: 700; font-size: 15px; }
+.pix-qr[open] .qr { animation: mov-surge var(--mov-medio, 200ms) ease backwards; }
