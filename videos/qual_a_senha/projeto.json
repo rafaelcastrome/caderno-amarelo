@@ -1,0 +1,41 @@
+{
+ "titulo": "Qual é a senha?",
+ "marca": {
+  "handle": "caRdeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [
+  {
+   "fato": "Cadeados de lógica com pistas (formato clássico); senhas criadas e conferidas por força bruta",
+   "fonte": "próprio",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Tu consegue descobrir a senha? Fala ela em voz alta antes do tempo acabar!"
+  },
+  {
+   "fala": "Nível um... três pistas. Valendo!"
+  },
+  {
+   "fala": "Três, cinco, nove! Acertou?"
+  },
+  {
+   "fala": "Nível dois... agora são quatro pistas!"
+  },
+  {
+   "fala": "Um, cinco, oito!"
+  },
+  {
+   "fala": "Nível três... esse quase ninguém acerta. Valendo!"
+  },
+  {
+   "fala": "Tempo! Esse eu não vou falar... Comenta a senha aí, e manda pro amigo que se acha esperto! Amanhã eu mostro a resposta... segue pra não perder!"
+  }
+ ]
+}

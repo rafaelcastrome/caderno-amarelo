@@ -1,0 +1,35 @@
+{
+ "titulo": "Fecha o olho e abre aos 10 segundos",
+ "marca": {
+  "handle": "caRdeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [
+  {
+   "fato": "Desafio de estimar o tempo de olhos fechados (tendência 'acerte o tempo')",
+   "fonte": "próprio",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Fecha o olho... e só abre quando achar que passaram dez segundos! Bora?"
+  },
+  {
+   "fala": "Três... dois... um... Fecha!"
+  },
+  {
+   "fala": "Abriu? Quanto deu? Pausa e olha teu tempo!"
+  },
+  {
+   "fala": "Dez cravado é gênio... Passou de treze? Tu dormiu!"
+  },
+  {
+   "fala": "Comenta teu tempo... manda pro amigo pra ver quem chega mais perto... e segue, que amanhã é de trinta segundos!"
+  }
+ ]
+}

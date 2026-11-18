@@ -1,0 +1,68 @@
+{
+ "titulo": "Eu sei o país que tu vai pensar (Alemanha no olho)",
+ "marca": {
+  "handle": "caRdeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "pausaPadrao": 0.4,
+ "fontes": [
+  {
+   "fato": "Pós-imagem negativa: cores invertidas viram as originais na folha branca",
+   "fonte": "domínio público (pós-imagem complementar)",
+   "url": ""
+  },
+  {
+   "fato": "Oktoberfest de Blumenau, maior festa alemã das Américas",
+   "fonte": "Prefeitura de Blumenau / divulgação da festa",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Eu vou adivinhar o país que tu vai pensar... e ele vai aparecer pintado dentro do teu olho!"
+  },
+  {
+   "fala": "Pensa num número de um a dez. Pensou?"
+  },
+  {
+   "fala": "Multiplica por dois."
+  },
+  {
+   "fala": "Soma dois."
+  },
+  {
+   "fala": "Divide por dois."
+  },
+  {
+   "fala": "Agora tira o número que tu pensou."
+  },
+  {
+   "fala": "Procura esse número na tabela... e vê qual letra deu."
+  },
+  {
+   "fala": "Pensa num país da Europa com essa letra. Rápido!"
+  },
+  {
+   "fala": "Não vou falar qual é... vou pintar ele no teu olho."
+  },
+  {
+   "fala": "Olha só pro pontinho preto. Não pisca... não mexe o olho... segura!"
+  },
+  {
+   "fala": "Agora! Tá vendo preto... vermelho... e amarelo?"
+  },
+  {
+   "fala": "É a Alemanha! Acertei? Isso... aquela do sete a um."
+  },
+  {
+   "fala": "E olha que doido: a maior Oktoberfest das Américas é aqui no Brasil, em Blumenau!"
+  },
+  {
+   "fala": "Manda pra um amigo, pra ver se aparece no olho dele também... e me segue, que o próximo país vai ser bem mais difícil!"
+  }
+ ]
+}
