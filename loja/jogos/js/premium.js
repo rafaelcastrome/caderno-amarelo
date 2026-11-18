@@ -150,7 +150,7 @@
   };
 
   // Formulário de entrar (usado no Premium e na tela de conta). onPronto(conta) quando entra.
-  function formEntrar(alvo, { titulo, texto, onPronto }) {
+  function formEntrar(alvo, { titulo, texto, onPronto, origem }) {
     alvo.innerHTML = `
       <div class="caixa-conta">
         <strong>${titulo}</strong>
@@ -180,6 +180,7 @@
       email = fE.querySelector('input').value.trim().toLowerCase();
       try {
         await chamar('jogo-codigo', { email });
+        if (CA.funil) CA.funil('pediu_codigo', { origem: origem || 'conta' });
         fE.hidden = true; fC.hidden = false;
         fC.querySelector('input').focus();
         CA.aviso('Código enviado pra ' + email);
@@ -192,6 +193,7 @@
       try {
         const d = await chamar('jogo-entrar', { email, codigo: fC.querySelector('input').value.trim(), progresso: { ...CA.ler('fases', {}), ...CA.ler('niveis', {}) } });
         guardarConta(d);
+        if (CA.funil) CA.funil('entrou_na_conta', { origem: origem || 'conta' });
         enviarPendentes();
         if (d.perfil && d.perfil.apelido) onPronto(CA.conta());
         else formPerfil(alvo, { titulo: 'Como tu quer aparecer no ranking?', onPronto: () => onPronto(CA.conta()) });
@@ -297,6 +299,7 @@
         </section>`);
       palco.appendChild(tela);
       const miolo = tela.querySelector('.miolo');
+      if (!CA.ehPremium() && CA.funil) CA.funil('abriu_premium');
       CA.ehPremium() ? ativo() : oferta();
       if (CA.conta()) CA.sincronizar().then(() => { if (vivo && CA.ehPremium() && !miolo.querySelector('.ativo-ok')) ativo(true); });
 
@@ -329,6 +332,7 @@
           formEntrar(passo, {
             titulo: '1. Cria tua conta',
             texto: 'Só o e-mail, sem senha. A gente manda um código pra confirmar.',
+            origem: 'premium',
             onPronto: () => vivo && (CA.ehPremium() ? ativo() : oferta()),
           });
         } else pagar(passo, c);
@@ -354,7 +358,7 @@
           passo.querySelectorAll('.plano').forEach(x => { x.disabled = true; });
           b.classList.add('gerando');
           try {
-            const pix = await chamar('criar-pix', { produto: b.dataset.slug, email: c.email });
+            const pix = await chamar('criar-pix', { produto: b.dataset.slug, email: c.email, ...(window.Funil ? { sessao: Funil.sessao(), ig: Funil.ig, origem: 'premium' } : {}) });
             if (vivo) telaPix(pix);
           } catch (x) {
             err.textContent = x.message; err.hidden = false;
@@ -419,6 +423,7 @@
         const c = CA.conta();
         if (!c) {
           formEntrar(miolo, {
+            origem: novo ? 'cadastro' : volta ? 'ranking' : 'conta',
             titulo: novo ? 'Cria tua conta pra jogar' : volta ? 'Cria tua conta grátis' : 'Entra com teu e-mail',
             texto: novo ? 'É grátis e sem senha, só teu e-mail. Assim teus níveis e estrelas ficam salvos e tu aparece no ranking. Já tem conta? Usa o mesmo e-mail.'
               : volta ? 'Aí tu entra no ranking (com teu @, se quiser) e tua colocação aparece na arte dos stories. Teus tempos de hoje já contam. Sem senha.'

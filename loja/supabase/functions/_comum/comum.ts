@@ -42,7 +42,9 @@ export async function sincronizarOrder(orderId: string) {
     if (Number(ord.total_amount) < Number(pedido.valor)) return pedido; // valor menor que o cobrado: ignora
     const { data } = await db.from('pedidos')
       .update({ status: 'pago', pago_em: new Date().toISOString() })
-      .eq('id', pedidoId).select('*').single();
+      .eq('id', pedidoId).neq('status', 'pago').select('*').maybeSingle();
+    if (!data) return { ...pedido, status: 'pago' }; // o webhook e a consulta chegaram juntos: o outro já gravou
+    await eventoFunil('pagou', data.sessao ?? null, !!data.navegador_ig, data.produto, data.valor);
     await enviarEmail(data);
     return data;
   }
@@ -52,6 +54,18 @@ export async function sincronizarOrder(orderId: string) {
     await db.from('pedidos').update({ status: 'cancelado' }).eq('id', pedidoId).eq('status', 'pendente');
   }
   return pedido;
+}
+
+// ---------- funil de venda (tabela anônima eventos_funil: sem e-mail) ----------
+export const sessaoOk = (s: unknown) => (typeof s === 'string' && /^[0-9a-f-]{36}$/i.test(s) ? s : null);
+const ehPlano = (slug: string) => slug.startsWith('passe-');
+export async function eventoFunil(evento: 'gerou_pix' | 'pagou', sessao: string | null, ig: boolean, produto: string, valor: unknown, origem?: unknown) {
+  try {
+    const detalhe: Record<string, unknown> = { [ehPlano(produto) ? 'plano' : 'produto']: produto, valor: Number(valor) };
+    if (typeof origem === 'string' && /^[a-z]{2,12}$/.test(origem)) detalhe.origem = origem;
+    const { error } = await db.from('eventos_funil').insert({ evento, sessao, navegador_ig: ig, detalhe });
+    if (error) console.error('funil', error.message);
+  } catch (e) { console.error('funil', e); } // medir nunca pode atrapalhar a venda
 }
 
 export async function linkDownload(produtoSlug: string) {

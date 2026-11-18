@@ -33,7 +33,16 @@
     todos[k] = melhor ? { ...v, e: Math.max(v.e, (a && a.e) || 0), n: tent, r: tent } : { ...a, n: tent };
     CA.gravar('niveis', todos);
     if (CA.sincronizar) CA.sincronizar();
+    CA.funilNivel(id, n);
     return tent;
+  };
+
+  // Funil: terminou o nível 1 (jogou de verdade) / terminou o último grátis sem Premium (chegou no limite)
+  CA.funil = (ev, d) => { if (window.Funil) Funil.ev(ev, d); };
+  CA.funilNivel = function (id, n) {
+    if (n === 1) CA.funil('jogou_primeiro_nivel', { jogo: id });
+    const j = CA.jogo(id);
+    if (n === GRATIS && !(j ? j.acesso() : CA.ehPremium())) CA.funil('chegou_no_limite', { jogo: id, nivel: n, origem: 'terminou' });
   };
 
   const estrelasTxt = e => '★'.repeat(e) + '☆'.repeat(3 - e);
@@ -173,6 +182,7 @@
 
   // Tela de nível trancado (Premium) de qualquer jogo
   CA.telaNivelTrancado = function (palco, j, n) {
+    CA.funil('chegou_no_limite', { jogo: j.id, nivel: n, origem: 'travado' });
     palco.innerHTML = '';
     palco.appendChild(CA.el(`
       <section class="intro trancada">

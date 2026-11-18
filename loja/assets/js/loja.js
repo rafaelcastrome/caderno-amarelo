@@ -100,6 +100,7 @@
   }
 
   async function iniciarHome() {
+    if (window.Funil) { Funil.abriuSite('loja'); Funil.ev('abriu_loja'); }
     const produtos = await carregarProdutos();
     const ativos = produtos.filter(p => p.ativo);
     const cats = [...new Set(ativos.map(p => p.categoria || 'Outros'))];
@@ -136,6 +137,7 @@
     const produtos = await carregarProdutos();
     const p = produtos.find(x => x.slug === slug && x.ativo);
     if (!p) { location.href = 'loja.html'; return; }
+    if (window.Funil) { Funil.abriuSite('produto'); Funil.ev('abriu_produto', { produto: p.slug }); }
     document.title = `${p.nome} · caRdeno Amarelo`;
     $('#capa').src = p.capa; $('#capa').alt = `Capa: ${p.nome}`;
     $('#nome').textContent = p.nome;
@@ -198,6 +200,9 @@
     clearInterval(timer);
   }
 
+  // sessão anônima do funil vai junto pro servidor gravar gerou_pix/pagou na mesma sessão
+  const funilPix = origem => window.Funil ? { sessao: Funil.sessao(), ig: Funil.ig, origem } : {};
+
   function abrirCheckout(p) {
     modal(`<h3>${esc(p.nome)}</h3>
       <div>${precoHTML(p)}</div>
@@ -215,7 +220,7 @@
       try {
         const pedido = DEMO
           ? { pedido: 'demo-' + Date.now(), qr_base64: null, copia_cola: '00020126...DEMONSTRACAO', valor: p.preco }
-          : await chamar('criar-pix', { produto: p.slug, email });
+          : await chamar('criar-pix', { produto: p.slug, email, ...funilPix('loja') });
         try { localStorage.setItem('pedido:' + p.slug, pedido.pedido); } catch (_) {}
         mostrarPix(p, pedido);
       } catch (err) {

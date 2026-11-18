@@ -103,6 +103,7 @@
     todos[k] = { t: bateu ? t : a.t, e: Math.max(est, (a && a.e) || 0), n, r: bateu ? n : (a.r || null) };
     CA.gravar('niveis', todos);
     if (CA.sincronizar) CA.sincronizar(); // salva na conta, se tiver entrado
+    if (CA.funilNivel) CA.funilNivel('acha', num);
     return n;
   }
   // "de primeira", "na 3ª tentativa"
@@ -338,6 +339,7 @@
   }
 
   function telaTrancada(palco, f, tAmigo) {
+    if (CA.funil) CA.funil('chegou_no_limite', { jogo: 'acha', nivel: f.num, origem: 'travado' });
     palco.innerHTML = '';
     palco.appendChild(CA.el(`
       <section class="intro trancada">

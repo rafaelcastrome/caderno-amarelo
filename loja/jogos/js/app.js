@@ -164,6 +164,7 @@
   window.addEventListener('hashchange', render);
   window.addEventListener('DOMContentLoaded', () => {
     CA_MOV.vigiarPalco(CA.palco());
+    if (window.Funil) Funil.abriuSite('jogos');
     render();
     CA.fonteCard();
     // confere Premium e progresso na conta (se tiver entrado) e redesenha o início
