@@ -1,0 +1,65 @@
+{
+ "titulo": "Desenho escondido no 1 ao 25",
+ "marca": {
+  "handle": "caRdeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [
+  {
+   "fato": "Tabela de Schulte (busca de números em ordem) com casas que formam um desenho",
+   "fonte": "criação própria",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Acha do um ao vinte e cinco, na ordem... e no final eu te mostro o que o teu olho desenhou sem tu perceber!"
+  },
+  {
+   "fala": "Tem número até quarenta e nove pra te confundir. Preparado? Três... dois... um... Valendo!"
+  },
+  {
+   "fala": "Vai, vai, vai!"
+  },
+  {
+   "fala": "Metade do tempo!"
+  },
+  {
+   "fala": "Dez segundos!"
+  },
+  {
+   "fala": "Cinco..."
+  },
+  {
+   "fala": "Quatro..."
+  },
+  {
+   "fala": "Três..."
+  },
+  {
+   "fala": "Dois..."
+  },
+  {
+   "fala": "Um..."
+  },
+  {
+   "fala": "TEMPO! Para tudo!"
+  },
+  {
+   "fala": "Agora olha as casas que tu achou... do um... até o vinte e cinco..."
+  },
+  {
+   "fala": "Um coração! E tem outro dentro dele!"
+  },
+  {
+   "fala": "Até qual número tu chegou? Comenta aí... e manda esse coração pra pessoa que tu pensou agora!"
+  },
+  {
+   "fala": "Amanhã tem outro desenho escondido... segue pra tentar adivinhar antes do tempo acabar!"
+  }
+ ]
+}

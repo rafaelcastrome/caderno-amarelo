@@ -1,0 +1,72 @@
+{
+ "titulo": "O envelope",
+ "marca": {
+  "handle": "caRdeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [
+  {
+   "fato": "Caixa preta do avião é laranja (pintada pra ser achada nos destroços)",
+   "fonte": "conhecimento geral de aviação",
+   "url": ""
+  },
+  {
+   "fato": "Pele do urso polar é preta debaixo do pelo",
+   "fonte": "conhecimento geral de biologia",
+   "url": ""
+  },
+  {
+   "fato": "No livro de Mary Shelley, Frankenstein é o cientista Victor; a criatura não tem nome",
+   "fonte": "domínio público",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Responde em voz alta e rápido... tudo o que tu vai falar, eu já escrevi aqui dentro!"
+  },
+  {
+   "fala": "Que dia vem depois de ontem?"
+  },
+  {
+   "fala": "De que cor é a caixa preta do avião?"
+  },
+  {
+   "fala": "Tu entra num quarto escuro com um fósforo só. Tem uma vela, um lampião e um fogão a lenha. O que tu acende primeiro?"
+  },
+  {
+   "fala": "Debaixo do pelo branco... de que cor é a pele do urso polar?"
+  },
+  {
+   "fala": "Última: como é o nome do monstro verde do Frankenstein?"
+  },
+  {
+   "fala": "Pronto. Agora vamos abrir o envelope..."
+  },
+  {
+   "fala": "Amanhã... preta... a vela... branca... e Frankenstein! Acertei?"
+  },
+  {
+   "fala": "Depois de ontem vem hoje!"
+  },
+  {
+   "fala": "A caixa preta é laranja, pra achar fácil nos destroços!"
+  },
+  {
+   "fala": "Tu acende primeiro o fósforo!"
+  },
+  {
+   "fala": "A pele do urso polar é preta!"
+  },
+  {
+   "fala": "E Frankenstein é o doutor! O monstro não tem nome!"
+  },
+  {
+   "fala": "Quantas o envelope acertou? Manda pro teu amigo e vê se pega ele também... amanhã tem envelope novo!"
+  }
+ ]
+}
