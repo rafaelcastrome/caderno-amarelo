@@ -81,13 +81,45 @@
   th:first-child, td:first-child { text-align: left; position: sticky; left: 0; background: var(--papel-claro); }
   th { font-size: 11.5px; text-transform: uppercase; letter-spacing: .03em; color: var(--tinta-suave); font-weight: 800; }
   td.zero { color: rgba(31,31,36,.3); }
-  .duas { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-  @media (max-width: 620px) { .duas { grid-template-columns: 1fr; } }
   .rodape-pn { text-align: center; font-size: 12.5px; color: var(--tinta-suave); }
   .rodape-pn button { background: none; border: 0; font: 700 12.5px var(--texto); text-decoration: underline; color: var(--tinta-suave); cursor: pointer; }
   #painel { display: flex; flex-direction: column; gap: 18px; }
   #painel[hidden] { display: none; }
   .carregando { opacity: .55; transition: opacity var(--mov-rapido); }
+
+  /* Regra do Rafael (18/11/2026): tudo agrupado (sanfona), compacto, alinhado, botões do mesmo tamanho */
+  .pn { gap: 12px; padding-top: 14px; }
+  #painel { gap: 12px !important; }
+  .pn h1 { font-size: 34px; }
+  .caixa { padding: 12px 14px; box-shadow: 3px 3px 0 var(--tinta); }
+  .caixa.compacta { padding: 10px; }
+  .periodo { display: grid !important; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .periodo button { padding: 8px 0; font-size: 13.5px; width: 100%; text-align: center; }
+  .datas { display: grid; grid-template-columns: 1fr 1fr 64px; gap: 6px; margin-top: 8px; }
+  .datas[hidden] { display: none; }
+  .datas input { flex: none; width: 100%; padding: 8px 6px; font-size: 14px; }
+  .datas button { width: 100%; padding: 8px 0; }
+  .atualizar { width: 116px; text-align: center; padding: 8px 0; }
+  .kpis { gap: 8px; }
+  .kpi { padding: 9px 11px; box-shadow: 2px 2px 0 var(--tinta); }
+  .kpi b { font-size: 22px; }
+  .kpi span { font-size: 12px; }
+  .grupos { display: flex; flex-direction: column; gap: 10px; }
+  .grupo .grupo-titulo { padding: 2px 0; min-height: 36px; }
+  .g-nome { font-family: var(--mao); font-size: 26px; line-height: 1; font-weight: 700; flex: 1; }
+  .g-resumo { font: 800 13px var(--texto); color: var(--tinta-suave); white-space: nowrap; }
+  .grupo-miolo > .pn-sub:first-child { margin-top: 4px; }
+  .funil { gap: 8px; margin-top: 8px; }
+  .etapa-l .nome { font-size: 14px; }
+  .etapa-l .num { font-size: 16px; }
+  .etapa-l .info { font-size: 12px; }
+  .barra { height: 10px; margin-top: 2px; }
+  .vendas { gap: 8px; margin-top: 6px; }
+  .venda { padding: 10px; }
+  .lista { gap: 4px; margin-top: 6px; }
+  .lista li { padding-bottom: 4px; }
+  .sub-t { font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .03em; color: var(--tinta-suave); margin-top: 10px; }
+  .sub-t:first-child { margin-top: 4px; }
 </style>
 </head>
 <body>
@@ -118,62 +150,66 @@
       <button class="atualizar mov-toque" id="atualizar" type="button">↻ Atualizar</button>
     </div>
 
-    <section class="caixa">
+    <section class="caixa compacta">
       <div class="periodo" id="periodo">
         <button type="button" class="mov-toque" data-p="hoje" aria-pressed="true">Hoje</button>
         <button type="button" class="mov-toque" data-p="ontem" aria-pressed="false">Ontem</button>
         <button type="button" class="mov-toque" data-p="7" aria-pressed="false">7 dias</button>
         <button type="button" class="mov-toque" data-p="30" aria-pressed="false">30 dias</button>
-        <button type="button" class="mov-toque" data-p="livre" aria-pressed="false">Escolher datas</button>
+        <button type="button" class="mov-toque" data-p="livre" aria-pressed="false">Datas</button>
       </div>
       <div class="datas mov-aparece" id="datas" hidden>
-        <input type="date" id="de" aria-label="De"> <input type="date" id="ate" aria-label="Até">
+        <input type="date" id="de" aria-label="De"><input type="date" id="ate" aria-label="Até">
         <button type="button" class="mov-toque" id="aplicar">Ver</button>
       </div>
     </section>
 
-    <div id="conteudo">
-      <div class="kpis" id="kpis"></div>
-    </div>
+    <div class="kpis" id="kpis"></div>
 
-    <section class="caixa">
-      <h2>Funil do jogo</h2>
-      <p class="pn-sub">Pessoas diferentes em cada etapa. A % é quantos seguiram da etapa anterior.</p>
-      <div class="funil" id="funil-jogo"></div>
-      <div class="legenda"><span><i style="background:var(--tinta)"></i>no Instagram</span><span><i style="background:var(--amarelo)"></i>fora do Instagram</span></div>
-    </section>
-
-    <section class="caixa">
-      <h2>Funil da loja</h2>
-      <p class="pn-sub">Quem abriu a loja até quem pagou um PDF.</p>
-      <div class="funil" id="funil-loja"></div>
-    </section>
-
-    <section class="caixa">
-      <h2>Vendas</h2>
-      <p class="pn-sub">Pix gerados no período e quantos foram pagos.</p>
-      <div class="vendas" id="vendas"></div>
-      <ul class="lista" id="produtos"></ul>
-    </section>
-
-    <div class="duas">
-      <section class="caixa">
-        <h2>Onde batem no limite</h2>
-        <p class="pn-sub">Jogo em que a pessoa chegou no fim do grátis.</p>
-        <ul class="lista" id="limite"></ul>
+    <div class="grupos">
+      <section class="caixa grupo">
+        <button class="grupo-titulo" aria-expanded="true" aria-controls="g-jogo"><span class="g-nome">Funil do jogo</span><span class="g-resumo" id="r-jogo"></span></button>
+        <div class="grupo-corpo" id="g-jogo"><div class="grupo-miolo">
+          <p class="pn-sub">Pessoas diferentes em cada etapa. A % é quantos seguiram da etapa anterior.</p>
+          <div class="funil" id="funil-jogo"></div>
+          <div class="legenda"><span><i style="background:var(--tinta)"></i>no Instagram</span><span><i style="background:var(--amarelo)"></i>fora do Instagram</span></div>
+        </div></div>
       </section>
-      <section class="caixa">
-        <h2>Mais vistos na loja</h2>
-        <p class="pn-sub">Produtos que mais abriram.</p>
-        <ul class="lista" id="abertos"></ul>
+
+      <section class="caixa grupo">
+        <button class="grupo-titulo" aria-expanded="false" aria-controls="g-loja"><span class="g-nome">Funil da loja</span><span class="g-resumo" id="r-loja"></span></button>
+        <div class="grupo-corpo" id="g-loja"><div class="grupo-miolo">
+          <p class="pn-sub">Quem abriu a loja até quem pagou um PDF.</p>
+          <div class="funil" id="funil-loja"></div>
+        </div></div>
+      </section>
+
+      <section class="caixa grupo">
+        <button class="grupo-titulo" aria-expanded="false" aria-controls="g-vendas"><span class="g-nome">Vendas</span><span class="g-resumo" id="r-vendas"></span></button>
+        <div class="grupo-corpo" id="g-vendas"><div class="grupo-miolo">
+          <div class="vendas" id="vendas"></div>
+          <ul class="lista" id="produtos"></ul>
+        </div></div>
+      </section>
+
+      <section class="caixa grupo">
+        <button class="grupo-titulo" aria-expanded="false" aria-controls="g-onde"><span class="g-nome">Onde param</span><span class="g-resumo" id="r-onde"></span></button>
+        <div class="grupo-corpo" id="g-onde"><div class="grupo-miolo">
+          <h3 class="sub-t">Batem no limite grátis em</h3>
+          <ul class="lista" id="limite"></ul>
+          <h3 class="sub-t">Mais vistos na loja</h3>
+          <ul class="lista" id="abertos"></ul>
+        </div></div>
+      </section>
+
+      <section class="caixa grupo">
+        <button class="grupo-titulo" aria-expanded="false" aria-controls="g-dias"><span class="g-nome">Dia a dia</span><span class="g-resumo" id="r-dias"></span></button>
+        <div class="grupo-corpo" id="g-dias"><div class="grupo-miolo">
+          <p class="pn-sub">Pessoas por etapa em cada dia. Arrasta pro lado no celular.</p>
+          <div class="tabela-wrap"><table id="tabela"></table></div>
+        </div></div>
       </section>
     </div>
-
-    <section class="caixa">
-      <h2>Dia a dia</h2>
-      <p class="pn-sub">Pessoas por etapa em cada dia. Arrasta pro lado no celular.</p>
-      <div class="tabela-wrap"><table id="tabela"></table></div>
-    </section>
 
     <p class="rodape-pn">Só números, nada pessoal. <button type="button" id="sair">Sair deste aparelho</button></p>
   </div>
@@ -283,6 +319,13 @@
       const p = Object.fromEntries(x.etapas.map((e) => [e.evento, e.pessoas]));
       return `<tr><td>${diaCurto(x.dia)}</td>` + COLUNAS.map(([k]) => `<td class="${p[k] ? '' : 'zero'}">${fmt(p[k])}</td>`).join('') + '</tr>';
     }).join('');
+    const pj = n('pagou_premium'), pl = n('pagou_loja');
+    $('r-jogo').textContent = `${fmt(n('abriu_site'))} → ${fmt(pj)} ${pj === 1 ? 'pagou' : 'pagaram'}`;
+    $('r-loja').textContent = `${fmt(n('abriu_loja'))} → ${fmt(pl)} ${pl === 1 ? 'pagou' : 'pagaram'}`;
+    $('r-vendas').textContent = `${fmt(pagos)} · ${reais(total)}`;
+    const topo = d.limite_por_jogo[0];
+    $('r-onde').textContent = topo ? `mais em ${JOGOS[topo.item] || topo.item}` : '';
+    $('r-dias').textContent = `${d.diario.length} ${d.diario.length === 1 ? 'dia' : 'dias'}`;
     $('tabela').innerHTML = cab + (linhas || `<tr><td colspan="${COLUNAS.length + 1}" class="vazio">Sem dados nesse período.</td></tr>`);
   }
 
