@@ -3,6 +3,13 @@
 (function () {
   'use strict';
   const CA = window.CA;
+
+  // Link curto dos Jogos em grupo: /s/ABCD (Netlify manda pra /jogos/?sala=ABCD) entra direto na sala.
+  try {
+    const sala = new URLSearchParams(location.search).get('sala');
+    if (sala && /^[a-z]{4}$/i.test(sala)) history.replaceState(null, '', location.pathname + '#/sala?c=' + sala.toUpperCase());
+    else if (new URLSearchParams(location.search).has('tv')) history.replaceState(null, '', location.pathname + '#/tv');
+  } catch (e) {}
   
   function lerRota() {
     const h = location.hash.replace(/^#\/?/, '');
@@ -64,6 +71,7 @@
           </div>
         </header>
         <h1 class="titulo-app">Jogos do <span class="marca">ca<span class="r-marca">R</span>deno</span></h1>
+        ${CA.ehTV && CA.ehTV() ? '<a class="btn btn-grande tv-atalho" href="#/tv">📺 Abrir a sala dos Jogos em grupo</a>' : ''}
 
         <nav class="abas mov-pilula" aria-label="Tipo de jogo" style="--i:${aba === 'grupo' ? 1 : 0};--de:${abaAntes == null ? (aba === 'grupo' ? 1 : 0) : abaAntes}">
           <a class="aba ${aba === 'grupo' ? '' : 'ativa'}" href="#/" ${aba === 'grupo' ? '' : 'aria-current="page"'}>🧠 Jogos</a>
@@ -106,6 +114,8 @@
       </div>`}`));
 
     abaAntes = aba === 'grupo' ? 1 : 0;
+    const atalho = palco.querySelector('.tv-atalho');
+    if (atalho) try { atalho.focus(); } catch (e) {} // no controle da TV é só apertar OK
     palco.querySelector('button.som').addEventListener('click', e => {
       CA.gravar('som', !CA.somLigado());
       e.currentTarget.textContent = CA.somLigado() ? '🔊' : '🔇';
