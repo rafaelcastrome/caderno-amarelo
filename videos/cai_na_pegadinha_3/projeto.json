@@ -1,0 +1,59 @@
+{
+ "titulo": "Tu vai cair na pegadinha 3",
+ "marca": {
+  "handle": "caRdeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [
+  {
+   "fato": "Pegadinhas clássicas de voz alta: torrada/pão, casa térrea sem escada, letra V no meio do ovo, trem elétrico sem fumaça, sábado antes da sexta no dicionário",
+   "fonte": "domínio público",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Responde em voz alta... aposto que tu cai em pelo menos três!"
+  },
+  {
+   "fala": "Fala torrada cinco vezes, rápido!"
+  },
+  {
+   "fala": "O que tu põe na torradeira?"
+  },
+  {
+   "fala": "Torrada? Tu põe pão!"
+  },
+  {
+   "fala": "Uma casa térrea é toda azul. Parede azul, porta azul, sofá azul... De que cor é a escada?"
+  },
+  {
+   "fala": "Azul? Casa térrea não tem escada!"
+  },
+  {
+   "fala": "O que tem bem no meio do ovo?"
+  },
+  {
+   "fala": "Gema? É a letra V!"
+  },
+  {
+   "fala": "Um trem elétrico vai pro norte... e o vento sopra pro sul. Pra que lado vai a fumaça?"
+  },
+  {
+   "fala": "Pro sul? Trem elétrico não solta fumaça!"
+  },
+  {
+   "fala": "Última: em que lugar o sábado vem antes da sexta?"
+  },
+  {
+   "fala": "No calendário? No dicionário!"
+  },
+  {
+   "fala": "Comenta quantas tu acertou... e segue aí, que amanhã sai a parte quatro!"
+  }
+ ]
+}
