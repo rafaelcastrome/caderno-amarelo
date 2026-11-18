@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel do funil · caRdeno Amarelo</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#ffd23f">
+<link rel="icon" type="image/png" sizes="48x48" href="assets/img/favicon-48.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/movimento.css">
+<link rel="stylesheet" href="assets/css/loja.css">
+<style>
+  /* Painel gerencial (Rafael, 18/11/2026). Página fora do menu, só com senha. */
+  .pn { max-width: 760px; margin: 0 auto; padding: 18px 16px 60px; display: flex; flex-direction: column; gap: 18px; }
+  .pn h1 { font-family: var(--mao); font-size: 40px; line-height: 1; }
+  .pn h2 { font-family: var(--mao); font-size: 30px; line-height: 1; margin-bottom: 4px; }
+  .pn-sub { color: var(--tinta-suave); font-size: 14px; }
+  .caixa { background: var(--papel-claro); border: 2px solid var(--tinta); border-radius: var(--raio); box-shadow: 4px 4px 0 var(--tinta); padding: 16px; }
+  .topo-pn { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+  .atualizar { font: 800 14px var(--texto); background: var(--papel-claro); border: 2px solid var(--tinta); border-radius: 10px; padding: 8px 12px; cursor: pointer; white-space: nowrap; }
+  .atualizar[disabled] { opacity: .6; }
+
+  /* entrar */
+  .entrar form { display: flex; flex-direction: column; gap: 10px; }
+  .entrar input { font: 700 18px var(--texto); padding: 12px 14px; border: 2px solid var(--tinta); border-radius: 12px; background: #fff; width: 100%; }
+  .entrar .erro { color: var(--vermelho); font-weight: 700; font-size: 14px; }
+
+  /* período */
+  .periodo { display: flex; gap: 8px; flex-wrap: wrap; }
+  .periodo::-webkit-scrollbar { display: none; }
+  .periodo button { flex: 0 0 auto; font: 800 14px var(--texto); padding: 8px 14px; border: 2px solid var(--tinta); border-radius: 999px; background: var(--papel-claro); cursor: pointer; }
+  .periodo button[aria-pressed="true"] { background: var(--amarelo); box-shadow: 2px 2px 0 var(--tinta); }
+  .datas { display: flex; gap: 8px; align-items: center; margin-top: 10px; flex-wrap: wrap; }
+  .datas input { font: 700 15px var(--texto); padding: 8px 10px; border: 2px solid var(--tinta); border-radius: 10px; background: #fff; flex: 1 1 130px; min-width: 0; }
+  .datas button { font: 800 14px var(--texto); padding: 9px 14px; border: 2px solid var(--tinta); border-radius: 10px; background: var(--amarelo); cursor: pointer; }
+
+  /* números grandes */
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .kpi { background: var(--papel-claro); border: 2px solid var(--tinta); border-radius: 14px; padding: 12px; box-shadow: 3px 3px 0 var(--tinta); }
+  .kpi b { display: block; font-size: 28px; font-weight: 900; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .kpi span { font-size: 13px; color: var(--tinta-suave); font-weight: 700; }
+  .kpi.destaque { background: var(--amarelo); }
+  @media (max-width: 620px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+
+  /* funil */
+  .funil { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+  .etapa-l { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; align-items: baseline; }
+  .etapa-l .nome { font-weight: 800; font-size: 15px; }
+  .etapa-l .num { font-weight: 900; font-size: 18px; font-variant-numeric: tabular-nums; text-align: right; }
+  .etapa-l .info { grid-column: 1 / -1; font-size: 12.5px; color: var(--tinta-suave); font-weight: 600; }
+  .etapa-l .info .queda { color: var(--vermelho); font-weight: 800; }
+  .barra { grid-column: 1 / -1; height: 14px; background: rgba(31,31,36,.07); border-radius: 7px; overflow: hidden; display: flex; margin-top: 4px; }
+  .barra i { display: block; height: 100%; transform-origin: left; animation: crescer var(--mov-lento) var(--mov-curva) backwards; }
+  .barra .ig { background: var(--tinta); }
+  .barra .fora { background: var(--amarelo); border-left: 0; }
+  @keyframes crescer { from { transform: scaleX(0); } }
+  .legenda { display: flex; gap: 14px; font-size: 12.5px; font-weight: 700; color: var(--tinta-suave); margin-top: 6px; flex-wrap: wrap; }
+  .legenda i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; margin-right: 5px; border: 1.5px solid var(--tinta); }
+
+  /* vendas */
+  .vendas { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+  .venda { border: 2px solid var(--tinta); border-radius: 14px; padding: 12px; background: #fff; }
+  .venda h3 { font-size: 15px; font-weight: 900; margin-bottom: 6px; }
+  .venda dl { display: grid; grid-template-columns: 1fr auto; gap: 3px 8px; font-size: 14px; }
+  .venda dt { color: var(--tinta-suave); font-weight: 700; }
+  .venda dd { font-weight: 900; text-align: right; font-variant-numeric: tabular-nums; }
+  @media (max-width: 420px) { .vendas { grid-template-columns: 1fr; } }
+
+  .lista { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-top: 10px; font-size: 14px; }
+  .lista li { display: flex; justify-content: space-between; gap: 10px; border-bottom: 1.5px dashed rgba(31,31,36,.18); padding-bottom: 6px; }
+  .lista li span:first-child { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lista li span:last-child { font-weight: 900; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .vazio { color: var(--tinta-suave); font-size: 14px; font-weight: 600; margin-top: 8px; }
+
+  /* dia a dia */
+  .tabela-wrap { overflow-x: auto; margin-top: 10px; -webkit-overflow-scrolling: touch; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+  th, td { padding: 7px 6px; text-align: right; border-bottom: 1.5px solid rgba(31,31,36,.12); white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; position: sticky; left: 0; background: var(--papel-claro); }
+  th { font-size: 11.5px; text-transform: uppercase; letter-spacing: .03em; color: var(--tinta-suave); font-weight: 800; }
+  td.zero { color: rgba(31,31,36,.3); }
+  .duas { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 620px) { .duas { grid-template-columns: 1fr; } }
+  .rodape-pn { text-align: center; font-size: 12.5px; color: var(--tinta-suave); }
+  .rodape-pn button { background: none; border: 0; font: 700 12.5px var(--texto); text-decoration: underline; color: var(--tinta-suave); cursor: pointer; }
+  #painel { display: flex; flex-direction: column; gap: 18px; }
+  #painel[hidden] { display: none; }
+  .carregando { opacity: .55; transition: opacity var(--mov-rapido); }
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="wrap">
+    <a class="logo" href="loja.html"><img class="logo-img" src="assets/img/logo-cabecalho.png" alt="" width="171" height="192"><span>ca<span class="r-marca">R</span>deno Amarelo</span></a>
+  </div>
+</header>
+
+<main class="pn">
+  <section class="caixa entrar" id="entrar" hidden>
+    <h1>Painel</h1>
+    <p class="pn-sub" style="margin:6px 0 12px">Só pra ti. Digita a senha do painel.</p>
+    <form id="form-senha">
+      <input type="password" id="senha" autocomplete="current-password" placeholder="Senha" required>
+      <button class="btn" type="submit">Entrar</button>
+      <p class="erro mov-aparece" id="erro-senha" hidden></p>
+    </form>
+  </section>
+
+  <div id="painel" hidden>
+    <div class="topo-pn">
+      <div>
+        <h1>Funil de vendas</h1>
+        <p class="pn-sub" id="quando">Horário de Brasília</p>
+      </div>
+      <button class="atualizar mov-toque" id="atualizar" type="button">↻ Atualizar</button>
+    </div>
+
+    <section class="caixa">
+      <div class="periodo" id="periodo">
+        <button type="button" class="mov-toque" data-p="hoje" aria-pressed="true">Hoje</button>
+        <button type="button" class="mov-toque" data-p="ontem" aria-pressed="false">Ontem</button>
+        <button type="button" class="mov-toque" data-p="7" aria-pressed="false">7 dias</button>
+        <button type="button" class="mov-toque" data-p="30" aria-pressed="false">30 dias</button>
+        <button type="button" class="mov-toque" data-p="livre" aria-pressed="false">Escolher datas</button>
+      </div>
+      <div class="datas mov-aparece" id="datas" hidden>
+        <input type="date" id="de" aria-label="De"> <input type="date" id="ate" aria-label="Até">
+        <button type="button" class="mov-toque" id="aplicar">Ver</button>
+      </div>
+    </section>
+
+    <div id="conteudo">
+      <div class="kpis" id="kpis"></div>
+    </div>
+
+    <section class="caixa">
+      <h2>Funil do jogo</h2>
+      <p class="pn-sub">Pessoas diferentes em cada etapa. A % é quantos seguiram da etapa anterior.</p>
+      <div class="funil" id="funil-jogo"></div>
+      <div class="legenda"><span><i style="background:var(--tinta)"></i>no Instagram</span><span><i style="background:var(--amarelo)"></i>fora do Instagram</span></div>
+    </section>
+
+    <section class="caixa">
+      <h2>Funil da loja</h2>
+      <p class="pn-sub">Quem abriu a loja até quem pagou um PDF.</p>
+      <div class="funil" id="funil-loja"></div>
+    </section>
+
+    <section class="caixa">
+      <h2>Vendas</h2>
+      <p class="pn-sub">Pix gerados no período e quantos foram pagos.</p>
+      <div class="vendas" id="vendas"></div>
+      <ul class="lista" id="produtos"></ul>
+    </section>
+
+    <div class="duas">
+      <section class="caixa">
+        <h2>Onde batem no limite</h2>
+        <p class="pn-sub">Jogo em que a pessoa chegou no fim do grátis.</p>
+        <ul class="lista" id="limite"></ul>
+      </section>
+      <section class="caixa">
+        <h2>Mais vistos na loja</h2>
+        <p class="pn-sub">Produtos que mais abriram.</p>
+        <ul class="lista" id="abertos"></ul>
+      </section>
+    </div>
+
+    <section class="caixa">
+      <h2>Dia a dia</h2>
+      <p class="pn-sub">Pessoas por etapa em cada dia. Arrasta pro lado no celular.</p>
+      <div class="tabela-wrap"><table id="tabela"></table></div>
+    </section>
+
+    <p class="rodape-pn">Só números, nada pessoal. <button type="button" id="sair">Sair deste aparelho</button></p>
+  </div>
+</main>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/movimento.js"></script>
+<script>
+(function () {
+  'use strict';
+  const CFG = window.LOJA_CONFIG || {};
+  const URL_FN = CFG.supabaseUrl + '/functions/v1/painel-funil';
+  const CHAVE = 'ca-painel:senha';
+  const $ = (id) => document.getElementById(id);
+  const TZ = 'America/Sao_Paulo';
+  const hojeBr = () => new Date().toLocaleDateString('sv-SE', { timeZone: TZ });
+  const menosDias = (d, n) => { const t = new Date(d + 'T12:00:00Z'); t.setUTCDate(t.getUTCDate() - n); return t.toISOString().slice(0, 10); };
+  const fmt = (n) => Number(n || 0).toLocaleString('pt-BR');
+  const reais = (n) => Number(n || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  const pct = (a, b) => b ? Math.round(a / b * 100) + '%' : '–';
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const diaCurto = (d) => { const [, m, dd] = d.split('-'); const sem = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'][new Date(d + 'T12:00:00Z').getUTCDay()]; return `${sem} ${dd}/${m}`; };
+
+  const NOMES = {
+    abriu_site: 'Abriu o site', jogou_primeiro_nivel: 'Jogou o 1º nível', chegou_no_limite: 'Chegou no limite grátis',
+    abriu_premium: 'Abriu o Premium', pediu_codigo: 'Pediu o código', entrou_na_conta: 'Entrou na conta',
+    gerou_pix_premium: 'Gerou o Pix', pagou_premium: 'Pagou',
+    abriu_loja: 'Abriu a loja', abriu_produto: 'Abriu um produto', gerou_pix_loja: 'Gerou o Pix', pagou_loja: 'Pagou',
+  };
+  const JOGO = ['abriu_site', 'jogou_primeiro_nivel', 'chegou_no_limite', 'abriu_premium', 'pediu_codigo', 'entrou_na_conta', 'gerou_pix_premium', 'pagou_premium'];
+  const LOJA = ['abriu_loja', 'abriu_produto', 'gerou_pix_loja', 'pagou_loja'];
+  const COLUNAS = [['abriu_site', 'Site'], ['jogou_primeiro_nivel', 'Jogou'], ['chegou_no_limite', 'Limite'], ['abriu_premium', 'Premium'],
+    ['pediu_codigo', 'Código'], ['entrou_na_conta', 'Conta'], ['gerou_pix_premium', 'Pix'], ['pagou_premium', 'Pagou'], ['abriu_loja', 'Loja'], ['pagou_loja', 'Pagou loja']];
+  const JOGOS = { acha: 'Caça-números', cor: 'Fala a cor', rapido: 'Responde rápido', pegadinhas: 'Pegadinhas', mais: 'Só mais uma', senha: 'Senha do dia', oque: 'O que é, o que é?', olho: 'Olho atento', proximo: 'Qual o próximo?', emojis: 'Emojis e espelhos' };
+
+  let periodo = { p: 'hoje' };
+  let senha = null;
+  try { senha = localStorage.getItem(CHAVE); } catch (e) {}
+
+  function intervalo() {
+    const h = hojeBr();
+    if (periodo.p === 'hoje') return { de: h, ate: h };
+    if (periodo.p === 'ontem') { const o = menosDias(h, 1); return { de: o, ate: o }; }
+    if (periodo.p === 'livre') return { de: $('de').value || h, ate: $('ate').value || h };
+    return { de: menosDias(h, +periodo.p - 1), ate: h };
+  }
+
+  async function buscar() {
+    const { de, ate } = intervalo();
+    if (window.__PAINEL_DEMO) return window.__PAINEL_DEMO(de, ate);
+    const r = await fetch(URL_FN, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: CFG.supabaseAnonKey, Authorization: 'Bearer ' + CFG.supabaseAnonKey },
+      body: JSON.stringify({ senha, de, ate }),
+    });
+    const d = await r.json().catch(() => ({}));
+    if (r.status === 401) { const e = new Error(d.erro || 'Senha errada.'); e.senha = true; throw e; }
+    if (!r.ok) throw new Error(d.erro || 'Não consegui ler os dados agora.');
+    return d;
+  }
+
+  function linhaEtapa(lista, por, i, base) {
+    const e = lista[i], f = por[e] || { pessoas: 0, no_instagram: 0 };
+    const ant = i ? (por[lista[i - 1]] || {}).pessoas || 0 : null;
+    const larg = base ? f.pessoas / base * 100 : 0;
+    const ig = f.pessoas ? f.no_instagram / f.pessoas * larg : 0;
+    const passou = ant != null ? (ant ? Math.round(f.pessoas / ant * 100) : null) : null;
+    const info = i === 0
+      ? `${fmt(f.no_instagram)} no Instagram · ${fmt(f.pessoas - f.no_instagram)} fora`
+      : `${passou == null ? 'ninguém na etapa anterior' : passou + '% seguiram'}${ant && passou < 100 ? ` · <span class="queda">perdeu ${fmt(ant - f.pessoas)}</span>` : ''} · ${fmt(f.no_instagram)} no Instagram`;
+    return `<div class="etapa-l"><span class="nome">${i + 1}. ${NOMES[e]}</span><span class="num">${fmt(f.pessoas)}</span>
+      <span class="barra"><i class="ig" style="width:${ig}%"></i><i class="fora" style="width:${larg - ig}%;animation-delay:60ms"></i></span>
+      <span class="info">${info}</span></div>`;
+  }
+
+  function desenhar(d) {
+    const por = Object.fromEntries(d.funil.map((x) => [x.evento, x]));
+    const n = (e) => (por[e] || {}).pessoas || 0;
+    const v = d.vendas, total = v.premium.valor + v.loja.valor, pagos = v.premium.pagos + v.loja.pagos;
+    $('quando').textContent = (d.de === d.ate ? diaCurto(d.de) : `${diaCurto(d.de)} a ${diaCurto(d.ate)}`) + ' · atualizado às '
+      + new Date(d.gerado_em).toLocaleTimeString('pt-BR', { timeZone: TZ, hour: '2-digit', minute: '2-digit' });
+
+    $('kpis').innerHTML = [
+      [fmt(n('abriu_site')), 'pessoas no site'],
+      [pct(n('jogou_primeiro_nivel'), n('abriu_site')), 'jogaram o 1º nível'],
+      [fmt(v.premium.pix + v.loja.pix), 'Pix gerados'],
+      [reais(total), `${fmt(pagos)} ${pagos === 1 ? 'venda' : 'vendas'}`, true],
+    ].map(([b, s, dest]) => `<div class="kpi${dest ? ' destaque' : ''}"><b>${b}</b><span>${s}</span></div>`).join('');
+
+    $('funil-jogo').innerHTML = JOGO.map((_, i) => linhaEtapa(JOGO, por, i, n('abriu_site'))).join('');
+    $('funil-loja').innerHTML = n('abriu_loja')
+      ? LOJA.map((_, i) => linhaEtapa(LOJA, por, i, n('abriu_loja'))).join('')
+      : '<p class="vazio">Ninguém abriu a loja nesse período.</p>';
+
+    const caixaVenda = (t, x) => `<div class="venda"><h3>${t}</h3><dl>
+      <dt>Pix gerados</dt><dd>${fmt(x.pix)}</dd><dt>Pagos</dt><dd>${fmt(x.pagos)}</dd>
+      <dt>Pix → pago</dt><dd>${pct(x.pagos, x.pix)}</dd><dt>Faturou</dt><dd>${reais(x.valor)}</dd></dl></div>`;
+    $('vendas').innerHTML = caixaVenda('Premium (jogo)', v.premium) + caixaVenda('Loja (PDFs)', v.loja);
+    $('produtos').innerHTML = d.produtos.map((p) => `<li><span>${esc(p.nome)}</span><span>${fmt(p.pagos)} de ${fmt(p.pix)} · ${reais(p.valor)}</span></li>`).join('');
+
+    const lista = (el, itens, nome) => { $(el).innerHTML = itens.length ? itens.map((x) => `<li><span>${esc(nome(x.item))}</span><span>${fmt(x.pessoas)}</span></li>`).join('') : '<li class="vazio" style="border:0">Nada nesse período.</li>'; };
+    lista('limite', d.limite_por_jogo, (k) => JOGOS[k] || k);
+    lista('abertos', d.produtos_abertos, (k) => k);
+
+    const cab = '<tr><th>Dia</th>' + COLUNAS.map(([, t]) => `<th>${t}</th>`).join('') + '</tr>';
+    const linhas = d.diario.map((x) => {
+      const p = Object.fromEntries(x.etapas.map((e) => [e.evento, e.pessoas]));
+      return `<tr><td>${diaCurto(x.dia)}</td>` + COLUNAS.map(([k]) => `<td class="${p[k] ? '' : 'zero'}">${fmt(p[k])}</td>`).join('') + '</tr>';
+    }).join('');
+    $('tabela').innerHTML = cab + (linhas || `<tr><td colspan="${COLUNAS.length + 1}" class="vazio">Sem dados nesse período.</td></tr>`);
+  }
+
+  let carregandoAgora = false;
+  async function carregar() {
+    if (carregandoAgora) return;
+    carregandoAgora = true;
+    $('atualizar').disabled = true;
+    $('painel').classList.add('carregando');
+    try {
+      desenhar(await buscar());
+    } catch (e) {
+      if (e.senha) { sair(e.message); return; }
+      $('quando').textContent = e.message;
+    } finally {
+      carregandoAgora = false;
+      $('atualizar').disabled = false;
+      $('painel').classList.remove('carregando');
+    }
+  }
+
+  function mostrarPainel() { $('entrar').hidden = true; $('painel').hidden = false; carregar(); }
+  function sair(msg) {
+    senha = null;
+    try { localStorage.removeItem(CHAVE); } catch (e) {}
+    $('painel').hidden = true; $('entrar').hidden = false;
+    const er = $('erro-senha');
+    if (msg) { er.textContent = msg; er.hidden = false; } else er.hidden = true;
+  }
+
+  $('form-senha').addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    senha = $('senha').value;
+    try { localStorage.setItem(CHAVE, senha); } catch (e) {}
+    $('senha').value = '';
+    mostrarPainel();
+  });
+  $('sair').addEventListener('click', () => sair());
+  $('atualizar').addEventListener('click', carregar);
+  $('periodo').addEventListener('click', (ev) => {
+    const b = ev.target.closest('button[data-p]');
+    if (!b) return;
+    $('periodo').querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    periodo = { p: b.dataset.p };
+    if (b.dataset.p === 'livre') {
+      const h = hojeBr();
+      if (!$('de').value) $('de').value = menosDias(h, 6);
+      if (!$('ate').value) $('ate').value = h;
+      $('datas').hidden = false;
+    } else {
+      if (!$('datas').hidden) (window.CA_MOV ? CA_MOV.esconder($('datas')) : ($('datas').hidden = true));
+      carregar();
+    }
+  });
+  $('aplicar').addEventListener('click', carregar);
+  // volta pro app: atualiza sozinho
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && senha && !$('painel').hidden) carregar(); });
+
+  if (senha || window.__PAINEL_DEMO) mostrarPainel(); else $('entrar').hidden = false;
+})();
+</script>
+</body>
+</html>
