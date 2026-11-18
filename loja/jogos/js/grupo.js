@@ -176,7 +176,7 @@
 
         ${premium
           ? '<a class="chamada-premium ativo" href="#/conta"><strong>★ Premium ativo</strong><span>Na tua sala todos os níveis dos jogos em grupo estão liberados. Quem joga pelo celular não paga nada.</span></a>'
-          : '<a class="chamada-premium" href="#/premium"><strong>ca<span class="r-marca">R</span>deno Premium</strong><span>Quem abre a sala libera os níveis 4 a 10 de todos os jogos em grupo (e de todos os outros jogos). Quem joga pelo celular nunca paga. Mensal R$ 4,90 ou anual R$ 29,90.</span></a>'}
+          : '<a class="chamada-premium" href="#/premium"><strong>ca<span class="r-marca">R</span>deno Premium</strong><span>Quem abre a sala libera os níveis 4 a 10 de todos os jogos em grupo (e de todos os outros jogos). Quem joga pelo celular nunca paga. ' + ((CA.OFERTA || {}).chamada || '') + '</span></a>'}
       </section>`;
   };
   CA.grupoAbaLigar = function (palco) {

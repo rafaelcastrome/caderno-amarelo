@@ -1,7 +1,7 @@
 // Dados da conta do app de jogos: Premium (pelo e-mail) e progresso das fases.
 // { token } lê; { token, progresso } junta o progresso do celular com o da conta; { token, sair: true } encerra a sessão.
 import { cors, db, json } from '../_comum/comum.ts';
-import { validadePremium, emailDaSessao, juntar, sha256, perfilDe, CAMPOS_PERFIL, comprouDesafios } from '../_comum/conta.ts';
+import { premiumDe, emailDaSessao, juntar, sha256, perfilDe, CAMPOS_PERFIL, comprouDesafios } from '../_comum/conta.ts';
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
@@ -17,8 +17,8 @@ Deno.serve(async (req) => {
       prog = juntar(prog, progresso);
       await db.from('contas_jogo').update({ progresso: prog, atualizado_em: new Date().toISOString() }).eq('email', email);
     }
-    const ate = await validadePremium(email);
-    return json({ email, premium: !!ate, ate, progresso: prog, perfil: perfilDe(conta), desafios: await comprouDesafios(email) });
+    const { premium, ate } = await premiumDe(email);
+    return json({ email, premium, ate, progresso: prog, perfil: perfilDe(conta), desafios: await comprouDesafios(email) });
   } catch (e) {
     console.error(e);
     return json({ erro: 'Falha ao ler a conta.' }, 500);

@@ -350,7 +350,7 @@
         ${tAmigo ? `<p class="meta-amigo">Teu amigo passou esse nível em <b>${CA.fmtSeg(tAmigo)}</b>. Libera pra tentar bater ele!</p>` : ''}
         <p>Do nível 4 em diante a grade só cresce, até <b>64 números</b>, e ainda embaralha, gira, pisca, vira letra... São <b>${FASES.length - GRATIS} níveis novos</b>, até o nível final.</p>
         <div class="previa-fases">${FASES.slice(GRATIS, GRATIS + 6).map(x => `<span>${x.num}<small>${x.q} números${x.regras.length ? ' · ' + x.nome : ''}</small></span>`).join('')}</div>
-        <a class="btn btn-grande" href="#/premium">Liberar todos os níveis · a partir de R$ 2,49/mês</a>
+        <a class="btn btn-grande" href="#/premium">Liberar todos os níveis · ${(CA.OFERTA || {}).botao || ''}</a>
         <a class="link-voltar" href="#/jogo?id=acha">Voltar pros níveis</a>
       </section>`));
   }

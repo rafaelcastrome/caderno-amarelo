@@ -6,5 +6,8 @@ window.LOJA_CONFIG = {
   supabaseAnonKey: 'sb_publishable_QET5McYJZgr4K12y_PJd_Q_eCa4vHC9',
   instagram: 'https://instagram.com/cardeno_amarelo',
   tiktok: 'https://www.tiktok.com/@cardeno_amarelo',
-  contato: 'cardenoamarelo@gmail.com'
+  contato: 'cardenoamarelo@gmail.com',
+  // OFERTA_UNICA: true mostra só o Premium pra sempre (R$ 9,90); false volta o mensal e o anual.
+  // Só muda o que aparece: o preço cobrado vem sempre do banco.
+  OFERTA_UNICA: true
 };

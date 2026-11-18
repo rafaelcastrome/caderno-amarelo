@@ -760,3 +760,4 @@ button.link-voltar { display: block; width: 100%; background: none; border: 0; c
 .pix-qr { margin: 12px 0; border: 2px dashed var(--tinta); border-radius: 12px; padding: 10px 12px; background: var(--papel-claro); }
 .pix-qr summary { cursor: pointer; font-weight: 700; font-size: 15px; }
 .pix-qr[open] .qr { animation: mov-surge var(--mov-medio, 200ms) ease backwards; }
+.planos.um .plano.escolhido::before { display: none; }

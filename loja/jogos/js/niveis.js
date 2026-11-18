@@ -169,7 +169,7 @@
           ${grade(j)}
           ${j.acesso() ? '' : `<p class="legenda-fases">Níveis 1 a ${GRATIS} grátis · 🔒 Premium</p>`}
           <a class="podio mov-aparece" hidden></a>
-          ${j.acesso() ? '' : `<a class="chamada-premium" href="#/premium"><strong>Quer jogar até o fim?</strong><span>O ca<span class="r-marca">R</span>deno Premium libera todos os níveis de todos os jogos. Mensal R$ 4,90 ou anual R$ 29,90.</span></a>`}
+          ${j.acesso() ? '' : `<a class="chamada-premium" href="#/premium"><strong>Quer jogar até o fim?</strong><span>O ca<span class="r-marca">R</span>deno Premium libera todos os níveis de todos os jogos. ${(CA.OFERTA || {}).chamada || ''}</span></a>`}
           <h2 class="secao">Todos os jogos</h2>
           ${CA.cardsJogos(j.id)}
           ${j.extraFim ? j.extraFim() : ''}
@@ -190,7 +190,7 @@
         <span class="selo-premium">★ Premium</span>
         <h1>${j.nome}: nível ${n}</h1>
         <p>Os ${GRATIS} primeiros níveis são grátis. Daqui pra frente são mais <b>${j.total - GRATIS} níveis</b>, cada vez mais difíceis.</p>
-        <a class="btn btn-grande" href="#/premium">Liberar todos os jogos · a partir de R$ 2,49/mês</a>
+        <a class="btn btn-grande" href="#/premium">Liberar todos os jogos · ${(CA.OFERTA || {}).botao || ''}</a>
         <a class="link-voltar" href="#/jogo?id=${j.id}">Voltar pros níveis</a>
       </section>`));
   };

@@ -416,7 +416,7 @@
         </div>
         ${CA.ehPremium() ? '' : `<a class="chamada-premium" href="#/premium">
           <strong>ca<span class="r-marca">R</span>deno Premium</strong>
-          <span>Libera todos os níveis de todos os jogos, os desafios dos dias anteriores e o card dourado. Mensal R$ 4,90 ou anual R$ 29,90.</span>
+          <span>Libera todos os níveis de todos os jogos, os desafios dos dias anteriores e o card dourado. ${(CA.OFERTA || {}).chamada || ''}</span>
         </a>`}
       </section>`);
     tela.addEventListener('click', e => {

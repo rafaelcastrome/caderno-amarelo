@@ -1,6 +1,7 @@
 /* Conta e caRdeno Premium.
    Conta: entra com e-mail + código de 6 números que chega no e-mail (sem senha).
-   Premium: passe no Pix da loja (mensal R$ 4,90 = 30 dias, anual R$ 29,90 = 1 ano), preso ao
+   Premium: no Pix da loja. Com OFERTA_UNICA ligada: passe-vitalicio R$ 9,90, sem data de fim (ate = null).
+   Desligada: mensal R$ 4,90 = 30 dias, anual R$ 29,90 = 1 ano. Preso ao
    E-MAIL da conta, então vale em qualquer celular. Pix não renova sozinho: a pessoa renova quando
    quiser e os dias somam. Libera TODOS os jogos. O progresso dos níveis também fica salvo na conta. */
 (function () {
@@ -8,11 +9,19 @@
   const CA = window.CA;
   const CFG = window.LOJA_CONFIG || {};
   const API = CFG.supabaseUrl ? CFG.supabaseUrl + '/functions/v1' : null;
-  // só pra mostrar; o valor cobrado vem sempre do banco
-  const PLANOS = [
+  // só pra mostrar; o valor cobrado vem sempre do banco.
+  // Chave OFERTA_UNICA (assets/js/config.js): ligada mostra só o vitalício; desligada volta o mensal e o anual.
+  const OFERTA_UNICA = CFG.OFERTA_UNICA !== false;
+  const PLANO_VITALICIO = { slug: 'passe-vitalicio', nome: 'Pra sempre', preco: 'R$ 9,90', detalhe: 'Paga uma vez só. Sem mensalidade, nunca vence', destaque: true, selo: 'Oferta única' };
+  const PLANOS_PASSE = [
     { slug: 'passe-anual', nome: 'Anual', preco: 'R$ 29,90', detalhe: 'R$ 2,49 por mês · economiza 49%', destaque: true, selo: 'Mais vantajoso' },
     { slug: 'passe-mensal', nome: 'Mensal', preco: 'R$ 4,90', detalhe: '30 dias' },
   ];
+  const PLANOS = OFERTA_UNICA ? [PLANO_VITALICIO] : PLANOS_PASSE;
+  // textos de chamada usados nas outras telas (início, nível trancado, resultado)
+  CA.OFERTA = OFERTA_UNICA
+    ? { unica: true, preco: 'R$ 9,90', botao: 'R$ 9,90 uma vez, pra sempre', chamada: 'R$ 9,90 uma vez só, pra sempre. Sem mensalidade.' }
+    : { unica: false, preco: 'R$ 4,90', botao: 'a partir de R$ 2,49/mês', chamada: 'Mensal R$ 4,90 ou anual R$ 29,90.' };
   const fmtDia = iso => new Date(iso).toLocaleDateString('pt-BR');
 
   async function chamar(fn, corpo) {
@@ -363,7 +372,7 @@
         const c = CA.conta();
         const cx = CA.el(`
           <div class="caixa-conta caixa-plano">
-            <strong>${titulo || 'Escolhe teu plano'}</strong>
+            <strong>${titulo || (PLANOS.length === 1 ? 'Libera tudo, pra sempre' : 'Escolhe teu plano')}</strong>
             <div class="planos ${PLANOS.length === 1 ? 'um' : ''}" role="radiogroup" aria-label="Plano">
               ${PLANOS.map(pl => `<button class="plano ${pl.destaque ? 'destaque' : ''}" type="button" role="radio" data-slug="${pl.slug}">
                 ${pl.selo ? `<em>${pl.selo}</em>` : ''}
@@ -562,13 +571,13 @@
         miolo.innerHTML = `
           <div class="caixa-conta">
             <strong>${c.email}</strong>
-            <small>${CA.ehPremium() ? '★ Premium ativo' + (c.ate ? ' até ' + fmtDia(c.ate) : '') : 'Plano grátis'} · ${est} estrelas</small>
+            <small>${CA.ehPremium() ? '★ Premium ativo' + (c.ate ? ' até ' + fmtDia(c.ate) : ' pra sempre') : 'Plano grátis'} · ${est} estrelas</small>
             <div class="perfil-linha">
               <span>No ranking: <b>${nomeRanking()}</b>${(c.perfil || {}).arroba && !(c.perfil || {}).arroba_confirmado ? ' <em class="sem-ok">@ não confirmado</em>' : ''}</span>
               <button class="link-mini" type="button" data-a="perfil">editar</button>
             </div>
             ${(c.perfil || {}).arroba && !(c.perfil || {}).arroba_confirmado ? '<button class="btn btn-claro" type="button" data-a="confirmar">Confirmar meu @</button>' : ''}
-            <a class="btn btn-grande ${CA.ehPremium() ? 'btn-claro' : ''}" href="#/premium">${CA.ehPremium() ? 'Renovar o Premium' : 'Ver o Premium'}</a>
+            <a class="btn btn-grande ${CA.ehPremium() ? 'btn-claro' : ''}" href="#/premium">${CA.ehPremium() ? (c.ate ? 'Renovar o Premium' : 'Ver meu Premium') : 'Ver o Premium'}</a>
             <button class="btn btn-claro" type="button" data-a="sair">Sair da conta</button>
           </div>`;
         miolo.querySelector('[data-a=sair]').addEventListener('click', async () => { await CA.sairConta(); if (vivo) mostrar(); });

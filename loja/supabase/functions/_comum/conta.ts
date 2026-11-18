@@ -9,21 +9,26 @@ export async function sha256(txt: string) {
   return Array.from(new Uint8Array(b)).map((x) => x.toString(16).padStart(2, '0')).join('');
 }
 
-// Planos (slug do produto -> dias liberados por pagamento).
-export const PLANOS: Record<string, number> = { 'passe-mensal': 30, 'passe-anual': 365 };
+// Planos (slug do produto -> dias liberados por pagamento; null = pra sempre, sem data de fim).
+export const PLANOS: Record<string, number | null> = { 'passe-mensal': 30, 'passe-anual': 365, 'passe-vitalicio': null };
 
 // Premium = soma dos passes pagos desse e-mail, contando a partir do pagamento
-// (renovar antes de acabar soma os dias, não perde nada). Devolve a data de validade ou null.
-export async function validadePremium(email: string) {
+// (renovar antes de acabar soma os dias, não perde nada). Pagou o vitalício: Premium sem data (ate = null),
+// que o app já entende como "não vence".
+export async function premiumDe(email: string): Promise<{ premium: boolean; ate: string | null }> {
   const { data } = await db.from('pedidos').select('produto, pago_em')
     .eq('email', email).eq('status', 'pago').in('produto', Object.keys(PLANOS)).order('pago_em', { ascending: true });
   let fim = 0;
   for (const p of data ?? []) {
+    const dias = PLANOS[p.produto];
+    if (dias === null) return { premium: true, ate: null };
     const ini = Math.max(new Date(p.pago_em).getTime(), fim);
-    fim = ini + PLANOS[p.produto] * 864e5;
+    fim = ini + dias * 864e5;
   }
-  return fim > Date.now() ? new Date(fim).toISOString() : null;
+  return fim > Date.now() ? { premium: true, ate: new Date(fim).toISOString() } : { premium: false, ate: null };
 }
+// Compatível com quem só quer a data (null também quando é vitalício: use premiumDe pra saber se é Premium).
+export async function validadePremium(email: string) { return (await premiumDe(email)).ate; }
 
 // Devolve o e-mail da sessão ou null.
 export async function emailDaSessao(token: unknown) {
