@@ -24,8 +24,10 @@ depois do `config.js`). Página nova: inclui os dois. Mudou algum deles: sobe a 
    `grid-template-rows`, barato e sem JS.)
 2. **Rápido.** Use só os tempos do `movimento.css`, nunca número solto:
    `--mov-toque` 90 ms (apertar), `--mov-rapido` 140 ms (sumir/fechar),
-   `--mov-medio` 200 ms (entrar tela, abrir caixa), `--mov-lento` 280 ms (grupo, modal, gaveta).
-   Curva padrão `--mov-curva`. Nada passa de 300 ms.
+   `--mov-medio` 200 ms (entrar tela, abrir caixa), `--mov-lento` 280 ms (modal, gaveta, fechar grupo).
+   Curva padrão `--mov-curva`. Nada passa de 300 ms, com uma exceção: a sanfona **abrindo**
+   usa `--mov-abrir` 400 ms com `--mov-curva-abrir` (começa e termina devagar), pedido do
+   Rafael em 17/11/2026 pra abertura ao tocar ficar suave. Fechar continua 280 ms.
 3. **Nunca atrasa o jogo.** Nenhum toque espera animação terminar. Dentro da partida
    (grade, cores, botões de resposta) não se coloca animação nova de entrada; o feedback
    de acerto/erro que já existe continua.

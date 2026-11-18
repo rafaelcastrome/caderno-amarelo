@@ -13,10 +13,12 @@
   --mov-toque: 90ms;      /* apertar botão */
   --mov-rapido: 140ms;    /* sumir, fechar, tooltip */
   --mov-medio: 200ms;     /* entrar tela, abrir caixa */
-  --mov-lento: 280ms;     /* abrir grupo, gaveta, modal */
+  --mov-lento: 280ms;     /* gaveta, modal, fechar grupo */
+  --mov-abrir: 400ms;     /* abrir grupo (sanfona): mais calmo, pedido do Rafael 17/11 */
   /* curvas */
   --mov-curva: cubic-bezier(.2, .8, .2, 1);      /* padrão: sai rápido e assenta */
   --mov-curva-sai: cubic-bezier(.4, 0, 1, 1);    /* pra sumir */
+  --mov-curva-abrir: cubic-bezier(.45, 0, .25, 1); /* começa e termina devagar (sanfona abrindo) */
   --mov-curva-mola: cubic-bezier(.3, 1.4, .5, 1); /* pequeno pulo (abas, selos) */
   /* distâncias */
   --mov-sobe: 8px;
@@ -69,11 +71,12 @@
    </section>
    movimento.js liga o clique sozinho. */
 .grupo-titulo { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; background: none; border: 0; padding: 10px 2px; cursor: pointer; font: inherit; font-weight: 900; font-size: 18px; text-align: left; }
-.grupo-titulo::after { content: '▾'; font-size: 16px; transition: transform var(--mov-lento) var(--mov-curva); }
-.grupo-titulo[aria-expanded="false"]::after { transform: rotate(-90deg); }
-.grupo-corpo { display: grid; grid-template-rows: 1fr; transition: grid-template-rows var(--mov-lento) var(--mov-curva), opacity var(--mov-lento) var(--mov-curva); }
+.grupo-titulo::after { content: '▾'; font-size: 16px; transition: transform var(--mov-abrir) var(--mov-curva-abrir); }
+.grupo-titulo[aria-expanded="false"]::after { transform: rotate(-90deg); transition-duration: var(--mov-lento); transition-timing-function: var(--mov-curva); }
+/* abrir usa a transição do estado aberto (calma, 400 ms); fechar usa a do estado fechado (280 ms, igual antes) */
+.grupo-corpo { display: grid; grid-template-rows: 1fr; transition: grid-template-rows var(--mov-abrir) var(--mov-curva-abrir), opacity var(--mov-abrir) var(--mov-curva-abrir); }
 .grupo-corpo > .grupo-miolo { min-height: 0; overflow: hidden; }
-.grupo-titulo[aria-expanded="false"] + .grupo-corpo { grid-template-rows: 0fr; opacity: 0; }
+.grupo-titulo[aria-expanded="false"] + .grupo-corpo { grid-template-rows: 0fr; opacity: 0; transition-duration: var(--mov-lento); transition-timing-function: var(--mov-curva); }
 /* deixa a sombra dos cards aparecer quando o grupo está aberto */
 .grupo-titulo[aria-expanded="true"] + .grupo-corpo > .grupo-miolo { padding: 0 4px 4px; margin: 0 -4px; }
 
@@ -112,5 +115,5 @@
 
 /* ---------- menos movimento ---------- */
 @media (prefers-reduced-motion: reduce) {
-  :root { --mov-toque: 1ms; --mov-rapido: 1ms; --mov-medio: 1ms; --mov-lento: 1ms; --mov-sobe: 0px; --mov-escala-toque: 1; }
+  :root { --mov-toque: 1ms; --mov-rapido: 1ms; --mov-medio: 1ms; --mov-lento: 1ms; --mov-abrir: 1ms; --mov-sobe: 0px; --mov-escala-toque: 1; }
 }
