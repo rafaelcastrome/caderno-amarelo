@@ -1,0 +1,44 @@
+{
+ "titulo": "A carta que adivinha",
+ "marca": {
+  "handle": "caRdeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [
+  {
+   "fato": "(2n+8)/2 - n = 4 para qualquer n",
+   "fonte": "álgebra, domínio público",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Pensa num número de um a dez... e o resultado eu já escrevi nessa carta!"
+  },
+  {
+   "fala": "Pensou? Agora dobra ele."
+  },
+  {
+   "fala": "Soma oito."
+  },
+  {
+   "fala": "Agora divide por dois... pega a metade."
+  },
+  {
+   "fala": "E tira o número que tu pensou no começo."
+  },
+  {
+   "fala": "Guarda esse resultado na cabeça... vou virar a carta."
+  },
+  {
+   "fala": "Deu quatro!"
+  },
+  {
+   "fala": "Como é que a carta sabia? Faz com teu amigo... e segue, que amanhã tem mágica nova!"
+  }
+ ]
+}
