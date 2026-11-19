@@ -1,0 +1,50 @@
+{
+ "titulo": "Cartas que leem a mente",
+ "marca": {
+  "handle": "caRdeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [
+  {
+   "fato": "Cartas binárias: cada número de 1 a 15 é soma única de 1, 2, 4 e 8",
+   "fonte": "matemática (sistema binário), domínio público",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Pensa num número de um a quinze... e com quatro cartas, tu mesmo vai descobrir ele!"
+  },
+  {
+   "fala": "Pensou? Agora responde em voz alta: SIM ou NÃO."
+  },
+  {
+   "fala": "Teu número tá nessa carta?"
+  },
+  {
+   "fala": "E nessa?"
+  },
+  {
+   "fala": "E nessa aqui?"
+  },
+  {
+   "fala": "Última: tá nessa?"
+  },
+  {
+   "fala": "Agora soma só o número vermelho do cantinho das cartas que tu falou SIM."
+  },
+  {
+   "fala": "Soma com calma... eu espero!"
+  },
+  {
+   "fala": "Deu o teu número, né?"
+  },
+  {
+   "fala": "Como é que um papel adivinhou o que tu pensou? Faz com o teu amigo agora... e segue, que amanhã eu conto o segredo!"
+  }
+ ]
+}

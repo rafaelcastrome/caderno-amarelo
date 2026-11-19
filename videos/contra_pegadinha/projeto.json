@@ -1,0 +1,62 @@
+{
+ "titulo": "Contra-pegadinha",
+ "marca": {
+  "handle": "caRdeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [
+  {
+   "fato": "Pegadinhas clássicas viradas do avesso; 7 meses têm 31 dias (jan, mar, mai, jul, ago, out, dez)",
+   "fonte": "domínio público",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Tu já conhece todas as pegadinhas, né? Então responde em voz alta... quero ver!"
+  },
+  {
+   "fala": "Fala branco cinco vezes, rápido!"
+  },
+  {
+   "fala": "O que a vaca dá?"
+  },
+  {
+   "fala": "Água? A vaca DÁ leite! Água é o que ela bebe!"
+  },
+  {
+   "fala": "Uma galinha bota um ovo em cima do telhado. Pra que lado o ovo cai?"
+  },
+  {
+   "fala": "Galo não bota ovo? Eu falei galinha! Cai pra baixo, ué!"
+  },
+  {
+   "fala": "Tu tá numa corrida e passa o primeiro colocado. Em que lugar tu fica?"
+  },
+  {
+   "fala": "Segundo? Passou o primeiro... tu é o primeiro!"
+  },
+  {
+   "fala": "Fala torrada cinco vezes!"
+  },
+  {
+   "fala": "O que sai da torradeira?"
+  },
+  {
+   "fala": "Pão? Sai torrada!"
+  },
+  {
+   "fala": "Última: quantos meses têm trinta e um dias?"
+  },
+  {
+   "fala": "Todos? Só sete!"
+  },
+  {
+   "fala": "Caiu por ser esperto, né? Manda pro amigo que acha que sabe todas... e segue, que amanhã tem mais!"
+  }
+ ]
+}
