@@ -77,15 +77,15 @@ window.CENAS = function (WB) {
     WB.effect(t => g.setAttribute('opacity', t >= a && t < fimNivel - 0.05 ? 1 : 0));
     const cell = Math.min(940 / n.cols, 1080 / n.rows), gw = cell * n.cols, gh = cell * n.rows;
     const x0 = 540 - gw / 2, y0 = 520 + (1080 - gh) / 2, sz = cell * 0.86;
-    const outros = WB.group(g);
+    const outros = WB.group(g), intrG = WB.group(g);
     let ax = 0, ay = 0;
     for (let r = 0; r < n.rows; r++) for (let c = 0; c < n.cols; c++) {
       const cx = x0 + cell * (c + 0.5), cy = y0 + cell * (r + 0.5), alvo = c === n.alvo[0] && r === n.alvo[1];
-      if (alvo) { ax = cx; ay = cy; img(window.ICONES[n.intr], cx, cy, sz, g); }
+      if (alvo) { ax = cx; ay = cy; img(window.ICONES[n.intr], cx, cy, sz, intrG); }
       else img(window.ICONES[n.base], cx, cy, sz, outros);
     }
     // aparece em onda, de cima pra baixo
-    WB.effect(t => { const u = clamp((t - a) / 0.35); outros.setAttribute('opacity', t >= T1 ? 0.25 : u.toFixed(3)); });
+    WB.effect(t => { const u = clamp((t - a) / 0.35); outros.setAttribute('opacity', t >= T1 ? 0.25 : u.toFixed(3)); intrG.setAttribute('opacity', u.toFixed(3)); });
     // cronômetro
     const bg = WB.mk('rect', { x: 240, y: 1650, width: 600, height: 26, rx: 13, fill: '#efe7cf' }, g);
     const fg = WB.mk('rect', { x: 240, y: 1650, width: 600, height: 26, rx: 13, fill: INK.red }, g);
