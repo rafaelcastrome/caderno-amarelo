@@ -115,23 +115,24 @@ window.CENAS = function (WB) {
   sub(4, 'água é o que ela BEBE!', 1580, q1);
   fora(g1, st(5));
 
-  // ---------------- 2: galinha no telhado ----------------
+  // ---------------- 2: 1 kg de algodão x 2 kg de ferro ----------------
   const g2 = WB.group(), s5 = st(5);
-  W(s5 + 0.02, s5 + 1.3, 'Uma GALINHA', 540, 600, 104, INK.black, { parent: g2 });
-  W(s5 + 1.3, s5 + 2.4, 'bota um ovo no telhado', 540, 705, 84, INK.black, { parent: g2 });
-  W(s5 + 2.6, fim(5), 'pra que lado o ovo cai?', 540, 1120, 84, INK.red, { parent: g2 });
-  { // telhado + galinha + ovo
-    const g = WB.group(g2), x = 540, y = 960;
-    const tet = `M ${x - 260} ${y + 60} L ${x} ${y - 70} L ${x + 260} ${y + 60} Z`;
-    WB.mk('path', { d: tet, fill: '#f87171' }, g);
-    WB.showNow([sp(tet, INK.black, 6, g), sp(`M ${x - 200} ${y + 30} L ${x + 200} ${y + 30} M ${x - 130} ${y - 5} L ${x + 130} ${y - 5}`, INK.black, 4, g)]);
-    const ga = WB.group(g); img(window.ICONES.galinha, x - 10, y - 140, 150, ga);
-    const ov = WB.group(g); img(window.ICONES.ovo, x + 70, y - 80, 60, ov);
-    WB.effect(t => { g.setAttribute('opacity', t >= s5 + 0.3 ? 1 : 0); ga.setAttribute('transform', `rotate(${r1(5 * Math.sin(t * 4))} ${x - 10} ${y - 70})`); ov.setAttribute('opacity', t >= s5 + 1.8 ? 1 : 0); });
+  W(s5 + 0.02, s5 + 1.0, 'O que pesa mais?', 540, 610, 104, INK.black, { parent: g2 });
+  { // dois sacos
+    const g = WB.group(g2);
+    const saco = (x, fundo, cor, kg, nome, a) => { const h = WB.group(g);
+      const d = `M ${x - 150} ${1080} L ${x - 130} ${880} Q ${x} ${840} ${x + 130} ${880} L ${x + 150} ${1080} Q ${x} ${1110} ${x - 150} ${1080} Z`;
+      WB.mk('path', { d, fill: fundo }, h); WB.showNow([sp(d, INK.black, 6, h), sp(`M ${x - 40} ${860} Q ${x} ${830} ${x + 40} ${860}`, INK.black, 5, h)]);
+      WB.showNow(WB.textStrokes(kg, x, 990, 96, cor, h, 'middle').strokes);
+      WB.showNow(WB.textStrokes(nome, x, 1060, 56, cor, h, 'middle').strokes);
+      surge(h, a, x, 980); };
+    saco(290, '#ffffff', INK.blue, '1 kg', 'algodão', s5 + 1.2);
+    saco(790, '#9ca3af', INK.black, '2 kg', 'ferro', s5 + 3.4);
+    pop(s5 + 3.0, 999, 'ou', 540, 1000, 80, INK.purple, g);
   }
   barra(5, 1170, g2); responde(5, 1290);
-  revela(6, 'GALO NÃO BOTA?', 'PRA BAIXO!', 1370, 1640, g2, 540, 520, 140, 100);
-  { const s = st(6); pop(s + 1.4, 999, 'eu falei GALINHA!', 540, 1470, 70, INK.purple, g2); }
+  revela(6, 'PESA IGUAL?', 'O FERRO!', 1380, 1640, g2, 540, 520, 150);
+  { const s = st(6); pop(s + 1.2, 999, 'eu falei DOIS quilos!', 540, 1480, 70, INK.purple, g2); }
   fora(g2, st(7));
 
   // ---------------- 3: passa o PRIMEIRO ----------------
