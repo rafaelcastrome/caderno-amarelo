@@ -54,7 +54,10 @@ window.CENAS = function (WB) {
   // ---------------- título ----------------
   const tit = WB.group();
   WB.showNow(WB.textStrokes('ACHA O INTRUSO', 540, 190, 112, INK.red, tit, 'middle').strokes);
-  WB.showNow(WB.textStrokes('o último quase ninguém acha', 540, 285, 66, INK.blue, tit, 'middle').strokes);
+  { const s1 = WB.group(tit), s2 = WB.group(tit);
+    WB.showNow(WB.textStrokes('tem 1 tomate no meio das maçãs', 540, 285, 62, INK.blue, s1, 'middle').strokes);
+    WB.showNow(WB.textStrokes('o último quase ninguém acha', 540, 285, 66, INK.blue, s2, 'middle').strokes);
+    WB.effect(t => { const b = t >= st(3); s1.setAttribute('opacity', b ? 0 : 1); s2.setAttribute('opacity', b ? 1 : 0); }); }
   pulsa(tit, 540, 180, 0.3, 0.05, 8, 1.5);
   // nível atual: 3 bolinhas
   const NIVC = [1, 3, 5];
@@ -69,7 +72,7 @@ window.CENAS = function (WB) {
 
   const NIV = [
     { c: 1, base: 'maca', intr: 'tomate', cols: 7, rows: 9, alvo: [4, 6] },
-    { c: 3, base: 'ri', intr: 'rola', cols: 8, rows: 10, alvo: [2, 3] },
+    { c: 3, base: 'sorri', intr: 'sorri2', cols: 8, rows: 10, alvo: [5, 6] },
     { c: 5, base: 'serio', intr: 'olhofechado', cols: 9, rows: 11, alvo: [6, 8] }];
   NIV.forEach((n, li) => {
     const a = li === 0 ? 0.0 : st(n.c) + 0.2, T0 = fim(n.c) + 0.15, T1 = S[n.c - 1].end, fimNivel = S[n.c].end; // até o fim da cena da revelação
