@@ -1,0 +1,41 @@
+{
+ "titulo": "Escolhe os balões",
+ "marca": {
+  "handle": "caRdeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [],
+ "cenas": [
+  {
+   "fala": "Escolhe TRÊS balões que somam trinta... o nível um é fácil, mas o quatro trava todo mundo! Valendo!"
+  },
+  {
+   "fala": "Cinco, onze e catorze!"
+  },
+  {
+   "fala": "Nível dois... agora três balões que dão cinquenta."
+  },
+  {
+   "fala": "Vinte e um, cinco e vinte e quatro!"
+  },
+  {
+   "fala": "Nível três... três balões que dão CEM."
+  },
+  {
+   "fala": "Cinquenta e cinco, vinte e um e vinte e quatro!"
+  },
+  {
+   "fala": "Nível quatro... agora são QUATRO balões que dão cem. Esse é pra gênio!"
+  },
+  {
+   "fala": "Treze, vinte e cinco, vinte e nove e trinta e três!"
+  },
+  {
+   "fala": "Comenta até que nível tu chegou... e manda pro amigo que se acha bom de conta! Segue aí, que amanhã tem o nível cinco!\n"
+  }
+ ]
+}
