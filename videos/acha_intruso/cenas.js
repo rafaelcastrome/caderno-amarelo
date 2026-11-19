@@ -72,8 +72,8 @@ window.CENAS = function (WB) {
 
   const NIV = [
     { c: 1, base: 'maca', intr: 'tomate', cols: 7, rows: 9, alvo: [4, 6] },
-    { c: 3, base: 'sorri', intr: 'sorri2', cols: 8, rows: 10, alvo: [5, 6] },
-    { c: 5, base: 'serio', intr: 'olhofechado', cols: 9, rows: 11, alvo: [6, 8] }];
+    { c: 3, base: 'serio', intr: 'olhofechado', cols: 8, rows: 10, alvo: [5, 6] },
+    { c: 5, base: 'sorri', intr: 'sorri2', cols: 9, rows: 11, alvo: [2, 8] }];
   NIV.forEach((n, li) => {
     const a = li === 0 ? 0.0 : st(n.c) + 0.2, T0 = fim(n.c) + 0.15, T1 = S[n.c - 1].end, fimNivel = S[n.c].end; // até o fim da cena da revelação
     const g = WB.group();
