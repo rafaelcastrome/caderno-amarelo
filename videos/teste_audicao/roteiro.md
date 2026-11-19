@@ -1,0 +1,2 @@
+# "Teste de audição" (thread 105, 19/11/2026)
+Tons puros 8k/12k/14k/15k/16k/17k Hz (3 s cada) com faixa de idade na tela (todo mundo, <50, <40, <30, <25, <20). Lista de níveis desde o quadro 0, nível ativo amarelo, onda animada durante o tom. Áudio final trocado pelo mix.wav em AAC 320k/48k pra não cortar os agudos (o render padrão usa mp3/aac 128-192k). Instagram/TikTok podem cortar acima de ~16 kHz na recompressão. CTA: testa no teu pai + amanhã teste de visão.

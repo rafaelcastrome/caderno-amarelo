@@ -1,0 +1,71 @@
+{
+ "take": "falas/take1.wav",
+ "voz": "Algieba",
+ "cortes": [
+  5.09,
+  7.66,
+  10.88,
+  13.67,
+  15.67,
+  18.17,
+  21.72
+ ],
+ "cenas": [
+  {
+   "fala": 0,
+   "pausa": 0.4
+  },
+  {
+   "fala": 1,
+   "pausa": 0.25
+  },
+  {
+   "arquivo": "sfx/tom_8000.wav",
+   "pausa": 0.6
+  },
+  {
+   "fala": 2,
+   "pausa": 0.25
+  },
+  {
+   "arquivo": "sfx/tom_12000.wav",
+   "pausa": 0.6
+  },
+  {
+   "fala": 3,
+   "pausa": 0.25
+  },
+  {
+   "arquivo": "sfx/tom_14000.wav",
+   "pausa": 0.6
+  },
+  {
+   "fala": 4,
+   "pausa": 0.25
+  },
+  {
+   "arquivo": "sfx/tom_15000.wav",
+   "pausa": 0.6
+  },
+  {
+   "fala": 5,
+   "pausa": 0.25
+  },
+  {
+   "arquivo": "sfx/tom_16000.wav",
+   "pausa": 0.6
+  },
+  {
+   "fala": 6,
+   "pausa": 0.25
+  },
+  {
+   "arquivo": "sfx/tom_17000.wav",
+   "pausa": 0.6
+  },
+  {
+   "fala": 7,
+   "pausa": 2.2
+  }
+ ]
+}
