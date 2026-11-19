@@ -1,0 +1,38 @@
+{
+ "titulo": "O número escondido",
+ "marca": {
+  "handle": "caRdeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [
+  {
+   "fato": "Placas de bolinhas inspiradas no teste de Ishihara, geradas por código (placas.py); brincadeira, não diagnóstico",
+   "fonte": "geradas",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Fala em voz alta o número que tu tá vendo... e no final eu te digo como tá a tua visão de cores!"
+  },
+  {
+   "fala": "Nível um. Que número tu vê?"
+  },
+  {
+   "fala": "Doze! Fácil, né? Nível dois."
+  },
+  {
+   "fala": "Cinquenta e sete! Agora o último... esse separa os olhos bons."
+  },
+  {
+   "fala": "Oito! Se tu viu os três... tua visão de cores tá perfeita!"
+  },
+  {
+   "fala": "Comenta quantos tu acertou... e manda pro amigo testar! Segue aí, que amanhã tem mais teste!"
+  }
+ ]
+}

@@ -1,0 +1,41 @@
+{
+ "titulo": "Acha o intruso",
+ "marca": {
+  "handle": "caRdeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [
+  {
+   "fato": "Desafio visual com emojis Twemoji (CC-BY 4.0)",
+   "fonte": "Twemoji",
+   "url": "https://github.com/jdecked/twemoji"
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Acha o intruso nos três níveis... aposto que o último tu não acha! Nível um!"
+  },
+  {
+   "fala": "Achou? Tava aqui!"
+  },
+  {
+   "fala": "Nível dois... mais difícil."
+  },
+  {
+   "fala": "Aqui!"
+  },
+  {
+   "fala": "Nível três... esse quase ninguém acha."
+  },
+  {
+   "fala": "Tava aqui! Achou?"
+  },
+  {
+   "fala": "Comenta quantos tu achou... e manda pro amigo que se acha esperto! Segue aí, que amanhã tem o nível quatro!"
+  }
+ ]
+}
