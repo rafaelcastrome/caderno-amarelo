@@ -1,0 +1,30 @@
+{
+  "total": 38.072,
+  "motor_tts": "gemini Algieba",
+  "cenas": [
+    {
+      "cena": 1,
+      "start": 0.0,
+      "end": 10.573,
+      "fala": 5.923
+    },
+    {
+      "cena": 2,
+      "start": 10.573,
+      "end": 16.613,
+      "fala": 2.04
+    },
+    {
+      "cena": 3,
+      "start": 16.613,
+      "end": 26.126,
+      "fala": 4.58
+    },
+    {
+      "cena": 4,
+      "start": 26.126,
+      "end": 38.072,
+      "fala": 9.345
+    }
+  ]
+}

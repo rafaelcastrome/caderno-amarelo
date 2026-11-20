@@ -1,0 +1,26 @@
+{
+ "titulo": "Pausa no 100",
+ "marca": {
+  "handle": "caRdeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [],
+ "cenas": [
+  {
+   "fala": "Pausa o vídeo bem no CEM! O nível um é fácil... o três, ninguém pega. Valendo!"
+  },
+  {
+   "fala": "Pegou? Nível dois... mais rápido!"
+  },
+  {
+   "fala": "Nível três... esse é quase impossível. E quem pegar o cem... vai ver um segredo!"
+  },
+  {
+   "fala": "Pegou o três? Então tu viu o segredo... Não conta pra ninguém! Só comenta o emoji que apareceu. Manda pro amigo que se acha rápido... e segue, que amanhã tem o nível quatro!"
+  }
+ ]
+}
