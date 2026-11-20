@@ -1,0 +1,49 @@
+{
+ "titulo": "Natais com os pais",
+ "marca": {
+  "handle": "caRdeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [
+  {
+   "fato": "Expectativa de vida ao nascer no Brasil: 76,4 anos (2023)",
+   "fonte": "IBGE, Tábua Completa de Mortalidade 2023",
+   "url": "https://agenciadenoticias.ibge.gov.br"
+  },
+  {
+   "fato": "20 anos, pais com 50, sair de casa aos 25 e revezar o Natal um ano sim, um não",
+   "fonte": "suposições ditas no vídeo",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Quantos Natais tu ainda vai passar com os teus pais? Faz a conta comigo... vai doer!"
+  },
+  {
+   "fala": "Digamos que tu tem vinte anos... e os teus pais, cinquenta."
+  },
+  {
+   "fala": "Se eles viverem até uns setenta e seis, que é a média do Brasil... sobram vinte e seis Natais."
+  },
+  {
+   "fala": "Parece bastante, né? Mas calma."
+  },
+  {
+   "fala": "Uma hora tu sai de casa. Aí vem o Natal na família do namorado, da namorada... e vocês começam a revezar: um ano lá, um ano cá."
+  },
+  {
+   "fala": "Fazendo a conta... sobram uns quinze Natais."
+  },
+  {
+   "fala": "Quinze! E tu já passou vinte com eles. Ou seja... tu já viveu mais da metade dos teus Natais com os teus pais."
+  },
+  {
+   "fala": "Comenta quantos tu acha que ainda tem... e manda isso pra eles. Segue aí, que toda semana tem uma conta da tua vida aqui no caderno!"
+  }
+ ]
+}

@@ -1,0 +1,4 @@
+{"take": "falas/take1.wav", "voz": "Algieba", "cortes": [5.7, 10.7, 18.7, 21.0],
+ "cenas": [{"fala": 0, "pausa": 0.3}, {"arquivo": "sfx/loop_14.wav", "pausa": 0.3}, {"fala": 1, "pausa": 0.4},
+  {"fala": 2, "pausa": 0.3}, {"arquivo": "sfx/loop_bolo.wav", "pausa": 0.3}, {"fala": 3, "pausa": 0.2},
+  {"arquivo": "sfx/loop_lobo.wav", "pausa": 0.3}, {"fala": 4, "pausa": 2.2}]}

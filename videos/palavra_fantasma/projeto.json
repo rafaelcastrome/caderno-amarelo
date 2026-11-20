@@ -1,0 +1,49 @@
+{
+ "titulo": "Palavra fantasma",
+ "marca": {
+  "handle": "caRdeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [
+  {
+   "fato": "Ouvir uma palavra repetida sem parar faz o cérebro 'ouvir' outras palavras (efeito de transformação verbal)",
+   "fonte": "Warren, R. M. & Gregory, R. L. (1958), American Journal of Psychology",
+   "url": ""
+  },
+  {
+   "fato": "O que a gente lê muda o que a gente ouve num som ambíguo (efeito top-down, como no 'Yanny/Laurel' e no 'brainstorm/green needle')",
+   "fonte": "psicologia da percepção (efeito de expectativa)",
+   "url": ""
+  }
+ ],
+ "cenas": [
+  {
+   "fala": "Escuta essa palavra... e comenta qual tu ouviu! Sem espiar os comentários, hein!"
+  },
+  {
+   "fala": "(palavra repetindo 14 s)"
+  },
+  {
+   "fala": "E aí? Tu ouviu LOBO... ou ouviu BOLO?"
+  },
+  {
+   "fala": "O som não mudou nem um pouquinho. Quem muda é o teu cérebro! Olha só... lê a palavra e escuta."
+  },
+  {
+   "fala": "(palavra repetindo com BOLO na tela)"
+  },
+  {
+   "fala": "Agora lê essa."
+  },
+  {
+   "fala": "(palavra repetindo com LOBO na tela)"
+  },
+  {
+   "fala": "Viu? Tu ouve o que tu lê! Comenta qual tu ouviu primeiro... e manda pro teu amigo, aposto que ele ouve a outra! Segue aí, que amanhã tem outra que engana o ouvido!"
+  }
+ ]
+}

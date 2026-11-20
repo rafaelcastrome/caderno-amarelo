@@ -1,0 +1,3 @@
+{"take": "falas/take1.wav", "voz": "Algieba", "cortes": [5.4, 9.3, 15.85, 19.0, 27.5, 31.3, 38.6],
+ "cenas": [{"fala": 0, "pausa": 0.35}, {"fala": 1, "pausa": 0.4}, {"fala": 2, "pausa": 0.6}, {"fala": 3, "pausa": 0.35},
+  {"fala": 4, "pausa": 0.5}, {"fala": 5, "pausa": 0.6}, {"fala": 6, "pausa": 0.6}, {"fala": 7, "pausa": 2.2}]}
