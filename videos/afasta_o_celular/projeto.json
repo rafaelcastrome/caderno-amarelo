@@ -1,0 +1,35 @@
+{
+ "titulo": "Afasta o celular",
+ "marca": {
+  "handle": "caRdeno_Amarelo",
+  "nome": "Caderno Amarelo"
+ },
+ "marcaDagua": false,
+ "voz": {
+  "gemini": "Algieba (gemini-3.1-flash-tts-preview, take único)"
+ },
+ "fontes": [],
+ "cenas": [
+  {
+   "fala": "Afasta o celular... e esse gato vira outro bicho! Afasta... bem longe!"
+  },
+  {
+   "fala": "Virou cachorro? Olha... quando ele fica pequeno... cachorro! Chegou perto... gato de novo!"
+  },
+  {
+   "fala": "Agora essa carinha feliz... afasta de novo!"
+  },
+  {
+   "fala": "Tá chorando! E a última... é pra mandar pra quem te deve dinheiro."
+  },
+  {
+   "fala": "De perto... te amo. Agora afasta..."
+  },
+  {
+   "fala": "Me paga!"
+  },
+  {
+   "fala": "Isso é uma imagem híbrida, criada por cientistas do MIT. De perto, teu olho vê os traços finos... de longe, só as manchas. Manda pra quem te deve... e segue o caderno!"
+  }
+ ]
+}
