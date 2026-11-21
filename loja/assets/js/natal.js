@@ -670,7 +670,8 @@ const App = (() => {
   const pessoas = [0, 1, 2, 3].map((i) => ({ img: null, face: null, cab: null, crop: null, thumb: null, roupa: i }));
   let modo = 'loop', tLoop0 = performance.now(), gravador = null, blobFinal = null, arqFinal = '';
   let naPrevia = false, downloads = null, trava = null;
-  const funil = (ev, d) => { try { if (window.Funil) window.Funil.ev(ev, Object.assign({ pagina: 'natal' }, d || {})); } catch (e) { /* nunca quebra */ } };
+  // funil do site: a tabela só aceita os eventos dela, então aqui só conta a visita (abriu_site, pagina natal)
+  const abriuSite = () => { try { if (window.Funil && window.Funil.abriuSite) window.Funil.abriuSite('natal'); } catch (e) { /* nunca quebra */ } };
 
   function aviso(txt, ms = 3800) { const a = $('#aviso'); a.textContent = txt; a.hidden = false; clearTimeout(aviso.t); aviso.t = setTimeout(() => { a.hidden = true; }, ms); }
   // caixa por cima: no site usa .modal-fundo + .aberto (regra de movimento); na versão solta usa hidden
@@ -778,10 +779,9 @@ const App = (() => {
     $('#cropRemover').onclick = () => { Object.assign(pessoas[i], { img: null, face: null, cab: null, crop: null, thumb: null }); fechar(); montarSlots(); atualizarElenco(); };
     $('#cropCancelar').onclick = fechar;
     $('#cropOk').onclick = () => {
-      const p = pessoas[i], novo = !p.face; p.crop = { ...st }; p.face = rosto(); p.cab = null;
+      const p = pessoas[i]; p.crop = { ...st }; p.face = rosto(); p.cab = null;
       const t = mk(168, 168); t.getContext('2d').drawImage(p.face, 0, 0, 168, 168); p.thumb = t.toDataURL('image/jpeg', .85);
       fechar(); montarSlots(); atualizarElenco();
-      if (novo) funil('natal_rosto', { valor: ativos().length });
     };
     return { abrir, fechar, caixa };
   })();
@@ -791,7 +791,6 @@ const App = (() => {
   async function tocarPrevia() {
     if (modo === 'musica') { Musica.parar(true); voltarLoop(); return; }
     await Musica.tocar({ aoFim: voltarLoop }); modo = 'musica'; $('#btnPlay').textContent = '■ Parar a música';
-    funil('natal_previa');
   }
 
   /* ---- gravação do vídeo ---- */
@@ -831,7 +830,7 @@ const App = (() => {
       const mime = (rec.mimeType || tipo || 'video/webm').split(';')[0], nome = nomeFamilia();
       blobFinal = new Blob(partes, { type: mime });
       arqFinal = `natal-de-papel${nome ? '-' + slug(nome) : ''}.${mime.includes('mp4') ? 'mp4' : 'webm'}`;
-      mostrarResultado(); funil('natal_gravou', { valor: ativos().length });
+      mostrarResultado();
     };
     gravador = { cancelar: () => { cancelado = true; Musica.parar(true); if (rec.state !== 'inactive') rec.stop(); } };
     entrarGravacao();
@@ -852,7 +851,7 @@ const App = (() => {
   }
   async function compartilhar() {
     const file = new File([blobFinal], arqFinal, { type: blobFinal.type });
-    try { await navigator.share({ files: [file], title: CONFIG.marca, text: `Nosso Natal de Papel! Faz o teu: https://${CONFIG.site}` }); funil('natal_compartilhou'); }
+    try { await navigator.share({ files: [file], title: CONFIG.marca, text: `Nosso Natal de Papel! Faz o teu: https://${CONFIG.site}` }); }
     catch (e) { if (e && e.name !== 'AbortError') aviso('Não abriu o compartilhar. Usa o "Salvar vídeo".'); }
   }
   async function salvar() {
@@ -864,7 +863,6 @@ const App = (() => {
     }
     const a = document.createElement('a'); a.href = URL.createObjectURL(blobFinal); a.download = arqFinal;
     document.body.append(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
-    funil('natal_salvou');
   }
   function fecharResultado() { $('#vidResultado').pause(); fecharModal($('#mResultado')); }
 
@@ -901,7 +899,7 @@ const App = (() => {
       clearTimeout(tNome);
       tNome = setTimeout(() => { const n = nomeFamilia(); Fundo.montarTextos(n); const r = $('#resumoNome'); if (r) r.textContent = n ? `Família ${n}` : 'aparece no final'; }, 250);
     });
-    funil('abriu_natal');
+    abriuSite();
     await fontes(); Fundo.montarTextos(nomeFamilia());
   }
   // gancho pra teste automático (não muda nada pra quem usa)
