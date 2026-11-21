@@ -1,3 +1,4 @@
 # Links curtos dos Jogos em grupo (iguais ao hospedagem/netlify/netlify.toml, aqui pra funcionar de qualquer jeito que subir)
 /tv          /jogos/?tv=1           302
 /s/:codigo   /jogos/?sala=:codigo   302
+/natal        /natal.html            200

@@ -92,6 +92,7 @@
         ${CA.ehPremium()
           ? '<a class="chamada-premium ativo" href="#/conta"><strong>★ Premium ativo</strong><span>Todos os níveis de todos os jogos, desafios anteriores e card dourado.</span></a>'
           : '<a class="chamada-premium" href="#/premium"><strong>ca<span class="r-marca">R</span>deno Premium</strong><span>Libera todos os níveis de todos os jogos, os desafios dos dias anteriores e o card dourado. ' + ((CA.OFERTA || {}).chamada || '') + '</span></a>'}
+        <a class="mais mais-natal" href="../natal.html"><strong>Natal de Papel 🎄</strong><small>Põe o rosto da família nos bonecos de papel e manda o vídeo de Natal no grupo. Grátis.</small></a>
         <a class="mais" href="../loja.html"><strong>Loja do ca<span class="r-marca">R</span>deno</strong><small>Brincadeiras pra imprimir, livros de colorir e mágicas pra fazer em família.</small></a>
         <a class="mais insta" href="https://www.instagram.com/cardeno_amarelo/" target="_blank" rel="noopener"><strong>Segue a gente no Instagram</strong><small>@caRdeno_Amarelo · desafios novos todo dia</small></a>
 

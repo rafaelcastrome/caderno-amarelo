@@ -771,3 +771,7 @@ button.link-voltar { display: block; width: 100%; background: none; border: 0; c
 .card-oferta b { color: var(--tinta); }
 .card-oferta .btn { margin-top: 4px; text-align: center; }
 .card-oferta:active { transform: scale(.98); transition: transform var(--mov-toque, 90ms) ease; }
+
+/* Natal de Papel (link pra ../natal.html) */
+.mais-natal { background: #fff7e6; }
+.mais-natal strong { color: var(--vermelho); }

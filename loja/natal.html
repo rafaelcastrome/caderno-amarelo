@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Natal de Papel · caRdeno Amarelo</title>
+<meta name="description" content="Põe o rosto da família nos bonecos de papel do caRdeno Amarelo e manda o vídeo de Natal no grupo. Grátis, feito no teu celular.">
+<meta property="og:title" content="Natal de Papel: tua família dançando funk de Natal">
+<meta property="og:description" content="Põe o rosto da família nos bonecos de papel e manda o vídeo no grupo. Grátis.">
+<meta property="og:image" content="https://cardenoamarelo.netlify.app/assets/img/natal-de-papel-og.jpg">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#ffd23f">
+<link rel="icon" type="image/png" sizes="48x48" href="assets/img/favicon-48.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/movimento.css">
+<link rel="stylesheet" href="assets/css/loja.css">
+<link rel="stylesheet" href="assets/css/natal.css">
+</head>
+<body class="entrando">
+
+<div class="fundo-animado" aria-hidden="true"></div>
+
+<header class="topo">
+  <div class="wrap">
+    <a class="logo" href="loja.html"><img class="logo-img" src="assets/img/logo-cabecalho.png" alt="" width="171" height="192"><span>ca<span class="r-marca">R</span>deno Amarelo</span></a>
+  </div>
+</header>
+
+<main class="natal-pagina">
+  <div class="wrap natal-grade">
+    <section class="natal-palco" aria-labelledby="t-natal">
+      <div class="natal-titulo">
+        <span class="etiqueta etiqueta-vermelha">🎄 especial de Natal</span>
+        <h1 id="t-natal">Natal de Papel</h1>
+        <p>Põe o rosto da família nos bonecos de papel e manda o vídeo de Natal no grupo. É grátis.</p>
+      </div>
+      <div class="tela" id="tela">
+        <canvas id="cena" width="720" height="1280" aria-label="Bonecos de papel dançando funk de Natal"></canvas>
+        <div class="gravando mov-aparece" id="painelGravando" hidden>
+          <div class="gravando-linha"><span id="txtGravando">Gravando… deixa a tela aberta</span><button id="btnCancelarGrav" class="link-perigo" type="button">Cancelar</button></div>
+          <div class="barra"><i id="progresso"></i></div>
+        </div>
+      </div>
+      <div class="botoes-iguais">
+        <button id="btnPlay" class="btn btn-claro" type="button">▶ Ver com música</button>
+        <button id="btnGravar" class="btn" type="button">🎬 Gravar vídeo</button>
+      </div>
+    </section>
+
+    <div class="natal-passos">
+      <section class="grupo">
+        <button class="grupo-titulo" id="tRostos" type="button" aria-expanded="true" aria-controls="g-rostos"><span>Os rostos <small id="resumoRostos">até 4 pessoas</small></span></button>
+        <div class="grupo-corpo" id="g-rostos"><div class="grupo-miolo">
+          <p class="dica">Toca no + e escolhe a foto. De frente e com luz fica melhor. Bicho também vale!</p>
+          <div class="slots" id="slots"></div>
+          <p class="dica">Toca no nome embaixo do rosto pra trocar a roupa.</p>
+        </div></div>
+      </section>
+
+      <section class="grupo">
+        <button class="grupo-titulo" type="button" aria-expanded="false" aria-controls="g-nome"><span>Nome da família <small id="resumoNome">aparece no final</small></span></button>
+        <div class="grupo-corpo" id="g-nome"><div class="grupo-miolo">
+          <label class="dica" for="familia">Aparece no vídeo: “Natal da Família ___”</label>
+          <input id="familia" maxlength="24" placeholder="Castro" autocomplete="off" enterkeyhint="done">
+        </div></div>
+      </section>
+
+      <section class="grupo">
+        <button class="grupo-titulo" type="button" aria-expanded="false" aria-controls="g-como"><span>Como funciona <small>grátis e sem enviar foto</small></span></button>
+        <div class="grupo-corpo" id="g-como"><div class="grupo-miolo">
+          <ul class="como">
+            <li>O vídeo é montado aqui no teu celular. As fotos não vão pra internet.</li>
+            <li>Sai um vídeo em pé de 35 segundos, pronto pro Status e pro grupo da família.</li>
+            <li>Deixa a tela aberta enquanto grava.</li>
+            <li>A versão grátis leva a marca do ca<span class="r-marca">R</span>deno no rodapé do vídeo.</li>
+          </ul>
+        </div></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<div class="modal-fundo" id="mRecorte" role="dialog" aria-modal="true" aria-labelledby="tRecorte">
+  <div class="modal">
+    <h3 id="tRecorte">Encaixa o rosto</h3>
+    <div class="crop"><canvas id="cropCv" width="640" height="640" aria-label="Arrasta a foto pra posicionar o rosto no círculo"></canvas></div>
+    <label class="zoom" for="cropZoom">Zoom <input type="range" id="cropZoom" min="0" max="1" step="0.001" value="0"></label>
+    <div class="botoes-iguais">
+      <button id="cropGirar" class="btn btn-claro" type="button">↻ Girar</button>
+      <label class="btn btn-claro trocar">Trocar foto<input type="file" accept="image/*" id="cropArquivo" class="campo-foto" aria-label="Trocar foto"></label>
+    </div>
+    <div class="botoes-iguais">
+      <button id="cropCancelar" class="btn btn-claro" type="button">Cancelar</button>
+      <button id="cropOk" class="btn" type="button">Pronto</button>
+    </div>
+    <button id="cropRemover" class="link-perigo" type="button">Tirar esse rosto</button>
+    <p class="nota">Arrasta pra posicionar. Dois dedos dão zoom e giram.</p>
+  </div>
+</div>
+
+<div class="modal-fundo" id="mResultado" role="dialog" aria-modal="true" aria-labelledby="tResultado">
+  <div class="modal">
+    <h3 id="tResultado">Ficou pronto!</h3>
+    <video id="vidResultado" playsinline controls></video>
+    <div class="botoes-iguais">
+      <button id="btnCompartilhar" class="btn" type="button">Mandar no WhatsApp</button>
+      <button id="btnSalvar" class="btn btn-claro" type="button">Salvar vídeo</button>
+    </div>
+    <div class="botoes-iguais"><button id="btnFechar" class="btn btn-claro" type="button">Fazer outro</button></div>
+    <p class="nota" id="dicaResultado"></p>
+  </div>
+</div>
+
+<p class="aviso natal-aviso" id="aviso" role="status" hidden></p>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/funil.js"></script>
+<script src="assets/js/movimento.js"></script>
+<script src="assets/js/efeitos.js"></script>
+<script src="assets/js/menu.js"></script>
+<script src="assets/js/natal.js"></script>
+</body>
+</html>

@@ -13,3 +13,9 @@
   from = "/tv"
   to = "/jogos/?tv=1"
   status = 302
+
+# Natal de Papel: cardenoamarelo.netlify.app/natal abre a página do vídeo de Natal
+[[redirects]]
+  from = "/natal"
+  to = "/natal.html"
+  status = 200

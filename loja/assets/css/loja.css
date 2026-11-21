@@ -391,3 +391,6 @@ section[id] { scroll-margin-top: 76px; }
 .lista-downloads a:active { transform: scale(.98); }
 .lista-downloads li.baixado a { background: #e8f5e9; }
 .lista-downloads li.baixado a b::after { content: ' ✓'; }
+
+/* chamada pro Natal de Papel na seção de Natal */
+.natal-chamada { margin-top: 14px; font-size: 16px; padding: 12px 18px; }

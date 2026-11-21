@@ -1,0 +1,70 @@
+/* Natal de Papel (natal.html): vídeo de Natal com o rosto da família nos bonecos de papel.
+   Segue REGRA-MOVIMENTO.md e a regra de agrupado e compacto do CLAUDE.md. */
+[hidden] { display: none !important; }
+@font-face { font-family: Caveat; src: url('../fonts/Caveat-Bold.ttf'); font-weight: 700; font-display: swap; }
+
+.natal-pagina { position: relative; z-index: 1; padding: 18px 0 32px; }
+.natal-grade { display: grid; gap: 18px; }
+@media (min-width: 900px) {
+  .natal-grade { grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 36px; align-items: start; }
+  .natal-passos { padding-top: 150px; }
+}
+.natal-palco { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.natal-titulo .etiqueta { margin-bottom: 6px; }
+.natal-titulo h1 { font-family: var(--mao); font-weight: 700; font-size: clamp(50px, 14vw, 70px); line-height: .95; }
+.natal-titulo p { color: var(--tinta-suave); margin-top: 4px; max-width: 38ch; }
+
+/* palco do vídeo (9:16) */
+.tela { position: relative; width: min(100%, calc(60svh * 9 / 16)); min-width: min(100%, 250px); max-width: 100%; aspect-ratio: 9 / 16; margin: 0 auto;
+  border: 2px solid var(--tinta); border-radius: var(--raio); overflow: hidden; background: #1d2f6f; box-shadow: var(--sombra); }
+.tela canvas { width: 100%; height: 100%; display: block; }
+.gravando { position: absolute; left: 10px; right: 10px; bottom: 10px; display: grid; gap: 8px; padding: 10px 12px;
+  background: rgba(255, 250, 240, .95); border: 2px solid var(--tinta); border-radius: 12px; font-weight: 800; font-size: 14px; }
+.gravando-linha { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.barra { height: 8px; background: #e7dcc6; border-radius: 99px; overflow: hidden; }
+.barra i { display: block; height: 100%; width: 0; background: var(--vermelho); }
+
+/* botões lado a lado com o mesmo tamanho (regra do site) */
+.botoes-iguais { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 10px; }
+.botoes-iguais .btn { width: 100%; padding: 13px 8px; font-size: 16px; }
+.botoes-iguais + .botoes-iguais { margin-top: 10px; }
+
+/* grupos que abrem e fecham */
+.natal-passos { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.natal-passos .grupo { background: var(--papel-claro); border: 2px solid var(--tinta); border-radius: var(--raio); padding: 2px 14px; box-shadow: 3px 3px 0 var(--tinta); }
+.natal-passos .grupo-titulo { padding: 12px 2px; }
+.grupo-titulo > span { display: flex; flex-direction: column; gap: 2px; }
+.grupo-titulo small { font-weight: 700; font-size: 13px; color: var(--tinta-suave); }
+.natal-passos .grupo-miolo { display: grid; gap: 10px; }
+.natal-passos .grupo-titulo[aria-expanded="true"] + .grupo-corpo > .grupo-miolo { padding-bottom: 14px; }
+.dica { font-size: 14px; color: var(--tinta-suave); }
+
+/* rostos */
+.slots { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.slot { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; }
+.rosto { position: relative; overflow: hidden; width: 100%; max-width: 84px; aspect-ratio: 1; border-radius: 50%; border: 2px dashed var(--tinta-suave);
+  background: #fff center / cover no-repeat; display: grid; place-items: center; font-family: var(--mao); font-weight: 700; font-size: 40px; line-height: 1;
+  color: var(--tinta-suave); cursor: pointer; padding: 0; }
+.rosto.tem { border: 3px solid var(--tinta); box-shadow: 2px 2px 0 var(--tinta); color: transparent; }
+.campo-foto { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; font-size: 16px; }
+.roupa { font: inherit; font-weight: 800; font-size: 12px; line-height: 1.2; border: 0; background: none; color: var(--tinta-suave); cursor: pointer;
+  padding: 6px 2px; min-height: 32px; max-width: 100%; text-decoration: underline dotted; text-underline-offset: 3px; overflow-wrap: anywhere; }
+#familia { font-family: var(--mao); font-weight: 700; font-size: 30px; padding: 6px 12px; border: 2px solid var(--tinta); border-radius: 12px; background: #fff; color: var(--tinta); width: 100%; }
+#familia::placeholder { color: #b5ab96; }
+.como { padding-left: 18px; color: var(--tinta-suave); font-size: 15px; display: grid; gap: 4px; }
+
+/* caixas por cima */
+.modal .crop canvas { width: 100%; aspect-ratio: 1; display: block; touch-action: none; border: 2px solid var(--tinta); border-radius: 12px; background: #efe4cc; margin-top: 10px; }
+.modal .zoom { display: flex; align-items: center; gap: 10px; margin: 12px 0; }
+.modal .zoom input { flex: 1; min-width: 0; padding: 0; border: 0; background: none; accent-color: var(--vermelho); }
+.modal .trocar { position: relative; overflow: hidden; display: inline-flex; margin: 0; font-size: 16px; font-weight: 800; }
+.modal .trocar input { padding: 0; border: 0; }
+.modal video { width: 100%; max-height: 52svh; background: #000; border-radius: 12px; margin: 10px 0 12px; display: block; }
+.link-perigo { font: inherit; font-weight: 800; font-size: 14px; background: none; border: 0; color: var(--vermelho); text-decoration: underline; cursor: pointer; padding: 8px 0; }
+.modal .link-perigo { display: block; margin: 8px auto 0; }
+
+.natal-aviso { position: fixed; left: 50%; bottom: calc(86px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 60;
+  width: max-content; max-width: calc(100% - 32px); padding: 12px 16px; background: var(--tinta); color: var(--papel-claro);
+  border-radius: 12px; font-weight: 800; font-size: 14px; box-shadow: 3px 3px 0 rgba(0, 0, 0, .25); }
+.natal-aviso[hidden] { display: none; }
+@media (min-width: 761px) { .natal-aviso { bottom: 24px; } }
